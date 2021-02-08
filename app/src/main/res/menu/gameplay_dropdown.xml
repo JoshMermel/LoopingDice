@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/reset"
+        android:icon="@drawable/ic_baseline_settings_backup_restore_24"
+        android:title="Reset Level"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/level_help"
+        android:icon="@drawable/ic_baseline_help_24"
+        android:title="Help"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/toolbar_undo"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_undo_24"
+        android:title="Undo"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/toolbar_redo"
+        android:icon="@drawable/ic_baseline_redo_24"
+        android:title="Redo"
+        app:showAsAction="ifRoom" />
+</menu>
