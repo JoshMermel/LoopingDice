@@ -4,6 +4,14 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        test_signing_config {
+            storeFile file('C:\\Users\\JoshM\\Documents\\app_signing_key.jks')
+            storePassword '14683567'
+            keyAlias 'looping_dice_key'
+            keyPassword '14683567'
+        }
+    }
     compileSdkVersion 30
     buildToolsVersion '30.0.2'
 
@@ -11,15 +19,17 @@ android {
         applicationId 'com.joshmermelstein.loopingdice'
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "0.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.test_signing_config
     }
 
     buildTypes {
         release {
             minifyEnabled false
+            debuggable false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }

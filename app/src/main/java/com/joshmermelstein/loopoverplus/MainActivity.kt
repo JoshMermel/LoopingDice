@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -70,6 +71,7 @@ class MainActivity : AppCompatActivity() {
 
         val title = TextView(this)
         title.text = pack.title
+        title.setTextColor(Color.BLACK)
         title.setPadding(10, 10, 10, 10)
         layout.addView(title)
 
