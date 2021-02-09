@@ -40,7 +40,7 @@ class GameplayActivity : AppCompatActivity() {
         gameplayView.gameManager = this.gameManager
         val toolbar = findViewById<Toolbar>(R.id.gameplay_toolbar)
         setSupportActionBar(toolbar)
-        supportActionBar?.title = "Level #$id"
+        supportActionBar?.title = "#$id"
     }
 
     override fun onDestroy() {

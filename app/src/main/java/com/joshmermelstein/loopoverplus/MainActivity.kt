@@ -65,6 +65,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     // Helper for adding a group of levels to the level select screen.
+    // TODO(jmerm): make buttons slightly darker for better contast
     private fun appendLevelPack(pack: PackMetadata) {
         val metadata = MetadataSingleton.getInstance(this)
         val layout = findViewById<LinearLayout>(R.id.LevelLinearLayout)
