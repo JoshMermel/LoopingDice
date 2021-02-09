@@ -33,7 +33,7 @@ class GameplayActivity : AppCompatActivity() {
         val params = loadInitialLevel(id)
         this.gameManager = GameManager(params, this, buttonState)
         val save = loadSavedLevel(id)
-        if (save != null) {
+        if (save != null && save.board.size == params.numRows * params.numCols) {
             this.gameManager.loadFromSavedLevel(save)
         }
 

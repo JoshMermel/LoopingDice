@@ -59,11 +59,6 @@ class GameManager(
     }
 
     fun loadFromSavedLevel(level: SavedLevel) {
-        // If this save file represents a solved board, ignore it.
-        if (level.board.contentEquals(params.goal)) {
-            return
-        }
-
         this.board = makeBoard(params.numRows, params.numCols, level.board)
         this.future = makeBoard(params.numRows, params.numCols, level.board)
         this.undoStack.addAll(level.undoStack)
