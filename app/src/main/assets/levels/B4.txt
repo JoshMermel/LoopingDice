@@ -1,0 +1,5 @@
+4
+4
+BANDAGED
+B 1 D,B 2 D,B 3 R,B 3 L,B 1 U,B 2 U,B 1 R,B 1 L,B 4 R,B 4 L,B 3 D,B 4 D,B 2 R,B 2 L,B 3 U,B 4 U
+B 2 D,B 1 D,B 2 R,B 2 L,B 2 U,B 1 U,B 4 R,B 4 L,B 3 R,B 3 L,B 4 D,B 3 D,B 1 R,B 1 L,B 4 U,B 3 U

@@ -27,12 +27,12 @@ class MetadataSingleton private constructor(context: Context) {
         for (filename in arrayOf(
             "intro",
             "wide",
-            "gear",
             "carousel",
-            "static",
             "dynamic",
-            "enabler",
-            "bandaged"
+            "bandaged",
+            "gear",
+            "static",
+            "enabler"
         )) {
             val reader =
                 BufferedReader(InputStreamReader(context.assets.open("packs/$filename.txt")))
