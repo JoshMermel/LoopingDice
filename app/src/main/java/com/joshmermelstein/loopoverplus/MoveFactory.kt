@@ -374,7 +374,7 @@ class EnablerMoveFactory : MoveFactory {
                 }
             }
         }
-        return IllegalMove(listOf(findEnabler(board)))
+        return IllegalMove(findEnabler(board))
     }
 
     override fun makeHighlights(
@@ -386,18 +386,18 @@ class EnablerMoveFactory : MoveFactory {
         return arrayOf(Highlight(axis, direction, offset))
     }
 
-    private fun findEnabler(board: Array<Array<GameCell>>): Pair<Int, Int> {
+    private fun findEnabler(board: Array<Array<GameCell>>): List<Pair<Int, Int>> {
+        val ret : MutableList<Pair<Int, Int>> = mutableListOf()
         val numRows: Int = board.size
         val numCols: Int = board[0].size
         for (row in 0 until numRows) {
             for (col in 0 until numCols) {
                 if (board[row][col].isEnabler) {
-                    return Pair(row, col)
+                    ret.add(Pair(row, col))
                 }
             }
         }
-        // error
-        return Pair(0, 0)
+        return ret
     }
 
     override fun verticalHelpText(): String {

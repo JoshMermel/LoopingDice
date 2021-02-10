@@ -1,5 +1,5 @@
 Dynamic Bandaging
 D1 3 6
-D2 10 20
+D2 3 8
 D3 38 100
-D4 1 2
+D4 50 100
