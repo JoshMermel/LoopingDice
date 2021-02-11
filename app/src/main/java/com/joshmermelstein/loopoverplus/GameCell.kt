@@ -104,7 +104,7 @@ open class NormalGameCell(
     }
 }
 
-// A bandaged gameCell is like a regular gameCell except it is bandaged and it used squared
+// A fixed gameCell is like a regular gameCell except it is bandaged and it used squared
 // rectangles instead of rounded ones and uses square for pips.
 class FixedGameCell(
     override var x: Double, override var y: Double, override val params:
@@ -118,7 +118,6 @@ class FixedGameCell(
     init {
         val parts = colorId.split(" ")
         pips = parts[1].toInt()
-
     }
 
     override fun drawSquare(
@@ -145,13 +144,16 @@ class FixedGameCell(
         if (shouldDrawIcon) {
             // Draws a lock instead of pips.
             drawLock(left, top, right, bottom, canvas)
+        } else if (numCircles == 0) {
+            drawSmallLock(left, top, right, bottom, canvas)
         } else {
             super.drawPips(left, top, right, bottom, numCircles, canvas)
         }
     }
 
     override fun drawPip(centerX: Double, centerY: Double, radius: Double, canvas: Canvas) {
-        val shapeDrawable = ShapeDrawable(RectShape())
+        var shapeDrawable = ShapeDrawable(RectShape())
+
         shapeDrawable.setBounds(
             (centerX - radius).toInt(),
             (centerY - radius).toInt(),
@@ -165,6 +167,14 @@ class FixedGameCell(
 
     private fun drawLock(left: Double, top: Double, right: Double, bottom: Double, canvas: Canvas) {
         lock.setBounds(left.toInt(), top.toInt(), right.toInt(), bottom.toInt())
+        lock.draw(canvas)
+    }
+
+    private fun drawSmallLock(left: Double, top: Double, right: Double, bottom: Double, canvas: Canvas) {
+        val x = (left + right) / 2
+        val y = (top + bottom) / 2
+        val radius = (right - left) / 4
+        lock.setBounds((x - radius).toInt(), (y - radius).toInt(), (x + radius).toInt(), (y + radius).toInt())
         lock.draw(canvas)
     }
 }
