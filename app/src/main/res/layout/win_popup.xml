@@ -9,56 +9,57 @@
         android:id="@+id/earnedStars"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@color/popup_background"
         android:singleLine="true"
         android:text="Good Job!"
         android:textAlignment="center"
         android:textSize="60sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="@color/popup_background"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/moveCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
+        android:background="@color/popup_background"
         android:text="movecount_placeholder"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/earnedStars"
-        android:background="@color/popup_background"/>
+        app:layout_constraintTop_toBottomOf="@+id/earnedStars" />
 
     <TextView
         android:id="@+id/doBetter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
+        android:background="@color/popup_background"
         android:text="do_better_placeholder"
         android:textAlignment="center"
         app:layout_constraintBottom_toTopOf="@+id/popup_buttons"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/moveCount"
-        app:layout_constraintVertical_bias="0.043"
-        android:background="@color/popup_background" />
+        app:layout_constraintVertical_bias="0.043" />
 
     <LinearLayout
         android:id="@+id/popup_buttons"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:background="@color/popup_background"
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/doBetter"
-        android:background="@color/popup_background" >
+        app:layout_constraintTop_toBottomOf="@+id/doBetter">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/menu"
+            style="@style/Widget.MaterialComponents.Button"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start"
@@ -67,7 +68,6 @@
             android:layout_weight="1"
             android:padding="0dp"
             android:singleLine="true"
-            style="@style/Widget.MaterialComponents.Button"
             app:backgroundTint="@color/bandaged_cell"
             app:icon="@drawable/ic_baseline_view_comfy_24"
             app:iconGravity="textStart"
@@ -76,6 +76,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/retry"
+            style="@style/Widget.MaterialComponents.Button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="end"
@@ -84,15 +85,15 @@
             android:layout_weight="1"
             android:padding="0dp"
             android:singleLine="true"
-            style="@style/Widget.MaterialComponents.Button"
             app:backgroundTint="@color/bandaged_cell"
             app:icon="@drawable/ic_baseline_cached_24"
             app:iconGravity="textStart"
             app:iconPadding="0dp"
-            app:iconTint="@color/gameplay_background"/>
+            app:iconTint="@color/gameplay_background" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/next"
+            style="@style/Widget.MaterialComponents.Button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="end"
@@ -101,7 +102,6 @@
             android:layout_weight="1"
             android:padding="0dp"
             android:singleLine="true"
-            style="@style/Widget.MaterialComponents.Button"
             app:backgroundTint="@color/bandaged_cell"
             app:icon="@drawable/ic_baseline_forward_24"
             app:iconGravity="textStart"
