@@ -144,12 +144,12 @@ class GameplayView : View {
         return f > target - 0.3 && f < target + 0.3
     }
 
-    private fun isInsideGrid(x : Float, y : Float) : Boolean {
+    private fun isInsideGrid(x: Float, y: Float): Boolean {
         return (x >= boardLeft && x <= boardRight && y >= boardTop && y <= boardBottom)
     }
 
 
-    private fun angleToAxis(theta : Float) : Axis? {
+    private fun angleToAxis(theta: Float): Axis? {
         return if (closeTo(theta, 0.0)) {
             Axis.HORIZONTAL
         } else if (closeTo(theta, PI / 2) || closeTo(theta, -PI / 2)) {
@@ -160,7 +160,7 @@ class GameplayView : View {
         }
     }
 
-    private fun distToDirection(dist : Float) : Direction {
+    private fun distToDirection(dist: Float): Direction {
         return if (dist < 0) {
             Direction.FORWARD
         } else {
@@ -184,7 +184,13 @@ class GameplayView : View {
 
         // Compute Axis and Direction of swipe
         val axis = angleToAxis(theta) ?: return
-        val direction = distToDirection(if (axis == Axis.HORIZONTAL) { hDist } else { vDist})
+        val direction = distToDirection(
+            if (axis == Axis.HORIZONTAL) {
+                hDist
+            } else {
+                vDist
+            }
+        )
         val offset = if (axis == Axis.HORIZONTAL) {
             floor(gameManager.board.size * (startY - boardTop) / (boardBottom - boardTop)).toInt()
         } else {
@@ -212,7 +218,13 @@ class GameplayView : View {
 
         // Figure out which axis was swiped and in what direction
         val axis = angleToAxis(theta) ?: return
-        val direction = distToDirection(if (axis == Axis.HORIZONTAL) { hDist } else { vDist})
+        val direction = distToDirection(
+            if (axis == Axis.HORIZONTAL) {
+                hDist
+            } else {
+                vDist
+            }
+        )
         val offset = if (axis == Axis.HORIZONTAL) {
             floor(gameManager.board.size * (startY - boardTop) / (boardBottom - boardTop)).toInt()
         } else {

@@ -17,8 +17,10 @@ import java.io.InputStreamReader
 class GameplayActivity : AppCompatActivity() {
     // The id is not known until it is read from intent in OnCreate
     private lateinit var id: String
+
     // The gameManager is created based on the id so it must be lateInit as well.
     private lateinit var gameManager: GameManager
+
     // Shared state with the game manager
     private var buttonState = ButtonState()
 
@@ -99,11 +101,15 @@ class GameplayActivity : AppCompatActivity() {
         rules.text = gameManager.helpText()
 
         val stars = dialog.findViewById<TextView>(R.id.help_dialog_stars)
-        stars.text = "The threshold for three stars is $threeStar " + pluralizedMoves(threeStar) + "\nThe threshold for two stars is $twoStar " + pluralizedMoves(twoStar)
+        stars.text =
+            "The threshold for three stars is $threeStar " + pluralizedMoves(threeStar) + "\nThe threshold for two stars is $twoStar " + pluralizedMoves(
+                twoStar
+            )
 
         val pb = dialog.findViewById<TextView>(R.id.help_dialog_pb)
         if (highscores.contains(id)) {
-            pb.text = "Your best score on this level was $oldHighscore " + pluralizedMoves(oldHighscore)
+            pb.text =
+                "Your best score on this level was $oldHighscore " + pluralizedMoves(oldHighscore)
         } else {
             pb.text = "You have not completed this level yet."
         }

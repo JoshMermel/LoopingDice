@@ -62,7 +62,11 @@ fun makeGameCell(
                 params,
                 colorId,
                 context,
-                ResourcesCompat.getDrawable(context.resources, R.drawable.ic_baseline_lock_24, null)!!
+                ResourcesCompat.getDrawable(
+                    context.resources,
+                    R.drawable.ic_baseline_lock_24,
+                    null
+                )!!
             )
         }
         colorId.startsWith("B") -> {
@@ -76,7 +80,7 @@ fun makeGameCell(
 // Represents a "normal" gameCell - meaning neither bandaged nor enabler.
 open class NormalGameCell(
     override var x: Double, override var y: Double, override val params:
-    GameplayParams, colorId: String, private val context : Context
+    GameplayParams, colorId: String, private val context: Context
 ) : GameCell(x, y, params, colorId) {
     override val color: Int = colorId.toInt() % 4
     override val pips: Int = ((colorId.toInt() - 1) / 4) + 1
@@ -118,7 +122,7 @@ open class NormalGameCell(
 // rectangles instead of rounded ones and uses square for pips.
 class FixedGameCell(
     override var x: Double, override var y: Double, override val params:
-    GameplayParams, colorId: String, private val context : Context,  private val lock: Drawable
+    GameplayParams, colorId: String, private val context: Context, private val lock: Drawable
 ) : GameCell(x, y, params, colorId) {
     override val color = 4
     override val pips: Int
@@ -181,16 +185,33 @@ class FixedGameCell(
 
     private fun drawLock(left: Double, top: Double, right: Double, bottom: Double, canvas: Canvas) {
         lock.setBounds(left.toInt(), top.toInt(), right.toInt(), bottom.toInt())
-        DrawableCompat.setTint(lock.mutate(), ContextCompat.getColor(context, R.color.gameplay_background))
+        DrawableCompat.setTint(
+            lock.mutate(),
+            ContextCompat.getColor(context, R.color.gameplay_background)
+        )
         lock.draw(canvas)
     }
 
-    private fun drawSmallLock(left: Double, top: Double, right: Double, bottom: Double, canvas: Canvas) {
+    private fun drawSmallLock(
+        left: Double,
+        top: Double,
+        right: Double,
+        bottom: Double,
+        canvas: Canvas
+    ) {
         val x = (left + right) / 2
         val y = (top + bottom) / 2
         val radius = (right - left) / 4
-        lock.setBounds((x - radius).toInt(), (y - radius).toInt(), (x + radius).toInt(), (y + radius).toInt())
-        DrawableCompat.setTint(lock.mutate(), ContextCompat.getColor(context, R.color.gameplay_background))
+        lock.setBounds(
+            (x - radius).toInt(),
+            (y - radius).toInt(),
+            (x + radius).toInt(),
+            (y + radius).toInt()
+        )
+        DrawableCompat.setTint(
+            lock.mutate(),
+            ContextCompat.getColor(context, R.color.gameplay_background)
+        )
         lock.draw(canvas)
     }
 }
@@ -199,7 +220,7 @@ class FixedGameCell(
 // instead of rounded ones.
 class EnablerGameCell(
     override var x: Double, override var y: Double, override val params:
-    GameplayParams, colorId: String, private val context : Context, private val key: Drawable
+    GameplayParams, colorId: String, private val context: Context, private val key: Drawable
 ) : GameCell(x, y, params, colorId) {
     override val color = 5
     override val pips = 1
@@ -250,7 +271,10 @@ class EnablerGameCell(
 
     private fun drawKey(left: Double, top: Double, right: Double, bottom: Double, canvas: Canvas) {
         key.setBounds(left.toInt(), top.toInt(), right.toInt(), bottom.toInt())
-        DrawableCompat.setTint(key.mutate(), ContextCompat.getColor(context, R.color.gameplay_background))
+        DrawableCompat.setTint(
+            key.mutate(),
+            ContextCompat.getColor(context, R.color.gameplay_background)
+        )
         key.draw(canvas)
     }
 }
@@ -266,7 +290,7 @@ enum class Bond {
 // TODO(jmerm): shared base class with normal game cell for drawing stuff?
 class BandagedGameCell(
     override var x: Double, override var y: Double, override val params:
-    GameplayParams, colorId: String, private val context : Context
+    GameplayParams, colorId: String, private val context: Context
 ) : GameCell(x, y, params, colorId) {
     override val color: Int
     override val pips: Int
@@ -297,7 +321,7 @@ class BandagedGameCell(
         }
     }
 
-    override fun bonds() : List<Bond> {
+    override fun bonds(): List<Bond> {
         return bonds
     }
 
@@ -443,7 +467,7 @@ abstract class GameCell(
     // flash icons on cells without having to worry about which type of cell they are.
     var shouldDrawIcon: Boolean = false
 
-    open fun bonds() : List<Bond> {
+    open fun bonds(): List<Bond> {
         return emptyList()
     }
 
