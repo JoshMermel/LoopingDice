@@ -35,7 +35,6 @@ fun pluralizedMoves(num: Int): String {
 }
 
 
-
 fun pluralizedRows(num: Int): String {
     return if (num == 1) {
         "row"

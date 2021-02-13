@@ -130,7 +130,7 @@ class MainActivity : AppCompatActivity() {
 
     // Figures out what text to write to a button based on looking up the user's highscore and
     // comparing it to par.
-    private fun buttonText(id: String, levelData : LevelMetadata): String {
+    private fun buttonText(id: String, levelData: LevelMetadata): String {
         val highscores: SharedPreferences = getSharedPreferences("highscores", Context.MODE_PRIVATE)
         val highscore = highscores.getInt(id, Int.MAX_VALUE)
 
@@ -150,7 +150,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
 
 
     // A dialog to make sure the user really wants to delete all their saved data.

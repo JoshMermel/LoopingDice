@@ -387,7 +387,7 @@ class EnablerMoveFactory : MoveFactory {
     }
 
     private fun findEnabler(board: Array<Array<GameCell>>): List<Pair<Int, Int>> {
-        val ret : MutableList<Pair<Int, Int>> = mutableListOf()
+        val ret: MutableList<Pair<Int, Int>> = mutableListOf()
         val numRows: Int = board.size
         val numCols: Int = board[0].size
         for (row in 0 until numRows) {
@@ -462,14 +462,15 @@ class BandagedMoveFactory : MoveFactory {
         offset: Int,
         board: Array<Array<GameCell>>
     ): Move {
-        val params = applyToBoard(axis, direction, offset, board)
+        val params = applyToBoard(axis, offset, board)
         return WideMove(axis, direction, params.first, params.second)
     }
 
-    private fun applyToBoard(axis: Axis,
-                             direction: Direction,
-                             offset: Int,
-                             board: Array<Array<GameCell>>) : Pair<Int, Int> {
+    private fun applyToBoard(
+        axis: Axis,
+        offset: Int,
+        board: Array<Array<GameCell>>
+    ): Pair<Int, Int> {
         val numRows: Int = board.size
         val numCols: Int = board[0].size
 
@@ -506,7 +507,7 @@ class BandagedMoveFactory : MoveFactory {
         val numRows: Int = board.size
         val numCols: Int = board[0].size
         for (col in 0 until numCols) {
-            if (board[(offset+numRows) % numRows][col].bonds().contains(bond)) {
+            if (board[(offset + numRows) % numRows][col].bonds().contains(bond)) {
                 return true
             }
         }
@@ -517,7 +518,7 @@ class BandagedMoveFactory : MoveFactory {
         val numRows: Int = board.size
         val numCols: Int = board[0].size
         for (row in 0 until numRows) {
-            if (board[row][(offset+numCols) % numCols].bonds().contains(bond)) {
+            if (board[row][(offset + numCols) % numCols].bonds().contains(bond)) {
                 return true
             }
         }
@@ -530,14 +531,20 @@ class BandagedMoveFactory : MoveFactory {
         offset: Int,
         board: Array<Array<GameCell>>
     ): Array<Highlight> {
-        val params = applyToBoard(axis, direction, offset, board)
+        val params = applyToBoard(axis, offset, board)
         val modulus = if (axis == Axis.HORIZONTAL) {
             board.size
         } else {
             board[0].size
         }
 
-        return Array(params.second) { idx: Int -> Highlight(axis, direction, (idx + params.first) % modulus) }
+        return Array(params.second) { idx: Int ->
+            Highlight(
+                axis,
+                direction,
+                (idx + params.first) % modulus
+            )
+        }
     }
 
     override fun verticalHelpText(): String {

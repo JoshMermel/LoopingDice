@@ -8,7 +8,7 @@ import androidx.core.text.HtmlCompat
 
 // A simple activity for displaying info about the app to interested users.
 // TODO(jmerm): better motivation for static bandaging
-// TODO(jmerm): motivation for reguar bandaging.
+// TODO(jmerm): motivation for regular bandaging.
 class AboutActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
