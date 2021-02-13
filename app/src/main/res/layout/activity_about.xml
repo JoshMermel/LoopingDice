@@ -13,8 +13,6 @@
             android:layout_height="wrap_content"
             android:linksClickable="true"
             android:textAlignment="center"
-            android:textColor="#0A284B"
-            android:textColorLink="#0A284B"
             android:textSize="30sp" />
     </ScrollView>
 

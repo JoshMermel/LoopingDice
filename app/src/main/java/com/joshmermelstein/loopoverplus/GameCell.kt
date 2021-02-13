@@ -7,7 +7,10 @@ import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.OvalShape
 import android.graphics.drawable.shapes.RectShape
 import android.graphics.drawable.shapes.RoundRectShape
+import android.util.Log
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.graphics.drawable.DrawableCompat
 
 // A gameCell object represents a single square on the board. GameCells are relatively dumb and
 // only know how to draw themselves. Movement is handled by the game manager object.
@@ -42,6 +45,7 @@ fun makeGameCell(
             y.toDouble(),
             params,
             colorId,
+            context,
             ResourcesCompat.getDrawable(
                 context.resources,
                 R.drawable.ic_baseline_vpn_key_24,
@@ -54,19 +58,20 @@ fun makeGameCell(
             y.toDouble(),
             params,
             colorId,
+            context,
             ResourcesCompat.getDrawable(context.resources, R.drawable.ic_baseline_lock_24, null)!!
         )
     } else if (colorId.startsWith("B")) {
-        return BandagedGameCell(x.toDouble(), y.toDouble(), params, colorId)
+        return BandagedGameCell(x.toDouble(), y.toDouble(), params, colorId, context,)
     }
 
-    return NormalGameCell(x.toDouble(), y.toDouble(), params, colorId)
+    return NormalGameCell(x.toDouble(), y.toDouble(), params, colorId, context)
 }
 
 // Represents a "normal" gameCell - meaning neither bandaged nor enabler.
 open class NormalGameCell(
     override var x: Double, override var y: Double, override val params:
-    GameplayParams, colorId: String
+    GameplayParams, colorId: String, private val context : Context
 ) : GameCell(x, y, params, colorId) {
     override val color: Int = colorId.toInt() % 4
     override val pips: Int = ((colorId.toInt() - 1) / 4) + 1
@@ -98,7 +103,7 @@ open class NormalGameCell(
             (centerX + radius).toInt(),
             (centerY + radius).toInt()
         )
-        shapeDrawable.paint.color = Color.WHITE
+        shapeDrawable.paint.color = ContextCompat.getColor(context, R.color.gameplay_background)
 
         shapeDrawable.draw(canvas)
     }
@@ -108,7 +113,7 @@ open class NormalGameCell(
 // rectangles instead of rounded ones and uses square for pips.
 class FixedGameCell(
     override var x: Double, override var y: Double, override val params:
-    GameplayParams, colorId: String, private val lock: Drawable
+    GameplayParams, colorId: String, private val context : Context,  private val lock: Drawable
 ) : GameCell(x, y, params, colorId) {
     override val color = 4
     override val pips: Int
@@ -129,7 +134,7 @@ class FixedGameCell(
     ) {
         val shapeDrawable = ShapeDrawable(RectShape())
         shapeDrawable.setBounds(left.toInt(), top.toInt(), right.toInt(), bottom.toInt())
-        shapeDrawable.paint.color = colors[this.color]
+        shapeDrawable.paint.color = ContextCompat.getColor(context, R.color.bandaged_cell)
         shapeDrawable.draw(canvas)
     }
 
@@ -160,13 +165,14 @@ class FixedGameCell(
             (centerX + radius).toInt(),
             (centerY + radius).toInt()
         )
-        shapeDrawable.paint.color = Color.WHITE
+        shapeDrawable.paint.color = ContextCompat.getColor(context, R.color.gameplay_background)
 
         shapeDrawable.draw(canvas)
     }
 
     private fun drawLock(left: Double, top: Double, right: Double, bottom: Double, canvas: Canvas) {
         lock.setBounds(left.toInt(), top.toInt(), right.toInt(), bottom.toInt())
+        DrawableCompat.setTint(lock.mutate(), ContextCompat.getColor(context, R.color.gameplay_background))
         lock.draw(canvas)
     }
 
@@ -175,6 +181,7 @@ class FixedGameCell(
         val y = (top + bottom) / 2
         val radius = (right - left) / 4
         lock.setBounds((x - radius).toInt(), (y - radius).toInt(), (x + radius).toInt(), (y + radius).toInt())
+        DrawableCompat.setTint(lock.mutate(), ContextCompat.getColor(context, R.color.gameplay_background))
         lock.draw(canvas)
     }
 }
@@ -183,7 +190,7 @@ class FixedGameCell(
 // instead of rounded ones.
 class EnablerGameCell(
     override var x: Double, override var y: Double, override val params:
-    GameplayParams, colorId: String, private val key: Drawable
+    GameplayParams, colorId: String, private val context : Context, private val key: Drawable
 ) : GameCell(x, y, params, colorId) {
     override val color = 5
     override val pips = 1
@@ -211,7 +218,7 @@ class EnablerGameCell(
             (centerX + radius).toInt(),
             (centerY + radius).toInt()
         )
-        shapeDrawable.paint.color = Color.WHITE
+        shapeDrawable.paint.color = ContextCompat.getColor(context, R.color.gameplay_background)
 
         shapeDrawable.draw(canvas)
     }
@@ -234,6 +241,7 @@ class EnablerGameCell(
 
     private fun drawKey(left: Double, top: Double, right: Double, bottom: Double, canvas: Canvas) {
         key.setBounds(left.toInt(), top.toInt(), right.toInt(), bottom.toInt())
+        DrawableCompat.setTint(key.mutate(), ContextCompat.getColor(context, R.color.gameplay_background))
         key.draw(canvas)
     }
 }
@@ -249,7 +257,7 @@ enum class Bond {
 // TODO(jmerm): shared base class with normal game cell for drawing stuff?
 class BandagedGameCell(
     override var x: Double, override var y: Double, override val params:
-    GameplayParams, colorId: String
+    GameplayParams, colorId: String, private val context : Context
 ) : GameCell(x, y, params, colorId) {
     override val color: Int
     override val pips: Int
@@ -311,7 +319,7 @@ class BandagedGameCell(
             (centerX + radius).toInt(),
             (centerY + radius).toInt()
         )
-        shapeDrawable.paint.color = Color.WHITE
+        shapeDrawable.paint.color = ContextCompat.getColor(context, R.color.gameplay_background)
 
         shapeDrawable.draw(canvas)
     }

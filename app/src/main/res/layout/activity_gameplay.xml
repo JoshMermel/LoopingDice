@@ -14,28 +14,27 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/gameplay_background"/>
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/gameplay_toolbar"
+        android:theme="@style/ToolbarTheme"
+        app:titleTextAppearance="@style/Toolbar.TitleText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/gray"
         android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:titleTextColor="#000000">
+        app:layout_constraintStart_toStartOf="parent">
 
         <TextView
             android:id="@+id/gameplay_move_count"
-            style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:textColor="#000000"
+            android:textSize="20dp"
             tools:layout_editor_absoluteX="179dp"
             tools:layout_editor_absoluteY="19dp" />
     </androidx.appcompat.widget.Toolbar>

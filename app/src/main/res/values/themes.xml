@@ -13,10 +13,18 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="android:textColor">@android:color/black</item>
+
     </style>
     <style name="Theme.Gameplay" parent="Theme.LoopoverPlus">
-        <item name="colorPrimary">@color/gray</item>
-        <item name="colorPrimaryVariant">@color/dark_gray</item>
+        <item name="colorPrimaryVariant">@color/gameplay_notif_bar</item>
         <item name="android:windowLightStatusBar">true</item>
+        <item name="android:background">@color/gameplay_background</item>
+    </style>
+    <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
+        <item name="android:background">@color/legend_background</item>
+    </style>
+    <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textColor">@color/black</item>
     </style>
 </resources>

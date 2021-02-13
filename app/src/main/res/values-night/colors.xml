@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="legend_background">#0E1717</color>
+    <color name="gameplay_notif_bar">#242424</color>
+    <color name="gameplay_background">#2e2c27</color>
+    <color name="bandaged_cell">@color/white</color>
+    <color name="popup_background">#785905</color>
+</resources>

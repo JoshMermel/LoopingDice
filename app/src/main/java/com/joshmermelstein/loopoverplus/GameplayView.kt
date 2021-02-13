@@ -89,7 +89,7 @@ class GameplayView : View {
         legendBottom = bottom
 
 
-        legendCirclePaint.color = ContextCompat.getColor(context, R.color.gray)
+        legendCirclePaint.color = ContextCompat.getColor(context, R.color.legend_background)
         legendCirclePaint.style = Paint.Style.FILL
         legendCirclePaint.isAntiAlias = true
         legendCirclePaint.isDither = true
@@ -97,7 +97,7 @@ class GameplayView : View {
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        canvas.drawColor(Color.WHITE)
+        // canvas.drawColor(Color.WHITE)
         gameManager.update()
         if (boardLeft != -1) {
             gameManager.drawHighlights(canvas, boardLeft, boardTop, boardRight, boardBottom)

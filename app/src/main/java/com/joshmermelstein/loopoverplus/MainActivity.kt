@@ -19,8 +19,6 @@ import java.io.File
 // The main activity for the app is a level select screen.
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.level_select_toolbar))
@@ -75,7 +73,7 @@ class MainActivity : AppCompatActivity() {
 
         val title = TextView(this)
         title.text = pack.title
-        title.setTextColor(Color.BLACK)
+        // title.setTextColor(Color.BLACK)
         title.setPadding(10, 10, 10, 10)
         layout.addView(title)
 

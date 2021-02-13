@@ -27,7 +27,7 @@ class Highlight(
     ) {
         val shapeDrawable = ShapeDrawable(RectShape())
         shapeDrawable.paint.shader =
-            makeShader(axis, direction, ContextCompat.getColor(context, R.color.highlight))
+            makeShader(axis, direction, ContextCompat.getColor(context, R.color.gameplay_background),  ContextCompat.getColor(context, R.color.highlight))
 
         // horizontal
         if (axis == Axis.HORIZONTAL) {
@@ -58,7 +58,7 @@ class Highlight(
         shapeDrawable.draw(canvas)
     }
 
-    private fun makeShader(axis: Axis, direction: Direction, color: Int): Shader {
+    private fun makeShader(axis: Axis, direction: Direction, background_color : Int, highlight_color: Int): Shader {
         var x0 = 0f
         var y0 = 0f
         var x1 = 0f
@@ -77,9 +77,9 @@ class Highlight(
         return LinearGradient(
             x0, y0, x1, y1,
             intArrayOf(
-                Color.WHITE,
-                color,
-                Color.WHITE
+                background_color,
+                highlight_color,
+                background_color
             ), null,
             Shader.TileMode.CLAMP
         )

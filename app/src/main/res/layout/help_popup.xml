@@ -10,7 +10,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:text="Rules"
-        android:textColor="#000000"
         android:textSize="20dp" />
 
     <TextView
@@ -20,7 +19,6 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="20dp"
         android:text="stars"
-        android:textColor="#000000"
         android:textSize="20dp" />
 
     <TextView
@@ -30,6 +28,5 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="20dp"
         android:text="pb"
-        android:textColor="#000000"
         android:textSize="20dp" />
 </LinearLayout>
