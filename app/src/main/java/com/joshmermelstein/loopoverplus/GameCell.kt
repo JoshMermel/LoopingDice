@@ -1,13 +1,14 @@
 package com.joshmermelstein.loopoverplus
 
 import android.content.Context
-import android.graphics.*
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.OvalShape
 import android.graphics.drawable.shapes.RectShape
 import android.graphics.drawable.shapes.RoundRectShape
-import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.DrawableCompat
@@ -39,33 +40,37 @@ fun makeGameCell(
     colorId: String,
     context: Context
 ): GameCell {
-    if (colorId == "E") {
-        return EnablerGameCell(
-            x.toDouble(),
-            y.toDouble(),
-            params,
-            colorId,
-            context,
-            ResourcesCompat.getDrawable(
-                context.resources,
-                R.drawable.ic_baseline_vpn_key_24,
-                null
-            )!!
-        )
-    } else if (colorId.startsWith("F")) {
-        return FixedGameCell(
-            x.toDouble(),
-            y.toDouble(),
-            params,
-            colorId,
-            context,
-            ResourcesCompat.getDrawable(context.resources, R.drawable.ic_baseline_lock_24, null)!!
-        )
-    } else if (colorId.startsWith("B")) {
-        return BandagedGameCell(x.toDouble(), y.toDouble(), params, colorId, context,)
+    when {
+        colorId == "E" -> {
+            return EnablerGameCell(
+                x.toDouble(),
+                y.toDouble(),
+                params,
+                colorId,
+                context,
+                ResourcesCompat.getDrawable(
+                    context.resources,
+                    R.drawable.ic_baseline_vpn_key_24,
+                    null
+                )!!
+            )
+        }
+        colorId.startsWith("F") -> {
+            return FixedGameCell(
+                x.toDouble(),
+                y.toDouble(),
+                params,
+                colorId,
+                context,
+                ResourcesCompat.getDrawable(context.resources, R.drawable.ic_baseline_lock_24, null)!!
+            )
+        }
+        colorId.startsWith("B") -> {
+            return BandagedGameCell(x.toDouble(), y.toDouble(), params, colorId, context)
+        }
+        else -> return NormalGameCell(x.toDouble(), y.toDouble(), params, colorId, context)
     }
 
-    return NormalGameCell(x.toDouble(), y.toDouble(), params, colorId, context)
 }
 
 // Represents a "normal" gameCell - meaning neither bandaged nor enabler.
@@ -146,18 +151,22 @@ class FixedGameCell(
         numCircles: Int,
         canvas: Canvas
     ) {
-        if (shouldDrawIcon) {
-            // Draws a lock instead of pips.
-            drawLock(left, top, right, bottom, canvas)
-        } else if (numCircles == 0) {
-            drawSmallLock(left, top, right, bottom, canvas)
-        } else {
-            super.drawPips(left, top, right, bottom, numCircles, canvas)
+        when {
+            shouldDrawIcon -> {
+                // Draws a lock instead of pips.
+                drawLock(left, top, right, bottom, canvas)
+            }
+            numCircles == 0 -> {
+                drawSmallLock(left, top, right, bottom, canvas)
+            }
+            else -> {
+                super.drawPips(left, top, right, bottom, numCircles, canvas)
+            }
         }
     }
 
     override fun drawPip(centerX: Double, centerY: Double, radius: Double, canvas: Canvas) {
-        var shapeDrawable = ShapeDrawable(RectShape())
+        val shapeDrawable = ShapeDrawable(RectShape())
 
         shapeDrawable.setBounds(
             (centerX - radius).toInt(),
@@ -408,7 +417,7 @@ class BandagedGameCell(
         if (y1 != boundedY1) {
             ret += 1
         }
-        return ret;
+        return ret
     }
 }
 

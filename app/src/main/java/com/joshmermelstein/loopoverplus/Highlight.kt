@@ -2,7 +2,6 @@ package com.joshmermelstein.loopoverplus
 
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.LinearGradient
 import android.graphics.Shader
 import android.graphics.drawable.ShapeDrawable

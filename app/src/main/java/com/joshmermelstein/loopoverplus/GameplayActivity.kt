@@ -82,7 +82,6 @@ class GameplayActivity : AppCompatActivity() {
     }
 
     // Pops up a dialog with info to help the user understand the level.
-    // TODO(jmerm): put star requirements and personal best on this screen.
     private fun helpDialog() {
         val levelData: LevelMetadata =
             MetadataSingleton.getInstance(this).getLevelData(id) ?: return

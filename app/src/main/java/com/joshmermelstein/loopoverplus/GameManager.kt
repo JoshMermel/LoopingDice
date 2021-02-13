@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Canvas
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.TextView

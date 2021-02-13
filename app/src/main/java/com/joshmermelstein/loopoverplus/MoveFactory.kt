@@ -455,7 +455,7 @@ class CarouselMoveFactory : MoveFactory {
 }
 
 // Returns wide moves according to the positions of bonds
-class BandagedMoveFactory() : MoveFactory {
+class BandagedMoveFactory : MoveFactory {
     override fun makeMove(
         axis: Axis,
         direction: Direction,
@@ -499,7 +499,7 @@ class BandagedMoveFactory() : MoveFactory {
             retOffset += numCols
             retOffset %= numCols
         }
-        return Pair<Int, Int>(retOffset, depth)
+        return Pair(retOffset, depth)
     }
 
     private fun rowContainsBond(offset: Int, board: Array<Array<GameCell>>, bond: Bond): Boolean {

@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:text="Rules"
-        android:textSize="20dp" />
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/help_dialog_stars"
@@ -19,7 +19,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="20dp"
         android:text="stars"
-        android:textSize="20dp" />
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/help_dialog_pb"
@@ -28,5 +28,5 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="20dp"
         android:text="pb"
-        android:textSize="20dp" />
+        android:textSize="20sp" />
 </LinearLayout>
