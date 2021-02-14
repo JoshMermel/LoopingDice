@@ -177,7 +177,7 @@ class GameplayView : View {
         // Compute swipe angle and distance. Ignore very short swipes.
         val hDist = (startX - endX)
         val vDist = (startY - endY)
-        if ((hDist * hDist) + (vDist * vDist) < 3000) {
+        if ((hDist * hDist) + (vDist * vDist) < 2000) {
             return
         }
         val theta = atan(vDist / hDist)
