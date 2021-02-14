@@ -80,7 +80,7 @@ class BasicMoveFactory : MoveFactory {
         offset: Int,
         board: Array<Array<GameCell>>
     ): Move {
-        return BasicMove(axis, direction, offset)
+        return BasicMove(axis, direction, offset, board.size, board[0].size)
     }
 
     override fun makeHighlights(
@@ -118,7 +118,7 @@ class WideMoveFactory(private var rowDepth: Int, private var colDepth: Int) : Mo
         } else {
             colDepth
         }
-        return WideMove(axis, direction, offset, depth)
+        return WideMove(axis, direction, offset, board.size, board[0].size, depth)
     }
 
     override fun makeHighlights(
@@ -161,7 +161,7 @@ class GearMoveFactory : MoveFactory {
         offset: Int,
         board: Array<Array<GameCell>>
     ): Move {
-        return GearMove(axis, direction, offset)
+        return GearMove(axis, direction, offset, board.size, board[0].size)
     }
 
     override fun makeHighlights(
@@ -234,7 +234,7 @@ class StaticBandagingMoveFactory(private var rowDepth: Int, private var colDepth
         } else {
             colDepth
         }
-        return WideMove(axis, direction, offset, depth)
+        return WideMove(axis, direction, offset, board.size, board[0].size, depth)
     }
 
     override fun makeHighlights(
@@ -315,7 +315,7 @@ class DynamicBandagingMoveFactory(private var rowDepth: Int, private var colDept
         } else {
             colDepth
         }
-        return WideMove(axis, direction, offset, depth)
+        return WideMove(axis, direction, offset, board.size, board[0].size, depth)
     }
 
     override fun makeHighlights(
@@ -363,14 +363,14 @@ class EnablerMoveFactory : MoveFactory {
             val numCols: Int = board[0].size
             for (col in 0 until numCols) {
                 if (board[offset][col].isEnabler) {
-                    return BasicMove(axis, direction, offset)
+                    return BasicMove(axis, direction, offset, board.size, board[0].size)
                 }
             }
         } else {
             val numRows: Int = board.size
             for (row in 0 until numRows) {
                 if (board[row][offset].isEnabler) {
-                    return BasicMove(axis, direction, offset)
+                    return BasicMove(axis, direction, offset, board.size, board[0].size)
                 }
             }
         }
@@ -421,7 +421,7 @@ class CarouselMoveFactory : MoveFactory {
         offset: Int,
         board: Array<Array<GameCell>>
     ): Move {
-        return CarouselMove(axis, direction, offset)
+        return CarouselMove(axis, direction, offset, board.size, board[0].size)
     }
 
     override fun makeHighlights(
@@ -463,7 +463,7 @@ class BandagedMoveFactory : MoveFactory {
         board: Array<Array<GameCell>>
     ): Move {
         val params = applyToBoard(axis, offset, board)
-        return WideMove(axis, direction, params.first, params.second)
+        return WideMove(axis, direction, params.first, board.size, board[0].size, params.second)
     }
 
     private fun applyToBoard(

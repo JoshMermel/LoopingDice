@@ -34,7 +34,7 @@ class GameplayActivity : AppCompatActivity() {
 
         val params = loadInitialLevel(id)
         this.gameManager = GameManager(params, this, buttonState)
-        val save = loadSavedLevel(id)
+        val save = loadSavedLevel(id, params.numRows, params.numCols)
         if (save != null && save.board.size == params.numRows * params.numCols) {
             this.gameManager.loadFromSavedLevel(save)
         }
@@ -138,14 +138,14 @@ class GameplayActivity : AppCompatActivity() {
         return GameplayParams(id, numRows, numCols, factory, initial, final)
     }
 
-    private fun loadSavedLevel(id: String): SavedLevel? {
+    private fun loadSavedLevel(id: String, numRows : Int, numCols : Int): SavedLevel? {
         try {
             val reader = openFileInput("$id.txt").bufferedReader()
             val board: Array<String> = reader.readLine().split(",").toTypedArray()
             val undoStack: List<Move> =
-                reader.readLine().split(",").mapNotNull { stringToMove(it) }
+                reader.readLine().split(",").mapNotNull { stringToMove(it, numRows, numCols) }
             val redoStack: List<Move> =
-                reader.readLine().split(",").mapNotNull { stringToMove(it) }
+                reader.readLine().split(",").mapNotNull { stringToMove(it, numRows, numCols) }
             val numMoves: Int = reader.readLine().toInt()
 
             return SavedLevel(board, undoStack, redoStack, numMoves)

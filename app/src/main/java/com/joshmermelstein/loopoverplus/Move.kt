@@ -1,5 +1,6 @@
 package com.joshmermelstein.loopoverplus
 
+import android.util.Log
 import kotlin.math.pow
 
 
@@ -77,109 +78,71 @@ interface Move {
     override fun toString(): String
 }
 
+// TODO(jmerm): comment this.
+interface CoordinatesMove : Move {
+    val transitions: List<Transition>
+
+    override fun updatePositions(progress: Double, board: Array<Array<GameCell>>) {
+        val numRows = board.size
+        val numCols = board[0].size
+        for (t in transitions) {
+            val cell = board[t.y0 % numRows][t.x0 % numCols]
+            cell.offsetX = (t.x1 - t.x0) * progress
+            cell.offsetY = (t.y1 - t.y0) * progress
+        }
+    }
+
+    override fun updateGrid(board: Array<Array<GameCell>>) {
+        val numRows = board.size
+        val numCols = board[0].size
+
+        // Read all updates into a map so they can be executed without overwriting each other.
+        val updates: MutableMap<Transition, GameCell> = mutableMapOf()
+        for (t in transitions) {
+            updates[t] = board[t.y0 % numRows][t.x0 % numCols]
+        }
+
+        // Write those updates back into the board.
+        for ((t, cell) in updates) {
+            board[(t.y1 + numRows) % numRows][(t.x1 + numCols) % numCols] = cell
+        }
+    }
+}
+
 // Basic move moves a single row or column. It is handy as a base class for more complex kinds of
 // Row/Col based moves.
 open class BasicMove(
     open val axis: Axis,
     open var direction: Direction,
-    open val offset: Int
-) : Move {
+    open val offset: Int,
+    open val numRows: Int,
+    open val numCols: Int
+) : CoordinatesMove {
     override val isLegal = true
+    override val transitions = mutableListOf<Transition>()
 
-    override fun updatePositions(progress: Double, board: Array<Array<GameCell>>) {
-        if (axis == Axis.HORIZONTAL) {
-            updatePositionsRow(direction, offset, progress, board)
+    init {
+        if (axis == Axis.HORIZONTAL && direction == Direction.FORWARD) {
+            for (col in 0 until numCols) {
+                transitions.add(Transition(col, offset, col + 1, offset))
+            }
+        } else if (axis == Axis.HORIZONTAL && direction == Direction.BACKWARD) {
+            for (col in 0 until numCols) {
+                transitions.add(Transition(col, offset, col - 1, offset))
+            }
+        } else if (axis == Axis.VERTICAL && direction == Direction.FORWARD) {
+            for (row in 0 until numRows) {
+                transitions.add(Transition(offset, row, offset, row + 1))
+            }
         } else {
-            updatePositionsCol(direction, offset, progress, board)
-
+            for (row in 0 until numRows) {
+                transitions.add(Transition(offset, row, offset, row - 1))
+            }
         }
-    }
-
-    fun updatePositionsRow(
-        direction: Direction,
-        offset: Int,
-        progress: Double,
-        board: Array<Array<GameCell>>
-    ) {
-        for (cell in board[offset]) {
-            cell.offsetX = (direction.dir * progress)
-        }
-    }
-
-    fun updatePositionsCol(
-        direction: Direction,
-        offset: Int,
-        progress: Double,
-        board: Array<Array<GameCell>>
-    ) {
-        val numRows = board.size
-        for (row in 0 until numRows) {
-            board[row][offset].offsetY = (direction.dir * progress)
-        }
-    }
-
-    override fun updateGrid(board: Array<Array<GameCell>>) {
-        if (axis == Axis.HORIZONTAL) {
-            updateGridRow(direction, offset, board)
-        } else {
-            updateGridCol(direction, offset, board)
-        }
-    }
-
-    fun updateGridRow(direction: Direction, offset: Int, board: Array<Array<GameCell>>) {
-        if (direction == Direction.FORWARD) {
-            updateGridRowForward(offset, board)
-        } else {
-            updateGridRowBackward(offset, board)
-        }
-    }
-
-    fun updateGridCol(direction: Direction, offset: Int, board: Array<Array<GameCell>>) {
-        if (direction == Direction.FORWARD) {
-            updateGridColForward(offset, board)
-        } else {
-            updateGridColBackward(offset, board)
-        }
-    }
-
-    private fun updateGridRowForward(row: Int, board: Array<Array<GameCell>>) {
-        val numCols = board[row].size
-        val tmp: GameCell = board[row][numCols - 1]
-        for (col in (numCols - 1 downTo 1)) {
-            board[row][col] = board[row][col - 1]
-        }
-        board[row][0] = tmp
-    }
-
-    private fun updateGridRowBackward(row: Int, board: Array<Array<GameCell>>) {
-        val numCols = board[row].size
-        val tmp: GameCell = board[row][0]
-        for (col in (0 until numCols - 1)) {
-            board[row][col] = board[row][col + 1]
-        }
-        board[row][numCols - 1] = tmp
-    }
-
-    private fun updateGridColForward(col: Int, board: Array<Array<GameCell>>) {
-        val numRows = board.size
-        val tmp: GameCell = board[numRows - 1][col]
-        for (row in (numRows - 1 downTo 1)) {
-            board[row][col] = board[row - 1][col]
-        }
-        board[0][col] = tmp
-    }
-
-    private fun updateGridColBackward(col: Int, board: Array<Array<GameCell>>) {
-        val numRows = board.size
-        val tmp: GameCell = board[0][col]
-        for (row in (0 until numRows - 1)) {
-            board[row][col] = board[row + 1][col]
-        }
-        board[numRows - 1][col] = tmp
     }
 
     override fun inverse(): Move {
-        return BasicMove(axis, opposite(direction), offset)
+        return BasicMove(axis, opposite(direction), offset, numRows, numCols)
     }
 
     override fun toString(): String {
@@ -189,69 +152,46 @@ open class BasicMove(
 
 // A wide move is like a basic move but it effects many rows/columns depending on depth.
 class WideMove(
-    override val axis: Axis,
-    override var direction: Direction,
-    override val offset: Int,
+    private val axis: Axis,
+    private var direction: Direction,
+    private val offset: Int,
+    private val numRows: Int,
+    private val numCols: Int,
     private val depth: Int
-) : BasicMove(axis, direction, offset) {
-    override fun updatePositions(progress: Double, board: Array<Array<GameCell>>) {
-        if (axis == Axis.HORIZONTAL) {
-            updatePositionRows(direction, offset, progress, board, depth)
+) : CoordinatesMove {
+    override val isLegal = true
+    override val transitions = mutableListOf<Transition>()
+
+    init {
+        if (axis == Axis.HORIZONTAL && direction == Direction.FORWARD) {
+            for (row in (offset until offset + depth)) {
+                for (col in 0 until numCols) {
+                    transitions.add(Transition(col, row % numRows, col + 1, row % numRows))
+                }
+            }
+        } else if (axis == Axis.HORIZONTAL && direction == Direction.BACKWARD) {
+            for (row in (offset until offset + depth)) {
+                for (col in 0 until numCols) {
+                    transitions.add(Transition(col, row % numRows, col - 1, row % numRows))
+                }
+            }
+        } else if (axis == Axis.VERTICAL && direction == Direction.FORWARD) {
+            for (col in (offset until offset + depth)) {
+                for (row in 0 until numRows) {
+                    transitions.add(Transition(col % numCols, row, col % numCols, row + 1))
+                }
+            }
         } else {
-            updatePositionCols(direction, offset, progress, board, depth)
-        }
-    }
-
-    private fun updatePositionRows(
-        direction: Direction,
-        offset: Int,
-        progress: Double,
-        board: Array<Array<GameCell>>,
-        depth: Int
-    ) {
-        val numRows = board.size
-        for (row in (offset until offset + depth)) {
-            updatePositionsRow(direction, row % numRows, progress, board)
-        }
-    }
-
-    private fun updatePositionCols(
-        direction: Direction,
-        offset: Int,
-        progress: Double,
-        board: Array<Array<GameCell>>,
-        depth: Int
-    ) {
-        val numCols = board[0].size
-        for (col in (offset until offset + depth)) {
-            updatePositionsCol(direction, col % numCols, progress, board)
-        }
-    }
-
-    override fun updateGrid(board: Array<Array<GameCell>>) {
-        if (axis == Axis.HORIZONTAL) {
-            updateGridRows(board)
-        } else {
-            updateGridCols(board)
-        }
-    }
-
-    private fun updateGridRows(board: Array<Array<GameCell>>) {
-        val numRows = board.size
-        for (row in (offset until offset + depth)) {
-            updateGridRow(direction, row % numRows, board)
-        }
-    }
-
-    private fun updateGridCols(board: Array<Array<GameCell>>) {
-        val numCols = board[0].size
-        for (col in (offset until offset + depth)) {
-            updateGridCol(direction, col % numCols, board)
+            for (col in (offset until offset + depth)) {
+                for (row in 0 until numRows) {
+                    transitions.add(Transition(col % numCols, row, col % numCols, row - 1))
+                }
+            }
         }
     }
 
     override fun inverse(): Move {
-        return WideMove(axis, opposite(direction), offset, depth)
+        return WideMove(axis, opposite(direction), offset, numRows, numCols, depth)
     }
 
     override fun toString(): String {
@@ -262,36 +202,69 @@ class WideMove(
 // A gear move is like a basic move but the row/col after the selected one also moves in the
 // opposite direction.
 class GearMove(
-    override val axis: Axis,
-    override var direction: Direction,
-    override val offset: Int
-) : BasicMove(axis, direction, offset) {
-    override fun updatePositions(progress: Double, board: Array<Array<GameCell>>) {
-        if (axis == Axis.HORIZONTAL) {
-            val numRows = board.size
-            updatePositionsRow(direction, offset, progress, board)
-            updatePositionsRow(opposite(direction), (offset + 1) % numRows, progress, board)
-        } else {
-            val numCols = board[0].size
-            updatePositionsCol(direction, offset, progress, board)
-            updatePositionsCol(opposite(direction), (offset + 1) % numCols, progress, board)
-        }
-    }
+    private val axis: Axis,
+    private var direction: Direction,
+    private val offset: Int,
+    private val numRows: Int,
+    private val numCols: Int
+) : CoordinatesMove {
+    override val isLegal = true
+    override val transitions = mutableListOf<Transition>()
 
-    override fun updateGrid(board: Array<Array<GameCell>>) {
-        if (axis == Axis.HORIZONTAL) {
-            val numRows = board.size
-            updateGridRow(direction, offset, board)
-            updateGridRow(opposite(direction), (offset + 1) % numRows, board)
+    init {
+        if (axis == Axis.HORIZONTAL && direction == Direction.FORWARD) {
+            for (col in 0 until numCols) {
+                transitions.add(Transition(col, offset, col + 1, offset))
+                transitions.add(
+                    Transition(
+                        col,
+                        (offset + 1) % numRows,
+                        col - 1,
+                        (offset + 1) % numRows
+                    )
+                )
+            }
+        } else if (axis == Axis.HORIZONTAL && direction == Direction.BACKWARD) {
+            for (col in 0 until numCols) {
+                transitions.add(Transition(col, offset, col - 1, offset))
+                transitions.add(
+                    Transition(
+                        col,
+                        (offset + 1) % numRows,
+                        col + 1,
+                        (offset + 1) % numRows
+                    )
+                )
+            }
+        } else if (axis == Axis.VERTICAL && direction == Direction.FORWARD) {
+            for (row in 0 until numRows) {
+                transitions.add(Transition(offset, row, offset, row + 1))
+                transitions.add(
+                    Transition(
+                        (offset + 1) % numCols,
+                        row,
+                        (offset + 1) % numCols,
+                        row - 1
+                    )
+                )
+            }
         } else {
-            val numCols = board[0].size
-            updateGridCol(direction, offset, board)
-            updateGridCol(opposite(direction), (offset + 1) % numCols, board)
+            for (row in 0 until numRows) {
+                transitions.add(Transition(offset, row, offset, row - 1))
+                transitions.add(
+                    Transition(
+                        (offset + 1) % numCols,
+                        row,
+                        (offset + 1) % numCols,
+                        row + 1
+                    )
+                )
+            }
         }
     }
 
     override fun inverse(): Move {
-        return GearMove(axis, opposite(direction), offset)
+        return GearMove(axis, opposite(direction), offset, numRows, numCols)
     }
 
     override fun toString(): String {
@@ -299,148 +272,91 @@ class GearMove(
     }
 }
 
+class Transition(
+    val x0: Int,
+    val y0: Int,
+    val x1: Int,
+    val y1: Int
+)
+
 // A Carousel move forms a ring with the row/col that was selected and it's neighbor and does a
 // circular shift.
 open class CarouselMove(
     private val axis: Axis,
     private var direction: Direction,
-    private val offset: Int
-) : Move {
+    private val offset: Int,
+    private val numRows: Int,
+    private val numCols: Int
+) : CoordinatesMove {
     override val isLegal = true
+    override val transitions = mutableListOf<Transition>()
 
-    override fun updatePositions(progress: Double, board: Array<Array<GameCell>>) {
-        // Update the positions of relevant cells
+    init {
         if (axis == Axis.HORIZONTAL) {
-            updatePositionsRows(direction, offset, progress, board)
+            fillTransitionsHorizontal(direction, offset, numCols)
         } else {
-            updatePositionsCols(direction, offset, progress, board)
+            fillTransitionsVertical(direction, offset, numRows)
         }
     }
 
-    private fun updatePositionsRows(
+    private fun fillTransitionsHorizontal(
         direction: Direction,
         offset: Int,
-        progress: Double,
-        board: Array<Array<GameCell>>
+        numCols: Int
     ) {
-        val numCols = board[0].size
-        val numRows = board.size
-        val rowRightIdx = if (direction == Direction.FORWARD) {
-            offset
+        var rowRightIdx = offset
+        var rowLeftIdx = offset
+        if (direction == Direction.FORWARD) {
+            rowLeftIdx += 1
         } else {
-            (offset + 1) % numRows
-        }
-        val rowLeftIdx = if (direction == Direction.FORWARD) {
-            (offset + 1) % numRows
-        } else {
-            offset
+            rowRightIdx += 1
         }
 
-        for (col in 0 until numCols - 1) {
-            board[rowRightIdx][col].offsetX = progress
-        }
-        board[rowRightIdx][numCols - 1].offsetY = (progress * direction.dir)
-
-        for (col in 1 until numCols) {
-            board[rowLeftIdx][col].offsetX = -1 * progress
-        }
-        board[rowLeftIdx][0].offsetY = (-1 * progress * direction.dir)
-    }
-
-    private fun updatePositionsCols(
-        direction: Direction,
-        offset: Int,
-        progress: Double,
-        board: Array<Array<GameCell>>
-    ) {
-        val numCols = board[0].size
-        val numRows = board.size
-        val colDownIdx = if (direction == Direction.FORWARD) {
-            offset
-        } else {
-            (offset + 1) % numCols
-        }
-        val colUpIdx = if (direction == Direction.FORWARD) {
-            (offset + 1) % numCols
-        } else {
-            offset
-        }
-
-        for (row in 0 until numRows - 1) {
-            board[row][colDownIdx].offsetY = progress
-        }
-        board[numRows - 1][colDownIdx].offsetX = (progress * direction.dir)
-
-        for (row in 1 until numRows) {
-            board[row][colUpIdx].offsetY = -1 * progress
-        }
-        board[0][colUpIdx].offsetX = (-1 * progress * direction.dir)
-    }
-
-    override fun updateGrid(board: Array<Array<GameCell>>) {
-        if (axis == Axis.HORIZONTAL) {
-            updateGridRow(board)
-        } else {
-            updateGridCol(board)
-        }
-    }
-
-    private fun updateGridRow(board: Array<Array<GameCell>>) {
-        val numCols = board[0].size
-        val numRows = board.size
-        val rowRightIdx = if (direction == Direction.FORWARD) {
-            offset
-        } else {
-            (offset + 1) % numRows
-        }
-        val rowLeftIdx = if (direction == Direction.FORWARD) {
-            (offset + 1) % numRows
-        } else {
-            offset
-        }
-        val rightEnd = board[rowRightIdx][numCols - 1]
-        val leftEnd = board[rowLeftIdx][0]
-
+        // Move one row right except the rightmost element
         for (col in (numCols - 1 downTo 1)) {
-            board[rowRightIdx][col] = board[rowRightIdx][col - 1]
+            transitions.add(Transition(col, rowLeftIdx, col - 1, rowLeftIdx))
         }
-        for (col in (0 until numCols - 1)) {
-            board[rowLeftIdx][col] = board[rowLeftIdx][col + 1]
-        }
+        // Move the rightmost element into the other row
+        transitions.add(Transition(numCols - 1, rowRightIdx, numCols - 1, rowLeftIdx))
 
-        board[rowRightIdx][0] = leftEnd
-        board[rowLeftIdx][numCols - 1] = rightEnd
+        // Move the other row left except the leftmost element
+        for (col in (0 until numCols - 1)) {
+            transitions.add(Transition(col, rowRightIdx, col + 1, rowRightIdx))
+        }
+        // Move the leftmost element into the other row
+        transitions.add(Transition(0, rowLeftIdx, 0, rowRightIdx))
     }
 
-    private fun updateGridCol(board: Array<Array<GameCell>>) {
-        val numCols = board[0].size
-        val numRows = board.size
-        val colDownIdx = if (direction == Direction.FORWARD) {
-            offset
+    private fun fillTransitionsVertical(
+        direction: Direction,
+        offset: Int,
+        numRows: Int
+    ) {
+        var colDownIdx = offset
+        var colUpIdx = offset
+        if (direction == Direction.FORWARD) {
+            colUpIdx += 1
         } else {
-            (offset + 1) % numCols
+            colDownIdx += 1
         }
-        val colUpIdx = if (direction == Direction.FORWARD) {
-            (offset + 1) % numCols
-        } else {
-            offset
-        }
-        val topEnd = board[0][colUpIdx]
-        val bottomEnd = board[numRows - 1][colDownIdx]
 
+        // Move all cells in one row down except the bottom one
         for (row in (numRows - 1 downTo 1)) {
-            board[row][colDownIdx] = board[row - 1][colDownIdx]
+            transitions.add(Transition(colUpIdx, row, colUpIdx, row - 1))
         }
-        for (row in (0 until numRows - 1)) {
-            board[row][colUpIdx] = board[row + 1][colUpIdx]
-        }
+        // Move the bottom cell of that row into the other column
+        transitions.add(Transition(colDownIdx, numRows - 1, colUpIdx, numRows - 1))
 
-        board[numRows - 1][colUpIdx] = bottomEnd
-        board[0][colDownIdx] = topEnd
+        // Move all cells in the other row up except the top one
+        for (row in (0 until numRows - 1)) {
+            transitions.add(Transition(colDownIdx, row, colDownIdx, row + 1))
+        }
+        // Move the top cell of that row into the other column
+        transitions.add(Transition(colUpIdx, 0, colDownIdx, 0))
     }
 
     override fun inverse(): Move {
-        return CarouselMove(axis, opposite(direction), offset)
+        return CarouselMove(axis, opposite(direction), offset, numRows, numCols)
     }
 
     override fun toString(): String {
@@ -468,19 +384,19 @@ class IllegalMove(private val cords: List<Pair<Int, Int>>) : Move {
     // Do nothing, the move is illegal
     override fun updateGrid(board: Array<Array<GameCell>>) {}
 
-    // should never happen, these moves shouldn't get pushed to the undo stack
+    // Should never happen, these moves shouldn't get pushed to the undo stack.
     override fun inverse(): Move {
         return this
     }
 
-    // should never happen, these should never be serialized
+    // Should never happen, these should never be serialized.
     override fun toString(): String {
         return ""
     }
 }
 
 // Helper for loading saved moves from files.
-fun stringToMove(s: String): Move? {
+fun stringToMove(s: String, numRows: Int, numCols: Int): Move? {
     val splits = s.split(" ")
     if (s.length < 3) {
         return null
@@ -499,16 +415,16 @@ fun stringToMove(s: String): Move? {
 
     return when (splits[0]) {
         "BASIC" -> {
-            BasicMove(axis, direction, offset)
+            BasicMove(axis, direction, offset, numRows, numCols)
         }
         "WIDE" -> {
-            WideMove(axis, direction, offset, splits[4].toInt())
+            WideMove(axis, direction, offset, numRows, numCols, splits[4].toInt())
         }
         "GEAR" -> {
-            GearMove(axis, direction, offset)
+            GearMove(axis, direction, offset, numRows, numCols)
         }
         "CAROUSEL" -> {
-            CarouselMove(axis, direction, offset)
+            CarouselMove(axis, direction, offset, numRows, numCols)
         }
         else -> null
     }
