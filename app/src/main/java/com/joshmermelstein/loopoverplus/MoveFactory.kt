@@ -46,14 +46,14 @@ interface MoveFactory {
         axis: Axis,
         direction: Direction,
         offset: Int,
-        board: Array<Array<GameCell>>
+        board: GameBoard
     ): Move
 
     fun makeHighlights(
         axis: Axis,
         direction: Direction,
         offset: Int,
-        board: Array<Array<GameCell>>
+        board: GameBoard
     ): Array<Highlight> {
         return emptyArray()
     }
@@ -78,16 +78,16 @@ class BasicMoveFactory : MoveFactory {
         axis: Axis,
         direction: Direction,
         offset: Int,
-        board: Array<Array<GameCell>>
+        board: GameBoard
     ): Move {
-        return BasicMove(axis, direction, offset, board.size, board[0].size)
+        return BasicMove(axis, direction, offset, board.numRows, board.numCols)
     }
 
     override fun makeHighlights(
         axis: Axis,
         direction: Direction,
         offset: Int,
-        board: Array<Array<GameCell>>
+        board: GameBoard
     ): Array<Highlight> {
         return arrayOf(Highlight(axis, direction, offset))
     }
@@ -111,32 +111,24 @@ class WideMoveFactory(private var rowDepth: Int, private var colDepth: Int) : Mo
         axis: Axis,
         direction: Direction,
         offset: Int,
-        board: Array<Array<GameCell>>
+        board: GameBoard
     ): Move {
         val depth: Int = if (axis == Axis.HORIZONTAL) {
             rowDepth
         } else {
             colDepth
         }
-        return WideMove(axis, direction, offset, board.size, board[0].size, depth)
+        return WideMove(axis, direction, offset, board.numRows, board.numCols, depth)
     }
 
     override fun makeHighlights(
         axis: Axis,
         direction: Direction,
         offset: Int,
-        board: Array<Array<GameCell>>
+        board: GameBoard
     ): Array<Highlight> {
-        val modulus = if (axis == Axis.HORIZONTAL) {
-            board.size
-        } else {
-            board[0].size
-        }
-        val size = if (axis == Axis.HORIZONTAL) {
-            rowDepth
-        } else {
-            colDepth
-        }
+        val modulus = if (axis == Axis.HORIZONTAL) { board.numRows } else { board.numCols }
+        val size = if (axis == Axis.HORIZONTAL) { rowDepth } else { colDepth }
         return Array(size) { idx: Int -> Highlight(axis, direction, (idx + offset) % modulus) }
     }
 
@@ -159,22 +151,18 @@ class GearMoveFactory : MoveFactory {
         axis: Axis,
         direction: Direction,
         offset: Int,
-        board: Array<Array<GameCell>>
+        board: GameBoard
     ): Move {
-        return GearMove(axis, direction, offset, board.size, board[0].size)
+        return GearMove(axis, direction, offset, board.numRows, board.numCols)
     }
 
     override fun makeHighlights(
         axis: Axis,
         direction: Direction,
         offset: Int,
-        board: Array<Array<GameCell>>
+        board: GameBoard
     ): Array<Highlight> {
-        val modulus = if (axis == Axis.HORIZONTAL) {
-            board.size
-        } else {
-            board[0].size
-        }
+        val modulus = if (axis == Axis.HORIZONTAL) { board.numRows } else { board.numCols }
         return arrayOf(
             Highlight(axis, direction, offset),
             Highlight(axis, opposite(direction), (offset + 1) % modulus)
@@ -202,26 +190,24 @@ class StaticBandagingMoveFactory(private var rowDepth: Int, private var colDepth
         axis: Axis,
         direction: Direction,
         offset: Int,
-        board: Array<Array<GameCell>>
+        board: GameBoard
     ): Move {
         val bandagedCellsEncountered: ArrayList<Pair<Int, Int>> = arrayListOf()
-        val numCols: Int = board[0].size
-        val numRows: Int = board.size
 
         if (axis == Axis.HORIZONTAL) {
             for (row in offset until (offset + rowDepth)) {
-                for (col in 0 until numCols) {
-                    if (board[row % numRows][col].isBandaged) {
-                        bandagedCellsEncountered.add(Pair(row % numRows, col))
+                for (col in 0 until board.numCols) {
+                    if (board.getCell(row, col).isBandaged) {
+                        bandagedCellsEncountered.add(Pair(row % board.numRows, col))
                     }
                 }
             }
         } else {
 
             for (col in offset until (offset + colDepth)) {
-                for (row in 0 until numRows) {
-                    if (board[row][col % numCols].isBandaged) {
-                        bandagedCellsEncountered.add(Pair(row, col % numCols))
+                for (row in 0 until board.numRows) {
+                    if (board.getCell(row, col).isBandaged) {
+                        bandagedCellsEncountered.add(Pair(row, col % board.numCols))
                     }
                 }
             }
@@ -234,25 +220,17 @@ class StaticBandagingMoveFactory(private var rowDepth: Int, private var colDepth
         } else {
             colDepth
         }
-        return WideMove(axis, direction, offset, board.size, board[0].size, depth)
+        return WideMove(axis, direction, offset, board.numRows, board.numCols, depth)
     }
 
     override fun makeHighlights(
         axis: Axis,
         direction: Direction,
         offset: Int,
-        board: Array<Array<GameCell>>
+        board: GameBoard
     ): Array<Highlight> {
-        val modulus = if (axis == Axis.HORIZONTAL) {
-            board.size
-        } else {
-            board[0].size
-        }
-        val size = if (axis == Axis.HORIZONTAL) {
-            rowDepth
-        } else {
-            colDepth
-        }
+        val modulus = if (axis == Axis.HORIZONTAL) { board.numRows } else { board.numCols }
+        val size = if (axis == Axis.HORIZONTAL) { rowDepth } else { colDepth }
         return Array(size) { idx: Int -> Highlight(axis, direction, (idx + offset) % modulus) }
     }
 
@@ -277,33 +255,23 @@ class DynamicBandagingMoveFactory(private var rowDepth: Int, private var colDept
         axis: Axis,
         direction: Direction,
         offset: Int,
-        board: Array<Array<GameCell>>
+        board: GameBoard
     ): Move {
         val bandagedCellsEncountered: ArrayList<Pair<Int, Int>> = arrayListOf()
-        val numCols: Int = board[0].size
-        val numRows: Int = board.size
 
         if (axis == Axis.HORIZONTAL) {
-            val end = if (direction == Direction.FORWARD) {
-                numCols - 1
-            } else {
-                0
-            }
+            val end = if (direction == Direction.FORWARD) { board.numCols - 1 } else { 0 }
             for (row in offset until (offset + rowDepth)) {
-                if (board[row % numRows][end].isBandaged) {
-                    bandagedCellsEncountered.add(Pair(row % numRows, end))
+                if (board.getCell(row, end).isBandaged) {
+                    bandagedCellsEncountered.add(Pair(row % board.numRows, end))
 
                 }
             }
         } else {
-            val end = if (direction == Direction.FORWARD) {
-                numRows - 1
-            } else {
-                0
-            }
+            val end = if (direction == Direction.FORWARD) { board.numRows - 1 } else { 0 }
             for (col in offset until (offset + colDepth)) {
-                if (board[end][col % numCols].isBandaged) {
-                    bandagedCellsEncountered.add(Pair(end, col % numCols))
+                if (board.getCell(end, col).isBandaged) {
+                    bandagedCellsEncountered.add(Pair(end, col % board.numCols))
                 }
             }
         }
@@ -315,25 +283,17 @@ class DynamicBandagingMoveFactory(private var rowDepth: Int, private var colDept
         } else {
             colDepth
         }
-        return WideMove(axis, direction, offset, board.size, board[0].size, depth)
+        return WideMove(axis, direction, offset, board.numRows, board.numCols, depth)
     }
 
     override fun makeHighlights(
         axis: Axis,
         direction: Direction,
         offset: Int,
-        board: Array<Array<GameCell>>
+        board: GameBoard
     ): Array<Highlight> {
-        val modulus = if (axis == Axis.HORIZONTAL) {
-            board.size
-        } else {
-            board[0].size
-        }
-        val size = if (axis == Axis.HORIZONTAL) {
-            rowDepth
-        } else {
-            colDepth
-        }
+        val modulus = if (axis == Axis.HORIZONTAL) { board.numRows } else { board.numCols }
+        val size = if (axis == Axis.HORIZONTAL) { rowDepth } else { colDepth }
         return Array(size) { idx: Int -> Highlight(axis, direction, (idx + offset) % modulus) }
     }
 
@@ -357,42 +317,39 @@ class EnablerMoveFactory : MoveFactory {
         axis: Axis,
         direction: Direction,
         offset: Int,
-        board: Array<Array<GameCell>>
+        board: GameBoard
     ): Move {
         if (axis == Axis.HORIZONTAL) {
-            val numCols: Int = board[0].size
-            for (col in 0 until numCols) {
-                if (board[offset][col].isEnabler) {
-                    return BasicMove(axis, direction, offset, board.size, board[0].size)
+            for (col in 0 until board.numCols) {
+                if (board.getCell(offset, col).isEnabler) {
+                    return BasicMove(axis, direction, offset, board.numRows, board.numCols)
                 }
             }
         } else {
-            val numRows: Int = board.size
-            for (row in 0 until numRows) {
-                if (board[row][offset].isEnabler) {
-                    return BasicMove(axis, direction, offset, board.size, board[0].size)
+            for (row in 0 until board.numRows) {
+                if (board.getCell(row, offset).isEnabler) {
+                    return BasicMove(axis, direction, offset, board.numRows, board.numCols)
                 }
             }
         }
-        return IllegalMove(findEnabler(board))
+        return IllegalMove(findEnablers(board))
     }
 
     override fun makeHighlights(
         axis: Axis,
         direction: Direction,
         offset: Int,
-        board: Array<Array<GameCell>>
+        board: GameBoard
     ): Array<Highlight> {
         return arrayOf(Highlight(axis, direction, offset))
     }
 
-    private fun findEnabler(board: Array<Array<GameCell>>): List<Pair<Int, Int>> {
+    // TODO(jmerm): move this and helpers like it into the board class?
+    private fun findEnablers(board: GameBoard): List<Pair<Int, Int>> {
         val ret: MutableList<Pair<Int, Int>> = mutableListOf()
-        val numRows: Int = board.size
-        val numCols: Int = board[0].size
-        for (row in 0 until numRows) {
-            for (col in 0 until numCols) {
-                if (board[row][col].isEnabler) {
+        for (row in 0 until board.numRows) {
+            for (col in 0 until board.numCols) {
+                if (board.getCell(row, col).isEnabler) {
                     ret.add(Pair(row, col))
                 }
             }
@@ -419,22 +376,18 @@ class CarouselMoveFactory : MoveFactory {
         axis: Axis,
         direction: Direction,
         offset: Int,
-        board: Array<Array<GameCell>>
+        board: GameBoard
     ): Move {
-        return CarouselMove(axis, direction, offset, board.size, board[0].size)
+        return CarouselMove(axis, direction, offset, board.numRows, board.numCols)
     }
 
     override fun makeHighlights(
         axis: Axis,
         direction: Direction,
         offset: Int,
-        board: Array<Array<GameCell>>
+        board: GameBoard
     ): Array<Highlight> {
-        val modulus = if (axis == Axis.HORIZONTAL) {
-            board.size
-        } else {
-            board[0].size
-        }
+        val modulus = if (axis == Axis.HORIZONTAL) { board.numRows } else { board.numCols }
         return arrayOf(
             Highlight(axis, direction, offset),
             Highlight(axis, opposite(direction), (offset + 1) % modulus)
@@ -460,35 +413,32 @@ class BandagedMoveFactory : MoveFactory {
         axis: Axis,
         direction: Direction,
         offset: Int,
-        board: Array<Array<GameCell>>
+        board: GameBoard
     ): Move {
         val params = applyToBoard(axis, offset, board)
-        return WideMove(axis, direction, params.first, board.size, board[0].size, params.second)
+        return WideMove(axis, direction, params.first, board.numRows, board.numCols, params.second)
     }
 
     private fun applyToBoard(
         axis: Axis,
         offset: Int,
-        board: Array<Array<GameCell>>
+        board: GameBoard
     ): Pair<Int, Int> {
-        val numRows: Int = board.size
-        val numCols: Int = board[0].size
-
         var retOffset = offset
         var depth = 1
 
         if (axis == Axis.HORIZONTAL) {
-            while (rowContainsBond(retOffset, board, Bond.UP) && depth <= numCols) {
+            while (rowContainsBond(retOffset, board, Bond.UP) && depth <= board.numCols) {
                 retOffset -= 1
                 depth += 1
             }
-            while (rowContainsBond(retOffset + depth - 1, board, Bond.DOWN) && depth <= numCols) {
+            while (rowContainsBond(retOffset + depth - 1, board, Bond.DOWN) && depth <= board.numCols) {
                 depth += 1
             }
-            retOffset += numRows
-            retOffset %= numRows
+            retOffset += board.numRows
+            retOffset %= board.numRows
         } else {
-            while (colContainsBond(retOffset, board, Bond.LEFT) && depth <= numRows) {
+            while (colContainsBond(retOffset, board, Bond.LEFT) && depth <= board.numRows) {
                 retOffset -= 1
                 depth += 1
 
@@ -497,28 +447,24 @@ class BandagedMoveFactory : MoveFactory {
                 depth += 1
 
             }
-            retOffset += numCols
-            retOffset %= numCols
+            retOffset += board.numCols
+            retOffset %= board.numCols
         }
         return Pair(retOffset, depth)
     }
 
-    private fun rowContainsBond(offset: Int, board: Array<Array<GameCell>>, bond: Bond): Boolean {
-        val numRows: Int = board.size
-        val numCols: Int = board[0].size
-        for (col in 0 until numCols) {
-            if (board[(offset + numRows) % numRows][col].bonds().contains(bond)) {
+    private fun rowContainsBond(offset: Int, board: GameBoard, bond: Bond): Boolean {
+        for (col in 0 until board.numCols) {
+            if (board.getCell(offset, col).bonds().contains(bond)) {
                 return true
             }
         }
         return false
     }
 
-    private fun colContainsBond(offset: Int, board: Array<Array<GameCell>>, bond: Bond): Boolean {
-        val numRows: Int = board.size
-        val numCols: Int = board[0].size
-        for (row in 0 until numRows) {
-            if (board[row][(offset + numCols) % numCols].bonds().contains(bond)) {
+    private fun colContainsBond(offset: Int, board: GameBoard, bond: Bond): Boolean {
+        for (row in 0 until board.numRows) {
+            if (board.getCell(row, offset).bonds().contains(bond)) {
                 return true
             }
         }
@@ -529,14 +475,10 @@ class BandagedMoveFactory : MoveFactory {
         axis: Axis,
         direction: Direction,
         offset: Int,
-        board: Array<Array<GameCell>>
+        board: GameBoard
     ): Array<Highlight> {
         val params = applyToBoard(axis, offset, board)
-        val modulus = if (axis == Axis.HORIZONTAL) {
-            board.size
-        } else {
-            board[0].size
-        }
+        val modulus = if (axis == Axis.HORIZONTAL) { board.numRows } else { board.numCols }
 
         return Array(params.second) { idx: Int ->
             Highlight(
@@ -570,7 +512,7 @@ class CombinedMoveFactory(private val horizontal: MoveFactory, private val verti
         axis: Axis,
         direction: Direction,
         offset: Int,
-        board: Array<Array<GameCell>>
+        board: GameBoard
     ): Move {
         return if (axis == Axis.HORIZONTAL) {
             horizontal.makeMove(axis, direction, offset, board)
@@ -583,7 +525,7 @@ class CombinedMoveFactory(private val horizontal: MoveFactory, private val verti
         axis: Axis,
         direction: Direction,
         offset: Int,
-        board: Array<Array<GameCell>>
+        board: GameBoard
     ): Array<Highlight> {
         return if (axis == Axis.HORIZONTAL) {
             horizontal.makeHighlights(axis, direction, offset, board)

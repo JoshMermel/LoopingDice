@@ -46,26 +46,23 @@ interface Move {
         return 1 + c3 * (x - 1).pow(3) + c1 * (x - 1).pow(2)
     }
 
-
     // Updates the internal absolute position of each modified cell. This makes it possible to move
     // those cells again relative to their new position.
-    fun finalize(board: Array<Array<GameCell>>) {
-        val numRows = board.size
-        val numCols = board[0].size
-        for (row in board) {
-            for (cell in row) {
-                cell.finalize(numRows, numCols)
+    fun finalize(board: GameBoard) {
+        for (row in 0 until board.numRows) {
+            for (col in 0 until board.numCols) {
+                board.getCell(row, col).finalize(board.numRows, board.numCols)
             }
         }
     }
 
     // Updates the draw position of cells based on |progress| but does not update the underlying
     // board
-    fun updatePositions(progress: Double, board: Array<Array<GameCell>>)
+    fun updatePositions(progress: Double, board: GameBoard)
 
     // Updates the underlying board once a move has completed so further moves will apply to the
     // correct cells
-    fun updateGrid(board: Array<Array<GameCell>>)
+    fun updateGrid(board: GameBoard)
 
     // Returns a move that undoes this one
     fun inverse(): Move
@@ -82,29 +79,24 @@ interface Move {
 interface CoordinatesMove : Move {
     val transitions: List<Transition>
 
-    override fun updatePositions(progress: Double, board: Array<Array<GameCell>>) {
-        val numRows = board.size
-        val numCols = board[0].size
+    override fun updatePositions(progress: Double, board: GameBoard) {
         for (t in transitions) {
-            val cell = board[t.y0 % numRows][t.x0 % numCols]
+            val cell = board.getCell(t.y0, t.x0)
             cell.offsetX = (t.x1 - t.x0) * progress
             cell.offsetY = (t.y1 - t.y0) * progress
         }
     }
 
-    override fun updateGrid(board: Array<Array<GameCell>>) {
-        val numRows = board.size
-        val numCols = board[0].size
-
+    override fun updateGrid(board: GameBoard) {
         // Read all updates into a map so they can be executed without overwriting each other.
         val updates: MutableMap<Transition, GameCell> = mutableMapOf()
         for (t in transitions) {
-            updates[t] = board[t.y0 % numRows][t.x0 % numCols]
+            updates[t] = board.getCell(t.y0, t.x0)
         }
 
         // Write those updates back into the board.
         for ((t, cell) in updates) {
-            board[(t.y1 + numRows) % numRows][(t.x1 + numCols) % numCols] = cell
+            board.setCell(t.y1, t.x1, cell)
         }
     }
 }
@@ -369,20 +361,20 @@ open class CarouselMove(
 class IllegalMove(private val cords: List<Pair<Int, Int>>) : Move {
     override val isLegal = false
 
-    override fun updatePositions(progress: Double, board: Array<Array<GameCell>>) {
+    override fun updatePositions(progress: Double, board: GameBoard) {
         for (cord in cords) {
-            board[cord.first][cord.second].shouldDrawIcon = true
+            board.getCell(cord.first, cord.second).shouldDrawIcon = true
         }
     }
 
-    override fun finalize(board: Array<Array<GameCell>>) {
+    override fun finalize(board: GameBoard) {
         for (cord in cords) {
-            board[cord.first][cord.second].shouldDrawIcon = false
+            board.getCell(cord.first, cord.second).shouldDrawIcon = false
         }
     }
 
     // Do nothing, the move is illegal
-    override fun updateGrid(board: Array<Array<GameCell>>) {}
+    override fun updateGrid(board: GameBoard) {}
 
     // Should never happen, these moves shouldn't get pushed to the undo stack.
     override fun inverse(): Move {
@@ -434,7 +426,7 @@ enum class Axis {
     VERTICAL, HORIZONTAL
 }
 
-enum class Direction(val dir: Int) {
-    FORWARD(1),
-    BACKWARD(-1)
+enum class Direction {
+    FORWARD,
+    BACKWARD
 }

@@ -31,8 +31,8 @@ class GameplayView : View {
     private var boardBottom: Int = -1
 
     private fun placeBoard(canvas: Canvas) {
-        val boardWidth = gameManager.board[0].size
-        val boardHeight = gameManager.board.size
+        val boardHeight = gameManager.board.numRows
+        val boardWidth = gameManager.board.numCols
         val highestPossible = canvas.height / 4
         val lowestPossible = canvas.height
 
@@ -69,8 +69,8 @@ class GameplayView : View {
     private var legendCirclePaint = Paint()
 
     private fun placeLegend(canvas: Canvas) {
-        val boardWidth = gameManager.board[0].size
-        val boardHeight = gameManager.board.size
+        val boardHeight = gameManager.board.numRows
+        val boardWidth = gameManager.board.numCols
         val highestPossible = canvas.height / 6
 
         var right = highestPossible
@@ -192,9 +192,9 @@ class GameplayView : View {
             }
         )
         val offset = if (axis == Axis.HORIZONTAL) {
-            floor(gameManager.board.size * (startY - boardTop) / (boardBottom - boardTop)).toInt()
+            floor(gameManager.board.numRows * (startY - boardTop) / (boardBottom - boardTop)).toInt()
         } else {
-            floor(gameManager.board[0].size * (startX - boardLeft) / (boardRight - boardLeft)).toInt()
+            floor(gameManager.board.numCols * (startX - boardLeft) / (boardRight - boardLeft)).toInt()
         }
 
         gameManager.enqueueMove(axis, direction, offset)
@@ -226,9 +226,9 @@ class GameplayView : View {
             }
         )
         val offset = if (axis == Axis.HORIZONTAL) {
-            floor(gameManager.board.size * (startY - boardTop) / (boardBottom - boardTop)).toInt()
+            floor(gameManager.board.numRows * (startY - boardTop) / (boardBottom - boardTop)).toInt()
         } else {
-            floor(gameManager.board[0].size * (startX - boardLeft) / (boardRight - boardLeft)).toInt()
+            floor(gameManager.board.numCols * (startX - boardLeft) / (boardRight - boardLeft)).toInt()
         }
 
         gameManager.addHighlights(axis, direction, offset)

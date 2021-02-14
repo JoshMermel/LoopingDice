@@ -116,13 +116,6 @@ class GameplayActivity : AppCompatActivity() {
         }
 
         dialog.show()
-/*
-        AlertDialog.Builder(this)
-            .setTitle("Level Rules")
-            .setMessage(gameManager.helpText())
-            .show()
-
- */
     }
 
     private fun loadInitialLevel(id: String): GameplayParams {

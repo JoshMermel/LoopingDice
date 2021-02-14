@@ -99,12 +99,12 @@ class GameManager(
         top: Int,
         right: Int,
         bottom: Int,
-        grid: Array<Array<GameCell>>,
+        grid: GameBoard,
         padding: Int
     ) {
-        for (row in grid) {
-            for (cell in row) {
-                cell.drawSelf(canvas, left, top, right, bottom, padding)
+        for (row in 0 until grid.numRows) {
+            for (col in 0 until grid.numCols) {
+                grid.getCell(row, col).drawSelf(canvas, left, top, right, bottom, padding)
             }
         }
     }
@@ -133,14 +133,7 @@ class GameManager(
     }
 
     private fun isSolved(): Boolean {
-        for (row in future.indices) {
-            for (col in future[row].indices) {
-                if (future[row][col] != goal[row][col]) {
-                    return false
-                }
-            }
-        }
-        return true
+        return future == goal
     }
 
     fun enqueueMove(axis: Axis, direction: Direction, offset: Int) {
@@ -222,7 +215,7 @@ class GameManager(
 
     // Used for generated save files.
     override fun toString(): String {
-        val board: String = future.joinToString(",") { row -> row.joinToString(",") }
+        val board: String = future.toString()
         val undo: String = undoStack.joinToString(",") { it.toString() }
         val redo: String = redoStack.joinToString(",") { it.toString() }
 
@@ -234,18 +227,19 @@ class GameManager(
         numRows: Int,
         numCols: Int,
         contents: Array<String>
-    ): Array<Array<GameCell>> {
-        return Array(numRows) { row ->
-            Array(numCols) { col ->
-                makeGameCell(
-                    col,
-                    row,
-                    params,
-                    contents[row * params.numCols + col],
-                    context
-                )
-            }
-        }
+    ): GameBoard {
+        return GameBoard(
+            Array(numRows) { row ->
+                Array(numCols) { col ->
+                    makeGameCell(
+                        col,
+                        row,
+                        params,
+                        contents[row * params.numCols + col],
+                        context
+                    )
+                }
+            })
     }
 
     // Highscores for each level are stored in shared preferences.
