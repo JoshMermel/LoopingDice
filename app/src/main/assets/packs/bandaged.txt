@@ -1,6 +1,6 @@
 Bandaged
-B1 2 5
-B2 8 15
-B3 8 16
-B4 26 50
-B5 20 100
+B1 b_intro 2 5
+B2 b_three_block 8 15
+B3 b_columns 8 16
+B4 b_quadrants 26 50
+B5 b_ai 20 100

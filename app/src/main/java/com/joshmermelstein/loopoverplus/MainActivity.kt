@@ -90,7 +90,7 @@ class MainActivity : AppCompatActivity() {
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 1.0f
             )
-            btnTag.text = buttonText(id, levelData)
+            btnTag.text = buttonText(levelData)
             btnTag.setOnClickListener {
                 val intent = Intent(this, GameplayActivity::class.java)
                 intent.putExtra("id", id)
@@ -130,9 +130,10 @@ class MainActivity : AppCompatActivity() {
 
     // Figures out what text to write to a button based on looking up the user's highscore and
     // comparing it to par.
-    private fun buttonText(id: String, levelData: LevelMetadata): String {
+    private fun buttonText(levelData: LevelMetadata): String {
         val highscores: SharedPreferences = getSharedPreferences("highscores", Context.MODE_PRIVATE)
-        val highscore = highscores.getInt(id, Int.MAX_VALUE)
+        val highscore = highscores.getInt(levelData.canonicalId, Int.MAX_VALUE)
+        val id = levelData.displayId
 
         // The padding with spaces is a hack to enforce a minimum width on the popup that uses this.
         return when {

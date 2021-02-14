@@ -1,5 +1,5 @@
 Dynamic Bandaging
-D1 3 6
-D2 3 8
-D3 38 100
-D4 50 100
+D1 d_intro 3 6
+D2 d_corners 3 8
+D3 d_quadrants 38 100
+D4 d_bicolor 50 100

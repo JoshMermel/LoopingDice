@@ -3,7 +3,6 @@ package com.joshmermelstein.loopoverplus
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.text.SpannableString
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.view.View
@@ -13,7 +12,6 @@ import androidx.core.text.HtmlCompat
 import androidx.core.text.set
 import androidx.core.text.toSpannable
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
-
 
 // A simple activity for displaying info about the app to interested users.
 class AboutActivity : AppCompatActivity() {
@@ -61,7 +59,6 @@ class AboutActivity : AppCompatActivity() {
         val carousel = findViewById<TextView>(R.id.carousel)
         val carouselContents =
             "Carousel mode was inspired by the android app, <a href='https://play.google.com/store/apps/details?id=com.katas.squareminx&hl=en_US&gl=US'>squareminx</a> by Katas Studios"
-
         carousel.text = HtmlCompat.fromHtml(carouselContents, HtmlCompat.FROM_HTML_MODE_COMPACT)
         carousel.movementMethod = LinkMovementMethod.getInstance()
 
@@ -79,8 +76,7 @@ class AboutActivity : AppCompatActivity() {
                 startActivity(Intent(context, OssLicensesMenuActivity::class.java))
             }
         }
-        libraries.movementMethod = LinkMovementMethod()
-
+        libraries.movementMethod = LinkMovementMethod.getInstance()
         libraries.text = librariesText
 
     }

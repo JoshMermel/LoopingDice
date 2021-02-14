@@ -1,5 +1,4 @@
 Static Cells
-S1 6 10
-S2 3 6
-S3 32 64
-S4 100 200
+S1 s_intro 6 10
+S2 s_checker 3 6
+S3 s_quadrant 32 64

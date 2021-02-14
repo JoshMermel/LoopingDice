@@ -1,5 +1,5 @@
 Carousel
-C1 3 6
-C2 6 12
-C3 25 50
-C4 75 150
+C1 c_intro 3 6
+C2 c_tower 4 12
+C3 c_four_stripes 25 50
+C4 c_unique_4x4 75 150

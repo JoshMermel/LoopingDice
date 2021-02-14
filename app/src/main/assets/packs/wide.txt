@@ -1,18 +1,18 @@
 Wide
-W1 3 6
-W2 2 4
-W3 2 6
-W4 4 10
-W5 3 8
-W6 4 10
-W7 6 11
-W8 5 8
-W9 7 12
-W10 5 15
-W11 7 10
-W12 4 15
-W13 20 40
-W14 11 25
-W15 250 1000
-W16 250 1000
-W17 250 1000
+W1 w_intro 3 6
+W2 w_cant_fail 2 4
+W3 w_stripe 2 6
+W4 w_diag 4 10
+W5 w_plus 3 8
+W6 w_triple_stripe 4 10
+W7 w_dominoes 6 11
+W8 w_ring 5 8
+W9 w_quad_stripe 7 12
+W10 w_big_plus 5 15
+W11 w_big_corners 7 10
+W12 w_flag 4 15
+W13 w_two_fish 20 40
+W14 w_four_squares 11 25
+W15 w_unique_4x4 250 1000
+W16 w_unique_4x5 250 1000
+W17 w_deeper_4 250 1000

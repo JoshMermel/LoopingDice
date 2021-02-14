@@ -6,6 +6,8 @@ import java.io.InputStreamReader
 
 class LevelMetadata(
     var next: String?,
+    var displayId: String,
+    var canonicalId: String,
     val threeStar: Int,
     val twoStar: Int
 )
@@ -32,7 +34,7 @@ class MetadataSingleton private constructor(context: Context) {
             "bandaged",
             "gear",
             "static",
-            "enabler"
+//            "enabler"
         )) {
             val reader =
                 BufferedReader(InputStreamReader(context.assets.open("packs/$filename.txt")))
@@ -42,10 +44,11 @@ class MetadataSingleton private constructor(context: Context) {
             var line: String? = reader.readLine()
             while (line != null) {
                 val parts = line.split(" ")
-                pack.levels.add(parts[0])
-                levelData[parts[0]] = LevelMetadata(null, parts[1].toInt(), parts[2].toInt())
-                levelData[prevId]?.next = parts[0]
-                prevId = parts[0]
+                pack.levels.add(parts[1])
+                levelData[parts[1]] =
+                    LevelMetadata(null, parts[0], parts[1], parts[2].toInt(), parts[3].toInt())
+                levelData[prevId]?.next = parts[1]
+                prevId = parts[1]
 
                 line = reader.readLine()
             }
