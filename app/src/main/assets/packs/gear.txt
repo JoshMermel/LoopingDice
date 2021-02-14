@@ -1,6 +1,6 @@
 Gear
 G1 g_intro 2 4
-G2 g_tower 4 10
-G3 g_stripes 2 8
+G2 g_stripes 4 10
+G3 g_tower 2 8
 G4 g_ring 4 15
 G5 g_flag 4 10
