@@ -34,7 +34,7 @@ class MetadataSingleton private constructor(context: Context) {
             "bandaged",
             "gear",
             "static",
-//            "enabler"
+            "enabler"
         )) {
             val reader =
                 BufferedReader(InputStreamReader(context.assets.open("packs/$filename.txt")))
