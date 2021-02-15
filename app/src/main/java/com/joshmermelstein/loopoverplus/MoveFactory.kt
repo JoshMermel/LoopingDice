@@ -127,8 +127,16 @@ class WideMoveFactory(private var rowDepth: Int, private var colDepth: Int) : Mo
         offset: Int,
         board: GameBoard
     ): Array<Highlight> {
-        val modulus = if (axis == Axis.HORIZONTAL) { board.numRows } else { board.numCols }
-        val size = if (axis == Axis.HORIZONTAL) { rowDepth } else { colDepth }
+        val modulus = if (axis == Axis.HORIZONTAL) {
+            board.numRows
+        } else {
+            board.numCols
+        }
+        val size = if (axis == Axis.HORIZONTAL) {
+            rowDepth
+        } else {
+            colDepth
+        }
         return Array(size) { idx: Int -> Highlight(axis, direction, (idx + offset) % modulus) }
     }
 
@@ -162,7 +170,11 @@ class GearMoveFactory : MoveFactory {
         offset: Int,
         board: GameBoard
     ): Array<Highlight> {
-        val modulus = if (axis == Axis.HORIZONTAL) { board.numRows } else { board.numCols }
+        val modulus = if (axis == Axis.HORIZONTAL) {
+            board.numRows
+        } else {
+            board.numCols
+        }
         return arrayOf(
             Highlight(axis, direction, offset),
             Highlight(axis, opposite(direction), (offset + 1) % modulus)
@@ -184,6 +196,7 @@ class GearMoveFactory : MoveFactory {
 
 // Returns wide moves unless those wide moves would slide a bandaged cell. In that case returns an
 // illegal moves that flashes a lock on the bandaged cell(s).
+// TODO(jmerm): rename stuff so this is called "fixed" instead of static
 class StaticBandagingMoveFactory(private var rowDepth: Int, private var colDepth: Int) :
     MoveFactory {
     override fun makeMove(
@@ -192,37 +205,28 @@ class StaticBandagingMoveFactory(private var rowDepth: Int, private var colDepth
         offset: Int,
         board: GameBoard
     ): Move {
-        val bandagedCellsEncountered: ArrayList<Pair<Int, Int>> = arrayListOf()
-
-        if (axis == Axis.HORIZONTAL) {
-            for (row in offset until (offset + rowDepth)) {
-                for (col in 0 until board.numCols) {
-                    if (board.getCell(row, col).isBandaged) {
-                        // TODO(jmerm): modulus probably not needed.
-                        bandagedCellsEncountered.add(Pair(row % board.numRows, col))
-                    }
-                }
-            }
+        // Check if any bandaged cells would be moved.
+        val bandagedCellsEncountered: List<Pair<Int, Int>> = if (axis == Axis.HORIZONTAL) {
+            board.findBandagedCells(0, board.numCols, offset, offset + rowDepth)
         } else {
-
-            for (col in offset until (offset + colDepth)) {
-                for (row in 0 until board.numRows) {
-                    if (board.getCell(row, col).isBandaged) {
-                        // TODO(jmerm): modulus probably not needed.
-                        bandagedCellsEncountered.add(Pair(row, col % board.numCols))
-                    }
-                }
-            }
+            board.findBandagedCells(offset, offset + colDepth, 0, board.numRows)
         }
+
+        // If any were found, the move is illegal.
         if (bandagedCellsEncountered.isNotEmpty()) {
             return IllegalMove(bandagedCellsEncountered)
         }
-        val depth: Int = if (axis == Axis.HORIZONTAL) {
+
+        // If not, return a Wide move matching the input.
+        return WideMove(axis, direction, offset, board.numRows, board.numCols, depth(axis))
+    }
+
+    private fun depth(axis: Axis): Int {
+        return if (axis == Axis.HORIZONTAL) {
             rowDepth
         } else {
             colDepth
         }
-        return WideMove(axis, direction, offset, board.numRows, board.numCols, depth)
     }
 
     override fun makeHighlights(
@@ -231,8 +235,16 @@ class StaticBandagingMoveFactory(private var rowDepth: Int, private var colDepth
         offset: Int,
         board: GameBoard
     ): Array<Highlight> {
-        val modulus = if (axis == Axis.HORIZONTAL) { board.numRows } else { board.numCols }
-        val size = if (axis == Axis.HORIZONTAL) { rowDepth } else { colDepth }
+        val modulus = if (axis == Axis.HORIZONTAL) {
+            board.numRows
+        } else {
+            board.numCols
+        }
+        val size = if (axis == Axis.HORIZONTAL) {
+            rowDepth
+        } else {
+            colDepth
+        }
         return Array(size) { idx: Int -> Highlight(axis, direction, (idx + offset) % modulus) }
     }
 
@@ -259,35 +271,41 @@ class DynamicBandagingMoveFactory(private var rowDepth: Int, private var colDept
         offset: Int,
         board: GameBoard
     ): Move {
-        val bandagedCellsEncountered: ArrayList<Pair<Int, Int>> = arrayListOf()
-
-        if (axis == Axis.HORIZONTAL) {
-            val end = if (direction == Direction.FORWARD) { board.numCols - 1 } else { 0 }
-            for (row in offset until (offset + rowDepth)) {
-                if (board.getCell(row, end).isBandaged) {
-                    // TODO(jmerm): modulus probably not needed.
-                    bandagedCellsEncountered.add(Pair(row % board.numRows, end))
-
+        // Check for bandaged cells along the edge that could block this move
+        val bandagedCellsEncountered = when (axis) {
+            Axis.HORIZONTAL -> {
+                val end = if (direction == Direction.FORWARD) {
+                    board.numCols - 1
+                } else {
+                    0
                 }
+                board.findBandagedCells(end, end + 1, offset, offset + rowDepth)
             }
-        } else {
-            val end = if (direction == Direction.FORWARD) { board.numRows - 1 } else { 0 }
-            for (col in offset until (offset + colDepth)) {
-                if (board.getCell(end, col).isBandaged) {
-                    // TODO(jmerm): modulus probably not needed.
-                    bandagedCellsEncountered.add(Pair(end, col % board.numCols))
+            Axis.VERTICAL -> {
+                val end = if (direction == Direction.FORWARD) {
+                    board.numRows - 1
+                } else {
+                    0
                 }
+                board.findBandagedCells(offset, offset + colDepth, end, end + 1)
             }
         }
+
+        // If any were found, the move is illegal
         if (bandagedCellsEncountered.isNotEmpty()) {
             return IllegalMove(bandagedCellsEncountered)
         }
-        val depth: Int = if (axis == Axis.HORIZONTAL) {
+
+        // If non were found, the move executes like a wide move.
+        return WideMove(axis, direction, offset, board.numRows, board.numCols, depth(axis))
+    }
+
+    private fun depth(axis: Axis): Int {
+        return if (axis == Axis.HORIZONTAL) {
             rowDepth
         } else {
             colDepth
         }
-        return WideMove(axis, direction, offset, board.numRows, board.numCols, depth)
     }
 
     override fun makeHighlights(
@@ -296,8 +314,16 @@ class DynamicBandagingMoveFactory(private var rowDepth: Int, private var colDept
         offset: Int,
         board: GameBoard
     ): Array<Highlight> {
-        val modulus = if (axis == Axis.HORIZONTAL) { board.numRows } else { board.numCols }
-        val size = if (axis == Axis.HORIZONTAL) { rowDepth } else { colDepth }
+        val modulus = if (axis == Axis.HORIZONTAL) {
+            board.numRows
+        } else {
+            board.numCols
+        }
+        val size = if (axis == Axis.HORIZONTAL) {
+            rowDepth
+        } else {
+            colDepth
+        }
         return Array(size) { idx: Int -> Highlight(axis, direction, (idx + offset) % modulus) }
     }
 
@@ -323,6 +349,7 @@ class EnablerMoveFactory : MoveFactory {
         offset: Int,
         board: GameBoard
     ): Move {
+        // TODO(jmerm): refactor checking for enable into a helper
         if (axis == Axis.HORIZONTAL) {
             for (col in 0 until board.numCols) {
                 if (board.getCell(offset, col).isEnabler) {
@@ -336,7 +363,7 @@ class EnablerMoveFactory : MoveFactory {
                 }
             }
         }
-        return IllegalMove(findEnablers(board))
+        return IllegalMove(board.findEnablers())
     }
 
     override fun makeHighlights(
@@ -346,19 +373,6 @@ class EnablerMoveFactory : MoveFactory {
         board: GameBoard
     ): Array<Highlight> {
         return arrayOf(Highlight(axis, direction, offset))
-    }
-
-    // TODO(jmerm): move this and helpers like it into the board class?
-    private fun findEnablers(board: GameBoard): List<Pair<Int, Int>> {
-        val ret: MutableList<Pair<Int, Int>> = mutableListOf()
-        for (row in 0 until board.numRows) {
-            for (col in 0 until board.numCols) {
-                if (board.getCell(row, col).isEnabler) {
-                    ret.add(Pair(row, col))
-                }
-            }
-        }
-        return ret
     }
 
     override fun verticalHelpText(): String {
@@ -391,7 +405,11 @@ class CarouselMoveFactory : MoveFactory {
         offset: Int,
         board: GameBoard
     ): Array<Highlight> {
-        val modulus = if (axis == Axis.HORIZONTAL) { board.numRows } else { board.numCols }
+        val modulus = if (axis == Axis.HORIZONTAL) {
+            board.numRows
+        } else {
+            board.numCols
+        }
         return arrayOf(
             Highlight(axis, direction, offset),
             Highlight(axis, opposite(direction), (offset + 1) % modulus)
@@ -432,49 +450,24 @@ class BandagedMoveFactory : MoveFactory {
         var depth = 1
 
         if (axis == Axis.HORIZONTAL) {
-            while (rowContainsBond(retOffset, board, Bond.UP) && depth <= board.numCols) {
+            while (board.rowContainsBond(retOffset, Bond.UP) && depth <= board.numCols) {
                 retOffset -= 1
                 depth += 1
             }
-            while (rowContainsBond(retOffset + depth - 1, board, Bond.DOWN) && depth <= board.numCols) {
+            while (board.rowContainsBond(retOffset + depth - 1, Bond.DOWN) && depth <= board.numCols
+            ) {
                 depth += 1
             }
-            // TODO(jmerm): consider if modulus is needed here.
-            retOffset += board.numRows
-            retOffset %= board.numRows
         } else {
-            while (colContainsBond(retOffset, board, Bond.LEFT) && depth <= board.numRows) {
+            while (board.colContainsBond(retOffset, Bond.LEFT) && depth <= board.numRows) {
                 retOffset -= 1
                 depth += 1
-
             }
-            while (colContainsBond(retOffset + depth - 1, board, Bond.RIGHT)) {
+            while (board.colContainsBond(retOffset + depth - 1, Bond.RIGHT)) {
                 depth += 1
-
             }
-            // TODO(jmerm): consider if modulus is needed here.
-            retOffset += board.numCols
-            retOffset %= board.numCols
         }
         return Pair(retOffset, depth)
-    }
-
-    private fun rowContainsBond(offset: Int, board: GameBoard, bond: Bond): Boolean {
-        for (col in 0 until board.numCols) {
-            if (board.getCell(offset, col).bonds().contains(bond)) {
-                return true
-            }
-        }
-        return false
-    }
-
-    private fun colContainsBond(offset: Int, board: GameBoard, bond: Bond): Boolean {
-        for (row in 0 until board.numRows) {
-            if (board.getCell(row, offset).bonds().contains(bond)) {
-                return true
-            }
-        }
-        return false
     }
 
     override fun makeHighlights(
@@ -484,7 +477,11 @@ class BandagedMoveFactory : MoveFactory {
         board: GameBoard
     ): Array<Highlight> {
         val params = applyToBoard(axis, offset, board)
-        val modulus = if (axis == Axis.HORIZONTAL) { board.numRows } else { board.numCols }
+        val modulus = if (axis == Axis.HORIZONTAL) {
+            board.numRows
+        } else {
+            board.numCols
+        }
 
         return Array(params.second) { idx: Int ->
             Highlight(

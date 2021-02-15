@@ -19,6 +19,57 @@ class GameBoard (private val board : Array<Array<GameCell>>) {
         board[mod(row, numRows)][mod(col, numCols)] = cell
     }
 
+    // Returns coordinates of fixed cells in the rectangle define by [left,right)[top,bottom)
+    fun findBandagedCells(
+        left: Int,
+        right: Int,
+        top: Int,
+        bottom: Int,
+    ): List<Pair<Int, Int>> {
+        val ret: MutableList<Pair<Int, Int>> = mutableListOf()
+        for (col in left until right) {
+            for (row in top until bottom) {
+                if (getCell(row, col).isBandaged) {
+                    ret.add(Pair(row, col))
+                }
+            }
+        }
+        return ret
+    }
+
+    // Returns a list of the coordinates of all enablers on the board
+    fun findEnablers(): List<Pair<Int, Int>> {
+        val ret: MutableList<Pair<Int, Int>> = mutableListOf()
+        for (row in 0 until numRows) {
+            for (col in 0 until numCols) {
+                if (getCell(row, col).isEnabler) {
+                    ret.add(Pair(row, col))
+                }
+            }
+        }
+        return ret
+    }
+
+    // TODO(jmerm): comment this
+    fun rowContainsBond(offset: Int, bond: Bond): Boolean {
+        for (col in 0 until numCols) {
+            if (getCell(offset, col).bonds().contains(bond)) {
+                return true
+            }
+        }
+        return false
+    }
+
+    // TODO(jmerm): comment this
+    fun colContainsBond(offset: Int, bond: Bond): Boolean {
+        for (row in 0 until numRows) {
+            if (getCell(row, offset).bonds().contains(bond)) {
+                return true
+            }
+        }
+        return false
+    }
+
     override fun toString() : String {
         return board.joinToString(",") { row -> row.joinToString(",")}
     }

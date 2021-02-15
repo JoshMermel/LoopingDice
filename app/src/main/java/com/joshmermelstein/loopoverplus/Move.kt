@@ -115,15 +115,23 @@ interface CoordinatesMove : Move {
 // Yet another helper for implementing shared logic and make other moves easier to implement.
 // Helpers are provided for basic looping moves on rows and columns.
 interface RowColMove : CoordinatesMove {
-    fun addHorizontal(direction: Direction, offset: Int, numCols : Int) {
-        val delta = if (direction == Direction.FORWARD) { 1 } else { -1 }
+    fun addHorizontal(direction: Direction, offset: Int, numCols: Int) {
+        val delta = if (direction == Direction.FORWARD) {
+            1
+        } else {
+            -1
+        }
         for (col in 0 until numCols) {
             transitions.add(Transition(col, offset, col + delta, offset))
         }
     }
 
-    fun addVertical(direction: Direction, offset: Int, numRows : Int) {
-        val delta = if (direction == Direction.FORWARD) { 1 } else { -1 }
+    fun addVertical(direction: Direction, offset: Int, numRows: Int) {
+        val delta = if (direction == Direction.FORWARD) {
+            1
+        } else {
+            -1
+        }
         for (row in 0 until numRows) {
             transitions.add(Transition(offset, row, offset, row + delta))
         }
@@ -207,10 +215,10 @@ class GearMove(
     init {
         if (axis == Axis.HORIZONTAL) {
             addHorizontal(direction, offset, numCols)
-            addHorizontal(opposite(direction), offset+1, numCols)
+            addHorizontal(opposite(direction), offset + 1, numCols)
         } else {
             addVertical(direction, offset, numRows)
-            addVertical(opposite(direction), offset+1, numCols)
+            addVertical(opposite(direction), offset + 1, numRows)
         }
     }
 

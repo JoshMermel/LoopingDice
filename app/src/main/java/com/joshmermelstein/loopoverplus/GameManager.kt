@@ -213,7 +213,7 @@ class GameManager(
         context.invalidateOptionsMenu()
     }
 
-    // Used for generated save files.
+    // Used for generating save files.
     override fun toString(): String {
         val board: String = future.toString()
         val undo: String = undoStack.joinToString(",") { it.toString() }
