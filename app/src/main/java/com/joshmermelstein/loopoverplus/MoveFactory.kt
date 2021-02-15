@@ -54,9 +54,7 @@ interface MoveFactory {
         direction: Direction,
         offset: Int,
         board: GameBoard
-    ): Array<Highlight> {
-        return emptyArray()
-    }
+    ): Array<Highlight>
 
     fun helpText(): String {
         val general = generalHelpText()
@@ -132,12 +130,15 @@ class WideMoveFactory(private var rowDepth: Int, private var colDepth: Int) : Mo
         } else {
             board.numCols
         }
-        val size = if (axis == Axis.HORIZONTAL) {
+        return Array(depth(axis)) { idx: Int -> Highlight(axis, direction, (idx + offset) % modulus) }
+    }
+
+    private fun depth(axis: Axis): Int {
+        return if (axis == Axis.HORIZONTAL) {
             rowDepth
         } else {
             colDepth
         }
-        return Array(size) { idx: Int -> Highlight(axis, direction, (idx + offset) % modulus) }
     }
 
     override fun verticalHelpText(): String {
@@ -221,14 +222,6 @@ class StaticBandagingMoveFactory(private var rowDepth: Int, private var colDepth
         return WideMove(axis, direction, offset, board.numRows, board.numCols, depth(axis))
     }
 
-    private fun depth(axis: Axis): Int {
-        return if (axis == Axis.HORIZONTAL) {
-            rowDepth
-        } else {
-            colDepth
-        }
-    }
-
     override fun makeHighlights(
         axis: Axis,
         direction: Direction,
@@ -240,12 +233,16 @@ class StaticBandagingMoveFactory(private var rowDepth: Int, private var colDepth
         } else {
             board.numCols
         }
-        val size = if (axis == Axis.HORIZONTAL) {
+
+        return Array(depth(axis)) { idx: Int -> Highlight(axis, direction, (idx + offset) % modulus) }
+    }
+
+    private fun depth(axis: Axis): Int {
+        return if (axis == Axis.HORIZONTAL) {
             rowDepth
         } else {
             colDepth
         }
-        return Array(size) { idx: Int -> Highlight(axis, direction, (idx + offset) % modulus) }
     }
 
     override fun verticalHelpText(): String {
@@ -300,14 +297,6 @@ class DynamicBandagingMoveFactory(private var rowDepth: Int, private var colDept
         return WideMove(axis, direction, offset, board.numRows, board.numCols, depth(axis))
     }
 
-    private fun depth(axis: Axis): Int {
-        return if (axis == Axis.HORIZONTAL) {
-            rowDepth
-        } else {
-            colDepth
-        }
-    }
-
     override fun makeHighlights(
         axis: Axis,
         direction: Direction,
@@ -319,12 +308,15 @@ class DynamicBandagingMoveFactory(private var rowDepth: Int, private var colDept
         } else {
             board.numCols
         }
-        val size = if (axis == Axis.HORIZONTAL) {
+        return Array(depth(axis)) { idx: Int -> Highlight(axis, direction, (idx + offset) % modulus) }
+    }
+
+    private fun depth(axis: Axis): Int {
+        return if (axis == Axis.HORIZONTAL) {
             rowDepth
         } else {
             colDepth
         }
-        return Array(size) { idx: Int -> Highlight(axis, direction, (idx + offset) % modulus) }
     }
 
     override fun verticalHelpText(): String {
@@ -349,19 +341,10 @@ class EnablerMoveFactory : MoveFactory {
         offset: Int,
         board: GameBoard
     ): Move {
-        // TODO(jmerm): refactor checking for enable into a helper
-        if (axis == Axis.HORIZONTAL) {
-            for (col in 0 until board.numCols) {
-                if (board.getCell(offset, col).isEnabler) {
-                    return BasicMove(axis, direction, offset, board.numRows, board.numCols)
-                }
-            }
-        } else {
-            for (row in 0 until board.numRows) {
-                if (board.getCell(row, offset).isEnabler) {
-                    return BasicMove(axis, direction, offset, board.numRows, board.numCols)
-                }
-            }
+        if (axis == Axis.HORIZONTAL && board.rowContainsEnabler(offset)) {
+            return BasicMove(axis, direction, offset, board.numRows, board.numCols)
+        } else if (axis == Axis.VERTICAL && board.colContainsEnabler(offset)){
+            return BasicMove(axis, direction, offset, board.numRows, board.numCols)
         }
         return IllegalMove(board.findEnablers())
     }

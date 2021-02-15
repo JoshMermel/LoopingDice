@@ -70,6 +70,26 @@ class GameBoard (private val board : Array<Array<GameCell>>) {
         return false
     }
 
+    // TODO(jmerm): comment this
+    fun rowContainsEnabler(offset : Int) : Boolean {
+        for (col in 0 until numCols) {
+            if (getCell(offset, col).isEnabler) {
+                return true
+            }
+        }
+        return false
+    }
+
+    // TODO(jmerm): comment this
+    fun colContainsEnabler(offset : Int) : Boolean {
+        for (row in 0 until numRows) {
+            if (getCell(row, offset).isEnabler) {
+                return true
+            }
+        }
+        return false
+    }
+
     override fun toString() : String {
         return board.joinToString(",") { row -> row.joinToString(",")}
     }
