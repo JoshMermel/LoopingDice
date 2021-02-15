@@ -74,9 +74,21 @@ interface Move {
     override fun toString(): String
 }
 
-// TODO(jmerm): comment this.
+// A transition represents the action of a single cell during a Move. Coordinates may be out of
+// range to indicate a cell sliding off screen.
+class Transition(
+    val x0: Int,
+    val y0: Int,
+    val x1: Int,
+    val y1: Int
+)
+
+// A CoordinatesMove is an intermediate subclass of Move that provides shared logic to make further
+// subclasses easier to implement. Rather than Move subclasses implementing the same logic for
+// |updatePositions| and |updateGrid|, this class helps them implement both in terms of a list of
+// Transitions.
 interface CoordinatesMove : Move {
-    val transitions: List<Transition>
+    val transitions: MutableList<Transition>
 
     override fun updatePositions(progress: Double, board: GameBoard) {
         for (t in transitions) {
@@ -100,8 +112,23 @@ interface CoordinatesMove : Move {
     }
 }
 
-// TODO(jmerm): consider introducing RowColBasedMove as a subclass of CoordinatesMove for
-//  Basic/Wide/Gear to subclass and to collect nice helpers for them.
+// Yet another helper for implementing shared logic and make other moves easier to implement.
+// Helpers are provided for basic looping moves on rows and columns.
+interface RowColMove : CoordinatesMove {
+    fun addHorizontal(direction: Direction, offset: Int, numCols : Int) {
+        val delta = if (direction == Direction.FORWARD) { 1 } else { -1 }
+        for (col in 0 until numCols) {
+            transitions.add(Transition(col, offset, col + delta, offset))
+        }
+    }
+
+    fun addVertical(direction: Direction, offset: Int, numRows : Int) {
+        val delta = if (direction == Direction.FORWARD) { 1 } else { -1 }
+        for (row in 0 until numRows) {
+            transitions.add(Transition(offset, row, offset, row + delta))
+        }
+    }
+}
 
 // Basic move moves a single row or column. It is handy as a base class for more complex kinds of
 // Row/Col based moves.
@@ -111,27 +138,15 @@ class BasicMove(
     private val offset: Int,
     private val numRows: Int,
     private val numCols: Int
-) : CoordinatesMove {
+) : RowColMove {
     override val isLegal = true
     override val transitions = mutableListOf<Transition>()
 
     init {
-        if (axis == Axis.HORIZONTAL && direction == Direction.FORWARD) {
-            for (col in 0 until numCols) {
-                transitions.add(Transition(col, offset, col + 1, offset))
-            }
-        } else if (axis == Axis.HORIZONTAL && direction == Direction.BACKWARD) {
-            for (col in 0 until numCols) {
-                transitions.add(Transition(col, offset, col - 1, offset))
-            }
-        } else if (axis == Axis.VERTICAL && direction == Direction.FORWARD) {
-            for (row in 0 until numRows) {
-                transitions.add(Transition(offset, row, offset, row + 1))
-            }
+        if (axis == Axis.HORIZONTAL) {
+            addHorizontal(direction, offset, numCols)
         } else {
-            for (row in 0 until numRows) {
-                transitions.add(Transition(offset, row, offset, row - 1))
-            }
+            addVertical(direction, offset, numRows)
         }
     }
 
@@ -152,34 +167,18 @@ class WideMove(
     private val numRows: Int,
     private val numCols: Int,
     private val depth: Int
-) : CoordinatesMove {
+) : RowColMove {
     override val isLegal = true
     override val transitions = mutableListOf<Transition>()
 
     init {
-        if (axis == Axis.HORIZONTAL && direction == Direction.FORWARD) {
+        if (axis == Axis.HORIZONTAL) {
             for (row in (offset until offset + depth)) {
-                for (col in 0 until numCols) {
-                    transitions.add(Transition(col, row % numRows, col + 1, row % numRows))
-                }
-            }
-        } else if (axis == Axis.HORIZONTAL && direction == Direction.BACKWARD) {
-            for (row in (offset until offset + depth)) {
-                for (col in 0 until numCols) {
-                    transitions.add(Transition(col, row % numRows, col - 1, row % numRows))
-                }
-            }
-        } else if (axis == Axis.VERTICAL && direction == Direction.FORWARD) {
-            for (col in (offset until offset + depth)) {
-                for (row in 0 until numRows) {
-                    transitions.add(Transition(col % numCols, row, col % numCols, row + 1))
-                }
+                addHorizontal(direction, row, numCols)
             }
         } else {
             for (col in (offset until offset + depth)) {
-                for (row in 0 until numRows) {
-                    transitions.add(Transition(col % numCols, row, col % numCols, row - 1))
-                }
+                addVertical(direction, col, numRows)
             }
         }
     }
@@ -201,59 +200,17 @@ class GearMove(
     private val offset: Int,
     private val numRows: Int,
     private val numCols: Int
-) : CoordinatesMove {
+) : RowColMove {
     override val isLegal = true
     override val transitions = mutableListOf<Transition>()
 
     init {
-        if (axis == Axis.HORIZONTAL && direction == Direction.FORWARD) {
-            for (col in 0 until numCols) {
-                transitions.add(Transition(col, offset, col + 1, offset))
-                transitions.add(
-                    Transition(
-                        col,
-                        (offset + 1) % numRows,
-                        col - 1,
-                        (offset + 1) % numRows
-                    )
-                )
-            }
-        } else if (axis == Axis.HORIZONTAL && direction == Direction.BACKWARD) {
-            for (col in 0 until numCols) {
-                transitions.add(Transition(col, offset, col - 1, offset))
-                transitions.add(
-                    Transition(
-                        col,
-                        (offset + 1) % numRows,
-                        col + 1,
-                        (offset + 1) % numRows
-                    )
-                )
-            }
-        } else if (axis == Axis.VERTICAL && direction == Direction.FORWARD) {
-            for (row in 0 until numRows) {
-                transitions.add(Transition(offset, row, offset, row + 1))
-                transitions.add(
-                    Transition(
-                        (offset + 1) % numCols,
-                        row,
-                        (offset + 1) % numCols,
-                        row - 1
-                    )
-                )
-            }
+        if (axis == Axis.HORIZONTAL) {
+            addHorizontal(direction, offset, numCols)
+            addHorizontal(opposite(direction), offset+1, numCols)
         } else {
-            for (row in 0 until numRows) {
-                transitions.add(Transition(offset, row, offset, row - 1))
-                transitions.add(
-                    Transition(
-                        (offset + 1) % numCols,
-                        row,
-                        (offset + 1) % numCols,
-                        row + 1
-                    )
-                )
-            }
+            addVertical(direction, offset, numRows)
+            addVertical(opposite(direction), offset+1, numCols)
         }
     }
 
@@ -265,13 +222,6 @@ class GearMove(
         return "GEAR " + axisToString(axis) + " " + directionToString(direction) + " $offset"
     }
 }
-
-class Transition(
-    val x0: Int,
-    val y0: Int,
-    val x1: Int,
-    val y1: Int
-)
 
 // A Carousel move forms a ring with the row/col that was selected and it's neighbor and does a
 // circular shift.
