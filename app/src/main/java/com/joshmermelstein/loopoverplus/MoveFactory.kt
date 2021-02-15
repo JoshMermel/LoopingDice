@@ -198,6 +198,7 @@ class StaticBandagingMoveFactory(private var rowDepth: Int, private var colDepth
             for (row in offset until (offset + rowDepth)) {
                 for (col in 0 until board.numCols) {
                     if (board.getCell(row, col).isBandaged) {
+                        // TODO(jmerm): modulus probably not needed.
                         bandagedCellsEncountered.add(Pair(row % board.numRows, col))
                     }
                 }
@@ -207,6 +208,7 @@ class StaticBandagingMoveFactory(private var rowDepth: Int, private var colDepth
             for (col in offset until (offset + colDepth)) {
                 for (row in 0 until board.numRows) {
                     if (board.getCell(row, col).isBandaged) {
+                        // TODO(jmerm): modulus probably not needed.
                         bandagedCellsEncountered.add(Pair(row, col % board.numCols))
                     }
                 }
@@ -263,6 +265,7 @@ class DynamicBandagingMoveFactory(private var rowDepth: Int, private var colDept
             val end = if (direction == Direction.FORWARD) { board.numCols - 1 } else { 0 }
             for (row in offset until (offset + rowDepth)) {
                 if (board.getCell(row, end).isBandaged) {
+                    // TODO(jmerm): modulus probably not needed.
                     bandagedCellsEncountered.add(Pair(row % board.numRows, end))
 
                 }
@@ -271,6 +274,7 @@ class DynamicBandagingMoveFactory(private var rowDepth: Int, private var colDept
             val end = if (direction == Direction.FORWARD) { board.numRows - 1 } else { 0 }
             for (col in offset until (offset + colDepth)) {
                 if (board.getCell(end, col).isBandaged) {
+                    // TODO(jmerm): modulus probably not needed.
                     bandagedCellsEncountered.add(Pair(end, col % board.numCols))
                 }
             }
@@ -435,6 +439,7 @@ class BandagedMoveFactory : MoveFactory {
             while (rowContainsBond(retOffset + depth - 1, board, Bond.DOWN) && depth <= board.numCols) {
                 depth += 1
             }
+            // TODO(jmerm): consider if modulus is needed here.
             retOffset += board.numRows
             retOffset %= board.numRows
         } else {
@@ -447,6 +452,7 @@ class BandagedMoveFactory : MoveFactory {
                 depth += 1
 
             }
+            // TODO(jmerm): consider if modulus is needed here.
             retOffset += board.numCols
             retOffset %= board.numCols
         }

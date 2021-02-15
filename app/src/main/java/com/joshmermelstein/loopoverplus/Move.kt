@@ -1,6 +1,5 @@
 package com.joshmermelstein.loopoverplus
 
-import android.util.Log
 import kotlin.math.pow
 
 
@@ -101,14 +100,17 @@ interface CoordinatesMove : Move {
     }
 }
 
+// TODO(jmerm): consider introducing RowColBasedMove as a subclass of CoordinatesMove for
+//  Basic/Wide/Gear to subclass and to collect nice helpers for them.
+
 // Basic move moves a single row or column. It is handy as a base class for more complex kinds of
 // Row/Col based moves.
-open class BasicMove(
-    open val axis: Axis,
-    open var direction: Direction,
-    open val offset: Int,
-    open val numRows: Int,
-    open val numCols: Int
+class BasicMove(
+    private val axis: Axis,
+    private var direction: Direction,
+    private val offset: Int,
+    private val numRows: Int,
+    private val numCols: Int
 ) : CoordinatesMove {
     override val isLegal = true
     override val transitions = mutableListOf<Transition>()
