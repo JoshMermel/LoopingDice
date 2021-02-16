@@ -20,7 +20,7 @@ class GameBoard (private val board : Array<Array<GameCell>>) {
     }
 
     // Returns coordinates of fixed cells in the rectangle define by [left,right)[top,bottom)
-    fun findStaticCells(
+    fun findBlockingCells(
         left: Int,
         right: Int,
         top: Int,
@@ -29,7 +29,7 @@ class GameBoard (private val board : Array<Array<GameCell>>) {
         val ret: MutableList<Pair<Int, Int>> = mutableListOf()
         for (col in left until right) {
             for (row in top until bottom) {
-                if (getCell(row, col).isStatic) {
+                if (getCell(row, col).isBlocking) {
                     ret.add(Pair(row, col))
                 }
             }

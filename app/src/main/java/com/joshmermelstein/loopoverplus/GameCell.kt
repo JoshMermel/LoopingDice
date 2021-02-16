@@ -126,7 +126,7 @@ class FixedGameCell(
 ) : GameCell(x, y, params, colorId) {
     override val color = 4
     override val pips: Int
-    override val isStatic = true
+    override val isBlocking = true
     override val isEnabler = false
 
     init {
@@ -224,7 +224,7 @@ class EnablerGameCell(
 ) : GameCell(x, y, params, colorId) {
     override val color = 5
     override val pips = 1
-    override val isStatic = false
+    override val isBlocking = false
     override val isEnabler = true
 
     override fun drawSquare(
@@ -460,7 +460,7 @@ abstract class GameCell(
     var offsetY: Double = 0.0
     abstract val color: Int
     abstract val pips: Int
-    open val isStatic = false
+    open val isBlocking = false
     open val isEnabler = false
 
     // There's probably a better way to do this but this is an easy way to let the game manager

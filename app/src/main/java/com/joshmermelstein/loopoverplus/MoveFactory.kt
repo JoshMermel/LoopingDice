@@ -215,9 +215,9 @@ class StaticCellsMoveFactory(override val rowDepth: Int, override val colDepth: 
     ): Move {
         // Check if any bandaged cells would be moved.
         val staticCellsEncountered: List<Pair<Int, Int>> = if (axis == Axis.HORIZONTAL) {
-            board.findStaticCells(0, board.numCols, offset, offset + rowDepth)
+            board.findBlockingCells(0, board.numCols, offset, offset + rowDepth)
         } else {
-            board.findStaticCells(offset, offset + colDepth, 0, board.numRows)
+            board.findBlockingCells(offset, offset + colDepth, 0, board.numRows)
         }
 
         // If any were found, the move is illegal.
@@ -245,27 +245,20 @@ class DynamicBandagingMoveFactory(override val rowDepth: Int, override val colDe
         offset: Int,
         board: GameBoard
     ): Move {
+        val end = when (direction) {
+            Direction.FORWARD ->  - 1 // Due to wraparound, -1 means "the last row/col"
+            Direction.BACKWARD -> 0
+        }
+
         // Check for bandaged cells along the edge that could block this move
-        val bandagedCellsEncountered = when (axis) {
-            Axis.HORIZONTAL -> {
-                val end = when (direction) {
-                    Direction.FORWARD -> board.numCols - 1
-                    Direction.BACKWARD -> 0
-                }
-                board.findStaticCells(end, end + 1, offset, offset + rowDepth)
-            }
-            Axis.VERTICAL -> {
-                val end = when (direction) {
-                    Direction.FORWARD -> board.numRows - 1
-                    Direction.BACKWARD -> 0
-                }
-                board.findStaticCells(offset, offset + colDepth, end, end + 1)
-            }
+        val blockingCellsEncountered = when (axis) {
+            Axis.HORIZONTAL -> board.findBlockingCells(end, end + 1, offset, offset + rowDepth)
+            Axis.VERTICAL -> board.findBlockingCells(offset, offset + colDepth, end, end + 1)
         }
 
         // If any were found, the move is illegal
-        if (bandagedCellsEncountered.isNotEmpty()) {
-            return IllegalMove(bandagedCellsEncountered)
+        if (blockingCellsEncountered.isNotEmpty()) {
+            return IllegalMove(blockingCellsEncountered)
         }
 
         // If non were found, the move executes like a wide move.
