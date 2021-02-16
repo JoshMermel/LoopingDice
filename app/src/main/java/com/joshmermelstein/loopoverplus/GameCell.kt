@@ -29,10 +29,6 @@ val colors = arrayOf(
 )
 
 // A factory method for creating gameCells.
-// -7 to -2 for marked bandaged
-// -1 for unmarked bandaged
-// == 0 for enabler
-// 1-24 for regular
 fun makeGameCell(
     x: Int,
     y: Int,
