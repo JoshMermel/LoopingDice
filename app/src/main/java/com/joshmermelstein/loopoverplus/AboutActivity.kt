@@ -27,7 +27,7 @@ class AboutActivity : AppCompatActivity() {
 
         val github = findViewById<TextView>(R.id.github)
         val githubContents =
-            "The source code is available on <a href='https://github.com/joshmermel'>my Github</a> and is licensed under TODO(jmerm)"
+            "The source code is available on <a href='https://github.com/JoshMermel/LoopingDice'>my Github</a> and is licensed under the GPL v3.0 license "
         github.text = HtmlCompat.fromHtml(githubContents, HtmlCompat.FROM_HTML_MODE_COMPACT)
         github.movementMethod = LinkMovementMethod.getInstance()
 
