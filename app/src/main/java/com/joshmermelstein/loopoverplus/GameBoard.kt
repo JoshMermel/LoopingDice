@@ -20,7 +20,7 @@ class GameBoard (private val board : Array<Array<GameCell>>) {
     }
 
     // Returns coordinates of fixed cells in the rectangle define by [left,right)[top,bottom)
-    fun findBandagedCells(
+    fun findStaticCells(
         left: Int,
         right: Int,
         top: Int,
@@ -29,7 +29,7 @@ class GameBoard (private val board : Array<Array<GameCell>>) {
         val ret: MutableList<Pair<Int, Int>> = mutableListOf()
         for (col in left until right) {
             for (row in top until bottom) {
-                if (getCell(row, col).isBandaged) {
+                if (getCell(row, col).isStatic) {
                     ret.add(Pair(row, col))
                 }
             }
@@ -50,7 +50,7 @@ class GameBoard (private val board : Array<Array<GameCell>>) {
         return ret
     }
 
-    // TODO(jmerm): comment this
+    // Returns whether any cell in row |offset| has a bond pointing in |bond| direction
     fun rowContainsBond(offset: Int, bond: Bond): Boolean {
         for (col in 0 until numCols) {
             if (getCell(offset, col).bonds().contains(bond)) {
@@ -60,7 +60,7 @@ class GameBoard (private val board : Array<Array<GameCell>>) {
         return false
     }
 
-    // TODO(jmerm): comment this
+    // Returns whether any cell in col |offset| has a bond pointing in |bond| direction
     fun colContainsBond(offset: Int, bond: Bond): Boolean {
         for (row in 0 until numRows) {
             if (getCell(row, offset).bonds().contains(bond)) {
@@ -70,7 +70,7 @@ class GameBoard (private val board : Array<Array<GameCell>>) {
         return false
     }
 
-    // TODO(jmerm): comment this
+    // Returns whether any cell in row |offset| is an enabler cell
     fun rowContainsEnabler(offset : Int) : Boolean {
         for (col in 0 until numCols) {
             if (getCell(offset, col).isEnabler) {
@@ -80,7 +80,7 @@ class GameBoard (private val board : Array<Array<GameCell>>) {
         return false
     }
 
-    // TODO(jmerm): comment this
+    // Returns whether any cell in col |offset| is an enabler cell
     fun colContainsEnabler(offset : Int) : Boolean {
         for (row in 0 until numRows) {
             if (getCell(row, offset).isEnabler) {

@@ -1,9 +1,5 @@
 package com.joshmermelstein.loopoverplus
 
-// TODO(jmerm): is there a shared base class we can have for all the wide move factory variants so
-//  they can share logic for highlights and such?
-//    - {wide, static, dynamic}
-
 // This is a move factory factory lol
 fun makeMoveFactory(id: String): MoveFactory {
     when {
@@ -32,7 +28,7 @@ fun makeMoveFactory(id: String): MoveFactory {
         }
         id.startsWith("STATIC") -> {
             val args = id.split(" ")
-            return StaticBandagingMoveFactory(args[1].toInt(), args[2].toInt())
+            return StaticCellsMoveFactory(args[1].toInt(), args[2].toInt())
         }
         id.startsWith("DYNAMIC") -> {
             val args = id.split(" ")
@@ -132,7 +128,6 @@ interface WideMoveFactoryBase : MoveFactory {
         }
     }
 
-
     fun depth(axis: Axis): Int {
         return if (axis == Axis.HORIZONTAL) {
             rowDepth
@@ -218,8 +213,7 @@ class GearMoveFactory : MoveFactory {
 
 // Returns wide moves unless those wide moves would slide a bandaged cell. In that case returns an
 // illegal moves that flashes a lock on the bandaged cell(s).
-// TODO(jmerm): rename stuff so this is called "fixed" instead of static
-class StaticBandagingMoveFactory(rowDepth: Int, colDepth: Int) : WideMoveFactoryBase {
+class StaticCellsMoveFactory(rowDepth: Int, colDepth: Int) : WideMoveFactoryBase {
     override val rowDepth = rowDepth
     override val colDepth = colDepth
 
@@ -230,15 +224,15 @@ class StaticBandagingMoveFactory(rowDepth: Int, colDepth: Int) : WideMoveFactory
         board: GameBoard
     ): Move {
         // Check if any bandaged cells would be moved.
-        val bandagedCellsEncountered: List<Pair<Int, Int>> = if (axis == Axis.HORIZONTAL) {
-            board.findBandagedCells(0, board.numCols, offset, offset + rowDepth)
+        val staticCellsEncountered: List<Pair<Int, Int>> = if (axis == Axis.HORIZONTAL) {
+            board.findStaticCells(0, board.numCols, offset, offset + rowDepth)
         } else {
-            board.findBandagedCells(offset, offset + colDepth, 0, board.numRows)
+            board.findStaticCells(offset, offset + colDepth, 0, board.numRows)
         }
 
         // If any were found, the move is illegal.
-        if (bandagedCellsEncountered.isNotEmpty()) {
-            return IllegalMove(bandagedCellsEncountered)
+        if (staticCellsEncountered.isNotEmpty()) {
+            return IllegalMove(staticCellsEncountered)
         }
 
         // If not, return a Wide move matching the input.
@@ -273,20 +267,18 @@ class DynamicBandagingMoveFactory(rowDepth: Int, colDepth: Int) : WideMoveFactor
         // Check for bandaged cells along the edge that could block this move
         val bandagedCellsEncountered = when (axis) {
             Axis.HORIZONTAL -> {
-                val end = if (direction == Direction.FORWARD) {
-                    board.numCols - 1
-                } else {
-                    0
+                val end = when(direction) {
+                    Direction.FORWARD -> board.numCols - 1
+                    Direction.BACKWARD -> 0
                 }
-                board.findBandagedCells(end, end + 1, offset, offset + rowDepth)
+                board.findStaticCells(end, end + 1, offset, offset + rowDepth)
             }
             Axis.VERTICAL -> {
-                val end = if (direction == Direction.FORWARD) {
-                    board.numRows - 1
-                } else {
-                    0
+                val end = when (direction) {
+                    Direction.FORWARD -> board.numRows - 1
+                    Direction.BACKWARD -> 0
                 }
-                board.findBandagedCells(offset, offset + colDepth, end, end + 1)
+                board.findStaticCells(offset, offset + colDepth, end, end + 1)
             }
         }
 
