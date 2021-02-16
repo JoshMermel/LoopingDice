@@ -138,7 +138,6 @@ class MainActivity : AppCompatActivity() {
         val highscore = highscores.getInt(levelData.canonicalId, Int.MAX_VALUE)
         val id = levelData.displayId
 
-        // The padding with spaces is a hack to enforce a minimum width on the popup that uses this.
         return when {
             highscore <= levelData.threeStar -> {
                 "$id\n★★★"
