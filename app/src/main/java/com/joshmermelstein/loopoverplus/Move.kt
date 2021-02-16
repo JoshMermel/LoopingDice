@@ -163,7 +163,7 @@ class BasicMove(
     }
 
     override fun toString(): String {
-        return "BASIC " + axisToString(axis) + " " + directionToString(direction) + " $offset"
+        return "BASIC $axis $direction $offset"
     }
 }
 
@@ -196,7 +196,7 @@ class WideMove(
     }
 
     override fun toString(): String {
-        return "WIDE " + axisToString(axis) + " " + directionToString(direction) + " $offset $depth"
+        return "WIDE $axis $direction $offset $depth"
     }
 }
 
@@ -227,7 +227,7 @@ class GearMove(
     }
 
     override fun toString(): String {
-        return "GEAR " + axisToString(axis) + " " + directionToString(direction) + " $offset"
+        return "GEAR $axis $direction $offset"
     }
 }
 
@@ -312,7 +312,7 @@ open class CarouselMove(
     }
 
     override fun toString(): String {
-        return "CAROUSEL " + axisToString(axis) + " " + directionToString(direction) + " $offset"
+        return "CAROUSEL $axis $direction $offset"
     }
 }
 
@@ -382,11 +382,20 @@ fun stringToMove(s: String, numRows: Int, numCols: Int): Move? {
     }
 }
 
-enum class Axis {
-    VERTICAL, HORIZONTAL
+enum class Axis(val id: String) {
+    VERTICAL("V"),
+    HORIZONTAL ("H");
+
+    override fun toString(): String {
+        return id
+    }
 }
 
-enum class Direction {
-    FORWARD,
-    BACKWARD
+enum class Direction (val id: String) {
+    FORWARD ("F"),
+    BACKWARD ("B");
+
+    override fun toString(): String {
+        return id
+    }
 }
