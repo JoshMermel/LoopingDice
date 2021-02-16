@@ -7,8 +7,6 @@ class MoveQueue {
     private val moves = mutableListOf<MoveAndTime>()
     private var lastMoveTime: Long = 0
     private val moveDuration: Long = 200 * 1000 * 1000
-    private val undoStack = Stack<Move>()
-    private val redoStack = Stack<Move>()
 
     // Iterates through the queue of moves and executes those whose time has come. Also clears moves
     // that have completed.
@@ -29,8 +27,6 @@ class MoveQueue {
         val endTime = startTime + moveDuration
         moves.add(MoveAndTime(move, startTime, endTime))
         this.lastMoveTime = endTime
-        undoStack.push(move)
-        redoStack.clear()
     }
 
     // Clears the queue.

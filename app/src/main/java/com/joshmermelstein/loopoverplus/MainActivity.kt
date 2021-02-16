@@ -154,7 +154,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
     // A dialog to make sure the user really wants to delete all their saved data.
     private fun resetAllDialog() {
         AlertDialog.Builder(this)
