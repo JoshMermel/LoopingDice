@@ -8,7 +8,8 @@ import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.RectShape
 import androidx.core.content.ContextCompat
 
-
+// TODO(jmerm): it would be nice if offset could be allowed to be out of range so we wouldn't have
+//  to worry about modulus-ing it back into range when making these in factories.
 class Highlight(
     private val axis: Axis,
     private val direction: Direction,
@@ -33,7 +34,6 @@ class Highlight(
                 ContextCompat.getColor(context, R.color.highlight)
             )
 
-        // horizontal
         if (axis == Axis.HORIZONTAL) {
             // determine top and bottom based on numRows and boundsTop/Bottom
             val height = (boundsBottom - boundsTop) / numRows

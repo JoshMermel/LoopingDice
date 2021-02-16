@@ -134,6 +134,14 @@ interface WideMoveFactoryBase : MoveFactory {
             colDepth
         }
     }
+
+    override fun verticalHelpText(): String {
+        return "Vertical moves affect $colDepth " + pluralizedCols(colDepth)
+    }
+
+    override fun horizontalHelpText(): String {
+        return "Horizontal moves affect $rowDepth " + pluralizedRows(rowDepth)
+    }
 }
 
 // Returns wide moves according to |rowDepth| and |colDepth|.
@@ -146,20 +154,7 @@ class WideMoveFactory(override val rowDepth: Int, override val colDepth: Int) :
         offset: Int,
         board: GameBoard
     ): Move {
-        val depth: Int = if (axis == Axis.HORIZONTAL) {
-            rowDepth
-        } else {
-            colDepth
-        }
-        return WideMove(axis, direction, offset, board.numRows, board.numCols, depth)
-    }
-
-    override fun verticalHelpText(): String {
-        return "Vertical moves affect $colDepth " + pluralizedCols(colDepth)
-    }
-
-    override fun horizontalHelpText(): String {
-        return "Horizontal moves affect $rowDepth " + pluralizedRows(rowDepth)
+        return WideMove(axis, direction, offset, board.numRows, board.numCols, depth(axis))
     }
 
     override fun generalHelpText(): String {
@@ -234,14 +229,6 @@ class StaticCellsMoveFactory(override val rowDepth: Int, override val colDepth: 
         return WideMove(axis, direction, offset, board.numRows, board.numCols, depth(axis))
     }
 
-    override fun verticalHelpText(): String {
-        return "Vertical moves affect $colDepth " + pluralizedCols(colDepth)
-    }
-
-    override fun horizontalHelpText(): String {
-        return "Horizontal moves affect $rowDepth " + pluralizedRows(rowDepth)
-    }
-
     override fun generalHelpText(): String {
         return "Neither is allowed to move a black square"
     }
@@ -283,14 +270,6 @@ class DynamicBandagingMoveFactory(override val rowDepth: Int, override val colDe
 
         // If non were found, the move executes like a wide move.
         return WideMove(axis, direction, offset, board.numRows, board.numCols, depth(axis))
-    }
-
-    override fun verticalHelpText(): String {
-        return "Vertical moves affect $colDepth " + pluralizedCols(colDepth)
-    }
-
-    override fun horizontalHelpText(): String {
-        return "Horizontal moves affect $rowDepth " + pluralizedRows(rowDepth)
     }
 
     override fun generalHelpText(): String {
