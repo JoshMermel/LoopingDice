@@ -4,6 +4,7 @@ import java.util.*
 
 // A queue of moves along with info about when they should be executed.
 class MoveQueue {
+    // TODO(jmerm): is there a better type for this?
     private val moves = mutableListOf<MoveAndTime>()
     private var lastMoveTime: Long = 0
     private val moveDuration: Long = 200 * 1000 * 1000
