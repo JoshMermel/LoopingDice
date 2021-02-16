@@ -2,11 +2,11 @@ package com.joshmermelstein.loopoverplus
 
 // Misc utils that are handy but don't fit elsewhere.
 
-fun directionToString(direction: Direction): String {
+fun opposite(direction: Direction): Direction {
     return if (direction == Direction.FORWARD) {
-        "F"
+        Direction.BACKWARD
     } else {
-        "B"
+        Direction.FORWARD
     }
 }
 
