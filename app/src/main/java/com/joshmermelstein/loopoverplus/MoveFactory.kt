@@ -1,5 +1,7 @@
 package com.joshmermelstein.loopoverplus
 
+// TODO(jmerm): Maybe break factories into their own files at this point.
+
 // This is a move factory factory lol
 fun makeMoveFactory(id: String): MoveFactory {
     when {
@@ -103,9 +105,19 @@ class BasicMoveFactory : MoveFactory {
     }
 }
 
+// Helper for MoveFactories implementing wide moves. Holds some shared logic and helpful utils.
 interface WideMoveFactoryBase : MoveFactory {
     val rowDepth: Int
     val colDepth: Int
+
+    override fun makeMove(
+        axis: Axis,
+        direction: Direction,
+        offset: Int,
+        board: GameBoard
+    ): Move {
+        return WideMove(axis, direction, offset, board.numRows, board.numCols, depth(axis))
+    }
 
     override fun makeHighlights(
         axis: Axis,
@@ -113,11 +125,11 @@ interface WideMoveFactoryBase : MoveFactory {
         offset: Int,
         board: GameBoard
     ): Array<Highlight> {
-        val modulus = if (axis == Axis.HORIZONTAL) {
-            board.numRows
-        } else {
-            board.numCols
+        val modulus = when (axis) {
+            Axis.HORIZONTAL -> board.numRows
+            Axis.VERTICAL -> board.numCols
         }
+
         return Array(depth(axis)) { idx: Int ->
             Highlight(
                 axis,
@@ -128,10 +140,9 @@ interface WideMoveFactoryBase : MoveFactory {
     }
 
     fun depth(axis: Axis): Int {
-        return if (axis == Axis.HORIZONTAL) {
-            rowDepth
-        } else {
-            colDepth
+        return when (axis) {
+            Axis.HORIZONTAL -> rowDepth
+            Axis.VERTICAL -> colDepth
         }
     }
 
@@ -148,17 +159,74 @@ interface WideMoveFactoryBase : MoveFactory {
 class WideMoveFactory(override val rowDepth: Int, override val colDepth: Int) :
     WideMoveFactoryBase {
 
+    override fun generalHelpText(): String {
+        return ""
+    }
+}
+
+// Returns wide moves unless those wide moves would slide a bandaged cell. In that case returns an
+// illegal moves that flashes a lock on the bandaged cell(s).
+class StaticCellsMoveFactory(override val rowDepth: Int, override val colDepth: Int) :
+    WideMoveFactoryBase {
     override fun makeMove(
         axis: Axis,
         direction: Direction,
         offset: Int,
         board: GameBoard
     ): Move {
-        return WideMove(axis, direction, offset, board.numRows, board.numCols, depth(axis))
+        // Check if any bandaged cells would be moved.
+        val staticCellsEncountered: List<Pair<Int, Int>> = when (axis) {
+            Axis.HORIZONTAL -> board.findBlockingCells(0, board.numCols, offset, offset + rowDepth)
+            Axis.VERTICAL -> board.findBlockingCells(offset, offset + colDepth, 0, board.numRows)
+        }
+
+        // If any were found, the move is illegal.
+        if (staticCellsEncountered.isNotEmpty()) {
+            return IllegalMove(staticCellsEncountered)
+        }
+
+        // If not, return a Wide move matching the input.
+        return super.makeMove(axis, direction, offset, board)
     }
 
     override fun generalHelpText(): String {
-        return ""
+        return "Neither is allowed to move a black square"
+    }
+}
+
+// Returns wide moves unless those wide moves would slide a bandaged cell off the edge of the board.
+// In that case returns an illegal moves that flashes a lock on the bandaged cell(s).
+class DynamicBandagingMoveFactory(override val rowDepth: Int, override val colDepth: Int) :
+    WideMoveFactoryBase {
+
+    override fun makeMove(
+        axis: Axis,
+        direction: Direction,
+        offset: Int,
+        board: GameBoard
+    ): Move {
+        val end = when (direction) {
+            Direction.FORWARD -> -1 // Due to wraparound, -1 means "the last row/col"
+            Direction.BACKWARD -> 0
+        }
+
+        // Check for blocking cells along the edge that could block this move
+        val blockingCellsEncountered = when (axis) {
+            Axis.HORIZONTAL -> board.findBlockingCells(end, end + 1, offset, offset + rowDepth)
+            Axis.VERTICAL -> board.findBlockingCells(offset, offset + colDepth, end, end + 1)
+        }
+
+        // If any were found, the move is illegal
+        if (blockingCellsEncountered.isNotEmpty()) {
+            return IllegalMove(blockingCellsEncountered)
+        }
+
+        // If non were found, the move executes like a wide move.
+        return super.makeMove(axis, direction, offset, board)
+    }
+
+    override fun generalHelpText(): String {
+        return "Neither is allowed to move a black square off the edge of the board"
     }
 }
 
@@ -179,10 +247,9 @@ class GearMoveFactory : MoveFactory {
         offset: Int,
         board: GameBoard
     ): Array<Highlight> {
-        val modulus = if (axis == Axis.HORIZONTAL) {
-            board.numRows
-        } else {
-            board.numCols
+        val modulus = when (axis) {
+            Axis.HORIZONTAL -> board.numRows
+            Axis.VERTICAL -> board.numCols
         }
         return arrayOf(
             Highlight(axis, direction, offset),
@@ -200,73 +267,6 @@ class GearMoveFactory : MoveFactory {
 
     override fun generalHelpText(): String {
         return ""
-    }
-}
-
-// Returns wide moves unless those wide moves would slide a bandaged cell. In that case returns an
-// illegal moves that flashes a lock on the bandaged cell(s).
-class StaticCellsMoveFactory(override val rowDepth: Int, override val colDepth: Int) :
-    WideMoveFactoryBase {
-    override fun makeMove(
-        axis: Axis,
-        direction: Direction,
-        offset: Int,
-        board: GameBoard
-    ): Move {
-        // Check if any bandaged cells would be moved.
-        val staticCellsEncountered: List<Pair<Int, Int>> = if (axis == Axis.HORIZONTAL) {
-            board.findBlockingCells(0, board.numCols, offset, offset + rowDepth)
-        } else {
-            board.findBlockingCells(offset, offset + colDepth, 0, board.numRows)
-        }
-
-        // If any were found, the move is illegal.
-        if (staticCellsEncountered.isNotEmpty()) {
-            return IllegalMove(staticCellsEncountered)
-        }
-
-        // If not, return a Wide move matching the input.
-        return WideMove(axis, direction, offset, board.numRows, board.numCols, depth(axis))
-    }
-
-    override fun generalHelpText(): String {
-        return "Neither is allowed to move a black square"
-    }
-}
-
-// Returns wide moves unless those wide moves would slide a bandaged cell off the edge of the board.
-// In that case returns an illegal moves that flashes a lock on the bandaged cell(s).
-class DynamicBandagingMoveFactory(override val rowDepth: Int, override val colDepth: Int) :
-    WideMoveFactoryBase {
-
-    override fun makeMove(
-        axis: Axis,
-        direction: Direction,
-        offset: Int,
-        board: GameBoard
-    ): Move {
-        val end = when (direction) {
-            Direction.FORWARD ->  - 1 // Due to wraparound, -1 means "the last row/col"
-            Direction.BACKWARD -> 0
-        }
-
-        // Check for bandaged cells along the edge that could block this move
-        val blockingCellsEncountered = when (axis) {
-            Axis.HORIZONTAL -> board.findBlockingCells(end, end + 1, offset, offset + rowDepth)
-            Axis.VERTICAL -> board.findBlockingCells(offset, offset + colDepth, end, end + 1)
-        }
-
-        // If any were found, the move is illegal
-        if (blockingCellsEncountered.isNotEmpty()) {
-            return IllegalMove(blockingCellsEncountered)
-        }
-
-        // If non were found, the move executes like a wide move.
-        return WideMove(axis, direction, offset, board.numRows, board.numCols, depth(axis))
-    }
-
-    override fun generalHelpText(): String {
-        return "Neither is allowed to move a black square off the edge of the board"
     }
 }
 
@@ -326,10 +326,9 @@ class CarouselMoveFactory : MoveFactory {
         offset: Int,
         board: GameBoard
     ): Array<Highlight> {
-        val modulus = if (axis == Axis.HORIZONTAL) {
-            board.numRows
-        } else {
-            board.numCols
+        val modulus = when (axis) {
+            Axis.HORIZONTAL -> board.numRows
+            Axis.VERTICAL -> board.numCols
         }
         return arrayOf(
             Highlight(axis, direction, offset),
@@ -398,10 +397,9 @@ class BandagedMoveFactory : MoveFactory {
         board: GameBoard
     ): Array<Highlight> {
         val params = applyToBoard(axis, offset, board)
-        val modulus = if (axis == Axis.HORIZONTAL) {
-            board.numRows
-        } else {
-            board.numCols
+        val modulus = when (axis) {
+            Axis.HORIZONTAL -> board.numRows
+            Axis.VERTICAL -> board.numCols
         }
 
         return Array(params.second) { idx: Int ->
@@ -437,10 +435,9 @@ class CombinedMoveFactory(private val horizontal: MoveFactory, private val verti
         offset: Int,
         board: GameBoard
     ): Move {
-        return if (axis == Axis.HORIZONTAL) {
-            horizontal.makeMove(axis, direction, offset, board)
-        } else {
-            vertical.makeMove(axis, direction, offset, board)
+        return when (axis) {
+            Axis.HORIZONTAL -> horizontal.makeMove(axis, direction, offset, board)
+            Axis.VERTICAL -> vertical.makeMove(axis, direction, offset, board)
         }
     }
 
@@ -450,10 +447,9 @@ class CombinedMoveFactory(private val horizontal: MoveFactory, private val verti
         offset: Int,
         board: GameBoard
     ): Array<Highlight> {
-        return if (axis == Axis.HORIZONTAL) {
-            horizontal.makeHighlights(axis, direction, offset, board)
-        } else {
-            vertical.makeHighlights(axis, direction, offset, board)
+        return when (axis) {
+            Axis.HORIZONTAL -> horizontal.makeHighlights(axis, direction, offset, board)
+            Axis.VERTICAL -> vertical.makeHighlights(axis, direction, offset, board)
         }
     }
 
