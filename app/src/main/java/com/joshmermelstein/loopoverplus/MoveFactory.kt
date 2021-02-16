@@ -103,10 +103,9 @@ class BasicMoveFactory : MoveFactory {
     }
 }
 
-
 interface WideMoveFactoryBase : MoveFactory {
-    val rowDepth : Int
-    val colDepth : Int
+    val rowDepth: Int
+    val colDepth: Int
 
     override fun makeHighlights(
         axis: Axis,
@@ -137,11 +136,9 @@ interface WideMoveFactoryBase : MoveFactory {
     }
 }
 
-
 // Returns wide moves according to |rowDepth| and |colDepth|.
-class WideMoveFactory(rowDepth: Int, colDepth: Int) : WideMoveFactoryBase {
-    override val rowDepth = rowDepth
-    override val colDepth = colDepth
+class WideMoveFactory(override val rowDepth: Int, override val colDepth: Int) :
+    WideMoveFactoryBase {
 
     override fun makeMove(
         axis: Axis,
@@ -213,10 +210,8 @@ class GearMoveFactory : MoveFactory {
 
 // Returns wide moves unless those wide moves would slide a bandaged cell. In that case returns an
 // illegal moves that flashes a lock on the bandaged cell(s).
-class StaticCellsMoveFactory(rowDepth: Int, colDepth: Int) : WideMoveFactoryBase {
-    override val rowDepth = rowDepth
-    override val colDepth = colDepth
-
+class StaticCellsMoveFactory(override val rowDepth: Int, override val colDepth: Int) :
+    WideMoveFactoryBase {
     override fun makeMove(
         axis: Axis,
         direction: Direction,
@@ -254,9 +249,8 @@ class StaticCellsMoveFactory(rowDepth: Int, colDepth: Int) : WideMoveFactoryBase
 
 // Returns wide moves unless those wide moves would slide a bandaged cell off the edge of the board.
 // In that case returns an illegal moves that flashes a lock on the bandaged cell(s).
-class DynamicBandagingMoveFactory(rowDepth: Int, colDepth: Int) : WideMoveFactoryBase {
-    override val rowDepth = rowDepth
-    override val colDepth = colDepth
+class DynamicBandagingMoveFactory(override val rowDepth: Int, override val colDepth: Int) :
+    WideMoveFactoryBase {
 
     override fun makeMove(
         axis: Axis,
@@ -267,7 +261,7 @@ class DynamicBandagingMoveFactory(rowDepth: Int, colDepth: Int) : WideMoveFactor
         // Check for bandaged cells along the edge that could block this move
         val bandagedCellsEncountered = when (axis) {
             Axis.HORIZONTAL -> {
-                val end = when(direction) {
+                val end = when (direction) {
                     Direction.FORWARD -> board.numCols - 1
                     Direction.BACKWARD -> 0
                 }
