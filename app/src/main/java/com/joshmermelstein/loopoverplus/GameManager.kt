@@ -215,11 +215,10 @@ class GameManager(
 
     // Used for generating save files.
     override fun toString(): String {
-        val board: String = future.toString()
         val undo: String = undoStack.joinToString(",") { it.toString() }
         val redo: String = redoStack.joinToString(",") { it.toString() }
 
-        return "$board\n$undo\n$redo\n$numMoves"
+        return "$future\n$undo\n$redo\n$numMoves"
     }
 
     // Helper for converting an array of ColorIds into a board.
