@@ -1,5 +1,9 @@
 package com.joshmermelstein.loopoverplus
 
+// TODO(jmerm): is there a shared base class we can have for all the wide move factory variants so
+//  they can share logic for highlights and such?
+//    - {wide, static, dynamic}
+
 // This is a move factory factory lol
 fun makeMoveFactory(id: String): MoveFactory {
     when {
@@ -103,21 +107,10 @@ class BasicMoveFactory : MoveFactory {
     }
 }
 
-// Returns wide moves according to |rowDepth| and |colDepth|.
-class WideMoveFactory(private var rowDepth: Int, private var colDepth: Int) : MoveFactory {
-    override fun makeMove(
-        axis: Axis,
-        direction: Direction,
-        offset: Int,
-        board: GameBoard
-    ): Move {
-        val depth: Int = if (axis == Axis.HORIZONTAL) {
-            rowDepth
-        } else {
-            colDepth
-        }
-        return WideMove(axis, direction, offset, board.numRows, board.numCols, depth)
-    }
+
+interface WideMoveFactoryBase : MoveFactory {
+    val rowDepth : Int
+    val colDepth : Int
 
     override fun makeHighlights(
         axis: Axis,
@@ -130,15 +123,43 @@ class WideMoveFactory(private var rowDepth: Int, private var colDepth: Int) : Mo
         } else {
             board.numCols
         }
-        return Array(depth(axis)) { idx: Int -> Highlight(axis, direction, (idx + offset) % modulus) }
+        return Array(depth(axis)) { idx: Int ->
+            Highlight(
+                axis,
+                direction,
+                (idx + offset) % modulus
+            )
+        }
     }
 
-    private fun depth(axis: Axis): Int {
+
+    fun depth(axis: Axis): Int {
         return if (axis == Axis.HORIZONTAL) {
             rowDepth
         } else {
             colDepth
         }
+    }
+}
+
+
+// Returns wide moves according to |rowDepth| and |colDepth|.
+class WideMoveFactory(rowDepth: Int, colDepth: Int) : WideMoveFactoryBase {
+    override val rowDepth = rowDepth
+    override val colDepth = colDepth
+
+    override fun makeMove(
+        axis: Axis,
+        direction: Direction,
+        offset: Int,
+        board: GameBoard
+    ): Move {
+        val depth: Int = if (axis == Axis.HORIZONTAL) {
+            rowDepth
+        } else {
+            colDepth
+        }
+        return WideMove(axis, direction, offset, board.numRows, board.numCols, depth)
     }
 
     override fun verticalHelpText(): String {
@@ -198,8 +219,10 @@ class GearMoveFactory : MoveFactory {
 // Returns wide moves unless those wide moves would slide a bandaged cell. In that case returns an
 // illegal moves that flashes a lock on the bandaged cell(s).
 // TODO(jmerm): rename stuff so this is called "fixed" instead of static
-class StaticBandagingMoveFactory(private var rowDepth: Int, private var colDepth: Int) :
-    MoveFactory {
+class StaticBandagingMoveFactory(rowDepth: Int, colDepth: Int) : WideMoveFactoryBase {
+    override val rowDepth = rowDepth
+    override val colDepth = colDepth
+
     override fun makeMove(
         axis: Axis,
         direction: Direction,
@@ -222,29 +245,6 @@ class StaticBandagingMoveFactory(private var rowDepth: Int, private var colDepth
         return WideMove(axis, direction, offset, board.numRows, board.numCols, depth(axis))
     }
 
-    override fun makeHighlights(
-        axis: Axis,
-        direction: Direction,
-        offset: Int,
-        board: GameBoard
-    ): Array<Highlight> {
-        val modulus = if (axis == Axis.HORIZONTAL) {
-            board.numRows
-        } else {
-            board.numCols
-        }
-
-        return Array(depth(axis)) { idx: Int -> Highlight(axis, direction, (idx + offset) % modulus) }
-    }
-
-    private fun depth(axis: Axis): Int {
-        return if (axis == Axis.HORIZONTAL) {
-            rowDepth
-        } else {
-            colDepth
-        }
-    }
-
     override fun verticalHelpText(): String {
         return "Vertical moves affect $colDepth " + pluralizedCols(colDepth)
     }
@@ -260,8 +260,10 @@ class StaticBandagingMoveFactory(private var rowDepth: Int, private var colDepth
 
 // Returns wide moves unless those wide moves would slide a bandaged cell off the edge of the board.
 // In that case returns an illegal moves that flashes a lock on the bandaged cell(s).
-class DynamicBandagingMoveFactory(private var rowDepth: Int, private var colDepth: Int) :
-    MoveFactory {
+class DynamicBandagingMoveFactory(rowDepth: Int, colDepth: Int) : WideMoveFactoryBase {
+    override val rowDepth = rowDepth
+    override val colDepth = colDepth
+
     override fun makeMove(
         axis: Axis,
         direction: Direction,
@@ -297,28 +299,6 @@ class DynamicBandagingMoveFactory(private var rowDepth: Int, private var colDept
         return WideMove(axis, direction, offset, board.numRows, board.numCols, depth(axis))
     }
 
-    override fun makeHighlights(
-        axis: Axis,
-        direction: Direction,
-        offset: Int,
-        board: GameBoard
-    ): Array<Highlight> {
-        val modulus = if (axis == Axis.HORIZONTAL) {
-            board.numRows
-        } else {
-            board.numCols
-        }
-        return Array(depth(axis)) { idx: Int -> Highlight(axis, direction, (idx + offset) % modulus) }
-    }
-
-    private fun depth(axis: Axis): Int {
-        return if (axis == Axis.HORIZONTAL) {
-            rowDepth
-        } else {
-            colDepth
-        }
-    }
-
     override fun verticalHelpText(): String {
         return "Vertical moves affect $colDepth " + pluralizedCols(colDepth)
     }
@@ -343,7 +323,7 @@ class EnablerMoveFactory : MoveFactory {
     ): Move {
         if (axis == Axis.HORIZONTAL && board.rowContainsEnabler(offset)) {
             return BasicMove(axis, direction, offset, board.numRows, board.numCols)
-        } else if (axis == Axis.VERTICAL && board.colContainsEnabler(offset)){
+        } else if (axis == Axis.VERTICAL && board.colContainsEnabler(offset)) {
             return BasicMove(axis, direction, offset, board.numRows, board.numCols)
         }
         return IllegalMove(board.findEnablers())
@@ -488,7 +468,6 @@ class BandagedMoveFactory : MoveFactory {
         return "Blocks connected by a bond always move together and will cause extra rows/columns to be dragged"
     }
 }
-
 
 // Combines two moves factories into one. The first one is used to generate horizontal moves and the
 // second one is used to generate vertical moves.
