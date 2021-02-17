@@ -221,6 +221,12 @@ class GameManager(
         return "$future\n$undo\n$redo\n$numMoves"
     }
 
+    // Returns a string representing the user's undo stack so they can copy their solution and
+    // paste it places.
+    fun toUserString() : String {
+        return undoStack.joinToString(" ") { it.toUserString() }
+    }
+
     // Helper for converting an array of ColorIds into a board.
     private fun makeBoard(
         numRows: Int,

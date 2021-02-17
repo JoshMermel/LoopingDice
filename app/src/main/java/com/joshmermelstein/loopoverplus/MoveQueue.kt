@@ -1,7 +1,5 @@
 package com.joshmermelstein.loopoverplus
 
-import java.util.*
-
 // A queue of moves along with info about when they should be executed.
 class MoveQueue {
     // TODO(jmerm): is there a better type for this?

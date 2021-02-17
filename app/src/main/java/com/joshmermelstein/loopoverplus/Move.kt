@@ -72,6 +72,8 @@ interface Move {
 
     // Used for saving move history to a file.
     override fun toString(): String
+
+    fun toUserString(): String
 }
 
 // A transition represents the action of a single cell during a Move. Coordinates may be out of
@@ -138,6 +140,17 @@ interface RowColMove : CoordinatesMove {
     }
 }
 
+// TODO(jmerm): should this be 1 indexed?
+fun userString(axis: Axis, direction: Direction, offset: Int): String {
+    return when (axis) {
+        Axis.HORIZONTAL -> "Row"
+        Axis.VERTICAL -> "Col"
+    } + "$offset" + when (direction) {
+        Direction.FORWARD -> ""
+        Direction.BACKWARD -> "'"
+    }
+}
+
 // Basic move moves a single row or column. It is handy as a base class for more complex kinds of
 // Row/Col based moves.
 class BasicMove(
@@ -164,6 +177,10 @@ class BasicMove(
 
     override fun toString(): String {
         return "BASIC $axis $direction $offset"
+    }
+
+    override fun toUserString(): String {
+        return userString(axis, direction, offset)
     }
 }
 
@@ -198,6 +215,10 @@ class WideMove(
     override fun toString(): String {
         return "WIDE $axis $direction $offset $depth"
     }
+
+    override fun toUserString(): String {
+        return userString(axis, direction, offset)
+    }
 }
 
 // A gear move is like a basic move but the row/col after the selected one also moves in the
@@ -228,6 +249,10 @@ class GearMove(
 
     override fun toString(): String {
         return "GEAR $axis $direction $offset"
+    }
+
+    override fun toUserString(): String {
+        return userString(axis, direction, offset)
     }
 }
 
@@ -314,6 +339,10 @@ open class CarouselMove(
     override fun toString(): String {
         return "CAROUSEL $axis $direction $offset"
     }
+
+    override fun toUserString(): String {
+        return userString(axis, direction, offset)
+    }
 }
 
 // A hack to signal when the user's input was received but results in an invalid move. This kind of
@@ -343,6 +372,11 @@ class IllegalMove(private val cords: List<Pair<Int, Int>>) : Move {
 
     // Should never happen, these should never be serialized.
     override fun toString(): String {
+        return ""
+    }
+
+    // Should never happen, these should never be serialized.
+    override fun toUserString(): String {
         return ""
     }
 }
@@ -384,16 +418,16 @@ fun stringToMove(s: String, numRows: Int, numCols: Int): Move? {
 
 enum class Axis(val id: String) {
     VERTICAL("V"),
-    HORIZONTAL ("H");
+    HORIZONTAL("H");
 
     override fun toString(): String {
         return id
     }
 }
 
-enum class Direction (val id: String) {
-    FORWARD ("F"),
-    BACKWARD ("B");
+enum class Direction(val id: String) {
+    FORWARD("F"),
+    BACKWARD("B");
 
     override fun toString(): String {
         return id

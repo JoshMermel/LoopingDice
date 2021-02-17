@@ -1,6 +1,8 @@
 package com.joshmermelstein.loopoverplus
 
 import android.app.Dialog
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -65,6 +67,12 @@ class GameplayActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
+            R.id.copy -> {
+                val clipboardManager = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                val clip = ClipData.newPlainText("Moves", gameManager.toUserString())
+                clipboardManager.setPrimaryClip(clip)
+                true
+            }
             R.id.reset -> {
                 gameManager.reset()
                 true
