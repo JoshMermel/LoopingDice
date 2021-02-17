@@ -24,8 +24,8 @@ class GameplayParams(
 // Struct for passing around save files
 class SavedLevel(
     val board: Array<String>,
-    val undoStack: List<Move>,
-    val redoStack: List<Move>,
+    val undoStack: List<LegalMove>,
+    val redoStack: List<LegalMove>,
     val numMoves: Int
 )
 
@@ -44,8 +44,8 @@ class GameManager(
     private var goal = makeBoard(params.numRows, params.numCols, params.goal)
 
     private var moveQueue: MoveQueue = MoveQueue()
-    private var undoStack = Stack<Move>()
-    private var redoStack = Stack<Move>()
+    private var undoStack = Stack<LegalMove>()
+    private var redoStack = Stack<LegalMove>()
 
     private var numMoves: Int = 0
     private var complete = false
@@ -147,7 +147,7 @@ class GameManager(
         // But only legal moves get added to the undo stack and counted toward the user's numMoves
         if (move.isLegal) {
             move.updateGrid(future)
-            undoStack.push(move)
+            undoStack.push(move as LegalMove)
             redoStack.clear()
             numMoves++
             buttonState.undoButtonEnabled = true

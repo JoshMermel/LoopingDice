@@ -145,9 +145,9 @@ class GameplayActivity : AppCompatActivity() {
         try {
             val reader = openFileInput("$id.txt").bufferedReader()
             val board: Array<String> = reader.readLine().split(",").toTypedArray()
-            val undoStack: List<Move> =
+            val undoStack: List<LegalMove> =
                 reader.readLine().split(",").mapNotNull { stringToMove(it, numRows, numCols) }
-            val redoStack: List<Move> =
+            val redoStack: List<LegalMove> =
                 reader.readLine().split(",").mapNotNull { stringToMove(it, numRows, numCols) }
             val numMoves: Int = reader.readLine().toInt()
 

@@ -72,8 +72,22 @@ interface Move {
 
     // Used for saving move history to a file.
     override fun toString(): String
+}
 
-    fun toUserString(): String
+interface LegalMove : Move {
+    val axis: Axis
+    val direction: Direction
+    val offset: Int
+
+    fun toUserString(): String {
+        return when (axis) {
+            Axis.HORIZONTAL -> "Row"
+            Axis.VERTICAL -> "Col"
+        } + "$offset" + when (direction) {
+            Direction.FORWARD -> ""
+            Direction.BACKWARD -> "'"
+        }
+    }
 }
 
 // A transition represents the action of a single cell during a Move. Coordinates may be out of
@@ -89,7 +103,7 @@ class Transition(
 // subclasses easier to implement. Rather than Move subclasses implementing the same logic for
 // |updatePositions| and |updateGrid|, this class helps them implement both in terms of a list of
 // Transitions.
-interface CoordinatesMove : Move {
+interface CoordinatesMove : LegalMove {
     val transitions: MutableList<Transition>
 
     override fun updatePositions(progress: Double, board: GameBoard) {
@@ -140,23 +154,12 @@ interface RowColMove : CoordinatesMove {
     }
 }
 
-// TODO(jmerm): should this be 1 indexed?
-fun userString(axis: Axis, direction: Direction, offset: Int): String {
-    return when (axis) {
-        Axis.HORIZONTAL -> "Row"
-        Axis.VERTICAL -> "Col"
-    } + "$offset" + when (direction) {
-        Direction.FORWARD -> ""
-        Direction.BACKWARD -> "'"
-    }
-}
-
 // Basic move moves a single row or column. It is handy as a base class for more complex kinds of
 // Row/Col based moves.
 class BasicMove(
-    private val axis: Axis,
-    private var direction: Direction,
-    private val offset: Int,
+    override val axis: Axis,
+    override val direction: Direction,
+    override val offset: Int,
     private val numRows: Int,
     private val numCols: Int
 ) : RowColMove {
@@ -178,17 +181,13 @@ class BasicMove(
     override fun toString(): String {
         return "BASIC $axis $direction $offset"
     }
-
-    override fun toUserString(): String {
-        return userString(axis, direction, offset)
-    }
 }
 
 // A wide move is like a basic move but it effects many rows/columns depending on depth.
 class WideMove(
-    private val axis: Axis,
-    private var direction: Direction,
-    private val offset: Int,
+    override val axis: Axis,
+    override val direction: Direction,
+    override val offset: Int,
     private val numRows: Int,
     private val numCols: Int,
     private val depth: Int
@@ -215,18 +214,14 @@ class WideMove(
     override fun toString(): String {
         return "WIDE $axis $direction $offset $depth"
     }
-
-    override fun toUserString(): String {
-        return userString(axis, direction, offset)
-    }
 }
 
 // A gear move is like a basic move but the row/col after the selected one also moves in the
 // opposite direction.
 class GearMove(
-    private val axis: Axis,
-    private var direction: Direction,
-    private val offset: Int,
+    override val axis: Axis,
+    override val direction: Direction,
+    override val offset: Int,
     private val numRows: Int,
     private val numCols: Int
 ) : RowColMove {
@@ -250,18 +245,14 @@ class GearMove(
     override fun toString(): String {
         return "GEAR $axis $direction $offset"
     }
-
-    override fun toUserString(): String {
-        return userString(axis, direction, offset)
-    }
 }
 
 // A Carousel move forms a ring with the row/col that was selected and it's neighbor and does a
 // circular shift.
 open class CarouselMove(
-    private val axis: Axis,
-    private var direction: Direction,
-    private val offset: Int,
+    override val axis: Axis,
+    override val direction: Direction,
+    override val offset: Int,
     private val numRows: Int,
     private val numCols: Int
 ) : CoordinatesMove {
@@ -339,10 +330,6 @@ open class CarouselMove(
     override fun toString(): String {
         return "CAROUSEL $axis $direction $offset"
     }
-
-    override fun toUserString(): String {
-        return userString(axis, direction, offset)
-    }
 }
 
 // A hack to signal when the user's input was received but results in an invalid move. This kind of
@@ -374,15 +361,10 @@ class IllegalMove(private val cords: List<Pair<Int, Int>>) : Move {
     override fun toString(): String {
         return ""
     }
-
-    // Should never happen, these should never be serialized.
-    override fun toUserString(): String {
-        return ""
-    }
 }
 
 // Helper for loading saved moves from files.
-fun stringToMove(s: String, numRows: Int, numCols: Int): Move? {
+fun stringToMove(s: String, numRows: Int, numCols: Int): LegalMove? {
     val splits = s.split(" ")
     if (s.length < 3) {
         return null
