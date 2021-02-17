@@ -3,19 +3,22 @@ package com.joshmermelstein.loopoverplus
 // Wrapper around a 2d array that represents the game board
 // getters and setters do modulus operations for safety so callers don't need to worry about
 // wrapping out of bounds.
-class GameBoard (private val board : Array<Array<GameCell>>) {
+class GameBoard(private val board: Array<Array<GameCell>>) {
     val numRows = board.size
     val numCols = board[0].size
 
-    private fun mod(base : Int, modulus : Int) : Int {
+    // Like % operator but always returns a non-negative number
+    private fun mod(base: Int, modulus: Int): Int {
         return ((base % modulus) + modulus) % modulus
     }
 
-    fun getCell(row : Int, col : Int) : GameCell {
+    // Gets a cell. Coordinates that are out of range will be modded until they are in range.
+    fun getCell(row: Int, col: Int): GameCell {
         return board[mod(row, numRows)][mod(col, numCols)]
     }
 
-    fun setCell(row : Int, col : Int, cell : GameCell) {
+    // Sets a cell. Coordinates that are out of range will be modded until they are in range.
+    fun setCell(row: Int, col: Int, cell: GameCell) {
         board[mod(row, numRows)][mod(col, numCols)] = cell
     }
 
@@ -71,7 +74,7 @@ class GameBoard (private val board : Array<Array<GameCell>>) {
     }
 
     // Returns whether any cell in row |offset| is an enabler cell
-    fun rowContainsEnabler(offset : Int) : Boolean {
+    fun rowContainsEnabler(offset: Int): Boolean {
         for (col in 0 until numCols) {
             if (getCell(offset, col).isEnabler) {
                 return true
@@ -81,7 +84,7 @@ class GameBoard (private val board : Array<Array<GameCell>>) {
     }
 
     // Returns whether any cell in col |offset| is an enabler cell
-    fun colContainsEnabler(offset : Int) : Boolean {
+    fun colContainsEnabler(offset: Int): Boolean {
         for (row in 0 until numRows) {
             if (getCell(row, offset).isEnabler) {
                 return true
@@ -90,8 +93,8 @@ class GameBoard (private val board : Array<Array<GameCell>>) {
         return false
     }
 
-    override fun toString() : String {
-        return board.joinToString(",") { row -> row.joinToString(",")}
+    override fun toString(): String {
+        return board.joinToString(",") { row -> row.joinToString(",") }
     }
 
     override fun equals(other: Any?): Boolean {

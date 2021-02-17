@@ -43,7 +43,8 @@ class GameplayActivity : AppCompatActivity() {
         val toolbar = findViewById<Toolbar>(R.id.gameplay_toolbar)
         setSupportActionBar(toolbar)
 
-        supportActionBar?.title = "#" + MetadataSingleton.getInstance(this).getLevelData(id)?.displayId
+        supportActionBar?.title =
+            "#" + MetadataSingleton.getInstance(this).getLevelData(id)?.displayId
     }
 
     override fun onDestroy() {
@@ -131,7 +132,8 @@ class GameplayActivity : AppCompatActivity() {
         return GameplayParams(id, numRows, numCols, factory, initial, final)
     }
 
-    private fun loadSavedLevel(id: String, numRows : Int, numCols : Int): SavedLevel? {
+    private fun loadSavedLevel(id: String, numRows: Int, numCols: Int): SavedLevel? {
+        // TODO(jmerm): better handling for malformed files.
         try {
             val reader = openFileInput("$id.txt").bufferedReader()
             val board: Array<String> = reader.readLine().split(",").toTypedArray()

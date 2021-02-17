@@ -32,7 +32,8 @@ class AboutActivity : AppCompatActivity() {
         github.movementMethod = LinkMovementMethod.getInstance()
 
         val sixteenPuzzle = findViewById<TextView>(R.id.sixteen_puzzle)
-        val sixteenPuzzleContents = "It is inspired by the <a href='https://www.chiark.greenend.org.uk/~sgtatham/puzzles/doc/sixteen.html'>Sixteen Puzzle</a> from Simon Tatham's Portable Puzzle Collection"
+        val sixteenPuzzleContents =
+            "It is inspired by the <a href='https://www.chiark.greenend.org.uk/~sgtatham/puzzles/doc/sixteen.html'>Sixteen Puzzle</a> from Simon Tatham's Portable Puzzle Collection"
         sixteenPuzzle.text =
             HtmlCompat.fromHtml(sixteenPuzzleContents, HtmlCompat.FROM_HTML_MODE_COMPACT)
         sixteenPuzzle.movementMethod = LinkMovementMethod.getInstance()
@@ -69,9 +70,10 @@ class AboutActivity : AppCompatActivity() {
         enabler.movementMethod = LinkMovementMethod.getInstance()
 
         val libraries = findViewById<TextView>(R.id.libraries)
-        val librariesText = "Click here for information on open source libraries used by Looping Dice.".toSpannable()
-        val context : Context = this
-        librariesText[0..10] = object: ClickableSpan(){
+        val librariesText =
+            "Click here for information on open source libraries used by Looping Dice.".toSpannable()
+        val context: Context = this
+        librariesText[0..10] = object : ClickableSpan() {
             override fun onClick(view: View) {
                 startActivity(Intent(context, OssLicensesMenuActivity::class.java))
             }
