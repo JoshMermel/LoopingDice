@@ -72,8 +72,9 @@ interface MoveFactory {
     fun generalHelpText(): String
 }
 
-// Returns basic moves.
-class BasicMoveFactory : MoveFactory {
+// Helper for MoveFactories implementing factories that return basic moves. Holds some shared logic
+// and helpful utils.
+interface BasicMoveFactoryBase : MoveFactory {
     override fun makeMove(
         axis: Axis,
         direction: Direction,
@@ -98,10 +99,6 @@ class BasicMoveFactory : MoveFactory {
 
     override fun horizontalHelpText(): String {
         return "Horizontal moves affect a single row"
-    }
-
-    override fun generalHelpText(): String {
-        return ""
     }
 }
 
@@ -152,6 +149,14 @@ interface WideMoveFactoryBase : MoveFactory {
 
     override fun horizontalHelpText(): String {
         return "Horizontal moves affect $rowDepth " + pluralizedRows(rowDepth)
+    }
+}
+
+
+// Returns basic moves.
+class BasicMoveFactory : BasicMoveFactoryBase {
+    override fun generalHelpText(): String {
+        return ""
     }
 }
 
@@ -272,7 +277,7 @@ class GearMoveFactory : MoveFactory {
 
 // A factory that returns basic moves, so long as the move includes the enabler cell.
 // When it doesn't, returns an illegal moves that flashes a key on the enabler cell.
-class EnablerMoveFactory : MoveFactory {
+class EnablerMoveFactory : BasicMoveFactoryBase {
     override fun makeMove(
         axis: Axis,
         direction: Direction,
@@ -285,23 +290,6 @@ class EnablerMoveFactory : MoveFactory {
             return BasicMove(axis, direction, offset, board.numRows, board.numCols)
         }
         return IllegalMove(board.findEnablers())
-    }
-
-    override fun makeHighlights(
-        axis: Axis,
-        direction: Direction,
-        offset: Int,
-        board: GameBoard
-    ): Array<Highlight> {
-        return arrayOf(Highlight(axis, direction, offset))
-    }
-
-    override fun verticalHelpText(): String {
-        return "Vertical moves affect a single column"
-    }
-
-    override fun horizontalHelpText(): String {
-        return "Horizontal moves affect a single row"
     }
 
     override fun generalHelpText(): String {
