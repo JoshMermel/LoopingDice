@@ -13,6 +13,8 @@ interface MoveFactory {
         board: GameBoard
     ): Move
 
+    // Creates an array of highlights showing which rows/cols would move if the move was executed
+    // and is legal.
     fun makeHighlights(
         axis: Axis,
         direction: Direction,
@@ -29,90 +31,13 @@ interface MoveFactory {
         }
     }
 
+    // Human readable explanation of what happens for horizontal and vertical moves.
     fun horizontalHelpText(): String
     fun verticalHelpText(): String
+
+    // Human readable explanation of extra rules like what makes moves invalid.
     fun generalHelpText(): String
 }
-
-// Convenience base class for MoveFactories implementing which return basic moves.
-interface BasicMoveFactoryBase : MoveFactory {
-    override fun makeMove(
-        axis: Axis,
-        direction: Direction,
-        offset: Int,
-        board: GameBoard
-    ): Move {
-        return BasicMove(axis, direction, offset, board.numRows, board.numCols)
-    }
-
-    override fun makeHighlights(
-        axis: Axis,
-        direction: Direction,
-        offset: Int,
-        board: GameBoard
-    ): Array<Highlight> {
-        return arrayOf(Highlight(axis, direction, offset))
-    }
-
-    override fun verticalHelpText(): String {
-        return "Vertical moves affect a single column"
-    }
-
-    override fun horizontalHelpText(): String {
-        return "Horizontal moves affect a single row"
-    }
-}
-
-// Convenience base class for MoveFactories implementing which return wide moves.
-interface WideMoveFactoryBase : MoveFactory {
-    val rowDepth: Int
-    val colDepth: Int
-
-    override fun makeMove(
-        axis: Axis,
-        direction: Direction,
-        offset: Int,
-        board: GameBoard
-    ): Move {
-        return WideMove(axis, direction, offset, board.numRows, board.numCols, depth(axis))
-    }
-
-    override fun makeHighlights(
-        axis: Axis,
-        direction: Direction,
-        offset: Int,
-        board: GameBoard
-    ): Array<Highlight> {
-        val modulus = when (axis) {
-            Axis.HORIZONTAL -> board.numRows
-            Axis.VERTICAL -> board.numCols
-        }
-
-        return Array(depth(axis)) { idx: Int ->
-            Highlight(
-                axis,
-                direction,
-                (idx + offset) % modulus
-            )
-        }
-    }
-
-    fun depth(axis: Axis): Int {
-        return when (axis) {
-            Axis.HORIZONTAL -> rowDepth
-            Axis.VERTICAL -> colDepth
-        }
-    }
-
-    override fun verticalHelpText(): String {
-        return "Vertical moves affect $colDepth " + pluralizedCols(colDepth)
-    }
-
-    override fun horizontalHelpText(): String {
-        return "Horizontal moves affect $rowDepth " + pluralizedRows(rowDepth)
-    }
-}
-
 
 // This is a move factory factory lol
 fun makeMoveFactory(id: String): MoveFactory {

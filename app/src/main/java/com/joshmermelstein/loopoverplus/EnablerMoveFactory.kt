@@ -2,7 +2,7 @@ package com.joshmermelstein.loopoverplus
 
 // A factory that returns basic moves, so long as the move includes the enabler cell.
 // When it doesn't, returns an illegal moves that flashes a key on the enabler cell(s).
-class EnablerMoveFactory : BasicMoveFactoryBase {
+class EnablerMoveFactory : BasicMoveFactory() {
     override fun makeMove(
         axis: Axis,
         direction: Direction,

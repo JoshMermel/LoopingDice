@@ -3,7 +3,7 @@ package com.joshmermelstein.loopoverplus
 // Returns wide moves unless those wide moves would slide a fixed cell. In that case returns an
 // illegal moves that flashes a lock on the fixed cell(s).
 class StaticCellsMoveFactory(override val rowDepth: Int, override val colDepth: Int) :
-    WideMoveFactoryBase {
+    WideMoveFactory(rowDepth, colDepth) {
     override fun makeMove(
         axis: Axis,
         direction: Direction,

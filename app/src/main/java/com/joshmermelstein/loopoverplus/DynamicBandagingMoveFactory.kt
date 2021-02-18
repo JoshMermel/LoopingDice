@@ -4,7 +4,7 @@ package com.joshmermelstein.loopoverplus
 // Returns wide moves unless those wide moves would slide a fixed cell off the edge of the board.
 // In that case returns an illegal moves that flashes a lock on the fixed cell(s).
 class DynamicBandagingMoveFactory(override val rowDepth: Int, override val colDepth: Int) :
-    WideMoveFactoryBase {
+    WideMoveFactory(rowDepth, colDepth) {
 
     override fun makeMove(
         axis: Axis,
