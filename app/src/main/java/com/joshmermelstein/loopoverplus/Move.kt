@@ -2,6 +2,7 @@ package com.joshmermelstein.loopoverplus
 
 import kotlin.math.pow
 
+// TODO(jmerm): break move types into own files
 
 // A move represents the outcome of the user swiping on the board. Most moves move cells around in three phases:
 // - updating their draw positions
