@@ -250,9 +250,9 @@ class GearMove(
 // A Carousel move forms a ring with the row/col that was selected and it's neighbor and does a
 // circular shift.
 open class CarouselMove(
-    override val axis: Axis,
-    override val direction: Direction,
-    override val offset: Int,
+    final override val axis: Axis,
+    final override val direction: Direction,
+    final override val offset: Int,
     private val numRows: Int,
     private val numCols: Int
 ) : CoordinatesMove {
