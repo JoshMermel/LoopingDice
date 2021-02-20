@@ -2,6 +2,9 @@ package com.joshmermelstein.loopoverplus
 
 import kotlin.math.pow
 
+// This file holds the Move interface as well as several sub-interfaces that hold shared utilities
+// for common needs of Move subclasses.
+
 // A Move represents the outcome of the user swiping on the board. Most Moves slide pieces around
 // the board in an implementation-defined way but this is not required (e.g. see IllegalMove)
 interface Move {
