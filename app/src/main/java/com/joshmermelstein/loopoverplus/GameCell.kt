@@ -180,17 +180,7 @@ class FixedGameCell(
         val x = (left + right) / 2
         val y = (top + bottom) / 2
         val radius = (right - left) / 4
-        lock.setBounds(
-            (x - radius).toInt(),
-            (y - radius).toInt(),
-            (x + radius).toInt(),
-            (y + radius).toInt()
-        )
-        DrawableCompat.setTint(
-            lock.mutate(),
-            ContextCompat.getColor(context, R.color.gameplay_background)
-        )
-        lock.draw(canvas)
+        drawLock((x - radius), (y - radius), (x + radius), (y + radius), canvas)
     }
 }
 
