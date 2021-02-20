@@ -145,9 +145,9 @@ class GameManager(
         moveQueue.addMove(move)
 
         // But only legal moves get added to the undo stack and counted toward the user's numMoves
-        if (move.isLegal) {
+        if (move is LegalMove) {
             move.updateGrid(future)
-            undoStack.push(move as LegalMove)
+            undoStack.push(move)
             redoStack.clear()
             numMoves++
             buttonState.undoButtonEnabled = true

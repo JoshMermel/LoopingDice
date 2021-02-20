@@ -37,44 +37,40 @@ interface Move {
     }
 
     fun ease(x: Double): Double {
-        // ease out quad
-        //return 1 - (1 - x).pow(2)
-
         // easeOutBack
         val c1 = 1.70158
         val c3 = c1 + 1
         return 1 + c3 * (x - 1).pow(3) + c1 * (x - 1).pow(2)
     }
 
-    // Updates the internal absolute position of each modified cell. This makes it possible to move
-    // those cells again relative to their new position.
-    fun finalize(board: GameBoard) {
-        board.finalize()
-    }
-
     // Updates the draw position of cells based on |progress| but does not update the underlying
     // board
+    // Progress will range from 0 (before the move starts) to 1 (after the move completes)
     fun updatePositions(progress: Double, board: GameBoard)
 
     // Updates the underlying board once a move has completed so further moves will apply to the
     // correct cells
     fun updateGrid(board: GameBoard)
 
-    // Returns a move that undoes this one
-    fun inverse(): Move
-
-    // Whether this move is a legal one. Used to determine whether it is written to the undo stack,
-    // counts toward the total moves, etc.
-    val isLegal: Boolean
-
-    // Used for saving move history to a file.
-    override fun toString(): String
+    // Updates the internal absolute position of each modified cell. This makes it possible to move
+    // those cells again relative to their new position.
+    fun finalize(board: GameBoard) {
+        board.finalize()
+    }
 }
 
+// Subclasses of LegalMove get counted toward move counts, be written to the undo stack, and be
+// saved when the user closes the level
 interface LegalMove : Move {
     val axis: Axis
     val direction: Direction
     val offset: Int
+
+    // Returns a move that undoes this one
+    fun inverse(): Move
+
+    // Used for saving move history to a file.
+    override fun toString(): String
 
     fun toUserString(): String {
         return when (axis) {
@@ -160,7 +156,6 @@ class BasicMove(
     private val numRows: Int,
     private val numCols: Int
 ) : RowColMove {
-    override val isLegal = true
     override val transitions = mutableListOf<Transition>()
 
     init {
@@ -189,7 +184,6 @@ class WideMove(
     private val numCols: Int,
     private val depth: Int
 ) : RowColMove {
-    override val isLegal = true
     override val transitions = mutableListOf<Transition>()
 
     init {
@@ -222,7 +216,6 @@ class GearMove(
     private val numRows: Int,
     private val numCols: Int
 ) : RowColMove {
-    override val isLegal = true
     override val transitions = mutableListOf<Transition>()
 
     init {
@@ -253,7 +246,6 @@ open class CarouselMove(
     private val numRows: Int,
     private val numCols: Int
 ) : CoordinatesMove {
-    override val isLegal = true
     override val transitions = mutableListOf<Transition>()
 
     init {
@@ -332,8 +324,6 @@ open class CarouselMove(
 // A hack to signal when the user's input was received but results in an invalid move. This kind of
 // move hooks into the moveQueue system to flash an icon to the user but does not moe around any cells.
 class IllegalMove(private val cords: List<Pair<Int, Int>>) : Move {
-    override val isLegal = false
-
     override fun updatePositions(progress: Double, board: GameBoard) {
         for (cord in cords) {
             board.getCell(cord.first, cord.second).shouldDrawIcon = true
@@ -348,16 +338,6 @@ class IllegalMove(private val cords: List<Pair<Int, Int>>) : Move {
 
     // Do nothing, the move is illegal
     override fun updateGrid(board: GameBoard) {}
-
-    // Should never happen, these moves shouldn't get pushed to the undo stack.
-    override fun inverse(): Move {
-        return this
-    }
-
-    // Should never happen, these should never be serialized.
-    override fun toString(): String {
-        return ""
-    }
 }
 
 // Helper for loading saved moves from files.
