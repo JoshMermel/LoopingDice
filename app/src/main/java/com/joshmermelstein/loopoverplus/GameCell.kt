@@ -4,14 +4,10 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
-import android.graphics.drawable.Drawable
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.OvalShape
-import android.graphics.drawable.shapes.RectShape
 import android.graphics.drawable.shapes.RoundRectShape
 import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
-import androidx.core.graphics.drawable.DrawableCompat
 
 // A gameCell object represents a single square on the board. GameCells are relatively dumb and
 // only know how to draw themselves. Movement is handled by the game manager object.
@@ -50,14 +46,9 @@ fun makeGameCell(
     }
 }
 
-// Represents a "normal" gameCell - meaning neither bandaged nor enabler.
-open class NormalGameCell(
-    override var x: Double, override var y: Double, override val params:
-    GameplayParams, colorId: String, private val context: Context
-) : GameCell(x, y, params, colorId) {
-    override val color: Int = colorId.toInt() % 4
-    override val pips: Int = ((colorId.toInt() - 1) / 4) + 1
-
+abstract class NormalGameCellBase(x: Double, y: Double, params: GameplayParams, colorId: String) : GameCell(x, y, params, colorId)
+{
+    abstract val context : Context
     override fun drawSquare(
         left: Double,
         top: Double,
@@ -91,165 +82,13 @@ open class NormalGameCell(
     }
 }
 
-// A fixed gameCell is like a regular gameCell except it is bandaged and it used squared
-// rectangles instead of rounded ones and uses square for pips.
-class FixedGameCell(
+// Represents a "normal" gameCell - meaning neither bandaged nor enabler.
+open class NormalGameCell(
     override var x: Double, override var y: Double, override val params:
-    GameplayParams, colorId: String, private val context: Context
-) : GameCell(x, y, params, colorId) {
-    override val color = 4
-    override val pips: Int
-    override val isBlocking = true
-    override val isEnabler = false
-    private val lock: Drawable = ResourcesCompat.getDrawable(
-        context.resources,
-        R.drawable.ic_baseline_lock_24,
-        null
-    )!!
-
-    init {
-        val parts = colorId.split(" ")
-        pips = parts[1].toInt()
-    }
-
-    override fun drawSquare(
-        left: Double,
-        top: Double,
-        right: Double,
-        bottom: Double,
-        canvas: Canvas
-    ) {
-        val shapeDrawable = ShapeDrawable(RectShape())
-        shapeDrawable.setBounds(left.toInt(), top.toInt(), right.toInt(), bottom.toInt())
-        shapeDrawable.paint.color = ContextCompat.getColor(context, R.color.bandaged_cell)
-        shapeDrawable.draw(canvas)
-    }
-
-    override fun drawPips(
-        left: Double,
-        top: Double,
-        right: Double,
-        bottom: Double,
-        numCircles: Int,
-        canvas: Canvas
-    ) {
-        when {
-            shouldDrawIcon -> {
-                // Draws a lock instead of pips.
-                drawLock(left, top, right, bottom, canvas)
-            }
-            numCircles == 0 -> {
-                drawSmallLock(left, top, right, bottom, canvas)
-            }
-            else -> {
-                super.drawPips(left, top, right, bottom, numCircles, canvas)
-            }
-        }
-    }
-
-    override fun drawPip(centerX: Double, centerY: Double, radius: Double, canvas: Canvas) {
-        val shapeDrawable = ShapeDrawable(RectShape())
-
-        shapeDrawable.setBounds(
-            (centerX - radius).toInt(),
-            (centerY - radius).toInt(),
-            (centerX + radius).toInt(),
-            (centerY + radius).toInt()
-        )
-        shapeDrawable.paint.color = ContextCompat.getColor(context, R.color.gameplay_background)
-
-        shapeDrawable.draw(canvas)
-    }
-
-    private fun drawLock(left: Double, top: Double, right: Double, bottom: Double, canvas: Canvas) {
-        lock.setBounds(left.toInt(), top.toInt(), right.toInt(), bottom.toInt())
-        DrawableCompat.setTint(
-            lock.mutate(),
-            ContextCompat.getColor(context, R.color.gameplay_background)
-        )
-        lock.draw(canvas)
-    }
-
-    private fun drawSmallLock(
-        left: Double,
-        top: Double,
-        right: Double,
-        bottom: Double,
-        canvas: Canvas
-    ) {
-        val x = (left + right) / 2
-        val y = (top + bottom) / 2
-        val radius = (right - left) / 4
-        drawLock((x - radius), (y - radius), (x + radius), (y + radius), canvas)
-    }
-}
-
-// An enabler cell is like a regular gameCell except it is gold and uses squared off rectangles
-// instead of rounded ones.
-class EnablerGameCell(
-    override var x: Double, override var y: Double, override val params:
-    GameplayParams, colorId: String, private val context: Context
-) : GameCell(x, y, params, colorId) {
-    override val color = 5
-    override val pips = 1
-    override val isBlocking = false
-    override val isEnabler = true
-    private val key: Drawable = ResourcesCompat.getDrawable(
-        context.resources,
-        R.drawable.ic_baseline_vpn_key_24,
-        null
-    )!!
-
-    override fun drawSquare(
-        left: Double,
-        top: Double,
-        right: Double,
-        bottom: Double,
-        canvas: Canvas
-    ) {
-        val shapeDrawable = ShapeDrawable(RectShape())
-        shapeDrawable.setBounds(left.toInt(), top.toInt(), right.toInt(), bottom.toInt())
-        shapeDrawable.paint.color = colors[this.color]
-        shapeDrawable.draw(canvas)
-    }
-
-    override fun drawPip(centerX: Double, centerY: Double, radius: Double, canvas: Canvas) {
-        val shapeDrawable = ShapeDrawable(RectShape())
-        shapeDrawable.setBounds(
-            (centerX - radius).toInt(),
-            (centerY - radius).toInt(),
-            (centerX + radius).toInt(),
-            (centerY + radius).toInt()
-        )
-        shapeDrawable.paint.color = ContextCompat.getColor(context, R.color.gameplay_background)
-
-        shapeDrawable.draw(canvas)
-    }
-
-    override fun drawPips(
-        left: Double,
-        top: Double,
-        right: Double,
-        bottom: Double,
-        numCircles: Int,
-        canvas: Canvas
-    ) {
-        if (shouldDrawIcon) {
-            // Draws a key icon instead of pips
-            drawKey(left, top, right, bottom, canvas)
-        } else {
-            super.drawPips(left, top, right, bottom, numCircles, canvas)
-        }
-    }
-
-    private fun drawKey(left: Double, top: Double, right: Double, bottom: Double, canvas: Canvas) {
-        key.setBounds(left.toInt(), top.toInt(), right.toInt(), bottom.toInt())
-        DrawableCompat.setTint(
-            key.mutate(),
-            ContextCompat.getColor(context, R.color.gameplay_background)
-        )
-        key.draw(canvas)
-    }
+    GameplayParams, colorId: String, override val context: Context
+) : NormalGameCellBase(x, y, params, colorId) {
+    override val color: Int = colorId.toInt() % 4
+    override val pips: Int = ((colorId.toInt() - 1) / 4) + 1
 }
 
 enum class Bond {
@@ -260,11 +99,10 @@ enum class Bond {
 }
 
 // Represents a bandaged gameCell is joined to a neighbor and moves with it.
-// TODO(jmerm): shared base class with normal game cell for drawing stuff?
 class BandagedGameCell(
     override var x: Double, override var y: Double, override val params:
-    GameplayParams, colorId: String, private val context: Context
-) : GameCell(x, y, params, colorId) {
+    GameplayParams, colorId: String, override val context: Context
+) : NormalGameCellBase(x, y, params, colorId) {
     override val color: Int
     override val pips: Int
     private val bonds: MutableList<Bond> = mutableListOf()
@@ -298,40 +136,14 @@ class BandagedGameCell(
         return bonds
     }
 
-    override fun drawSquare(
+    private fun drawBonds(
+        canvas: Canvas,
         left: Double,
         top: Double,
         right: Double,
         bottom: Double,
-        canvas: Canvas
-    ) {
-        val shapeDrawable = ShapeDrawable(
-            RoundRectShape(
-                floatArrayOf(
-                    40F, 40F, 40F, 40F, 40F, 40F, 40F, 40F
-                ), null, null
-            )
-        )
-        shapeDrawable.setBounds(left.toInt(), top.toInt(), right.toInt(), bottom.toInt())
-        shapeDrawable.paint.color = colors[this.color]
-        shapeDrawable.draw(canvas)
-    }
-
-    override fun drawPip(centerX: Double, centerY: Double, radius: Double, canvas: Canvas) {
-        val shapeDrawable = ShapeDrawable(OvalShape())
-        shapeDrawable.setBounds(
-            (centerX - radius).toInt(),
-            (centerY - radius).toInt(),
-            (centerX + radius).toInt(),
-            (centerY + radius).toInt()
-        )
-        shapeDrawable.paint.color = ContextCompat.getColor(context, R.color.gameplay_background)
-
-        shapeDrawable.draw(canvas)
-    }
-
-    private fun drawBonds(
-        canvas: Canvas, left: Double, top: Double, right: Double, bottom: Double, bounds : Bounds, padding: Int
+        bounds: Bounds,
+        padding: Int
     ) {
         val x0 = (right + left) / 2
         val y0 = (bottom + top) / 2
@@ -369,26 +181,16 @@ class BandagedGameCell(
 
     // Draws the shape but clamps boundaries that would have gone outside the game board.
     override fun drawSquareClamped(
-        canvas: Canvas, left: Double, top: Double, right: Double, bottom: Double, bounds : Bounds, padding: Int
+        canvas: Canvas,
+        left: Double,
+        top: Double,
+        right: Double,
+        bottom: Double,
+        bounds: Bounds,
+        padding: Int
     ) {
-        super.drawSquareClamped(
-            canvas,
-            left,
-            top,
-            right,
-            bottom,
-            bounds,
-            padding
-        )
-        drawBonds(
-            canvas,
-            left,
-            top,
-            right,
-            bottom,
-            bounds,
-            padding
-        )
+        super.drawSquareClamped(canvas, left, top, right, bottom, bounds, padding)
+        drawBonds(canvas, left, top, right, bottom, bounds, padding)
     }
 
     // TODO(jmerm): make last 4 args be a Bounds instead
@@ -473,7 +275,7 @@ abstract class GameCell(
     // cell.
     fun drawSelf(
         canvas: Canvas,
-        bounds : Bounds,
+        bounds: Bounds,
         padding: Int
     ) {
         val width = bounds.width()
@@ -508,7 +310,7 @@ abstract class GameCell(
     // Draws the shape but clamps boundaries that would have gone outside the game board.
     open fun drawSquareClamped(
         canvas: Canvas, left: Double, top: Double, right: Double, bottom: Double,
-        bounds : Bounds, padding: Int
+        bounds: Bounds, padding: Int
     ) {
         val clampedLeft = left.coerceAtLeast(bounds.left + padding)
         val clampedTop = top.coerceAtLeast(bounds.top + padding)
@@ -522,7 +324,13 @@ abstract class GameCell(
     // draw the cell twice, once at it original position (clamped into the boards's boundaries) and
     // once on the other side of the board.
     private fun drawSelf(
-        canvas: Canvas, left: Double, top: Double, right: Double, bottom: Double, bounds : Bounds, padding: Int
+        canvas: Canvas,
+        left: Double,
+        top: Double,
+        right: Double,
+        bottom: Double,
+        bounds: Bounds,
+        padding: Int
     ) {
         // Draw at original position
         drawSquareClamped(canvas, left, top, right, bottom, bounds, padding)
