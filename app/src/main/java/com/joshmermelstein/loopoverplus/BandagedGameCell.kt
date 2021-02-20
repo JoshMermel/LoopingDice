@@ -138,3 +138,10 @@ class BandagedGameCell(
         return ret
     }
 }
+
+enum class Bond {
+    RIGHT,
+    DOWN,
+    LEFT,
+    UP
+}

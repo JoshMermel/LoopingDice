@@ -154,11 +154,26 @@ class GameplayView : View {
         }
     }
 
-    private fun distToDirection(dist: Float): Direction {
-        return if (dist < 0) {
-            Direction.FORWARD
-        } else {
-            Direction.BACKWARD
+    private fun getDirection(hDist: Float, vDist: Float, axis: Axis): Direction {
+        val dist = when (axis) {
+            Axis.HORIZONTAL -> hDist
+            Axis.VERTICAL -> vDist
+        }
+
+        return when {
+            dist < 0 -> Direction.FORWARD
+            else -> Direction.BACKWARD
+        }
+    }
+
+    private fun getOffset(startX: Float, startY: Float, axis: Axis): Int {
+        return when (axis) {
+            Axis.HORIZONTAL -> {
+                floor(gameManager.board.numRows * (startY - boundsBoard.top) / (boundsBoard.bottom - boundsBoard.top)).toInt()
+            }
+            Axis.VERTICAL -> {
+                floor(gameManager.board.numCols * (startX - boundsBoard.left) / (boundsBoard.right - boundsBoard.left)).toInt()
+            }
         }
     }
 
@@ -178,18 +193,8 @@ class GameplayView : View {
 
         // Compute Axis and Direction of swipe
         val axis = angleToAxis(theta) ?: return
-        val direction = distToDirection(
-            if (axis == Axis.HORIZONTAL) {
-                hDist
-            } else {
-                vDist
-            }
-        )
-        val offset = if (axis == Axis.HORIZONTAL) {
-            floor(gameManager.board.numRows * (startY - boundsBoard.top) / (boundsBoard.bottom - boundsBoard.top)).toInt()
-        } else {
-            floor(gameManager.board.numCols * (startX - boundsBoard.left) / (boundsBoard.right - boundsBoard.left)).toInt()
-        }
+        val direction = getDirection(hDist, vDist, axis)
+        val offset = getOffset(startX, startY, axis)
 
         gameManager.enqueueMove(axis, direction, offset)
     }
@@ -212,21 +217,8 @@ class GameplayView : View {
 
         // Figure out which axis was swiped and in what direction
         val axis = angleToAxis(theta) ?: return
-
-        // TODO(jmerm): share wtih above better (and use when instead of if)
-        val direction = distToDirection(
-            if (axis == Axis.HORIZONTAL) {
-                hDist
-            } else {
-                vDist
-            }
-        )
-        // TODO(jmerm): share with above method better
-        val offset = if (axis == Axis.HORIZONTAL) {
-            floor(gameManager.board.numRows * (startY - boundsBoard.top) / (boundsBoard.bottom - boundsBoard.top)).toInt()
-        } else {
-            floor(gameManager.board.numCols * (startX - boundsBoard.left) / (boundsBoard.right - boundsBoard.left)).toInt()
-        }
+        val direction = getDirection(hDist, vDist, axis)
+        val offset = getOffset(startX, startY, axis)
 
         gameManager.addHighlights(axis, direction, offset)
     }

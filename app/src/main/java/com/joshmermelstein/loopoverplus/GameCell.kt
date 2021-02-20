@@ -3,11 +3,6 @@ package com.joshmermelstein.loopoverplus
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.drawable.ShapeDrawable
-import android.graphics.drawable.shapes.OvalShape
-import android.graphics.drawable.shapes.RoundRectShape
-import androidx.core.content.ContextCompat
 
 // A gameCell object represents a single square on the board. GameCells are relatively dumb and
 // only know how to draw themselves. Movement is handled by the game manager object.
@@ -44,13 +39,6 @@ fun makeGameCell(
         }
         else -> NormalGameCell(x.toDouble(), y.toDouble(), params, colorId, context)
     }
-}
-
-enum class Bond {
-    RIGHT,
-    DOWN,
-    LEFT,
-    UP
 }
 
 // Base class for shared logic among game cell types
@@ -96,15 +84,7 @@ abstract class GameCell(
         val right = width * (x + offsetX + 1) / params.numCols - padding + bounds.left
         val top = height * (y + offsetY) / params.numRows + padding + bounds.top
         val bottom = height * (y + offsetY + 1) / params.numRows - padding + bounds.top
-        drawSelf(
-            canvas,
-            left,
-            top,
-            right,
-            bottom,
-            bounds,
-            padding
-        )
+        drawSelf(canvas, left, top, right, bottom, bounds, padding)
     }
 
     // Resets the "base" position of the cell once a move has ended.
