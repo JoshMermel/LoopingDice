@@ -22,6 +22,16 @@ class GameBoard(private val board: Array<Array<GameCell>>) {
         board[mod(row, numRows)][mod(col, numCols)] = cell
     }
 
+    // Updates the internal absolute position of each modified cell. This makes it possible to move
+    // those cells again relative to their new position.
+    fun finalize() {
+        for (row in 0 until numRows) {
+            for (col in 0 until numCols) {
+                getCell(row, col).finalize(numRows, numCols)
+            }
+        }
+    }
+
     // Returns coordinates of fixed cells in the rectangle define by [left,right)[top,bottom)
     fun findBlockingCells(
         left: Int,

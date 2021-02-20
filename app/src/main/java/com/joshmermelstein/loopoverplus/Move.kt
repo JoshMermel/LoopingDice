@@ -49,11 +49,7 @@ interface Move {
     // Updates the internal absolute position of each modified cell. This makes it possible to move
     // those cells again relative to their new position.
     fun finalize(board: GameBoard) {
-        for (row in 0 until board.numRows) {
-            for (col in 0 until board.numCols) {
-                board.getCell(row, col).finalize(board.numRows, board.numCols)
-            }
-        }
+        board.finalize()
     }
 
     // Updates the draw position of cells based on |progress| but does not update the underlying
