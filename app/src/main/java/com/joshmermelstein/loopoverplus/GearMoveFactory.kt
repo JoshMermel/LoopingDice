@@ -17,13 +17,9 @@ class GearMoveFactory : MoveFactory {
         offset: Int,
         board: GameBoard
     ): Array<Highlight> {
-        val modulus = when (axis) {
-            Axis.HORIZONTAL -> board.numRows
-            Axis.VERTICAL -> board.numCols
-        }
         return arrayOf(
             Highlight(axis, direction, offset),
-            Highlight(axis, opposite(direction), (offset + 1) % modulus)
+            Highlight(axis, opposite(direction), offset + 1)
         )
     }
 

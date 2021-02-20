@@ -7,11 +7,6 @@ class GameBoard(private val board: Array<Array<GameCell>>) {
     val numRows = board.size
     val numCols = board[0].size
 
-    // Like % operator but always returns a non-negative number
-    private fun mod(base: Int, modulus: Int): Int {
-        return ((base % modulus) + modulus) % modulus
-    }
-
     // Gets a cell. Coordinates that are out of range will be modded until they are in range.
     fun getCell(row: Int, col: Int): GameCell {
         return board[mod(row, numRows)][mod(col, numCols)]

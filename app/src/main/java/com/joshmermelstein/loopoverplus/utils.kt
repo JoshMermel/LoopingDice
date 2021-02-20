@@ -3,6 +3,13 @@ package com.joshmermelstein.loopoverplus
 // Misc utils that are handy but don't fit elsewhere.
 // TODO(jmerm): replace if's with when's in several methods here.
 
+
+// Like % operator but always returns a non-negative number
+fun mod(base: Int, modulus: Int): Int {
+    return ((base % modulus) + modulus) % modulus
+}
+
+
 fun opposite(direction: Direction): Direction {
     return if (direction == Direction.FORWARD) {
         Direction.BACKWARD

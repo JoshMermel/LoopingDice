@@ -35,10 +35,12 @@ class Highlight(
             )
 
         if (axis == Axis.HORIZONTAL) {
+            val safeOffset = mod(offset, numRows)
+
             // determine top and bottom based on numRows and boundsTop/Bottom
             val height = (boundsBottom - boundsTop) / numRows
-            val top = (offset * height) + boundsTop
-            val bottom = ((offset + 1) * height) + boundsTop
+            val top = (safeOffset * height) + boundsTop
+            val bottom = ((safeOffset + 1) * height) + boundsTop
             val left = if (direction == Direction.BACKWARD) {
                 boundsLeft - 50
             } else {
@@ -47,9 +49,11 @@ class Highlight(
             val right = left + 100
             shapeDrawable.setBounds(left, top, right, bottom)
         } else {
+            val safeOffset = mod(offset, numCols)
+
             val width = (boundsRight - boundsLeft) / numCols
-            val left = (offset * width) + boundsLeft
-            val right = ((offset + 1) * width) + boundsLeft
+            val left = (safeOffset * width) + boundsLeft
+            val right = ((safeOffset + 1) * width) + boundsLeft
             val top = if (direction == Direction.BACKWARD) {
                 boundsTop - 50
             } else {
