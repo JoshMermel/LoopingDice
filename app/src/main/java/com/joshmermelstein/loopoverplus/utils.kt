@@ -3,6 +3,19 @@ package com.joshmermelstein.loopoverplus
 // Misc utils that are handy but don't fit elsewhere.
 // TODO(jmerm): replace if's with when's in several methods here.
 
+class Bounds(
+    val left : Double,
+    val top : Double,
+    val right : Double,
+    val bottom : Double
+) {
+    fun width() : Double {
+        return right - left
+    }
+    fun height() : Double {
+        return bottom - top
+    }
+}
 
 // Like % operator but always returns a non-negative number
 fun mod(base: Int, modulus: Int): Int {

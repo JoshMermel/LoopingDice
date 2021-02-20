@@ -331,8 +331,7 @@ class BandagedGameCell(
     }
 
     private fun drawBonds(
-        canvas: Canvas, left: Double, top: Double, right: Double, bottom: Double,
-        boundsLeft: Int, boundsTop: Int, boundsRight: Int, boundsBottom: Int, padding: Int
+        canvas: Canvas, left: Double, top: Double, right: Double, bottom: Double, bounds : Bounds, padding: Int
     ) {
         val x0 = (right + left) / 2
         val y0 = (bottom + top) / 2
@@ -360,18 +359,17 @@ class BandagedGameCell(
                 y0.toFloat(),
                 x1.toFloat(),
                 y1.toFloat(),
-                boundsLeft.toFloat(),
-                boundsTop.toFloat(),
-                boundsRight.toFloat(),
-                boundsBottom.toFloat(),
+                bounds.left.toFloat(),
+                bounds.top.toFloat(),
+                bounds.right.toFloat(),
+                bounds.bottom.toFloat(),
             )
         }
     }
 
     // Draws the shape but clamps boundaries that would have gone outside the game board.
     override fun drawSquareClamped(
-        canvas: Canvas, left: Double, top: Double, right: Double, bottom: Double,
-        boundsLeft: Int, boundsTop: Int, boundsRight: Int, boundsBottom: Int, padding: Int
+        canvas: Canvas, left: Double, top: Double, right: Double, bottom: Double, bounds : Bounds, padding: Int
     ) {
         super.drawSquareClamped(
             canvas,
@@ -379,10 +377,7 @@ class BandagedGameCell(
             top,
             right,
             bottom,
-            boundsLeft,
-            boundsTop,
-            boundsRight,
-            boundsBottom,
+            bounds,
             padding
         )
         drawBonds(
@@ -391,14 +386,12 @@ class BandagedGameCell(
             top,
             right,
             bottom,
-            boundsLeft,
-            boundsTop,
-            boundsRight,
-            boundsBottom,
+            bounds,
             padding
         )
     }
 
+    // TODO(jmerm): make last 4 args be a Bounds instead
     private fun drawLineClamped(
         canvas: Canvas, x0: Float, y0: Float, x1: Float, y1: Float,
         boundsLeft: Float, boundsTop: Float, boundsRight: Float, boundsBottom: Float
@@ -480,29 +473,23 @@ abstract class GameCell(
     // cell.
     fun drawSelf(
         canvas: Canvas,
-        boundsLeft: Int,
-        boundsTop: Int,
-        boundsRight: Int,
-        boundsBottom: Int,
+        bounds : Bounds,
         padding: Int
     ) {
-        val width = boundsRight - boundsLeft
-        val height = boundsBottom - boundsTop
+        val width = bounds.width()
+        val height = bounds.height()
 
-        val left = width * (x + offsetX) / params.numCols + padding + boundsLeft
-        val right = width * (x + offsetX + 1) / params.numCols - padding + boundsLeft
-        val top = height * (y + offsetY) / params.numRows + padding + boundsTop
-        val bottom = height * (y + offsetY + 1) / params.numRows - padding + boundsTop
+        val left = width * (x + offsetX) / params.numCols + padding + bounds.left
+        val right = width * (x + offsetX + 1) / params.numCols - padding + bounds.left
+        val top = height * (y + offsetY) / params.numRows + padding + bounds.top
+        val bottom = height * (y + offsetY + 1) / params.numRows - padding + bounds.top
         drawSelf(
             canvas,
             left,
             top,
             right,
             bottom,
-            boundsLeft,
-            boundsTop,
-            boundsRight,
-            boundsBottom,
+            bounds,
             padding
         )
     }
@@ -521,12 +508,12 @@ abstract class GameCell(
     // Draws the shape but clamps boundaries that would have gone outside the game board.
     open fun drawSquareClamped(
         canvas: Canvas, left: Double, top: Double, right: Double, bottom: Double,
-        boundsLeft: Int, boundsTop: Int, boundsRight: Int, boundsBottom: Int, padding: Int
+        bounds : Bounds, padding: Int
     ) {
-        val clampedLeft = left.coerceAtLeast(boundsLeft.toDouble() + padding)
-        val clampedTop = top.coerceAtLeast(boundsTop.toDouble() + padding)
-        val clampedRight = right.coerceAtMost(boundsRight.toDouble() - padding)
-        val clampedBottom = bottom.coerceAtMost(boundsBottom.toDouble() - padding)
+        val clampedLeft = left.coerceAtLeast(bounds.left + padding)
+        val clampedTop = top.coerceAtLeast(bounds.top + padding)
+        val clampedRight = right.coerceAtMost(bounds.right - padding)
+        val clampedBottom = bottom.coerceAtMost(bounds.bottom - padding)
         drawSquare(clampedLeft, clampedTop, clampedRight, clampedBottom, canvas)
         drawPips(left, top, right, bottom, this.pips, canvas)
     }
@@ -535,127 +522,54 @@ abstract class GameCell(
     // draw the cell twice, once at it original position (clamped into the boards's boundaries) and
     // once on the other side of the board.
     private fun drawSelf(
-        canvas: Canvas, left: Double, top: Double, right: Double, bottom: Double,
-        boundsLeft: Int, boundsTop: Int, boundsRight: Int, boundsBottom: Int, padding: Int
+        canvas: Canvas, left: Double, top: Double, right: Double, bottom: Double, bounds : Bounds, padding: Int
     ) {
-        val width = boundsRight - boundsLeft
-        val height = boundsBottom - boundsTop
+        // Draw at original position
+        drawSquareClamped(canvas, left, top, right, bottom, bounds, padding)
+
+        // Possibly draw wraparound
         when {
-            left < boundsLeft -> {
+            left < bounds.left -> {
                 drawSquareClamped(
                     canvas,
-                    left,
+                    left + bounds.width(),
                     top,
-                    right,
+                    right + bounds.width(),
                     bottom,
-                    boundsLeft,
-                    boundsTop,
-                    boundsRight,
-                    boundsBottom,
-                    padding
-                )
-                drawSquareClamped(
-                    canvas,
-                    left + width,
-                    top,
-                    right + width,
-                    bottom,
-                    boundsLeft,
-                    boundsTop,
-                    boundsRight,
-                    boundsBottom,
+                    bounds,
                     padding
                 )
             }
-            right > boundsRight -> {
+            right > bounds.right -> {
                 drawSquareClamped(
                     canvas,
-                    left,
+                    left - bounds.width(),
                     top,
-                    right,
+                    right - bounds.width(),
                     bottom,
-                    boundsLeft,
-                    boundsTop,
-                    boundsRight,
-                    boundsBottom,
-                    padding
-                )
-                drawSquareClamped(
-                    canvas,
-                    left - width,
-                    top,
-                    right - width,
-                    bottom,
-                    boundsLeft,
-                    boundsTop,
-                    boundsRight,
-                    boundsBottom,
+                    bounds,
                     padding
                 )
             }
-            top < boundsTop -> {
+            top < bounds.top -> {
                 drawSquareClamped(
                     canvas,
                     left,
-                    top,
+                    top + bounds.height(),
                     right,
-                    bottom,
-                    boundsLeft,
-                    boundsTop,
-                    boundsRight,
-                    boundsBottom,
-                    padding
-                )
-                drawSquareClamped(
-                    canvas,
-                    left,
-                    top + height,
-                    right,
-                    bottom + height,
-                    boundsLeft,
-                    boundsTop,
-                    boundsRight,
-                    boundsBottom,
+                    bottom + bounds.height(),
+                    bounds,
                     padding
                 )
             }
-            bottom > boundsBottom -> {
+            bottom > bounds.bottom -> {
                 drawSquareClamped(
                     canvas,
                     left,
-                    top,
+                    top - bounds.height(),
                     right,
-                    bottom,
-                    boundsLeft,
-                    boundsTop,
-                    boundsRight,
-                    boundsBottom,
-                    padding
-                )
-                drawSquareClamped(
-                    canvas,
-                    left,
-                    top - height,
-                    right,
-                    bottom - height,
-                    boundsLeft,
-                    boundsTop,
-                    boundsRight,
-                    boundsBottom,
-                    padding
-                )
-            }
-            else -> {
-                drawSquareClamped(
-                    canvas,
-                    left,
-                    top,
-                    right,
-                    bottom,
-                    boundsLeft,
-                    boundsTop,
-                    boundsRight,
-                    boundsBottom,
+                    bottom - bounds.height(),
+                    bounds,
                     padding
                 )
             }

@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.util.AttributeSet
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import androidx.core.content.ContextCompat
@@ -25,10 +26,7 @@ class GameplayView : View {
     )
 
     // cache of boundaries for drawing the board. Null indicates that they haven't been computed yet.
-    private var boardLeft: Int = -1
-    private var boardTop: Int = -1
-    private var boardRight: Int = -1
-    private var boardBottom: Int = -1
+    private var boundsBoard = Bounds(-1.0, -1.0, -1.0, -1.0)
 
     private fun placeBoard(canvas: Canvas) {
         val boardHeight = gameManager.board.numRows
@@ -57,15 +55,13 @@ class GameplayView : View {
             bottom += margin / 2
         }
 
-        boardLeft = left
-        boardTop = top
-        boardRight = right
-        boardBottom = bottom
+        boundsBoard = Bounds(left.toDouble(), top.toDouble(), right.toDouble(), bottom.toDouble())
+        Log.d("jmerm", "placed board! $left, $top, $right, $bottom")
+
     }
 
     // cache of boundaries for drawing the board. Null indicates that they haven't been computed yet.
-    private var legendRight: Int = -1
-    private var legendBottom: Int = -1
+    private var boundsLegend = Bounds(-1.0, -1.0, -1.0, -1.0)
     private var legendCirclePaint = Paint()
 
     private fun placeLegend(canvas: Canvas) {
@@ -84,9 +80,7 @@ class GameplayView : View {
             right /= boardHeight
         }
 
-        legendRight = right
-        legendBottom = bottom
-
+        boundsLegend = Bounds(1.0, 1.0, right.toDouble(), bottom.toDouble())
 
         legendCirclePaint.color = ContextCompat.getColor(context, R.color.legend_background)
         legendCirclePaint.style = Paint.Style.FILL
@@ -98,16 +92,16 @@ class GameplayView : View {
         super.onDraw(canvas)
         // canvas.drawColor(Color.WHITE)
         gameManager.update()
-        if (boardLeft != -1) {
-            gameManager.drawHighlights(canvas, boardLeft, boardTop, boardRight, boardBottom)
-            gameManager.drawBoard(canvas, boardLeft, boardTop, boardRight, boardBottom)
+        if (boundsBoard.left >= 0.0) {
+            gameManager.drawHighlights(canvas, boundsBoard)
+            gameManager.drawBoard(canvas, boundsBoard)
         } else {
             placeBoard(canvas)
         }
 
-        if (legendRight != -1) {
+        if (boundsLegend.left >= 0.0) {
             canvas.drawCircle(0f, 0f, (height / 4).toFloat(), legendCirclePaint)
-            gameManager.drawGoal(canvas, 1, 1, legendRight, legendBottom)
+            gameManager.drawGoal(canvas, boundsLegend)
         } else {
             placeLegend(canvas)
         }
@@ -145,7 +139,7 @@ class GameplayView : View {
     }
 
     private fun isInsideGrid(x: Float, y: Float): Boolean {
-        return (x >= boardLeft && x <= boardRight && y >= boardTop && y <= boardBottom)
+        return (x >= boundsBoard.left && x <= boundsBoard.right && y >= boundsBoard.top && y <= boundsBoard.bottom)
     }
 
 
@@ -192,9 +186,9 @@ class GameplayView : View {
             }
         )
         val offset = if (axis == Axis.HORIZONTAL) {
-            floor(gameManager.board.numRows * (startY - boardTop) / (boardBottom - boardTop)).toInt()
+            floor(gameManager.board.numRows * (startY - boundsBoard.top) / (boundsBoard.bottom - boundsBoard.top)).toInt()
         } else {
-            floor(gameManager.board.numCols * (startX - boardLeft) / (boardRight - boardLeft)).toInt()
+            floor(gameManager.board.numCols * (startX - boundsBoard.left) / (boundsBoard.right - boundsBoard.left)).toInt()
         }
 
         gameManager.enqueueMove(axis, direction, offset)
@@ -218,6 +212,8 @@ class GameplayView : View {
 
         // Figure out which axis was swiped and in what direction
         val axis = angleToAxis(theta) ?: return
+
+        // TODO(jmerm): share wtih above better (and use when instead of if)
         val direction = distToDirection(
             if (axis == Axis.HORIZONTAL) {
                 hDist
@@ -225,10 +221,11 @@ class GameplayView : View {
                 vDist
             }
         )
+        // TODO(jmerm): share with above method better
         val offset = if (axis == Axis.HORIZONTAL) {
-            floor(gameManager.board.numRows * (startY - boardTop) / (boardBottom - boardTop)).toInt()
+            floor(gameManager.board.numRows * (startY - boundsBoard.top) / (boundsBoard.bottom - boundsBoard.top)).toInt()
         } else {
-            floor(gameManager.board.numCols * (startX - boardLeft) / (boardRight - boardLeft)).toInt()
+            floor(gameManager.board.numCols * (startX - boundsBoard.left) / (boundsBoard.right - boundsBoard.left)).toInt()
         }
 
         gameManager.addHighlights(axis, direction, offset)

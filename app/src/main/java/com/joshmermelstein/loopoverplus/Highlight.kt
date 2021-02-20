@@ -17,10 +17,7 @@ class Highlight(
 ) {
     fun drawSelf(
         canvas: Canvas,
-        boundsLeft: Int,
-        boundsTop: Int,
-        boundsRight: Int,
-        boundsBottom: Int,
+        bounds : Bounds,
         context: Context,
         numRows: Int,
         numCols: Int
@@ -34,33 +31,35 @@ class Highlight(
                 ContextCompat.getColor(context, R.color.highlight)
             )
 
+        // TODO(jmerm): add getter for bounds width/height and use it here.
+
         if (axis == Axis.HORIZONTAL) {
             val safeOffset = mod(offset, numRows)
 
             // determine top and bottom based on numRows and boundsTop/Bottom
-            val height = (boundsBottom - boundsTop) / numRows
-            val top = (safeOffset * height) + boundsTop
-            val bottom = ((safeOffset + 1) * height) + boundsTop
+            val height = (bounds.bottom - bounds.top) / numRows
+            val top = (safeOffset * height) + bounds.top
+            val bottom = ((safeOffset + 1) * height) + bounds.top
             val left = if (direction == Direction.BACKWARD) {
-                boundsLeft - 50
+                bounds.left - 50
             } else {
-                boundsRight - 50
+                bounds.right - 50
             }
             val right = left + 100
-            shapeDrawable.setBounds(left, top, right, bottom)
+            shapeDrawable.setBounds(left.toInt(), top.toInt(), right.toInt(), bottom.toInt())
         } else {
             val safeOffset = mod(offset, numCols)
 
-            val width = (boundsRight - boundsLeft) / numCols
-            val left = (safeOffset * width) + boundsLeft
-            val right = ((safeOffset + 1) * width) + boundsLeft
+            val width = (bounds.right - bounds.left) / numCols
+            val left = (safeOffset * width) + bounds.left
+            val right = ((safeOffset + 1) * width) + bounds.left
             val top = if (direction == Direction.BACKWARD) {
-                boundsTop - 50
+                bounds.top - 50
             } else {
-                boundsBottom - 50
+                bounds.bottom - 50
             }
             val bottom = top + 100
-            shapeDrawable.setBounds(left, top, right, bottom)
+            shapeDrawable.setBounds(left.toInt(), top.toInt(), right.toInt(), bottom.toInt())
         }
 
         shapeDrawable.draw(canvas)

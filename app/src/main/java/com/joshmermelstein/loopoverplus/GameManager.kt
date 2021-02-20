@@ -95,36 +95,30 @@ class GameManager(
     // Helper for drawing a grid of cells to a bounding box on the canvas.
     private fun drawGrid(
         canvas: Canvas,
-        left: Int,
-        top: Int,
-        right: Int,
-        bottom: Int,
+        bounds : Bounds,
         grid: GameBoard,
         padding: Int
     ) {
         for (row in 0 until grid.numRows) {
             for (col in 0 until grid.numCols) {
-                grid.getCell(row, col).drawSelf(canvas, left, top, right, bottom, padding)
+                grid.getCell(row, col).drawSelf(canvas, bounds, padding)
             }
         }
     }
 
-    fun drawBoard(canvas: Canvas, left: Int, top: Int, right: Int, bottom: Int) {
-        drawGrid(canvas, left, top, right, bottom, board, 10)
+    fun drawBoard(canvas: Canvas, boundsBoard : Bounds) {
+        drawGrid(canvas, boundsBoard, board, 10)
     }
 
-    fun drawGoal(canvas: Canvas, left: Int, top: Int, right: Int, bottom: Int) {
-        drawGrid(canvas, left, top, right, bottom, goal, 2)
+    fun drawGoal(canvas: Canvas, boundsGoal : Bounds) {
+        drawGrid(canvas, boundsGoal, goal, 2)
     }
 
-    fun drawHighlights(canvas: Canvas, left: Int, top: Int, right: Int, bottom: Int) {
+    fun drawHighlights(canvas: Canvas, boundsBoard : Bounds) {
         for (highlight in this.highlights) {
             highlight.drawSelf(
                 canvas,
-                left,
-                top,
-                right,
-                bottom,
+                boundsBoard,
                 context,
                 params.numRows,
                 params.numCols
