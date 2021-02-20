@@ -24,7 +24,7 @@ val colors = arrayOf(
     Color.parseColor("#FF4242"),
     Color.parseColor("#A691AE"),
     Color.parseColor("#235FA4"),
-    Color.parseColor("#000000"),  // bandaged
+    Color.parseColor("#000000"), // bandaged
     Color.parseColor("#E8F086"), // enabler
 )
 
@@ -36,41 +36,18 @@ fun makeGameCell(
     colorId: String,
     context: Context
 ): GameCell {
-    when {
+    return when {
         colorId == "E" -> {
-            return EnablerGameCell(
-                x.toDouble(),
-                y.toDouble(),
-                params,
-                colorId,
-                context,
-                ResourcesCompat.getDrawable(
-                    context.resources,
-                    R.drawable.ic_baseline_vpn_key_24,
-                    null
-                )!!
-            )
+            EnablerGameCell(x.toDouble(), y.toDouble(), params, colorId, context)
         }
         colorId.startsWith("F") -> {
-            return FixedGameCell(
-                x.toDouble(),
-                y.toDouble(),
-                params,
-                colorId,
-                context,
-                ResourcesCompat.getDrawable(
-                    context.resources,
-                    R.drawable.ic_baseline_lock_24,
-                    null
-                )!!
-            )
+            FixedGameCell(x.toDouble(), y.toDouble(), params, colorId, context)
         }
         colorId.startsWith("B") -> {
-            return BandagedGameCell(x.toDouble(), y.toDouble(), params, colorId, context)
+            BandagedGameCell(x.toDouble(), y.toDouble(), params, colorId, context)
         }
-        else -> return NormalGameCell(x.toDouble(), y.toDouble(), params, colorId, context)
+        else -> NormalGameCell(x.toDouble(), y.toDouble(), params, colorId, context)
     }
-
 }
 
 // Represents a "normal" gameCell - meaning neither bandaged nor enabler.
@@ -118,12 +95,17 @@ open class NormalGameCell(
 // rectangles instead of rounded ones and uses square for pips.
 class FixedGameCell(
     override var x: Double, override var y: Double, override val params:
-    GameplayParams, colorId: String, private val context: Context, private val lock: Drawable
+    GameplayParams, colorId: String, private val context: Context
 ) : GameCell(x, y, params, colorId) {
     override val color = 4
     override val pips: Int
     override val isBlocking = true
     override val isEnabler = false
+    private val lock: Drawable = ResourcesCompat.getDrawable(
+        context.resources,
+        R.drawable.ic_baseline_lock_24,
+        null
+    )!!
 
     init {
         val parts = colorId.split(" ")
@@ -216,12 +198,17 @@ class FixedGameCell(
 // instead of rounded ones.
 class EnablerGameCell(
     override var x: Double, override var y: Double, override val params:
-    GameplayParams, colorId: String, private val context: Context, private val key: Drawable
+    GameplayParams, colorId: String, private val context: Context
 ) : GameCell(x, y, params, colorId) {
     override val color = 5
     override val pips = 1
     override val isBlocking = false
     override val isEnabler = true
+    private val key: Drawable = ResourcesCompat.getDrawable(
+        context.resources,
+        R.drawable.ic_baseline_vpn_key_24,
+        null
+    )!!
 
     override fun drawSquare(
         left: Double,
