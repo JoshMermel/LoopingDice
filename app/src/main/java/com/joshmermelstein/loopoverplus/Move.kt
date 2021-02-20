@@ -3,7 +3,7 @@ package com.joshmermelstein.loopoverplus
 import kotlin.math.pow
 
 // A Move represents the outcome of the user swiping on the board. Most Moves slide pieces around
-// the board according to their implementation but this is not required (e.g. see IllegalMove)
+// the board in an implementation-defined way but this is not required (e.g. see IllegalMove)
 interface Move {
     fun run(board: GameBoard, startTime: Long, endTime: Long, currentTime: Long) {
         // Compute how much of the move has happened
@@ -104,11 +104,9 @@ interface CoordinatesMove : LegalMove {
 
         // Write those updates back into the board.
         for ((t, cell) in updates) {
+            cell.finalize(board.numRows, board.numCols)
             board.setCell(t.y1, t.x1, cell)
         }
-
-        // Update base positions of all cells so future moves apply to the right ones.
-        board.finalize()
     }
 }
 
