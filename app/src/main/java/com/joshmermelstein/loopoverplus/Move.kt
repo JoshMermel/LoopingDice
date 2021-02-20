@@ -5,7 +5,6 @@ import kotlin.math.pow
 // A Move represents the outcome of the user swiping on the board. Most Moves slide pieces around
 // the board according to their implementation but this is not required (e.g. see IllegalMove)
 interface Move {
-    // TODO(jmerm): should this take the board object instead of the manager object?
     fun run(board: GameBoard, startTime: Long, endTime: Long, currentTime: Long) {
         // Compute how much of the move has happened
         val progress: Double = when {
