@@ -23,12 +23,14 @@ open class CarouselMove(
         offset: Int,
         numCols: Int
     ) {
+        // Figure out which row goes right and which goes left.
+        // Because the Board object mods out-of-range values for us, we don't need to think about
+        // that here.
         var rowRightIdx = offset
         var rowLeftIdx = offset
-        if (direction == Direction.FORWARD) {
-            rowLeftIdx += 1
-        } else {
-            rowRightIdx += 1
+        when (direction) {
+            Direction.FORWARD -> rowLeftIdx += 1
+            Direction.BACKWARD -> rowRightIdx += 1
         }
 
         // Move one row right except the rightmost element
@@ -51,12 +53,14 @@ open class CarouselMove(
         offset: Int,
         numRows: Int
     ) {
+        // Figure out which row goes down and which goes up.
+        // Because the Board object mods out-of-range values for us, we don't need to think about
+        // that here.
         var colDownIdx = offset
         var colUpIdx = offset
-        if (direction == Direction.FORWARD) {
-            colUpIdx += 1
-        } else {
-            colDownIdx += 1
+        when (direction) {
+            Direction.FORWARD -> colUpIdx += 1
+            Direction.BACKWARD -> colDownIdx += 1
         }
 
         // Move all cells in one col down except the bottom one

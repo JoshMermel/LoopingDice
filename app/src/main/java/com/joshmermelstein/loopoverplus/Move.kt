@@ -82,8 +82,8 @@ class Transition(
 
 // A CoordinatesMove is an intermediate subclass of Move that provides shared logic to make further
 // subclasses easier to implement. Rather than Move subclasses implementing the same logic for
-// |updatePositions| and |updateGrid|, this class helps them implement both in terms of a list of
-// Transitions.
+// updating draw positions and updating the underlying grid afterward, this class helps them
+// implement both in terms of a list of Transitions.
 interface CoordinatesMove : LegalMove {
     val transitions: MutableList<Transition>
 
