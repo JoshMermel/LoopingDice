@@ -330,7 +330,7 @@ class BandagedGameCell(
         shapeDrawable.draw(canvas)
     }
 
-    override fun drawBonds(
+    private fun drawBonds(
         canvas: Canvas, left: Double, top: Double, right: Double, bottom: Double,
         boundsLeft: Int, boundsTop: Int, boundsRight: Int, boundsBottom: Int, padding: Int
     ) {
@@ -366,6 +366,37 @@ class BandagedGameCell(
                 boundsBottom.toFloat(),
             )
         }
+    }
+
+    // Draws the shape but clamps boundaries that would have gone outside the game board.
+    override fun drawSquareClamped(
+        canvas: Canvas, left: Double, top: Double, right: Double, bottom: Double,
+        boundsLeft: Int, boundsTop: Int, boundsRight: Int, boundsBottom: Int, padding: Int
+    ) {
+        super.drawSquareClamped(
+            canvas,
+            left,
+            top,
+            right,
+            bottom,
+            boundsLeft,
+            boundsTop,
+            boundsRight,
+            boundsBottom,
+            padding
+        )
+        drawBonds(
+            canvas,
+            left,
+            top,
+            right,
+            bottom,
+            boundsLeft,
+            boundsTop,
+            boundsRight,
+            boundsBottom,
+            padding
+        )
     }
 
     private fun drawLineClamped(
@@ -498,24 +529,6 @@ abstract class GameCell(
         val clampedBottom = bottom.coerceAtMost(boundsBottom.toDouble() - padding)
         drawSquare(clampedLeft, clampedTop, clampedRight, clampedBottom, canvas)
         drawPips(left, top, right, bottom, this.pips, canvas)
-        drawBonds(
-            canvas,
-            left,
-            top,
-            right,
-            bottom,
-            boundsLeft,
-            boundsTop,
-            boundsRight,
-            boundsBottom,
-            padding
-        )
-    }
-
-    open fun drawBonds(
-        canvas: Canvas, left: Double, top: Double, right: Double, bottom: Double,
-        boundsLeft: Int, boundsTop: Int, boundsRight: Int, boundsBottom: Int, padding: Int
-    ) {
     }
 
     // Sometimes the boundaries of a cell may go outside the board's boundaries. In that case, we
