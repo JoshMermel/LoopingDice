@@ -2,22 +2,19 @@ package com.joshmermelstein.loopoverplus
 
 import kotlin.math.pow
 
-// TODO(jmerm): break move types into own files
-
-// A move represents the outcome of the user swiping on the board. Most moves move cells around in three phases:
-// - updating their draw positions
-// - updating the underlying grid once they are done
-// - finalizing their draw positions
+// A Move represents the outcome of the user swiping on the board. Most Moves slide pieces around
+// the board according to their implementation but this is not required (e.g. see IllegalMove)
 interface Move {
-    fun run(manager: GameManager, startTime: Long, endTime: Long, currentTime: Long) {
+    // TODO(jmerm): should this take the board object instead of the manager object?
+    fun run(board: GameBoard, startTime: Long, endTime: Long, currentTime: Long) {
         // Compute how much of the move has happened
         val progress: Double = when {
             (currentTime < startTime) -> {
-                // It's too soon to do anything
+                // It's too soon to do anything.
                 return
             }
             (currentTime < endTime) -> {
-                // We're in the middle of a move
+                // We're in the middle of a move.
                 ease((currentTime - startTime) / (endTime - startTime).toDouble())
             }
             else -> {
@@ -27,36 +24,27 @@ interface Move {
         }
 
         // Update the positions of relevant cells
-        updatePositions(progress, manager.board)
+        animateProgress(progress, board)
 
-        // if it's over, also finalize
+        // If it's over, also finalize
         if (currentTime > endTime) {
-            updateGrid(manager.board)
-            finalize(manager.board)
+            finalize(board)
         }
     }
 
+    // https://easings.net/#easeOutBack
     fun ease(x: Double): Double {
-        // easeOutBack
         val c1 = 1.70158
         val c3 = c1 + 1
         return 1 + c3 * (x - 1).pow(3) + c1 * (x - 1).pow(2)
     }
 
-    // Updates the draw position of cells based on |progress| but does not update the underlying
-    // board
-    // Progress will range from 0 (before the move starts) to 1 (after the move completes)
-    fun updatePositions(progress: Double, board: GameBoard)
+    // Updates board based on |progress| to animate the move for the user.
+    // Progress will range from 0 (before the move starts) to 1 (after the move completes).
+    fun animateProgress(progress: Double, board: GameBoard)
 
-    // Updates the underlying board once a move has completed so further moves will apply to the
-    // correct cells
-    fun updateGrid(board: GameBoard)
-
-    // Updates the internal absolute position of each modified cell. This makes it possible to move
-    // those cells again relative to their new position.
-    fun finalize(board: GameBoard) {
-        board.finalize()
-    }
+    // Do any work that needs to happen after a move completes but before the next move can begin.
+    fun finalize(board: GameBoard)
 }
 
 // Subclasses of LegalMove get counted toward move counts, be written to the undo stack, and be
@@ -69,6 +57,7 @@ interface LegalMove : Move {
     // Returns a move that undoes this one
     fun inverse(): Move
 
+    // TODO(jmerm): the toString, toUserString distinction is bizarre. Can this be simplified or named better?
     // Used for saving move history to a file.
     override fun toString(): String
 
@@ -99,7 +88,7 @@ class Transition(
 interface CoordinatesMove : LegalMove {
     val transitions: MutableList<Transition>
 
-    override fun updatePositions(progress: Double, board: GameBoard) {
+    override fun animateProgress(progress: Double, board: GameBoard) {
         for (t in transitions) {
             val cell = board.getCell(t.y0, t.x0)
             cell.offsetX = (t.x1 - t.x0) * progress
@@ -107,7 +96,7 @@ interface CoordinatesMove : LegalMove {
         }
     }
 
-    override fun updateGrid(board: GameBoard) {
+    override fun finalize(board: GameBoard) {
         // Read all updates into a map so they can be executed without overwriting each other.
         val updates: MutableMap<Transition, GameCell> = mutableMapOf()
         for (t in transitions) {
@@ -118,6 +107,9 @@ interface CoordinatesMove : LegalMove {
         for ((t, cell) in updates) {
             board.setCell(t.y1, t.x1, cell)
         }
+
+        // Update base positions of all cells so future moves apply to the right ones.
+        board.finalize()
     }
 }
 
@@ -145,199 +137,6 @@ interface RowColMove : CoordinatesMove {
             transitions.add(Transition(offset, row, offset, row + delta))
         }
     }
-}
-
-// Basic move moves a single row or column. It is handy as a base class for more complex kinds of
-// Row/Col based moves.
-class BasicMove(
-    override val axis: Axis,
-    override val direction: Direction,
-    override val offset: Int,
-    private val numRows: Int,
-    private val numCols: Int
-) : RowColMove {
-    override val transitions = mutableListOf<Transition>()
-
-    init {
-        if (axis == Axis.HORIZONTAL) {
-            addHorizontal(direction, offset, numCols)
-        } else {
-            addVertical(direction, offset, numRows)
-        }
-    }
-
-    override fun inverse(): Move {
-        return BasicMove(axis, opposite(direction), offset, numRows, numCols)
-    }
-
-    override fun toString(): String {
-        return "BASIC $axis $direction $offset"
-    }
-}
-
-// A wide move is like a basic move but it effects many rows/columns depending on depth.
-class WideMove(
-    override val axis: Axis,
-    override val direction: Direction,
-    override val offset: Int,
-    private val numRows: Int,
-    private val numCols: Int,
-    private val depth: Int
-) : RowColMove {
-    override val transitions = mutableListOf<Transition>()
-
-    init {
-        if (axis == Axis.HORIZONTAL) {
-            for (row in (offset until offset + depth)) {
-                addHorizontal(direction, row, numCols)
-            }
-        } else {
-            for (col in (offset until offset + depth)) {
-                addVertical(direction, col, numRows)
-            }
-        }
-    }
-
-    override fun inverse(): Move {
-        return WideMove(axis, opposite(direction), offset, numRows, numCols, depth)
-    }
-
-    override fun toString(): String {
-        return "WIDE $axis $direction $offset $depth"
-    }
-}
-
-// A gear move is like a basic move but the row/col after the selected one also moves in the
-// opposite direction.
-class GearMove(
-    override val axis: Axis,
-    override val direction: Direction,
-    override val offset: Int,
-    private val numRows: Int,
-    private val numCols: Int
-) : RowColMove {
-    override val transitions = mutableListOf<Transition>()
-
-    init {
-        if (axis == Axis.HORIZONTAL) {
-            addHorizontal(direction, offset, numCols)
-            addHorizontal(opposite(direction), offset + 1, numCols)
-        } else {
-            addVertical(direction, offset, numRows)
-            addVertical(opposite(direction), offset + 1, numRows)
-        }
-    }
-
-    override fun inverse(): Move {
-        return GearMove(axis, opposite(direction), offset, numRows, numCols)
-    }
-
-    override fun toString(): String {
-        return "GEAR $axis $direction $offset"
-    }
-}
-
-// A Carousel move forms a ring with the row/col that was selected and it's neighbor and does a
-// circular shift.
-open class CarouselMove(
-    final override val axis: Axis,
-    final override val direction: Direction,
-    final override val offset: Int,
-    private val numRows: Int,
-    private val numCols: Int
-) : CoordinatesMove {
-    override val transitions = mutableListOf<Transition>()
-
-    init {
-        if (axis == Axis.HORIZONTAL) {
-            fillTransitionsHorizontal(direction, offset, numCols)
-        } else {
-            fillTransitionsVertical(direction, offset, numRows)
-        }
-    }
-
-    private fun fillTransitionsHorizontal(
-        direction: Direction,
-        offset: Int,
-        numCols: Int
-    ) {
-        var rowRightIdx = offset
-        var rowLeftIdx = offset
-        if (direction == Direction.FORWARD) {
-            rowLeftIdx += 1
-        } else {
-            rowRightIdx += 1
-        }
-
-        // Move one row right except the rightmost element
-        for (col in (numCols - 1 downTo 1)) {
-            transitions.add(Transition(col, rowLeftIdx, col - 1, rowLeftIdx))
-        }
-        // Move the rightmost element into the other row
-        transitions.add(Transition(numCols - 1, rowRightIdx, numCols - 1, rowLeftIdx))
-
-        // Move the other row left except the leftmost element
-        for (col in (0 until numCols - 1)) {
-            transitions.add(Transition(col, rowRightIdx, col + 1, rowRightIdx))
-        }
-        // Move the leftmost element into the other row
-        transitions.add(Transition(0, rowLeftIdx, 0, rowRightIdx))
-    }
-
-    private fun fillTransitionsVertical(
-        direction: Direction,
-        offset: Int,
-        numRows: Int
-    ) {
-        var colDownIdx = offset
-        var colUpIdx = offset
-        if (direction == Direction.FORWARD) {
-            colUpIdx += 1
-        } else {
-            colDownIdx += 1
-        }
-
-        // Move all cells in one row down except the bottom one
-        for (row in (numRows - 1 downTo 1)) {
-            transitions.add(Transition(colUpIdx, row, colUpIdx, row - 1))
-        }
-        // Move the bottom cell of that row into the other column
-        transitions.add(Transition(colDownIdx, numRows - 1, colUpIdx, numRows - 1))
-
-        // Move all cells in the other row up except the top one
-        for (row in (0 until numRows - 1)) {
-            transitions.add(Transition(colDownIdx, row, colDownIdx, row + 1))
-        }
-        // Move the top cell of that row into the other column
-        transitions.add(Transition(colUpIdx, 0, colDownIdx, 0))
-    }
-
-    override fun inverse(): Move {
-        return CarouselMove(axis, opposite(direction), offset, numRows, numCols)
-    }
-
-    override fun toString(): String {
-        return "CAROUSEL $axis $direction $offset"
-    }
-}
-
-// A hack to signal when the user's input was received but results in an invalid move. This kind of
-// move hooks into the moveQueue system to flash an icon to the user but does not moe around any cells.
-class IllegalMove(private val cords: List<Pair<Int, Int>>) : Move {
-    override fun updatePositions(progress: Double, board: GameBoard) {
-        for (cord in cords) {
-            board.getCell(cord.first, cord.second).shouldDrawIcon = true
-        }
-    }
-
-    override fun finalize(board: GameBoard) {
-        for (cord in cords) {
-            board.getCell(cord.first, cord.second).shouldDrawIcon = false
-        }
-    }
-
-    // Do nothing, the move is illegal
-    override fun updateGrid(board: GameBoard) {}
 }
 
 // Helper for loading saved moves from files.

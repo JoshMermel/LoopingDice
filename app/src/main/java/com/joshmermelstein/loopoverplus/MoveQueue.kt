@@ -11,7 +11,7 @@ class MoveQueue {
     // that have completed.
     fun runMoves(currentTime: Long, manager: GameManager) {
         for (moveAndTime in this.moves) {
-            moveAndTime.move.run(manager, moveAndTime.startTime, moveAndTime.endTime, currentTime)
+            moveAndTime.move.run(manager.board, moveAndTime.startTime, moveAndTime.endTime, currentTime)
         }
         moves.filter { m -> m.endTime < currentTime }.forEach { moves.remove(it) }
     }

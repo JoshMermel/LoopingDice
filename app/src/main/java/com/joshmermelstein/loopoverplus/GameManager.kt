@@ -146,7 +146,7 @@ class GameManager(
 
         // But only legal moves get added to the undo stack and counted toward the user's numMoves
         if (move is LegalMove) {
-            move.updateGrid(future)
+            move.finalize(future)
             undoStack.push(move)
             redoStack.clear()
             numMoves++
@@ -162,7 +162,7 @@ class GameManager(
         }
         val wasSolved = isSolved()
         val lastMove = undoStack.peek().inverse()
-        lastMove.updateGrid(future)
+        lastMove.finalize(future)
         moveQueue.addMove(lastMove)
         redoStack.push(undoStack.pop())
         numMoves--
@@ -181,7 +181,7 @@ class GameManager(
             return
         }
         val redoneMove = redoStack.pop()
-        redoneMove.updateGrid(future)
+        redoneMove.finalize(future)
         moveQueue.addMove(redoneMove)
         undoStack.push(redoneMove)
         numMoves++
