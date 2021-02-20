@@ -34,6 +34,20 @@ class BandagedGameCell(
         return bonds
     }
 
+    // Draws the shape but clamps boundaries that would have gone outside the game board.
+    override fun drawSquareClamped(
+        canvas: Canvas,
+        left: Double,
+        top: Double,
+        right: Double,
+        bottom: Double,
+        bounds: Bounds,
+        padding: Int
+    ) {
+        super.drawSquareClamped(canvas, left, top, right, bottom, bounds, padding)
+        drawBonds(canvas, left, top, right, bottom, bounds, padding)
+    }
+
     private fun drawBonds(
         canvas: Canvas,
         left: Double,
@@ -63,64 +77,41 @@ class BandagedGameCell(
                     y1 += (bottom - top + padding)
                 }
             }
-            drawLineClamped(
-                canvas,
-                x0.toFloat(),
-                y0.toFloat(),
-                x1.toFloat(),
-                y1.toFloat(),
-                bounds.left.toFloat(),
-                bounds.top.toFloat(),
-                bounds.right.toFloat(),
-                bounds.bottom.toFloat(),
-            )
+            drawLineClamped(canvas, x0, y0, x1, y1, bounds)
         }
     }
 
-    // Draws the shape but clamps boundaries that would have gone outside the game board.
-    override fun drawSquareClamped(
-        canvas: Canvas,
-        left: Double,
-        top: Double,
-        right: Double,
-        bottom: Double,
-        bounds: Bounds,
-        padding: Int
-    ) {
-        super.drawSquareClamped(canvas, left, top, right, bottom, bounds, padding)
-        drawBonds(canvas, left, top, right, bottom, bounds, padding)
-    }
-
-    // TODO(jmerm): make last 4 args be a Bounds instead
-    private fun drawLineClamped(
-        canvas: Canvas, x0: Float, y0: Float, x1: Float, y1: Float,
-        boundsLeft: Float, boundsTop: Float, boundsRight: Float, boundsBottom: Float
-    ) {
+    private fun drawLineClamped(canvas: Canvas, x0: Double, y0: Double, x1: Double, y1: Double, bounds: Bounds) {
         val paint = Paint()
         paint.color = Color.BLACK
-        paint.strokeWidth = (boundsRight - boundsLeft) / 24
+        paint.strokeWidth = bounds.width().toFloat() / 24
         paint.strokeCap = Paint.Cap.ROUND
 
-
-        val boundedX0 = x0.coerceIn(boundsLeft, boundsRight)
-        val boundedX1 = x1.coerceIn(boundsLeft, boundsRight)
-        val boundedY0 = y0.coerceIn(boundsTop, boundsBottom)
-        val boundedY1 = y1.coerceIn(boundsTop, boundsBottom)
+        val boundedX0 = x0.coerceIn(bounds.left, bounds.right)
+        val boundedX1 = x1.coerceIn(bounds.left, bounds.right)
+        val boundedY0 = y0.coerceIn(bounds.top, bounds.bottom)
+        val boundedY1 = y1.coerceIn(bounds.top, bounds.bottom)
 
         if (countDifferences(x0, y0, x1, y1, boundedX0, boundedY0, boundedX1, boundedY1) < 2) {
-            canvas.drawLine(boundedX0, boundedY0, boundedX1, boundedY1, paint)
+            drawLine(canvas, boundedX0, boundedY0, boundedX1, boundedY1, paint)
         }
+    }
+
+    // Canvas APIs are picky about types which force me to use a lot of toType(). This method hides
+    // that ugliness for drawing lines using Double coordinates.
+    private fun drawLine(canvas: Canvas, x0: Double, y0: Double, x1: Double, y1: Double, paint: Paint) {
+        canvas.drawLine(x0.toFloat(), y0.toFloat(), x1.toFloat(), y1.toFloat(), paint)
     }
 
     private fun countDifferences(
-        x0: Float,
-        y0: Float,
-        x1: Float,
-        y1: Float,
-        boundedX0: Float,
-        boundedY0: Float,
-        boundedX1: Float,
-        boundedY1: Float
+        x0: Double,
+        y0: Double,
+        x1: Double,
+        y1: Double,
+        boundedX0: Double,
+        boundedY0: Double,
+        boundedX1: Double,
+        boundedY1: Double
     ): Int {
         var ret = 0
         if (x0 != boundedX0) {

@@ -127,6 +127,7 @@ abstract class GameCell(
         drawSquareClamped(canvas, left, top, right, bottom, bounds, padding)
 
         // Possibly draw wraparound
+        // TODO(jmerm): surely there's a better way to write this.
         when {
             left < bounds.left -> {
                 drawSquareClamped(

@@ -9,7 +9,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.DrawableCompat
 
-
 // A fixed gameCell is like a regular gameCell except it is bandaged and it used squared
 // rectangles instead of rounded ones and uses square for pips.
 class FixedGameCell(
