@@ -6,3 +6,4 @@ E4 e_make_square 5 12
 E5 e_two_columns 13 25
 E6 e_raise_stripe 11 25
 E7 e_lava 7 20
+E8 e_swap_stripes 10 19

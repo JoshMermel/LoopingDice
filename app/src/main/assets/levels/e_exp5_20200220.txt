@@ -1,6 +1,0 @@
-2
-3
-ENABLER
-E,2,3,5,6,7
-5,6,7,E,2,3
-# kinda bad, too hard

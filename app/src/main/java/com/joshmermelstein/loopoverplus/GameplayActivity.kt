@@ -71,6 +71,7 @@ class GameplayActivity : AppCompatActivity() {
                 val clipboardManager = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                 val clip = ClipData.newPlainText("Moves", gameManager.toUserString())
                 clipboardManager.setPrimaryClip(clip)
+                // TODO(jmerm): do a toast here to let them know it succeeded?
                 true
             }
             R.id.reset -> {
