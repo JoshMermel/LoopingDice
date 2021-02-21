@@ -2,7 +2,7 @@ Enabler
 E1 e_intro 8 10
 E2 e_four_corners 7 20
 E3 e_consolidate 25 50
-E5 e_make_square 5 12
-E4 e_two_columns 17 30
+E4 e_make_square 5 12
+E5 e_two_columns 17 30
 E6 e_raise_stripe 11 25
 E7 e_lava 7 20
