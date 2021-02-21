@@ -3,4 +3,4 @@
 ENABLER
 E,2,2,2,2,2,2,2,2,2,2,2,2,2,1
 E,2,2,2,2,2,2,1,2,2,2,2,2,2,2
-// good candidate for first E level
+# R0' C2' C2' R3' C1' R2' C0' C0'

@@ -3,4 +3,4 @@
 ENABLER
 3,4,3,4,E,4,3,4,3
 E,3,3,3,4,4,3,4,4
-# great puzzle first attempt got 5, early in progression
+# R1' C0 R2 C1 R0'

@@ -3,4 +3,5 @@
 ENABLER
 E,2,3,2,3,2,3,2
 2,E,2,3,2,3,2,3
-// first try 17
+# (R0 C1 R1 C0')x3 R0
+# first try 17
