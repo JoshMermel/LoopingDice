@@ -1,6 +1,7 @@
 package com.joshmermelstein.loopoverplus
 
 import android.content.Context
+import android.util.Log
 import java.io.BufferedReader
 import java.io.InputStreamReader
 
@@ -43,6 +44,7 @@ class MetadataSingleton private constructor(context: Context) {
 
             var line: String? = reader.readLine()
             while (line != null) {
+                // TODO(jmerm): handle invalid/empty input better here.
                 val parts = line.split(" ")
                 pack.levels.add(parts[1])
                 levelData[parts[1]] =
