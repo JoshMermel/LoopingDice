@@ -56,8 +56,6 @@ class GameplayView : View {
         }
 
         boundsBoard = Bounds(left.toDouble(), top.toDouble(), right.toDouble(), bottom.toDouble())
-        Log.d("jmerm", "placed board! $left, $top, $right, $bottom")
-
     }
 
     // cache of boundaries for drawing the board. Null indicates that they haven't been computed yet.
