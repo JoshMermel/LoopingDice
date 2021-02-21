@@ -57,7 +57,7 @@ abstract class GameCell(
     abstract val color: Int
     abstract val pips: Int
 
-    // TODO(jmerm) could these be replace by type checks
+    // TODO(jmerm) could these be replace by type checks?
     open val isBlocking = false
     open val isEnabler = false
 
