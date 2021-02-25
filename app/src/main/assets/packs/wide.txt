@@ -13,7 +13,7 @@ W11 w_quad_horizontal_stripe 7 15
 W12 w_big_plus 5 15
 W13 w_big_corners 7 10
 W14 w_flag 4 15
-W15 w_two_fish 20 40
+W15 w_two_fish 6 30
 W16 w_bicolor_31 11 22
 W17 w_four_squares 11 25
 W18 w_deeper_4 40 100
