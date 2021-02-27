@@ -1,0 +1,7 @@
+4
+3
+GEAR
+1,1,0,1,1,0,0,0,1,0,0,1
+1,1,1,1,1,1,0,0,0,0,0,0
+R0,R2,C0'
+# hard to but I want to make it stay and have it come before exp5 (4 stripes)

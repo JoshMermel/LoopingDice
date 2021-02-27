@@ -1,0 +1,7 @@
+5
+5
+GEAR
+1,1,1,1,0,1,1,1,0,0,1,1,0,0,0,1,0,0,0,0,0,0,0,0,0
+0,0,0,0,0,0,0,0,0,1,0,0,0,1,1,0,0,1,1,1,0,1,1,1,1
+# R1,C0,C1',C2,R3,R3,C2,R0
+# surprisingly possible but hard to optimize. I scored a 27 my first try
