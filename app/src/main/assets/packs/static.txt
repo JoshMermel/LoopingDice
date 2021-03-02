@@ -1,4 +1,16 @@
 Static Cells
 S1 s_intro 6 10
 S2 s_checker 3 6
-S3 s_quadrant 32 64
+S3 s_make_diag 4 7
+S4 s_horseshoe 7 20
+S5 s_top_two 9 25
+S6 s_quadrant 7 15
+S7 s_bridge 6 15
+S8 s_rotate_center 7 12
+S9 s_tall_bicolor 7 20
+S10 s_ring 5 12
+S11 s_rotate_strips 7 20
+S12 s_quad_strips 7 20
+S13 s_quad_horizontal_stripe 8 24
+S14 s_defrag 6 20
+S15 s_join_edges 10 20
