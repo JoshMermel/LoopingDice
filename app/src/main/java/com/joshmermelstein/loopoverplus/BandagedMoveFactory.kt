@@ -25,7 +25,10 @@ class BandagedMoveFactory : MoveFactory {
                 retOffset -= 1
                 depth += 1
             }
-            while (board.rowContainsBond(retOffset + depth - 1, Bond.DOWN) && depth <= board.numCols
+            while (board.rowContainsBond(
+                    retOffset + depth - 1,
+                    Bond.DOWN
+                ) && depth <= board.numCols
             ) {
                 depth += 1
             }
@@ -35,7 +38,11 @@ class BandagedMoveFactory : MoveFactory {
                 depth += 1
 
             }
-            while (board.colContainsBond(retOffset + depth - 1, Bond.RIGHT) && depth <= board.numRows) {
+            while (board.colContainsBond(
+                    retOffset + depth - 1,
+                    Bond.RIGHT
+                ) && depth <= board.numRows
+            ) {
                 depth += 1
             }
         }
