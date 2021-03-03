@@ -4,3 +4,4 @@ WIDE 3 2
 2,2,2,3,3,3,2,2,2
 2,2,3,2,3,2,3,2,2
 # par 2 6
+# TODO(jmerm): rename to w_make_diag?
