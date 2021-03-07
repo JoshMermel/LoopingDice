@@ -61,6 +61,7 @@ class GameManager(
     fun loadFromSavedLevel(level: SavedLevel) {
         // If this save file represents a solved board don't re-popup the win dialog
         if (level.board.contentEquals(params.goal)) {
+            // TODO(jmerm): consider just ignoring the save file in this situation. Why would the player want to see the finished level?
             complete = true
         }
 
@@ -148,6 +149,7 @@ class GameManager(
             buttonState.redoButtonEnabled = false
             updateGameplayMoveCount()
         }
+        // TODO(jmerm): something like wasSolved here so people can keep winning after they win
     }
 
     fun undoMove() {
@@ -184,6 +186,7 @@ class GameManager(
             buttonState.redoButtonEnabled = false
         }
         updateGameplayMoveCount()
+        // TODO(jmerm): something like wasSolved here so people can keep winning after they win
     }
 
     fun addHighlights(axis: Axis, direction: Direction, offset: Int) {
