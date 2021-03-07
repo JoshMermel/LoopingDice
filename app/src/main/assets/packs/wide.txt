@@ -2,7 +2,7 @@ Wide
 W1 w_intro 3 6
 W2 w_cant_fail 2 4
 W3 w_stripe 2 6
-W4 w_diag 4 10
+W4 w_diag 4 7
 W5 w_plus 3 8
 W6 w_triple_stripe 4 10
 W7 w_dominoes 6 11
@@ -14,8 +14,8 @@ W12 w_big_plus 5 15
 W13 w_big_corners 7 10
 W14 w_flag 4 15
 W15 w_two_fish 6 30
-W16 w_bicolor_31 11 22
-W17 w_four_squares 11 25
+W16 w_bicolor_31 6 14
+W17 w_four_squares 9 25
 W18 w_deeper_4 40 100
 W19 w_unique_2x4 7 15
 W20 w_staircase 8 25

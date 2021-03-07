@@ -3,5 +3,4 @@
 ENABLER
 E,4,4,1,1,1,3,3,3
 E,4,4,3,3,3,1,1,1
-# R0 C1 R1 C2 R2' C1 R0 C2' R2 C0
-# my answer: Col0 Row1 Col1' Row0' Col0 Row1' Col2' Row0' Col1 Row1 Col2' Row0
+# C0',R2',C2,R0',C1',R2,C2',R1',C1',R0' (10)
