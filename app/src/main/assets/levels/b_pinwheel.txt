@@ -1,0 +1,6 @@
+4
+4
+BANDAGED
+B 1 R,B 1 L,0,B 2 D,0,0,0,B 2 U,B 2 D,0,0,0,B 2 U,0,B 1 R,B 1 L
+B 2 D,0,B 1 R,B 1 L,B 2 U,0,0,0,0,0,0,B 2 D,B 1 R,B 1 L,0,B 2 U
+# R2,C0,C0,R0,C0',C0',R0',R0' (8)

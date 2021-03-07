@@ -1,6 +1,11 @@
 Bandaged
 B1 b_intro 2 5
-B2 b_three_block 8 15
-B3 b_columns 8 16
-B4 b_quadrants 26 50
-B5 b_ai 20 100
+B2 b_three_block 7 13
+B3 b_make_squares 6 30
+B4 b_columns 7 12
+B5 b_unwrap 7 30
+B6 b_quadrants 14 30
+B7 b_pinwheel 8 30
+B8 b_dominoes 6 30
+B9 b_rotate_180 5 10
+B10 b_ai 9 25
