@@ -1,0 +1,6 @@
+3
+4
+BANDAGED
+3,B 3 R,B 4 L,4,3,B 3 R,B 4 L,4,3,B 3 R,B 4 L,4
+B 3 R,B 4 L,3,4,3,4,B 3 R,B 4 L,B 3 R,B 4 L,3,4
+# R0',C0,R0',C3',R2',R2',C0',R1' (8)

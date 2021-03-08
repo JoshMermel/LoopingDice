@@ -1,0 +1,6 @@
+5
+5
+BANDAGED
+B 3 D R,B 3 D L,1,B 2 D R,B 2 D L,B 3 U R,B 3 U L,1,B 2 U R,B 2 U L,1,1,1,1,1,B 2 D R,B 2 D L,1,B 3 D R,B 3 D L,B 2 U R,B 2 U L,1,B 3 U R,B 3 U L
+B 2 D R,B 2 D L,1,B 3 D R,B 3 D L,B 2 U R,B 2 U L,1,B 3 U R,B 3 U L,1,1,1,1,1,B 3 D R,B 3 D L,1,B 2 D R,B 2 D L,B 3 U R,B 3 U L,1,B 2 U R,B 2 U L
+# R0,R0,C0,C0,R0,C0',C0',R3,R3 (9)
