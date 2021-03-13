@@ -11,8 +11,7 @@ B9 b_rotate_180 5 10
 B10 b_pinwheel 8 30
 B11 b_pong 9 15
 B12 b_flower 11 18
-B13 b_fenced_center 8 14
-B14 b_big_corners 9 25
-B15 b_coin_dozer 12 28
-B16 b_ai 9 25
-B17 b_distribute 9 30
+B13 b_big_corners 9 25
+B14 b_coin_dozer 12 28
+B15 b_ai 9 25
+B16 b_distribute 9 30
