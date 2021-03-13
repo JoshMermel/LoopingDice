@@ -17,7 +17,7 @@ W15 w_two_fish 6 30
 W16 w_bicolor_31 6 14
 W17 w_four_squares 9 25
 W18 w_deeper_4 40 100
-W19 w_unique_2x4 7 15
+W19 w_unique_2x4 7 20
 W20 w_staircase 8 25
 W21 w_unique_4x4 250 1000
 W22 w_unique_4x5 250 1000
