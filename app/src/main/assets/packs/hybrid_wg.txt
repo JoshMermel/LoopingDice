@@ -1,0 +1,12 @@
+Wide + Gear
+WG8 wg_plus 3 6
+WG14 wg_checkerboard 3 6
+WG11 wg_tall_stripe 6 12
+WG10 wg_ring2 3 7
+WG19 wg_ring1 4 8
+WG15 wg_magnets 5 9
+WG13 wg_centralize_corners 6 11
+WG9 wg_quad_horizontal_stripe 6 10
+WG12 wg_big_plus 4 8
+WG18 wg_concentric 5 9
+WG16 wg_diag_extra 6 9
