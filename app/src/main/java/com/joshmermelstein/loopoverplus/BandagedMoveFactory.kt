@@ -32,7 +32,7 @@ class BandagedMoveFactory : MoveFactory {
             ) {
                 depth += 1
             }
-            // TODO(jmerm): mode depth here so that moves will serialize nicely
+            // TODO(jmerm): mod depth here so that moves will serialize nicely
         } else {
             while (board.colContainsBond(retOffset, Bond.LEFT) && depth <= board.numRows) {
                 retOffset -= 1
@@ -46,7 +46,7 @@ class BandagedMoveFactory : MoveFactory {
             ) {
                 depth += 1
             }
-            // TODO(jmerm): mode depth here so that moves will serialize nicely
+            // TODO(jmerm): mod depth here so that moves will serialize nicely
 
         }
         return Pair(retOffset, depth)
