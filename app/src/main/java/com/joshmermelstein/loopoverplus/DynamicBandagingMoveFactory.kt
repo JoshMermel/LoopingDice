@@ -1,5 +1,6 @@
 package com.joshmermelstein.loopoverplus
 
+// TODO(jmerm): this doesn't need to take depths anymore. I'm not making any levels like that.
 
 // Returns wide moves unless those wide moves would slide a fixed cell off the edge of the board.
 // In that case returns an illegal moves that flashes a lock on the fixed cell(s).
