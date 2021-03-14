@@ -2,10 +2,10 @@ Wide
 W1 w_intro 3 6
 W2 w_cant_fail 2 4
 W3 w_stripe 2 6
-W4 w_diag 4 7
-W5 w_flip_col 5 9
-W6 w_plus 3 8
-W7 w_make_x 3 5
+W4 w_plus 3 8
+W5 w_make_x 3 5
+W6 w_diag 4 7
+W7 w_flip_col 5 9
 W8 w_swap_stairs 3 6
 W9 w_triple_stripe 4 10
 W10 w_inverse_hot_dog 7 11
