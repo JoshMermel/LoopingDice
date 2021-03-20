@@ -5,8 +5,9 @@ WC3 wc_tower 4 8
 WC4 wc_stripes 4 11
 WC5 wc_defrag 7 13
 WC6 wc_swap_stairs 5 8
-WC7 wc_dominoes 4 8
-WC8 wc_quad_stripe 7 15
-WC9 wc_tall_bicolor 6 12
-WC10 wc_big_stairs 10 25
-WC11 wc_t_piece 6 25
+WC7 wc_not_equals 5 14
+WC8 wc_dominoes 4 8
+WC9 wc_quad_stripe 7 15
+WC10 wc_tall_bicolor 6 12
+WC11 wc_big_stairs 10 25
+WC12 wc_t_piece 6 25
