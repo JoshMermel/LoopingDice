@@ -6,7 +6,7 @@ D4 d_corners 3 8
 D5 d_mirror_small 5 9
 D6 d_crosshairs 7 10
 D7 d_make_triangle 8 14
-D8 d_left_bar 7 12
+D8 d_left_bar 5 12
 D9 d_dominoes 6 15
 D10 d_stripes 6 10
 D11 d_juggle_board 4 7
