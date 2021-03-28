@@ -224,6 +224,7 @@ class GameManager(
         return undoStack.joinToString(" ") { it.toUserString() }
     }
 
+    // TODO(jmerm): put this helper somewhere better.
     // Helper for converting an array of ColorIds into a board.
     private fun makeBoard(
         numRows: Int,

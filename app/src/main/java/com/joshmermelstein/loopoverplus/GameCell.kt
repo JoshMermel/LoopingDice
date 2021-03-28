@@ -42,11 +42,12 @@ fun makeGameCell(
 }
 
 // Base class for shared logic among game cell types
+// TODO(jmerm): take num rows and num cols instead of a gameplay params
 abstract class GameCell(
     open var x: Double,
     open var y: Double,
     open val params: GameplayParams,
-    private val colorId: String
+    val colorId: String
 ) {
     // While a cell is in motion, it is useful to know where it was when the move started in
     // addition to where it currently is. |x| and |y| track the initial position and |offsetX| and
