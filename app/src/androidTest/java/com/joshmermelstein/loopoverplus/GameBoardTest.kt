@@ -1,11 +1,10 @@
 package com.joshmermelstein.loopoverplus
 
-import android.content.Context
 import androidx.test.platform.app.InstrumentationRegistry
 import junit.framework.TestCase
 
 class GameBoardTest : TestCase() {
-    private lateinit var board : GameBoard
+    private var board : GameBoard
     init {
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         val arr = arrayOf("1", "E", "F 0", "B 1 R", "5", "6")
