@@ -23,30 +23,31 @@ val colors = arrayOf(
 fun makeGameCell(
     x: Int,
     y: Int,
-    params: GameplayParams,
+    numRows: Int,
+    numCols: Int,
     colorId: String,
     context: Context
 ): GameCell {
     return when {
         colorId == "E" -> {
-            EnablerGameCell(x.toDouble(), y.toDouble(), params, colorId, context)
+            EnablerGameCell(x.toDouble(), y.toDouble(), numRows, numCols, colorId, context)
         }
         colorId.startsWith("F") -> {
-            FixedGameCell(x.toDouble(), y.toDouble(), params, colorId, context)
+            FixedGameCell(x.toDouble(), y.toDouble(), numRows, numCols, colorId, context)
         }
         colorId.startsWith("B") -> {
-            BandagedGameCell(x.toDouble(), y.toDouble(), params, colorId, context)
+            BandagedGameCell(x.toDouble(), y.toDouble(), numRows, numCols, colorId, context)
         }
-        else -> NormalGameCell(x.toDouble(), y.toDouble(), params, colorId, context)
+        else -> NormalGameCell(x.toDouble(), y.toDouble(), numRows, numCols, colorId, context)
     }
 }
 
 // Base class for shared logic among game cell types
-// TODO(jmerm): take num rows and num cols instead of a gameplay params
 abstract class GameCell(
     open var x: Double,
     open var y: Double,
-    open val params: GameplayParams,
+    open val numRows: Int,
+    open val numCols: Int,
     val colorId: String
 ) {
     // While a cell is in motion, it is useful to know where it was when the move started in
@@ -81,10 +82,10 @@ abstract class GameCell(
         val width = bounds.width()
         val height = bounds.height()
 
-        val left = width * (x + offsetX) / params.numCols + padding + bounds.left
-        val right = width * (x + offsetX + 1) / params.numCols - padding + bounds.left
-        val top = height * (y + offsetY) / params.numRows + padding + bounds.top
-        val bottom = height * (y + offsetY + 1) / params.numRows - padding + bounds.top
+        val left = width * (x + offsetX) / numCols + padding + bounds.left
+        val right = width * (x + offsetX + 1) / numCols - padding + bounds.left
+        val top = height * (y + offsetY) / numRows + padding + bounds.top
+        val bottom = height * (y + offsetY + 1) / numRows - padding + bounds.top
         drawSelf(canvas, left, top, right, bottom, bounds, padding)
     }
 

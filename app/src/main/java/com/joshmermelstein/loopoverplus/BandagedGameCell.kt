@@ -7,9 +7,13 @@ import android.graphics.Paint
 
 // Represents a bandaged gameCell is joined to a neighbor and moves with it.
 class BandagedGameCell(
-    override var x: Double, override var y: Double, override val params:
-    GameplayParams, colorId: String, override val context: Context
-) : NormalGameCellBase(x, y, params, colorId) {
+    override var x: Double,
+    override var y: Double,
+    override val numRows: Int,
+    override val numCols: Int,
+    colorId: String,
+    override val context: Context
+) : NormalGameCellBase(x, y, numRows, numCols, colorId) {
     override val color: Int
     override val pips: Int
     private val bonds: MutableList<Bond> = mutableListOf()
@@ -81,7 +85,14 @@ class BandagedGameCell(
         }
     }
 
-    private fun drawLineClamped(canvas: Canvas, x0: Double, y0: Double, x1: Double, y1: Double, bounds: Bounds) {
+    private fun drawLineClamped(
+        canvas: Canvas,
+        x0: Double,
+        y0: Double,
+        x1: Double,
+        y1: Double,
+        bounds: Bounds
+    ) {
         val paint = Paint()
         paint.color = Color.BLACK
         paint.strokeWidth = bounds.width().toFloat() / 24
@@ -99,7 +110,14 @@ class BandagedGameCell(
 
     // Canvas APIs are picky about types which force me to use a lot of toType(). This method hides
     // that ugliness for drawing lines using Double coordinates.
-    private fun drawLine(canvas: Canvas, x0: Double, y0: Double, x1: Double, y1: Double, paint: Paint) {
+    private fun drawLine(
+        canvas: Canvas,
+        x0: Double,
+        y0: Double,
+        x1: Double,
+        y1: Double,
+        paint: Paint
+    ) {
         canvas.drawLine(x0.toFloat(), y0.toFloat(), x1.toFloat(), y1.toFloat(), paint)
     }
 

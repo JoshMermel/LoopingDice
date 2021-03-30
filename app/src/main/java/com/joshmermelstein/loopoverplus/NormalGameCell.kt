@@ -9,17 +9,27 @@ import androidx.core.content.ContextCompat
 
 // Represents a "normal" gameCell - meaning neither bandaged nor enabler.
 open class NormalGameCell(
-    override var x: Double, override var y: Double, override val params:
-    GameplayParams, colorId: String, override val context: Context
-) : NormalGameCellBase(x, y, params, colorId) {
+    override var x: Double,
+    override var y: Double,
+    override val numRows: Int,
+    override val numCols: Int,
+    colorId: String,
+    override val context: Context
+) : NormalGameCellBase(x, y, numRows, numCols, colorId) {
     override val color: Int = colorId.toInt() % 4
     override val pips: Int = ((colorId.toInt() - 1) / 4) + 1
 }
 
 // Base class for NormalGameCell that holds all logic but doesn't run initialization code so it's
 // fine to subclass it.
-abstract class NormalGameCellBase(x: Double, y: Double, params: GameplayParams, colorId: String) :
-    GameCell(x, y, params, colorId) {
+abstract class NormalGameCellBase(
+    x: Double,
+    y: Double,
+    numRows: Int,
+    numCols: Int,
+    colorId: String
+) :
+    GameCell(x, y, numRows, numCols, colorId) {
     abstract val context: Context
     override fun drawSquare(
         left: Double,

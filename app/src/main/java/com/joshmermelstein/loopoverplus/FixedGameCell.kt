@@ -12,9 +12,13 @@ import androidx.core.graphics.drawable.DrawableCompat
 // A fixed gameCell is like a regular gameCell except it is bandaged and it used squared
 // rectangles instead of rounded ones and uses square for pips.
 class FixedGameCell(
-    override var x: Double, override var y: Double, override val params:
-    GameplayParams, colorId: String, private val context: Context
-) : GameCell(x, y, params, colorId) {
+    override var x: Double,
+    override var y: Double,
+    override val numRows: Int,
+    override val numCols: Int,
+    colorId: String,
+    private val context: Context
+) : GameCell(x, y, numRows, numCols, colorId) {
     override val color = 4
     override val pips: Int
     override val isBlocking = true

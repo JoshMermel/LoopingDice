@@ -1,11 +1,34 @@
 package com.joshmermelstein.loopoverplus
 
+import android.content.Context
+
 // Wrapper around a 2d array that represents the game board
 // getters and setters do modulus operations for safety so callers don't need to worry about
 // wrapping out of bounds.
 class GameBoard(private val board: Array<Array<GameCell>>) {
     val numRows = board.size
     val numCols = board[0].size
+
+    // secondary constructor that creates the board for the caller
+    constructor(
+        numRows: Int,
+        numCols: Int,
+        contents: Array<String>,
+        context: Context
+    ) : this(
+        Array(numRows) { row ->
+            Array(numCols) { col ->
+                makeGameCell(
+                    col,
+                    row,
+                    numRows,
+                    numCols,
+                    contents[row * numCols + col],
+                    context
+                )
+            }
+        }) {
+    }
 
     // Gets a cell. Coordinates that are out of range will be modded until they are in range.
     fun getCell(row: Int, col: Int): GameCell {

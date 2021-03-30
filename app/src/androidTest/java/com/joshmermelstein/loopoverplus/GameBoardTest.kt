@@ -4,36 +4,12 @@ import android.content.Context
 import androidx.test.platform.app.InstrumentationRegistry
 import junit.framework.TestCase
 
-// copy of a helper that should really move somewhere shared
-// TODO(jmerm): unify this somewhere so it doesn't have to live in every test.
-fun makeBoard(
-    numRows: Int,
-    numCols: Int,
-    params : GameplayParams,
-    contents: Array<String>,
-    context : Context
-): GameBoard {
-    return GameBoard(
-        Array(numRows) { row ->
-            Array(numCols) { col ->
-                makeGameCell(
-                    col,
-                    row,
-                    params,
-                    contents[row * params.numCols + col],
-                    context
-                )
-            }
-        })
-}
-
 class GameBoardTest : TestCase() {
     private lateinit var board : GameBoard
     init {
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         val arr = arrayOf("1", "E", "F 0", "B 1 R", "5", "6")
-        val params = GameplayParams("id", 2,3, BasicMoveFactory(), arr, arr)
-        board = makeBoard(2, 3, params, arr, appContext)
+        board = GameBoard(2, 3, arr, appContext)
     }
 
     fun testGetCell() {
@@ -131,8 +107,7 @@ class GameBoardTest : TestCase() {
     fun testTestEquals() {
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         val arr = arrayOf("1", "E", "F 0", "B 1 R", "5", "6")
-        val params = GameplayParams("id", 2,3, BasicMoveFactory(), arr, arr)
-        val sameBoard =  makeBoard(2, 3, params, arr, appContext)
+        val sameBoard =  GameBoard(2, 3, arr, appContext)
 
         assertEquals(board, sameBoard)
     }
@@ -140,8 +115,7 @@ class GameBoardTest : TestCase() {
     fun testTestNotEquals() {
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         val arr = arrayOf("2", "E", "F 0", "B 1 R", "5", "6")
-        val params = GameplayParams("id", 2,3, BasicMoveFactory(), arr, arr)
-        val sameBoard =  makeBoard(2, 3, params, arr, appContext)
+        val sameBoard =  GameBoard(2, 3, arr, appContext)
 
         assertNotSame(board, sameBoard)
     }

@@ -36,12 +36,12 @@ class GameManager(
     private val buttonState: ButtonState
 ) {
     // Represents the current state of the board except for any moves that are currently evaluating.
-    var board = makeBoard(params.numRows, params.numCols, params.initial)
+    var board = GameBoard(params.numRows, params.numCols, params.initial, context)
 
     // Represents the state of the board after all moves in the queue have been evaluated. Needed to
     // tell whether moves will be valid before they are enqueued.
-    private var future = makeBoard(params.numRows, params.numCols, params.initial)
-    private var goal = makeBoard(params.numRows, params.numCols, params.goal)
+    private var future = GameBoard(params.numRows, params.numCols, params.initial, context)
+    private var goal = GameBoard(params.numRows, params.numCols, params.goal, context)
 
     private var moveQueue: MoveQueue = MoveQueue()
     private var undoStack = Stack<LegalMove>()
@@ -65,8 +65,8 @@ class GameManager(
             complete = true
         }
 
-        this.board = makeBoard(params.numRows, params.numCols, level.board)
-        this.future = makeBoard(params.numRows, params.numCols, level.board)
+        this.board = GameBoard(params.numRows, params.numCols, level.board, context)
+        this.future = GameBoard(params.numRows, params.numCols, level.board, context)
         this.undoStack.addAll(level.undoStack)
         buttonState.undoButtonEnabled = this.undoStack.isNotEmpty()
         this.redoStack.addAll(level.redoStack)
@@ -222,27 +222,6 @@ class GameManager(
     // paste it places.
     fun toUserString() : String {
         return undoStack.joinToString(" ") { it.toUserString() }
-    }
-
-    // TODO(jmerm): put this helper somewhere better.
-    // Helper for converting an array of ColorIds into a board.
-    private fun makeBoard(
-        numRows: Int,
-        numCols: Int,
-        contents: Array<String>
-    ): GameBoard {
-        return GameBoard(
-            Array(numRows) { row ->
-                Array(numCols) { col ->
-                    makeGameCell(
-                        col,
-                        row,
-                        params,
-                        contents[row * params.numCols + col],
-                        context
-                    )
-                }
-            })
     }
 
     // Highscores for each level are stored in shared preferences.
