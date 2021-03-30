@@ -32,12 +32,13 @@ class BandagedMoveFactory : MoveFactory {
             ) {
                 depth += 1
             }
-            // TODO(jmerm): mod depth here so that moves will serialize nicely
+            // The Move will work correctly with an out of bounds modulus but this is also used for
+            // user-visible strings so we mod it back into range.
+            depth = mod(depth, board.numCols)
         } else {
             while (board.colContainsBond(retOffset, Bond.LEFT) && depth <= board.numRows) {
                 retOffset -= 1
                 depth += 1
-
             }
             while (board.colContainsBond(
                     retOffset + depth - 1,
@@ -46,8 +47,9 @@ class BandagedMoveFactory : MoveFactory {
             ) {
                 depth += 1
             }
-            // TODO(jmerm): mod depth here so that moves will serialize nicely
-
+            // The Move will work correctly with an out of bounds modulus but this is also used for
+            // user-visible strings so we mod it back into range.
+            depth = mod(depth, board.numRows)
         }
         return Pair(retOffset, depth)
     }
