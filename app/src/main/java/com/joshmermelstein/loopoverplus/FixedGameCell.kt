@@ -21,8 +21,7 @@ class FixedGameCell(
 ) : GameCell(x, y, numRows, numCols, colorId) {
     override val color = 4
     override val pips: Int
-    override val isBlocking = true
-    override val isEnabler = false
+    override val family = CellFamily.FIXED
     private val lock: Drawable = ResourcesCompat.getDrawable(
         context.resources,
         R.drawable.ic_baseline_lock_24,

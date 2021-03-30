@@ -42,6 +42,13 @@ fun makeGameCell(
     }
 }
 
+// Surely there is a better way to do this. This is a hack so a cell can say what kind of cell it is.
+enum class CellFamily {
+    NORMAL,
+    ENABLER,
+    FIXED
+}
+
 // Base class for shared logic among game cell types
 abstract class GameCell(
     open var x: Double,
@@ -58,10 +65,8 @@ abstract class GameCell(
     var offsetY: Double = 0.0
     abstract val color: Int
     abstract val pips: Int
+    abstract val family: CellFamily
 
-    // TODO(jmerm) could these be replace by type checks?
-    open val isBlocking = false
-    open val isEnabler = false
 
     // There's probably a better way to do this but this is an easy way to let the game manager
     // flash icons on cells without having to worry about which type of cell they are.

@@ -50,7 +50,7 @@ class GameBoard(private val board: Array<Array<GameCell>>) {
         val ret: MutableList<Pair<Int, Int>> = mutableListOf()
         for (col in left until right) {
             for (row in top until bottom) {
-                if (getCell(row, col).isBlocking) {
+                if (getCell(row, col).family == CellFamily.FIXED) {
                     ret.add(Pair(row, col))
                 }
             }
@@ -63,7 +63,7 @@ class GameBoard(private val board: Array<Array<GameCell>>) {
         val ret: MutableList<Pair<Int, Int>> = mutableListOf()
         for (row in 0 until numRows) {
             for (col in 0 until numCols) {
-                if (getCell(row, col).isEnabler) {
+                if (getCell(row, col).family == CellFamily.ENABLER) {
                     ret.add(Pair(row, col))
                 }
             }
@@ -94,7 +94,7 @@ class GameBoard(private val board: Array<Array<GameCell>>) {
     // Returns whether any cell in row |offset| is an enabler cell
     fun rowContainsEnabler(offset: Int): Boolean {
         for (col in 0 until numCols) {
-            if (getCell(offset, col).isEnabler) {
+            if (getCell(offset, col).family == CellFamily.ENABLER) {
                 return true
             }
         }
@@ -104,7 +104,7 @@ class GameBoard(private val board: Array<Array<GameCell>>) {
     // Returns whether any cell in col |offset| is an enabler cell
     fun colContainsEnabler(offset: Int): Boolean {
         for (row in 0 until numRows) {
-            if (getCell(row, offset).isEnabler) {
+            if (getCell(row, offset).family == CellFamily.ENABLER) {
                 return true
             }
         }

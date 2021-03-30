@@ -21,8 +21,7 @@ class EnablerGameCell(
 ) : GameCell(x, y, numRows, numCols, colorId) {
     override val color = 5
     override val pips = 1
-    override val isBlocking = false
-    override val isEnabler = true
+    override val family = CellFamily.ENABLER
     private val key: Drawable = ResourcesCompat.getDrawable(
         context.resources,
         R.drawable.ic_baseline_vpn_key_24,

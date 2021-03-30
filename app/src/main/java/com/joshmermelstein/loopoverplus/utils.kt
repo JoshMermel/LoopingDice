@@ -22,7 +22,6 @@ fun mod(base: Int, modulus: Int): Int {
     return ((base % modulus) + modulus) % modulus
 }
 
-
 fun opposite(direction: Direction): Direction {
     return if (direction == Direction.FORWARD) {
         Direction.BACKWARD
@@ -38,7 +37,6 @@ fun pluralizedMoves(num: Int): String {
         "moves"
     }
 }
-
 
 fun pluralizedRows(num: Int): String {
     return if (num == 1) {

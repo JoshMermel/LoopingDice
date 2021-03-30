@@ -31,6 +31,7 @@ abstract class NormalGameCellBase(
 ) :
     GameCell(x, y, numRows, numCols, colorId) {
     abstract val context: Context
+    override val family = CellFamily.NORMAL
     override fun drawSquare(
         left: Double,
         top: Double,
