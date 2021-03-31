@@ -92,4 +92,14 @@ class Highlight(
             Shader.TileMode.CLAMP
         )
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (javaClass != other?.javaClass) {
+            return false
+        }
+        other as Highlight
+        return (axis == other.axis) &&
+                (direction == other.direction) &&
+                (offset == other.offset)
+    }
 }
