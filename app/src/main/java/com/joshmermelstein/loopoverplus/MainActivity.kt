@@ -139,6 +139,9 @@ class MainActivity : AppCompatActivity() {
         val id = levelData.displayId
 
         return when {
+            highscore <= levelData.fourStar -> {
+                "$id\n✯✯✯✯"
+            }
             highscore <= levelData.threeStar -> {
                 "$id\n★★★"
             }

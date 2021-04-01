@@ -9,6 +9,7 @@ class LevelMetadata(
     var next: String?,
     var displayId: String,
     var canonicalId: String,
+    val fourStar : Int,
     val threeStar: Int,
     val twoStar: Int
 )
@@ -52,7 +53,7 @@ class MetadataSingleton private constructor(context: Context) {
                 val parts = line.split(" ")
                 pack.levels.add(parts[1])
                 levelData[parts[1]] =
-                    LevelMetadata(null, parts[0], parts[1], parts[2].toInt(), parts[3].toInt())
+                    LevelMetadata(null, parts[0], parts[1], parts[2].toInt(), parts[3].toInt(), parts[4].toInt())
                 levelData[prevId]?.next = parts[1]
                 prevId = parts[1]
 

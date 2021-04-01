@@ -96,7 +96,7 @@ class GameManager(
     // Helper for drawing a grid of cells to a bounding box on the canvas.
     private fun drawGrid(
         canvas: Canvas,
-        bounds : Bounds,
+        bounds: Bounds,
         grid: GameBoard,
         padding: Int
     ) {
@@ -107,15 +107,15 @@ class GameManager(
         }
     }
 
-    fun drawBoard(canvas: Canvas, boundsBoard : Bounds) {
+    fun drawBoard(canvas: Canvas, boundsBoard: Bounds) {
         drawGrid(canvas, boundsBoard, board, 10)
     }
 
-    fun drawGoal(canvas: Canvas, boundsGoal : Bounds) {
+    fun drawGoal(canvas: Canvas, boundsGoal: Bounds) {
         drawGrid(canvas, boundsGoal, goal, 2)
     }
 
-    fun drawHighlights(canvas: Canvas, boundsBoard : Bounds) {
+    fun drawHighlights(canvas: Canvas, boundsBoard: Bounds) {
         for (highlight in this.highlights) {
             highlight.drawSelf(
                 canvas,
@@ -220,7 +220,7 @@ class GameManager(
 
     // Returns a string representing the user's undo stack so they can copy their solution and
     // paste it places.
-    fun toUserString() : String {
+    fun toUserString(): String {
         return undoStack.joinToString(" ") { it.toUserString() }
     }
 
@@ -238,6 +238,7 @@ class GameManager(
             MetadataSingleton.getInstance(context).getLevelData(params.id) ?: return
 
         // compute the number of stars the player earned and whether it is a new highscore.
+        val fourStar = levelData.fourStar
         val threeStar = levelData.threeStar
         val twoStar = levelData.twoStar
         val highscores: SharedPreferences =
@@ -266,9 +267,14 @@ class GameManager(
         val doBetter = dialog.findViewById<TextView>(R.id.doBetter)
         val earnedStars = dialog.findViewById<TextView>(R.id.earnedStars)
         when {
+            numMoves <= fourStar -> {
+                earnedStars.text = "    ✯✯✯✯    "
+                doBetter.text = "A perfect score!"
+            }
             numMoves <= threeStar -> {
                 earnedStars.text = "    ★★★    "
-                doBetter.text = "You've earned all 3 stars!"
+                doBetter.text =
+                    "Win in $fourStar " + pluralizedMoves(fourStar) + " to earn the final star"
             }
             numMoves <= twoStar -> {
                 earnedStars.text = "    ★★☆    "

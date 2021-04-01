@@ -1,7 +1,7 @@
 Intro
-I1 i_vertical_move 1 2
-I2 i_horizontal_move 1 2
-I3 i_first_real_puzzle 3 5
-I4 i_colors 3 5
-I5 i_checkerboard 4 7
-I6 i_stripes 4 10
+I1 i_vertical_move 1 2 3
+I2 i_horizontal_move 1 2 3
+I3 i_first_real_puzzle 3 5 7
+I4 i_colors 3 5 7
+I5 i_checkerboard 4 7 10
+I6 i_stripes 4 10 25

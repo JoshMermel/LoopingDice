@@ -1,19 +1,19 @@
 Static Cells
-S1 s_intro 6 10
-S2 s_checker 3 5
-S3 s_roundabout 7 12
-S4 s_make_diag 4 7
-S5 s_horseshoe 7 12
-S6 s_make_square 5 8
-S7 s_top_two 8 25
-S8 s_quadrant 7 15
-S9 s_bridge 6 11
-S10 s_rotate_center 7 12
-S11 s_tall_bicolor 7 20
-S12 s_ring 5 12
-S13 s_swap_sides 11 18
-S14 s_rotate_stripes 7 13
-S15 s_quad_strips 7 20
-S16 s_quad_horizontal_stripe 8 24
-S17 s_defrag 6 20
-S18 s_join_edges 6 20
+S1 s_intro 6 7 10
+S2 s_checker 3 4 5
+S3 s_roundabout 7 8 12
+S4 s_make_diag 4 5 7
+S5 s_horseshoe 7 8 12
+S6 s_make_square 5 6 8
+S7 s_top_two 8 9 25
+S8 s_quadrant 7 8 15
+S9 s_bridge 6 7 11
+S10 s_rotate_center 7 10 12
+S11 s_tall_bicolor 7 8 20
+S12 s_ring 5 7 12
+S13 s_swap_sides 11 16 22
+S14 s_rotate_stripes 7 9 13
+S15 s_quad_strips 7 14 21
+S16 s_quad_horizontal_stripe 8 12 24
+S17 s_defrag 6 9 20
+S18 s_join_edges 6 16 24

@@ -99,6 +99,7 @@ class GameplayActivity : AppCompatActivity() {
         val levelData: LevelMetadata =
             MetadataSingleton.getInstance(this).getLevelData(id) ?: return
         // compute the number of stars the player earned and whether it is a new highscore.
+        val fourStar = levelData.fourStar
         val threeStar = levelData.threeStar
         val twoStar = levelData.twoStar
         val highscores: SharedPreferences =
@@ -113,9 +114,9 @@ class GameplayActivity : AppCompatActivity() {
 
         val stars = dialog.findViewById<TextView>(R.id.help_dialog_stars)
         stars.text =
-            "The threshold for three stars is $threeStar " + pluralizedMoves(threeStar) + "\nThe threshold for two stars is $twoStar " + pluralizedMoves(
-                twoStar
-            )
+            "A perfect score is $fourStar " + pluralizedMoves(fourStar) +
+            "\nThe threshold for three stars is $threeStar " + pluralizedMoves(threeStar) +
+            "\nThe threshold for two stars is $twoStar " + pluralizedMoves(twoStar)
 
         val pb = dialog.findViewById<TextView>(R.id.help_dialog_pb)
         if (highscores.contains(id)) {

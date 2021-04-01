@@ -1,6 +1,6 @@
 Unique Cells
-U:W1 w_deeper_4 40 100
-U:W2 w_unique_2x4 7 20
-U:W3 w_unique_4x4 250 1000
-U:W4 w_unique_4x5 250 1000
-U:C1 c_unique_4x4 12 50
+U:W1 w_deeper_4 40 100 5000
+U:W2 w_unique_2x4 7 20 5000
+U:W3 w_unique_4x4 250 1000 5000
+U:W4 w_unique_4x5 250 1000 5000
+U:C1 c_unique_4x4 12 50 5000
