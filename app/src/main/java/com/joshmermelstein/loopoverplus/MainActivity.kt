@@ -140,7 +140,7 @@ class MainActivity : AppCompatActivity() {
 
         return when {
             highscore <= levelData.fourStar -> {
-                "$id\n✯✯✯✯"
+                "$id\n★★★✯"
             }
             highscore <= levelData.threeStar -> {
                 "$id\n★★★"
