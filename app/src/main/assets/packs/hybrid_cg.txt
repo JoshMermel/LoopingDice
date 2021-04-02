@@ -1,5 +1,5 @@
 Carousel + Gear
-CG1 cg_diag 4 8 100
-CG2 cg_avalanche 4 8 100
-CG3 cg_two_snakes 5 9 100
+CG1 cg_diag 4 6 10
+CG2 cg_avalanche 4 5 8
+CG3 cg_two_snakes 5 7 12
 CG4 cg_rotate_four_stripes 7 65 100

@@ -16,7 +16,7 @@ D14 d_quad_horizontal_stripe 8 9 20
 D15 d_make_columns 7 9 15
 D16 d_stratego 9 12 15
 D17 d_stack_up 6 7 10
-D18 d_keep_bottom_stripe 7 14 21
+D18 d_keep_bottom_stripe 7 12 18
 D19 d_swap_rows 12 14 20
 D20 d_make_columns2 12 16 25
 D21 d_ring 7 9 15
@@ -24,7 +24,7 @@ D22 d_padded_stripe 8 12 20
 D23 d_heist 7 8 16
 D24 d_narrow_jail 9 11 18
 D25 d_wide_jail 14 19 29
-D26 d_bicolor 14 32 50
+D26 d_bicolor 14 27 50
 D27 d_rotate_square 8 14 20
 D28 d_conway_soldiers 8 10 18
 D29 d_oblong_hippos 13 20 30

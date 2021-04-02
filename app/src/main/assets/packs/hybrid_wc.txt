@@ -10,4 +10,4 @@ WC8 wc_dominoes 4 5 8
 WC9 wc_quad_stripe 7 9 15
 WC10 wc_tall_bicolor 6 7 12
 WC11 wc_big_stairs 10 17 25
-WC12 wc_t_piece 6 25 100
+WC12 wc_t_piece 6 10 21
