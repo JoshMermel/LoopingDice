@@ -20,5 +20,5 @@ E18 e_raise_stripe 11 12 25
 E19 e_lava 7 10 20
 E20 e_defragment 11 15 21
 E21 e_keep_bottom_stripe 8 16 32
-E22 e_swap_stripes 10 13 19
-E23 e_180_bottom 9 18 27
+E22 e_180_bottom 9 18 27
+E23 e_swap_stripes 10 13 19

@@ -16,5 +16,5 @@ G14 g_tall_bicolor 5 9 12
 G15 g_pop_out 3 5 8
 G16 g_flag 4 6 10
 G17 g_equator 5 12 18
-G18 g_quad_horizontal_stripe 6 20 100
-G19 g_big_triangle 8 25 100
+G18 g_quad_horizontal_stripe 6 9 20
+G19 g_big_triangle 8 12 25
