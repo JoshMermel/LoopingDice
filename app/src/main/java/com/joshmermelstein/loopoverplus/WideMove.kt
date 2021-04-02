@@ -35,4 +35,17 @@ class WideMove(
     override fun toString(): String {
         return "WIDE $axis $direction $offset $depth"
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (javaClass != other?.javaClass) {
+            return false
+        }
+        other as WideMove
+        return (axis == other.axis) &&
+                (direction == other.direction) &&
+                (offset == other.offset) &&
+                (numRows == other.numRows) &&
+                (numCols == other.numCols) &&
+                (depth == other.depth)
+    }
 }
