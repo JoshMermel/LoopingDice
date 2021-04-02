@@ -85,4 +85,16 @@ open class CarouselMove(
     override fun toString(): String {
         return "CAROUSEL $axis $direction $offset"
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (javaClass != other?.javaClass) {
+            return false
+        }
+        other as CarouselMove
+        return (axis == other.axis) &&
+                (direction == other.direction) &&
+                (offset == other.offset) &&
+                (numRows == other.numRows) &&
+                (numCols == other.numCols)
+    }
 }
