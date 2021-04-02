@@ -15,4 +15,12 @@ class IllegalMove(private val cords: List<Pair<Int, Int>>) : Move {
             board.getCell(cord.first, cord.second).shouldDrawIcon = false
         }
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (javaClass != other?.javaClass) {
+            return false
+        }
+        other as IllegalMove
+        return (cords == other.cords)
+    }
 }
