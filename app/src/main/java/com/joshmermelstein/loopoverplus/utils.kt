@@ -1,7 +1,6 @@
 package com.joshmermelstein.loopoverplus
 
 // Misc utils that are handy but don't fit elsewhere.
-// TODO(jmerm): replace if's with when's in several methods here.
 
 class Bounds(
     val left : Double,
@@ -23,33 +22,29 @@ fun mod(base: Int, modulus: Int): Int {
 }
 
 fun opposite(direction: Direction): Direction {
-    return if (direction == Direction.FORWARD) {
-        Direction.BACKWARD
-    } else {
-        Direction.FORWARD
+    return when (direction) {
+        Direction.FORWARD -> Direction.BACKWARD
+        Direction.BACKWARD -> Direction.FORWARD
     }
 }
 
 fun pluralizedMoves(num: Int): String {
-    return if (num == 1) {
-        "move"
-    } else {
-        "moves"
+    return when (num) {
+        1 -> "move"
+        else -> "moves"
     }
 }
 
 fun pluralizedRows(num: Int): String {
-    return if (num == 1) {
-        "row"
-    } else {
-        "rows"
+    return when (num) {
+        1 -> "row"
+        else -> "rows"
     }
 }
 
 fun pluralizedCols(num: Int): String {
-    return if (num == 1) {
-        "column"
-    } else {
-        "columns"
+    return when (num) {
+        1 -> "column"
+        else -> "columns"
     }
 }
