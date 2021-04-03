@@ -268,13 +268,13 @@ class GameManager(
         val earnedStars = dialog.findViewById<TextView>(R.id.earnedStars)
         when {
             numMoves <= fourStar -> {
-                earnedStars.text = "★★★✯"
+                earnedStars.text = "✯✯✯"
                 doBetter.text = "A perfect score!"
             }
             numMoves <= threeStar -> {
                 earnedStars.text = "★★★"
                 doBetter.text =
-                    "Win in $fourStar " + pluralizedMoves(fourStar) + " to earn the final star"
+                    "Win in $fourStar " + pluralizedMoves(fourStar) + " for a perfect score"
             }
             numMoves <= twoStar -> {
                 earnedStars.text = "★★☆"
