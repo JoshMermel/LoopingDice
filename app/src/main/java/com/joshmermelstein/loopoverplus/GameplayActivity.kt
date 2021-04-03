@@ -11,6 +11,7 @@ import android.view.MenuItem
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.isVisible
 import java.io.BufferedReader
 import java.io.FileNotFoundException
 import java.io.InputStreamReader
@@ -117,15 +118,15 @@ class GameplayActivity : AppCompatActivity() {
             pb.text =
                 "Your best score on this level was $oldHighscore " + pluralizedMoves(oldHighscore)
         } else {
-            pb.text = "You have not completed this level yet."
+            pb.isVisible = false
         }
 
         val stars = dialog.findViewById<TextView>(R.id.help_dialog_stars)
         stars.text = when {
             oldHighscore == Int.MAX_VALUE -> {"Win in any number of moves to earn a star"}
-            oldHighscore >= twoStar -> { "Win in $twoStar " + pluralizedMoves(twoStar) + " to earn two stars"}
-            oldHighscore >= threeStar -> { "Win in $threeStar " + pluralizedMoves(threeStar) + " to earn two stars" }
-            oldHighscore >= fourStar -> { "A perfect score is $fourStar" + pluralizedMoves(fourStar) }
+            oldHighscore > twoStar -> { "Win in $twoStar " + pluralizedMoves(twoStar) + " to earn two stars"}
+            oldHighscore > threeStar -> { "Win in $threeStar " + pluralizedMoves(threeStar) + " to earn three stars" }
+            oldHighscore > fourStar -> { "A perfect score is $fourStar" + pluralizedMoves(fourStar) }
             else -> { "You've earned all possible stars" }
         }
 
