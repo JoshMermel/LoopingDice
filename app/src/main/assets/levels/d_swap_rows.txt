@@ -1,6 +1,6 @@
 3
 3
-DYNAMIC 1 1
+DYNAMIC
 4,4,4,F 1,F 1,F 1,F 2,F 2,F 2
 4,4,4,F 2,F 2,F 2,F 1,F 1,F 1
 # C2',R2,C1',R0',C0,C2',R2,R0',C0,R2,R0',C0 (12)

@@ -61,6 +61,9 @@ fun makeMoveFactory(id: String): MoveFactory {
         id == "BANDAGED" -> {
             return BandagedMoveFactory()
         }
+        id == "DYNAMIC" -> {
+            return DynamicBandagingMoveFactory()
+        }
         id.startsWith("WIDE") -> {
             val args = id.split(" ")
             return WideMoveFactory(args[1].toInt(), args[2].toInt())
@@ -68,10 +71,6 @@ fun makeMoveFactory(id: String): MoveFactory {
         id.startsWith("STATIC") -> {
             val args = id.split(" ")
             return StaticCellsMoveFactory(args[1].toInt(), args[2].toInt())
-        }
-        id.startsWith("DYNAMIC") -> {
-            val args = id.split(" ")
-            return DynamicBandagingMoveFactory(args[1].toInt(), args[2].toInt())
         }
         else -> return BasicMoveFactory()
     }
