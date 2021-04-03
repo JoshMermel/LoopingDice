@@ -10,6 +10,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import java.util.*
+import kotlin.math.min
 
 // Struct for what defines a level
 class GameplayParams(
@@ -264,28 +265,23 @@ class GameManager(
             }
         }
 
+        // Award stars based on the score of this attempt
         val doBetter = dialog.findViewById<TextView>(R.id.doBetter)
         val earnedStars = dialog.findViewById<TextView>(R.id.earnedStars)
-        when {
-            numMoves <= fourStar -> {
-                earnedStars.text = "✯✯✯"
-                doBetter.text = "A perfect score!"
-            }
-            numMoves <= threeStar -> {
-                earnedStars.text = "★★★"
-                doBetter.text =
-                    "Win in $fourStar " + pluralizedMoves(fourStar) + " for a perfect score"
-            }
-            numMoves <= twoStar -> {
-                earnedStars.text = "★★☆"
-                doBetter.text =
-                    "Win in $threeStar " + pluralizedMoves(threeStar) + " to earn the final star"
-            }
-            else -> {
-                earnedStars.text = "★☆☆"
-                doBetter.text =
-                    "Win in $twoStar " + pluralizedMoves(twoStar) + " to earn another star"
-            }
+        earnedStars.text = when {
+            numMoves <= fourStar -> "✯✯✯"
+            numMoves <= threeStar -> "★★★"
+            numMoves <= twoStar -> "★★☆"
+            else -> "★☆☆"
+        }
+
+        // Print the threshold for more stars based on their best ever
+        val newHighscore = min(oldHighscore, numMoves)
+        doBetter.text = when {
+            newHighscore <= fourStar -> "A perfect score!"
+            newHighscore <= threeStar -> "Win in $fourStar " + pluralizedMoves(fourStar) + " for a perfect score"
+            newHighscore <= twoStar -> "Win in $threeStar " + pluralizedMoves(threeStar) + " to earn three stars"
+            else -> "Win in $twoStar " + pluralizedMoves(twoStar) + " to earn two stars"
         }
 
         val menu = dialog.findViewById<Button>(R.id.menu)
