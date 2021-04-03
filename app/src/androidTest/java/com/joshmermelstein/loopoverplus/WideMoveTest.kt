@@ -76,10 +76,10 @@ class WideMoveTest : TestCase() {
     }
 
     fun testToUserString() {
-        val hMove = BasicMove(Axis.HORIZONTAL, Direction.FORWARD, 0, numRows, numCols)
+        val hMove = WideMove(Axis.HORIZONTAL, Direction.FORWARD, 0, numRows, numCols, 1)
         assertEquals(hMove.toUserString(), "Row0")
 
-        val vMove = BasicMove(Axis.VERTICAL, Direction.BACKWARD, 1, numRows, numCols)
+        val vMove = WideMove(Axis.VERTICAL, Direction.BACKWARD, 1, numRows, numCols, 1)
         assertEquals(vMove.toUserString(), "Col1'")
     }
 
