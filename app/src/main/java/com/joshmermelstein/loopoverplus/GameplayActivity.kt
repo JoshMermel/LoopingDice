@@ -127,7 +127,7 @@ class GameplayActivity : AppCompatActivity() {
             oldHighscore == Int.MAX_VALUE -> "Win in any number of moves to earn a star"
             oldHighscore > twoStar -> "Win in $twoStar " + pluralizedMoves(twoStar) + " to earn two stars"
             oldHighscore > threeStar -> "Win in $threeStar " + pluralizedMoves(threeStar) + " to earn three stars"
-            oldHighscore > fourStar -> "A perfect score is $fourStar" + pluralizedMoves(fourStar)
+            oldHighscore > fourStar -> "A perfect score is $fourStar " + pluralizedMoves(fourStar)
             else -> "You've earned all possible stars!"
         }
 
