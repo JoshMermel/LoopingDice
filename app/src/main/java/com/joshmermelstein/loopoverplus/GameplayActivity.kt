@@ -69,7 +69,8 @@ class GameplayActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.copy -> {
-                val clipboardManager = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                val clipboardManager =
+                    getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                 val clip = ClipData.newPlainText("Moves", gameManager.toUserString())
                 clipboardManager.setPrimaryClip(clip)
                 // TODO(jmerm): do a toast here to let them know it succeeded?
@@ -123,11 +124,11 @@ class GameplayActivity : AppCompatActivity() {
 
         val stars = dialog.findViewById<TextView>(R.id.help_dialog_stars)
         stars.text = when {
-            oldHighscore == Int.MAX_VALUE -> {"Win in any number of moves to earn a star"}
-            oldHighscore > twoStar -> { "Win in $twoStar " + pluralizedMoves(twoStar) + " to earn two stars"}
-            oldHighscore > threeStar -> { "Win in $threeStar " + pluralizedMoves(threeStar) + " to earn three stars" }
-            oldHighscore > fourStar -> { "A perfect score is $fourStar" + pluralizedMoves(fourStar) }
-            else -> { "You've earned all possible stars" }
+            oldHighscore == Int.MAX_VALUE -> "Win in any number of moves to earn a star"
+            oldHighscore > twoStar -> "Win in $twoStar " + pluralizedMoves(twoStar) + " to earn two stars"
+            oldHighscore > threeStar -> "Win in $threeStar " + pluralizedMoves(threeStar) + " to earn three stars"
+            oldHighscore > fourStar -> "A perfect score is $fourStar" + pluralizedMoves(fourStar)
+            else -> "You've earned all possible stars!"
         }
 
         dialog.show()
