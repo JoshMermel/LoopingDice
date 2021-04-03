@@ -112,18 +112,21 @@ class GameplayActivity : AppCompatActivity() {
         val rules = dialog.findViewById<TextView>(R.id.help_dialog_rules)
         rules.text = gameManager.helpText()
 
-        val stars = dialog.findViewById<TextView>(R.id.help_dialog_stars)
-        stars.text =
-            "A perfect score is $fourStar " + pluralizedMoves(fourStar) +
-            "\nThe threshold for three stars is $threeStar " + pluralizedMoves(threeStar) +
-            "\nThe threshold for two stars is $twoStar " + pluralizedMoves(twoStar)
-
         val pb = dialog.findViewById<TextView>(R.id.help_dialog_pb)
         if (highscores.contains(id)) {
             pb.text =
                 "Your best score on this level was $oldHighscore " + pluralizedMoves(oldHighscore)
         } else {
             pb.text = "You have not completed this level yet."
+        }
+
+        val stars = dialog.findViewById<TextView>(R.id.help_dialog_stars)
+        stars.text = when {
+            oldHighscore == Int.MAX_VALUE -> {"Win in any number of moves to earn a star"}
+            oldHighscore >= twoStar -> { "Win in $twoStar " + pluralizedMoves(twoStar) + " to earn two stars"}
+            oldHighscore >= threeStar -> { "Win in $threeStar " + pluralizedMoves(threeStar) + " to earn two stars" }
+            oldHighscore >= fourStar -> { "A perfect score is $fourStar" + pluralizedMoves(fourStar) }
+            else -> { "You've earned all possible stars" }
         }
 
         dialog.show()
