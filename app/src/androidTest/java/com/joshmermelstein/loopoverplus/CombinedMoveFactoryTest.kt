@@ -9,7 +9,7 @@ class CombinedMoveFactoryTest : TestCase() {
     private val numCols = 3
     private val arr = arrayOf("1", "2", "3", "4", "5", "6")
     private val board = GameBoard(numRows, numCols, arr, appContext)
-    private val factory = CombinedMoveFactory(CarouselMoveFactory(), WideMoveFactory(3,2))
+    private val factory = CombinedMoveFactory(CarouselMoveFactory(), WideMoveFactory(3, 2))
 
     fun testMakeMoveHorizontal() {
         val move = factory.makeMove(Axis.HORIZONTAL, Direction.BACKWARD, 1, board)

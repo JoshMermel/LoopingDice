@@ -85,14 +85,14 @@ class WideMoveTest : TestCase() {
 
     fun testInverse() {
         val move = WideMove(Axis.VERTICAL, Direction.FORWARD, 0, 1, 2, 4)
-        val expected = WideMove(Axis.VERTICAL, Direction.BACKWARD, 0, 1, 2,4)
+        val expected = WideMove(Axis.VERTICAL, Direction.BACKWARD, 0, 1, 2, 4)
 
         val inverse = move.inverse()
         assertEquals(inverse, expected)
     }
 
     fun testTestToString() {
-        val vMove = WideMove(Axis.VERTICAL, Direction.FORWARD, 0, 1, 2,4)
+        val vMove = WideMove(Axis.VERTICAL, Direction.FORWARD, 0, 1, 2, 4)
         assertEquals(vMove.toString(), "WIDE V F 0 4")
 
         val hMove = WideMove(Axis.HORIZONTAL, Direction.BACKWARD, 1, 2, 3, 2)

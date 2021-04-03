@@ -25,25 +25,25 @@ class DynamicBandagingMoveFactoryTest : TestCase() {
 
     fun testMakeMoveHorizontalForwardIllegal() {
         val move = factory.makeMove(Axis.HORIZONTAL, Direction.FORWARD, 1, board)
-        val expected = IllegalMove(listOf(Pair(1,-1)))
+        val expected = IllegalMove(listOf(Pair(1, -1)))
         assertEquals(move, expected)
     }
 
     fun testMakeMoveHorizontalBackwardIllegal() {
         val move = factory.makeMove(Axis.HORIZONTAL, Direction.BACKWARD, 0, board)
-        val expected = IllegalMove(listOf(Pair(0,0)))
+        val expected = IllegalMove(listOf(Pair(0, 0)))
         assertEquals(move, expected)
     }
 
     fun testMakeMoveVerticalForwardIllegal() {
         val move = factory.makeMove(Axis.VERTICAL, Direction.FORWARD, 2, board)
-        val expected = IllegalMove(listOf(Pair(-1,2)))
+        val expected = IllegalMove(listOf(Pair(-1, 2)))
         assertEquals(move, expected)
     }
 
     fun testMakeMoveVerticalBackwardIllegal() {
         val move = factory.makeMove(Axis.VERTICAL, Direction.BACKWARD, 0, board)
-        val expected = IllegalMove(listOf(Pair(0,0)))
+        val expected = IllegalMove(listOf(Pair(0, 0)))
         assertEquals(move, expected)
     }
 

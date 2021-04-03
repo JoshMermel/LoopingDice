@@ -16,12 +16,12 @@ class BasicMoveTest : TestCase() {
         move.animateProgress(0.2, board)
 
         // A cell in the top row's X offset is updated.
-        assertEquals(board.getCell(0,0).offsetX, -0.2)
-        assertEquals(board.getCell(0,0).offsetY, 0.0)
+        assertEquals(board.getCell(0, 0).offsetX, -0.2)
+        assertEquals(board.getCell(0, 0).offsetY, 0.0)
 
         // A cell in a different row is not moved.
-        assertEquals(board.getCell(1,0).offsetX, 0.0)
-        assertEquals(board.getCell(1,0).offsetY, 0.0)
+        assertEquals(board.getCell(1, 0).offsetX, 0.0)
+        assertEquals(board.getCell(1, 0).offsetY, 0.0)
     }
 
     fun testFinalizeHorizontal() {
@@ -54,8 +54,8 @@ class BasicMoveTest : TestCase() {
     fun testRunTooEarly() {
         val move = BasicMove(Axis.HORIZONTAL, Direction.BACKWARD, 0, numRows, numCols)
         move.run(board, 50, 100, 0)
-        assertEquals(board.getCell(0,0).offsetX, 0.0)
-        assertEquals(board.getCell(0,0).offsetY, 0.0)
+        assertEquals(board.getCell(0, 0).offsetX, 0.0)
+        assertEquals(board.getCell(0, 0).offsetY, 0.0)
     }
 
     fun testRunPastEndTime() {
@@ -63,8 +63,8 @@ class BasicMoveTest : TestCase() {
         move.run(board, 50, 100, 150)
 
         // offsets are all 0
-        assertEquals(board.getCell(0,0).offsetX, 0.0)
-        assertEquals(board.getCell(0,0).offsetY, 0.0)
+        assertEquals(board.getCell(0, 0).offsetX, 0.0)
+        assertEquals(board.getCell(0, 0).offsetY, 0.0)
 
         // underlying array is updated
         val expectedArr = arrayOf("2", "3", "1", "4", "5", "6")
@@ -76,8 +76,8 @@ class BasicMoveTest : TestCase() {
     fun testRun() {
         val move = BasicMove(Axis.HORIZONTAL, Direction.FORWARD, 0, numRows, numCols)
         move.run(board, 50, 100, 75)
-        assertEquals(board.getCell(0,0).offsetX, move.ease(0.5))
-        assertEquals(board.getCell(0,0).offsetY, 0.0)
+        assertEquals(board.getCell(0, 0).offsetX, move.ease(0.5))
+        assertEquals(board.getCell(0, 0).offsetY, 0.0)
     }
 
     fun testInverse() {

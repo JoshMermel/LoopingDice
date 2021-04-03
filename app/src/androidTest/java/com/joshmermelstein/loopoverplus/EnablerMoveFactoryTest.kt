@@ -22,14 +22,16 @@ class EnablerMoveFactoryTest : TestCase() {
         val expected = BasicMove(Axis.VERTICAL, Direction.FORWARD, 0, numRows, numCols)
         assertEquals(move, expected)
     }
+
     fun testMakeMoveHorizontalIllegal() {
         val move = factory.makeMove(Axis.HORIZONTAL, Direction.BACKWARD, 1, board)
-        val expected = IllegalMove(listOf(Pair(0,0), Pair(0,2)))
+        val expected = IllegalMove(listOf(Pair(0, 0), Pair(0, 2)))
         assertEquals(move, expected)
     }
+
     fun testMakeMoveVerticalIllegal() {
         val move = factory.makeMove(Axis.VERTICAL, Direction.FORWARD, 1, board)
-        val expected = IllegalMove(listOf(Pair(0,0), Pair(0,2)))
+        val expected = IllegalMove(listOf(Pair(0, 0), Pair(0, 2)))
         assertEquals(move, expected)
     }
 

@@ -83,12 +83,12 @@ class CarouselMoveTest : TestCase() {
         move.animateProgress(0.5, board)
 
         // The top left cell moves to the left to wrap around
-        assertEquals(board.getCell(0,0).offsetX, -0.5)
-        assertEquals(board.getCell(0,0).offsetY, 0.0)
+        assertEquals(board.getCell(0, 0).offsetX, -0.5)
+        assertEquals(board.getCell(0, 0).offsetY, 0.0)
 
         // The bottom right cell moves to the right to wrap around
-        assertEquals(board.getCell(1,1).offsetX, 0.5)
-        assertEquals(board.getCell(1,1).offsetY, 0.0)
+        assertEquals(board.getCell(1, 1).offsetX, 0.5)
+        assertEquals(board.getCell(1, 1).offsetY, 0.0)
     }
 
     fun testToUserString() {
