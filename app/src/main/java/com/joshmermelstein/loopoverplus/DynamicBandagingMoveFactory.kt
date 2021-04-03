@@ -1,7 +1,5 @@
 package com.joshmermelstein.loopoverplus
 
-// TODO(jmerm): this doesn't need to take depths anymore. I'm not making any levels like that.
-
 // Returns wide moves unless those wide moves would slide a fixed cell off the edge of the board.
 // In that case returns an illegal moves that flashes a lock on the fixed cell(s).
 class DynamicBandagingMoveFactory() : BasicMoveFactory() {
@@ -18,7 +16,6 @@ class DynamicBandagingMoveFactory() : BasicMoveFactory() {
         }
 
         // Check for blocking cells along the edge that could block this move
-        // TODO(jmerm): I think this condition can be simplified now that depth is always 1.
         val blockingCellsEncountered = when (axis) {
             Axis.HORIZONTAL -> board.findBlockingCells(end, end + 1, offset, offset + 1)
             Axis.VERTICAL -> board.findBlockingCells(offset, offset + 1, end, end + 1)
