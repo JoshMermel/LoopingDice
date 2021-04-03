@@ -133,53 +133,31 @@ abstract class GameCell(
         // Draw at original position
         drawSquareClamped(canvas, left, top, right, bottom, bounds, padding)
 
-        // Possibly draw wraparound
-        // TODO(jmerm): surely there's a better way to write this.
-        when {
-            left < bounds.left -> {
-                drawSquareClamped(
-                    canvas,
-                    left + bounds.width(),
-                    top,
-                    right + bounds.width(),
-                    bottom,
-                    bounds,
-                    padding
-                )
+        // If the square overlaps any bound, draw a second square
+        if ((left < bounds.left) || (right > bounds.right) || (top < bounds.top) || (bottom > bounds.bottom)) {
+            var left2 = left
+            var right2 = right
+            var top2 = top
+            var bottom2 = bottom
+            when {
+                left < bounds.left -> {
+                    left2 += bounds.width()
+                    right2 += bounds.width()
+                }
+                right > bounds.right -> {
+                    left2 -= bounds.width()
+                    right2 -= bounds.width()
+                }
+                top < bounds.top -> {
+                    bottom2 += bounds.height()
+                    top2 += bounds.height()
+                }
+                bottom > bounds.bottom -> {
+                    bottom2 -= bounds.height()
+                    top2 -= bounds.height()
+                }
             }
-            right > bounds.right -> {
-                drawSquareClamped(
-                    canvas,
-                    left - bounds.width(),
-                    top,
-                    right - bounds.width(),
-                    bottom,
-                    bounds,
-                    padding
-                )
-            }
-            top < bounds.top -> {
-                drawSquareClamped(
-                    canvas,
-                    left,
-                    top + bounds.height(),
-                    right,
-                    bottom + bounds.height(),
-                    bounds,
-                    padding
-                )
-            }
-            bottom > bounds.bottom -> {
-                drawSquareClamped(
-                    canvas,
-                    left,
-                    top - bounds.height(),
-                    right,
-                    bottom - bounds.height(),
-                    bounds,
-                    padding
-                )
-            }
+            drawSquareClamped(canvas, left2, top2, right2, bottom2, bounds, padding)
         }
     }
 
