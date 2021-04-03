@@ -23,4 +23,8 @@ class IllegalMove(private val cords: List<Pair<Int, Int>>) : Move {
         other as IllegalMove
         return (cords == other.cords)
     }
+
+    override fun hashCode(): Int {
+        return cords.hashCode()
+    }
 }

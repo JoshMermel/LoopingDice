@@ -48,4 +48,14 @@ class WideMove(
                 (numCols == other.numCols) &&
                 (depth == other.depth)
     }
+
+    override fun hashCode(): Int {
+        var result = axis.hashCode()
+        result = 31 * result + direction.hashCode()
+        result = 31 * result + offset
+        result = 31 * result + numRows
+        result = 31 * result + numCols
+        result = 31 * result + depth
+        return result
+    }
 }

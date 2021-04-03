@@ -27,8 +27,7 @@ class GameBoard(private val board: Array<Array<GameCell>>) {
                     context
                 )
             }
-        }) {
-    }
+        })
 
     // Gets a cell. Coordinates that are out of range will be modded until they are in range.
     fun getCell(row: Int, col: Int): GameCell {

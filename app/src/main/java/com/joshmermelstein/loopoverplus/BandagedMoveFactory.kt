@@ -1,7 +1,5 @@
 package com.joshmermelstein.loopoverplus
 
-import android.util.Log
-
 // Returns wide moves according to the positions of bonds
 class BandagedMoveFactory : MoveFactory {
     override fun makeMove(

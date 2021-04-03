@@ -102,4 +102,11 @@ class Highlight(
                 (direction == other.direction) &&
                 (offset == other.offset)
     }
+
+    override fun hashCode(): Int {
+        var result = axis.hashCode()
+        result = 31 * result + direction.hashCode()
+        result = 31 * result + offset
+        return result
+    }
 }
