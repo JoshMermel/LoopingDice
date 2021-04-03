@@ -33,4 +33,16 @@ class GearMove(
     override fun toString(): String {
         return "GEAR $axis $direction $offset"
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (javaClass != other?.javaClass) {
+            return false
+        }
+        other as GearMove
+        return (axis == other.axis) &&
+                (direction == other.direction) &&
+                (offset == other.offset) &&
+                (numRows == other.numRows) &&
+                (numCols == other.numCols)
+    }
 }
