@@ -3,6 +3,7 @@ package com.joshmermelstein.loopoverplus
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
+import android.util.Log
 
 // A gameCell object represents a single square on the board. GameCells are relatively dumb and
 // only know how to draw themselves. Movement is handled by the game manager object.
@@ -38,6 +39,12 @@ fun makeGameCell(
         colorId.startsWith("B") -> {
             BandagedGameCell(x.toDouble(), y.toDouble(), numRows, numCols, colorId, context)
         }
+        colorId.startsWith("H") -> {
+            HorizontalGameCell(x.toDouble(), y.toDouble(), numRows, numCols, colorId, context)
+        }
+        colorId.startsWith("V") -> {
+            VerticalGameCell(x.toDouble(), y.toDouble(), numRows, numCols, colorId, context)
+        }
         else -> NormalGameCell(x.toDouble(), y.toDouble(), numRows, numCols, colorId, context)
     }
 }
@@ -46,7 +53,9 @@ fun makeGameCell(
 enum class CellFamily {
     NORMAL,
     ENABLER,
-    FIXED
+    FIXED,
+    VERTICAL,
+    HORIZONTAL
 }
 
 // Base class for shared logic among game cell types

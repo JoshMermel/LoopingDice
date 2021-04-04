@@ -110,6 +110,28 @@ class GameBoard(private val board: Array<Array<GameCell>>) {
         return false
     }
 
+    // Returns whether any cell in |row| is locked to its column
+    fun findColLockedCell(row: Int): List<Pair<Int, Int>> {
+        val ret: MutableList<Pair<Int, Int>> = mutableListOf()
+        for (col in 0 until numCols) {
+            if (getCell(row, col).family == CellFamily.VERTICAL) {
+                ret.add(Pair(row, col))
+            }
+        }
+        return ret
+    }
+
+    // Returns whether any cell in |col| is locked to its row
+    fun findRowLockedCell(col: Int): List<Pair<Int, Int>> {
+        val ret: MutableList<Pair<Int, Int>> = mutableListOf()
+        for (row in 0 until numRows) {
+            if (getCell(row, col).family == CellFamily.HORIZONTAL) {
+                ret.add(Pair(row, col))
+            }
+        }
+        return ret
+    }
+
     override fun toString(): String {
         return board.joinToString(",") { row -> row.joinToString(",") }
     }

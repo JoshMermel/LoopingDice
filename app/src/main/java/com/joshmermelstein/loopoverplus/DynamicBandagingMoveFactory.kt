@@ -26,7 +26,7 @@ class DynamicBandagingMoveFactory : BasicMoveFactory() {
             return IllegalMove(blockingCellsEncountered)
         }
 
-        // If non were found, the move executes like a wide move.
+        // If non were found, the move executes like a basic move.
         return super.makeMove(axis, direction, offset, board)
     }
 

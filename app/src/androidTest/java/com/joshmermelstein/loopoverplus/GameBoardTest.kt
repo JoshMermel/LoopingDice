@@ -8,7 +8,7 @@ class GameBoardTest : TestCase() {
 
     init {
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        val arr = arrayOf("1", "E", "F 0", "B 1 R", "5", "6")
+        val arr = arrayOf("1", "E", "F 0", "B 1 R", "V 1", "H 2")
         board = GameBoard(2, 3, arr, appContext)
     }
 
@@ -100,13 +100,31 @@ class GameBoardTest : TestCase() {
         assertFalse(board.colContainsEnabler(2))
     }
 
+    fun testFindColLockedCell() {
+        val row0 = board.findColLockedCell(0)
+        assertEquals(row0.size, 0)
+
+        val row1 = board.findColLockedCell(1)
+        assertEquals(row1.size, 1)
+        assertEquals(row1[0], Pair(1,1))
+    }
+
+    fun testFindRowLockedCell() {
+        val col1 = board.findRowLockedCell(1)
+        assertEquals(col1.size, 0)
+
+        val col2 = board.findRowLockedCell(2)
+        assertEquals(col2.size, 1)
+        assertEquals(col2[0], Pair(1,2))
+    }
+
     fun testTestToString() {
-        assertEquals(board.toString(), "1,E,F 0,B 1 R,5,6")
+        assertEquals(board.toString(), "1,E,F 0,B 1 R,V 1,H 2")
     }
 
     fun testTestEquals() {
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        val arr = arrayOf("1", "E", "F 0", "B 1 R", "5", "6")
+        val arr = arrayOf("1", "E", "F 0", "B 1 R", "V 1", "H 2")
         val sameBoard = GameBoard(2, 3, arr, appContext)
 
         assertEquals(board, sameBoard)
