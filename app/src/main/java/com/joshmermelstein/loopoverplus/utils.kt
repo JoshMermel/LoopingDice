@@ -21,6 +21,10 @@ fun mod(base: Int, modulus: Int): Int {
     return ((base % modulus) + modulus) % modulus
 }
 
+fun isNumeric (s : String) : Boolean {
+    return s.matches("-?\\d+".toRegex())
+}
+
 fun opposite(direction: Direction): Direction {
     return when (direction) {
         Direction.FORWARD -> Direction.BACKWARD

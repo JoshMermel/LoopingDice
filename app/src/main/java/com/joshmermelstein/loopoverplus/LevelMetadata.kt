@@ -1,6 +1,7 @@
 package com.joshmermelstein.loopoverplus
 
 import android.content.Context
+import android.util.Log
 import java.io.BufferedReader
 import java.io.InputStreamReader
 
@@ -8,7 +9,7 @@ class LevelMetadata(
     var next: String?,
     var displayId: String,
     var canonicalId: String,
-    val fourStar : Int,
+    val fourStar: Int,
     val threeStar: Int,
     val twoStar: Int
 )
@@ -36,6 +37,7 @@ class MetadataSingleton private constructor(context: Context) {
             "gear",
             "static",
             "enabler",
+            "axis_locked",
             "hybrid_wc",
             "hybrid_wg",
             "hybrid_cg",
@@ -48,19 +50,46 @@ class MetadataSingleton private constructor(context: Context) {
 
             var line: String? = reader.readLine()
             while (line != null) {
-                // TODO(jmerm): handle invalid/empty input better here.
-                val parts = line.split(" ")
-                pack.levels.add(parts[1])
-                levelData[parts[1]] =
-                    LevelMetadata(null, parts[0], parts[1], parts[2].toInt(), parts[3].toInt(), parts[4].toInt())
-                levelData[prevId]?.next = parts[1]
-                prevId = parts[1]
-
+                val level = parseLevel(line)
+                if (level != null) {
+                    pack.levels.add(level.canonicalId)
+                    levelData[level.canonicalId] = level
+                    levelData[prevId]?.next = level.canonicalId
+                    prevId = level.canonicalId
+                }
                 line = reader.readLine()
             }
             packData.add(pack)
             prevId = null
         }
+    }
+
+    private fun parseLevel(line: String): LevelMetadata? {
+        val parts = line.split(" ")
+        if (parts.size < 5) {
+            Log.e("LoopingDice", "Failed to load level from \"$line\", not enough parts")
+            return null
+        }
+
+        val displayId = parts[0]
+        val canonicalId = parts[1]
+        val fourStar = parts[2]
+        val threeStar = parts[3]
+        val twoStar = parts[4]
+
+        if (!isNumeric(fourStar) || !isNumeric(threeStar) || !isNumeric(twoStar)) {
+            Log.e("LoopingDice", "Failed to load level from \"$line\", par must be an int")
+            return null
+        }
+
+        return LevelMetadata(
+            null,
+            displayId,
+            canonicalId,
+            fourStar.toInt(),
+            threeStar.toInt(),
+            twoStar.toInt()
+        )
     }
 
     fun getLevelData(id: String): LevelMetadata? {

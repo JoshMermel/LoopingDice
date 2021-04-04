@@ -14,6 +14,11 @@ class UtilTest : TestCase() {
         assertEquals(bounds.height(), 100.0)
     }
 
+    fun testIsNumeric() {
+        assertTrue(isNumeric("123"))
+        assertFalse(isNumeric("x"))
+    }
+
     fun testMod() {
         assertEquals(mod(5, 3), 2)
         assertEquals(mod(-5, 3), 1)
