@@ -62,8 +62,7 @@ class GameManager(
     fun loadFromSavedLevel(level: SavedLevel) {
         // If this save file represents a solved board don't re-popup the win dialog
         if (level.board.contentEquals(params.goal)) {
-            // TODO(jmerm): consider just ignoring the save file in this situation. Why would the player want to see the finished level?
-            complete = true
+            return
         }
 
         this.board = GameBoard(params.numRows, params.numCols, level.board, context)
@@ -142,6 +141,7 @@ class GameManager(
 
         // But only legal moves get added to the undo stack and counted toward the user's numMoves
         if (move is LegalMove) {
+            val wasSolved = isSolved()
             move.finalize(future)
             undoStack.push(move)
             redoStack.clear()
@@ -149,8 +149,10 @@ class GameManager(
             buttonState.undoButtonEnabled = true
             buttonState.redoButtonEnabled = false
             updateGameplayMoveCount()
+            if (wasSolved) {
+                complete = false
+            }
         }
-        // TODO(jmerm): something like wasSolved here so people can keep winning after they win
     }
 
     fun undoMove() {
@@ -177,6 +179,7 @@ class GameManager(
         if (redoStack.empty()) {
             return
         }
+        val wasSolved = isSolved()
         val redoneMove = redoStack.pop()
         redoneMove.finalize(future)
         moveQueue.addMove(redoneMove)
@@ -187,7 +190,9 @@ class GameManager(
             buttonState.redoButtonEnabled = false
         }
         updateGameplayMoveCount()
-        // TODO(jmerm): something like wasSolved here so people can keep winning after they win
+        if (wasSolved) {
+            complete = false
+        }
     }
 
     fun addHighlights(axis: Axis, direction: Direction, offset: Int) {
@@ -278,7 +283,7 @@ class GameManager(
         // Print the threshold for more stars based on their best ever
         val newHighscore = min(oldHighscore, numMoves)
         doBetter.text = when {
-            newHighscore <= fourStar -> "A perfect score!"
+            newHighscore <= fourStar -> "You've earned all possible stars"
             newHighscore <= threeStar -> "Win in $fourStar " + pluralizedMoves(fourStar) + " for a perfect score"
             newHighscore <= twoStar -> "Win in $threeStar " + pluralizedMoves(threeStar) + " to earn three stars"
             else -> "Win in $twoStar " + pluralizedMoves(twoStar) + " to earn two stars"
