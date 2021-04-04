@@ -37,6 +37,15 @@ class GameplayActivity : AppCompatActivity() {
         this.id = intent.getStringExtra("id") ?: return
 
         val params = loadInitialLevel(id)
+        if (params == null) {
+            Toast.makeText(
+                applicationContext,
+                "Failed to load level params for $id",
+                Toast.LENGTH_SHORT
+            ).show()
+            finish()
+            return
+        }
         this.gameManager = GameManager(params, this, buttonState)
         val save = loadSavedLevel(id, params.numRows, params.numCols)
         if (save != null && save.board.size == params.numRows * params.numCols) {
@@ -53,7 +62,9 @@ class GameplayActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        saveLevel(id, gameManager.toString())
+        if (this::gameManager.isInitialized) {
+            saveLevel(id, gameManager.toString())
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -147,21 +158,23 @@ class GameplayActivity : AppCompatActivity() {
         dialog.show()
     }
 
-    private fun loadInitialLevel(id: String): GameplayParams {
-        // TODO(jmerm): handle missing or incorrectly formatted file
-        val reader = BufferedReader(InputStreamReader(assets.open("levels/$id.txt")))
+    private fun loadInitialLevel(id: String): GameplayParams? {
+        try {
+            val reader = BufferedReader(InputStreamReader(assets.open("levels/$id.txt")))
 
-        val numRows: Int = reader.readLine().toInt()
-        val numCols: Int = reader.readLine().toInt()
-        val factory: MoveFactory = makeMoveFactory(reader.readLine())
-        val initial: Array<String> = reader.readLine().split(",").toTypedArray()
-        val final: Array<String> = reader.readLine().split(",").toTypedArray()
-        reader.close()
-        return GameplayParams(id, numRows, numCols, factory, initial, final)
+            val numRows: Int = reader.readLine().toInt()
+            val numCols: Int = reader.readLine().toInt()
+            val factory: MoveFactory = makeMoveFactory(reader.readLine())
+            val initial: Array<String> = reader.readLine().split(",").toTypedArray()
+            val final: Array<String> = reader.readLine().split(",").toTypedArray()
+            reader.close()
+            return GameplayParams(id, numRows, numCols, factory, initial, final)
+        } catch (e: Exception) {
+        }
+        return null
     }
 
     private fun loadSavedLevel(id: String, numRows: Int, numCols: Int): SavedLevel? {
-        // TODO(jmerm): better handling for malformed files.
         try {
             val reader = openFileInput("$id.txt").bufferedReader()
             val board: Array<String> = reader.readLine().split(",").toTypedArray()
@@ -172,7 +185,7 @@ class GameplayActivity : AppCompatActivity() {
             val numMoves: Int = reader.readLine().toInt()
 
             return SavedLevel(board, undoStack, redoStack, numMoves)
-        } catch (e: FileNotFoundException) {
+        } catch (e: Exception) {
         }
         return null
     }
