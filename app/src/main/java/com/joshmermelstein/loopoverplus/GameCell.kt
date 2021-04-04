@@ -3,7 +3,6 @@ package com.joshmermelstein.loopoverplus
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
-import android.util.Log
 
 // A gameCell object represents a single square on the board. GameCells are relatively dumb and
 // only know how to draw themselves. Movement is handled by the game manager object.

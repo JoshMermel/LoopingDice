@@ -22,7 +22,6 @@ abstract class AxisLockedGameCell(
     abstract  val lock: Drawable
 
     init {
-        Log.d("jmerm", "made an axis locked game cell")
         val parts = colorId.split(" ")
         color = parts[1].toInt() % 4
     }
