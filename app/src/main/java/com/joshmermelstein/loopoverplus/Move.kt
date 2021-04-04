@@ -59,10 +59,10 @@ interface LegalMove : Move {
     // Returns a move that undoes this one
     fun inverse(): Move
 
-    // TODO(jmerm): the toString, toUserString distinction is bizarre. Can this be simplified or named better?
     // Used for saving move history to a file.
     override fun toString(): String
 
+    // Human readable string of this move
     fun toUserString(): String {
         return when (axis) {
             Axis.HORIZONTAL -> "Row"
@@ -142,7 +142,7 @@ interface RowColMove : CoordinatesMove {
 // Helper for loading saved moves from files.
 fun stringToMove(s: String, numRows: Int, numCols: Int): LegalMove? {
     val splits = s.split(" ")
-    if (s.length < 3) {
+    if (splits.size < 4 || !isNumeric(splits[3])) {
         return null
     }
     val axis = if (splits[1] == "H") {
@@ -162,7 +162,10 @@ fun stringToMove(s: String, numRows: Int, numCols: Int): LegalMove? {
             BasicMove(axis, direction, offset, numRows, numCols)
         }
         "WIDE" -> {
-            WideMove(axis, direction, offset, numRows, numCols, splits[4].toInt())
+            when (isNumeric(splits[4])) {
+                true -> WideMove(axis, direction, offset, numRows, numCols, splits[4].toInt())
+                false -> null
+            }
         }
         "GEAR" -> {
             GearMove(axis, direction, offset, numRows, numCols)

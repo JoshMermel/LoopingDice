@@ -15,9 +15,6 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import java.io.File
 
-// TODO(jmerm): think more about cases where we string split like loading levels in singleton or
-//  loading save files and make sure they are safe
-
 // The main activity for the app is a level select screen.
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
