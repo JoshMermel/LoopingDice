@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isVisible
@@ -69,11 +70,23 @@ class GameplayActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.copy -> {
-                val clipboardManager =
-                    getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                val clip = ClipData.newPlainText("Moves", gameManager.toUserString())
-                clipboardManager.setPrimaryClip(clip)
-                // TODO(jmerm): do a toast here to let them know it succeeded?
+                val moves: String = gameManager.toUserString()
+                if (moves.isEmpty()) {
+                    Toast.makeText(applicationContext, "Nothing to copy", Toast.LENGTH_SHORT).show()
+                } else {
+                    val clipboardManager =
+                        getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                    val clip = ClipData.newPlainText("Moves", moves)
+                    clipboardManager.setPrimaryClip(clip)
+                    Toast.makeText(
+                        applicationContext,
+                        "Copied " + when (moves.length) {
+                            in 0..20 -> moves
+                            else -> (moves.subSequence(0, 20)).toString() + "..."
+                        },
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
                 true
             }
             R.id.reset -> {
