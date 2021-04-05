@@ -249,7 +249,6 @@ class GameManager(
         val twoStar = levelData.twoStar
         val highscores: SharedPreferences =
             context.getSharedPreferences("highscores", Context.MODE_PRIVATE)
-
         val oldHighscore = highscores.getInt(unSampler(params.id), Int.MAX_VALUE)
 
         val dialog = Dialog(context)
