@@ -233,7 +233,7 @@ class GameManager(
     // Highscores for each level are stored in shared preferences.
     private fun updateHighscores(highscores: SharedPreferences) {
         with(highscores.edit()) {
-            putInt(params.id, numMoves)
+            putInt(unSampler(params.id), numMoves)
             commit()
         }
     }
@@ -249,7 +249,8 @@ class GameManager(
         val twoStar = levelData.twoStar
         val highscores: SharedPreferences =
             context.getSharedPreferences("highscores", Context.MODE_PRIVATE)
-        val oldHighscore = highscores.getInt(params.id, Int.MAX_VALUE)
+
+        val oldHighscore = highscores.getInt(unSampler(params.id), Int.MAX_VALUE)
 
         val dialog = Dialog(context)
         dialog.setContentView(R.layout.win_popup)

@@ -46,6 +46,11 @@ class GameplayActivity : AppCompatActivity() {
             finish()
             return
         }
+
+        // If this is a sampler level, we've now looked up params telling us what's next and can
+        // proceed as though it wasn't a sampler level.
+        this.id = unSampler(this.id)
+
         this.gameManager = GameManager(params, this, buttonState)
         val save = loadSavedLevel(id, params.numRows, params.numCols)
         if (save != null && save.board.size == params.numRows * params.numCols) {
@@ -160,7 +165,8 @@ class GameplayActivity : AppCompatActivity() {
 
     private fun loadInitialLevel(id: String): GameplayParams? {
         try {
-            val reader = BufferedReader(InputStreamReader(assets.open("levels/$id.txt")))
+            var id2 = unSampler(id)
+            val reader = BufferedReader(InputStreamReader(assets.open("levels/$id2.txt")))
 
             val numRows: Int = reader.readLine().toInt()
             val numCols: Int = reader.readLine().toInt()

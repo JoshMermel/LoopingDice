@@ -132,7 +132,7 @@ class MainActivity : AppCompatActivity() {
     // comparing it to par.
     private fun buttonText(levelData: LevelMetadata): String {
         val highscores: SharedPreferences = getSharedPreferences("highscores", Context.MODE_PRIVATE)
-        val highscore = highscores.getInt(levelData.canonicalId, Int.MAX_VALUE)
+        val highscore = highscores.getInt(unSampler(levelData.canonicalId), Int.MAX_VALUE)
         val id = levelData.displayId
 
         return when {

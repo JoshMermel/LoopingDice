@@ -25,6 +25,14 @@ fun isNumeric (s : String) : Boolean {
     return s.matches("-?\\d+".toRegex())
 }
 
+fun unSampler(s : String) : String {
+    return if (s.startsWith("sampler_")) {
+        s.substring(8)
+    } else {
+        s
+    }
+}
+
 fun opposite(direction: Direction): Direction {
     return when (direction) {
         Direction.FORWARD -> Direction.BACKWARD

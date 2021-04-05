@@ -1,0 +1,15 @@
+Sampler
+W1 sampler_w_intro 3 4 6
+W2 sampler_w_cant_fail 2 3 4
+C1 sampler_c_simpler_intro 2 3 4
+C2 sampler_c_intro 2 3 4
+D1 sampler_d_intro 3 4 5
+D2 sampler_d_easy_corners 8 9 10
+B1 sampler_b_intro 2 3 5
+B2 sampler_b_three_block 7 8 13
+G1 sampler_g_intro 2 3 4
+G2 sampler_g_diag 2 3 5
+S1 sampler_s_intro 6 7 10
+S2 sampler_s_checker 3 4 5
+E1 sampler_e_intro 8 9 10
+E2 sampler_e_slide_row 4 5 10
