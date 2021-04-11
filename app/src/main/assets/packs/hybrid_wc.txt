@@ -1,7 +1,7 @@
 Wide + Carousel
 WC1 wc_diag 4 5 7
 WC2 wc_rotate_strip 4 5 11
-WC3 wc_tower 4 6 8
+WC3 wc_tower 4 5 8
 WC4 wc_stripes 4 6 11
 WC5 wc_defrag 7 9 13
 WC6 wc_swap_stairs 5 6 8
