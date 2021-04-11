@@ -23,6 +23,6 @@ class AxisLockedMoveFactory : BasicMoveFactory() {
     }
 
     override fun generalHelpText(): String {
-        return "Cells containing arrows are limited to their row/column."
+        return "Cells containing arrows can only move in those directions."
     }
 }
