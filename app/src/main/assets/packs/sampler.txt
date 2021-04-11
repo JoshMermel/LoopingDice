@@ -13,3 +13,5 @@ S1 sampler_s_intro 6 7 10
 S2 sampler_s_roundabout 7 8 12
 E1 sampler_e_intro 8 9 10
 E2 sampler_e_slide_row 4 5 10
+A1 sampler_a_intro 4 5 6
+A2 sampler_a_stripes 5 8 10

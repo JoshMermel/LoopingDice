@@ -38,7 +38,7 @@ class MetadataSingleton private constructor(context: Context) {
             "gear",
             "static",
             "enabler",
-//            "axis_locked",
+            "axis_locked",
             "hybrid_wc",
             "hybrid_wg",
             "hybrid_cg",
