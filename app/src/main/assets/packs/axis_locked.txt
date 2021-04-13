@@ -25,5 +25,4 @@ A23 a_dense_diagonal 8 9 16
 A24 a_tau 9 10 16
 A25 a_shoelaces 20 22 35
 A26 a_two_fish 15 25 40
-A27 a_peas_in_a_pod_1 22 30 50
-A28 a_peas_in_a_pod_2 25 30 50
+A27 a_peas_in_a_pod 26 30 50
