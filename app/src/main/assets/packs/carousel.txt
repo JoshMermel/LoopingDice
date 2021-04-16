@@ -16,7 +16,7 @@ C14 c_raft 6 8 11
 C15 c_big_plus 4 5 9
 C16 c_two_fish 8 12 18
 C17 c_not_equals 4 6 8
-C18 c_make_columns 4 7 10
-C19 c_partial_checkerboard 5 12 20
+C18 c_make_columns 4 6 10
+C19 c_partial_checkerboard 5 9 20
 C20 c_keep_bottom_stripe 4 8 14
 C21 c_four_stripes 8 13 21

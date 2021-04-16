@@ -5,8 +5,10 @@ WG3 wg_tall_stripe 6 7 12
 WG4 wg_ring2 3 4 7
 WG5 wg_ring1 4 5 8
 WG6 wg_magnets 5 7 9
-WG7 wg_centralize_corners 6 9 14
-WG8 wg_big_plus 4 5 8
-WG9 wg_quad_horizontal_stripe 6 9 12
-WG10 wg_concentric 5 7 9
-WG11 wg_diag_extra 6 9 12
+WG7 wg_join_edges 5 9 14
+WG8 wg_centralize_corners 6 9 14
+WG9 wg_big_plus 4 5 8
+WG10 wg_inverse_firework 10 16 25
+WG11 wg_quad_horizontal_stripe 6 9 12
+WG12 wg_concentric 5 7 9
+WG13 wg_diag_extra 6 9 12

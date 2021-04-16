@@ -4,4 +4,3 @@ AXISLOCKED
 H 2,V 4,3,3,V 4,3,3,3,3,3,3,H 2,3,3,H 2,V 4
 V 4,3,H 2,3,3,3,3,V 4,H 2,3,3,3,3,V 4,3,H 2
 # R2',C3,C3,R3,C1',R0',R0',C0',R2',R2' (10)
-good start but needs something more

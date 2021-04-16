@@ -17,9 +17,9 @@ D15 d_make_columns 7 8 13
 D16 d_stratego 9 11 15
 D17 d_stack_up 6 7 10
 D18 d_keep_bottom_stripe 7 12 18
-D19 d_swap_rows 12 14 20
+D19 d_swap_rows 12 13 20
 D20 d_make_columns2 12 14 25
-D21 d_ring 7 9 15
+D21 d_ring 7 8 15
 D22 d_padded_stripe 8 12 20
 D23 d_heist 7 8 16
 D24 d_narrow_jail 9 11 18
