@@ -13,6 +13,7 @@ import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
 import java.io.File
 
 // The main activity for the app is a level select screen.
@@ -71,7 +72,6 @@ class MainActivity : AppCompatActivity() {
 
         val title = TextView(this)
         title.text = pack.title
-        title.setTextColor(Color.BLACK)
         title.setPadding(10, 10, 10, 10)
         layout.addView(title)
 
