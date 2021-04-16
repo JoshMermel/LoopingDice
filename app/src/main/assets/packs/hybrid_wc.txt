@@ -13,4 +13,4 @@ WC11 wc_inverse_firework 9 18 30
 WC12 wc_join_edges 5 9 300
 WC13 wc_quad_stripe 7 8 15
 WC14 wc_big_stairs 10 13 25
-WC15 wc_t_piece 6 10 21
+WC15 wc_make_columns 6 10 21
