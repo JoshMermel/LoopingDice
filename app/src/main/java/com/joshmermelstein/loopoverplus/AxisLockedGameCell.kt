@@ -3,7 +3,6 @@ package com.joshmermelstein.loopoverplus
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
-import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.DrawableCompat
@@ -16,7 +15,7 @@ abstract class AxisLockedGameCell(
     colorId: String,
     override val context: Context
 ) : NormalGameCellBase(x, y, numRows, numCols, colorId) {
-    override val color: Int
+    final override val color: Int
     override val pips = 1
     abstract val arrows: Drawable
     abstract  val lock: Drawable

@@ -14,7 +14,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isVisible
 import java.io.BufferedReader
-import java.io.FileNotFoundException
 import java.io.InputStreamReader
 
 // An activity for displaying the lifetime of a level as well as other UI elements.
@@ -165,7 +164,7 @@ class GameplayActivity : AppCompatActivity() {
 
     private fun loadInitialLevel(id: String): GameplayParams? {
         try {
-            var id2 = unSampler(id)
+            val id2 = unSampler(id)
             val reader = BufferedReader(InputStreamReader(assets.open("levels/$id2.txt")))
 
             val numRows: Int = reader.readLine().toInt()

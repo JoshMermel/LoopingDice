@@ -1,7 +1,5 @@
 package com.joshmermelstein.loopoverplus
 
-import android.util.Log
-
 // Misc utils that are handy but don't fit elsewhere.
 
 class Bounds(
