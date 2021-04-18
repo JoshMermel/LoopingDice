@@ -16,3 +16,4 @@ S14 s_quad_strips 7 9 18
 S15 s_quad_horizontal_stripe 8 11 20
 S16 s_defrag 6 9 20
 S17 s_join_edges 6 9 18
+S18 s_wide_middle 8 12 20
