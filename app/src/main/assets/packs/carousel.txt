@@ -18,5 +18,5 @@ C16 c_not_equals 4 6 8
 C17 c_make_columns 4 6 10
 C18 c_partial_checkerboard 5 9 20
 C19 c_two_fish 8 14 22
-C20 c_keep_bottom_stripe 4 8 14
+C20 c_keep_bottom_stripe 4 9 15
 C21 c_four_stripes 8 13 21
