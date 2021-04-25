@@ -28,4 +28,5 @@ D26 d_bicolor 14 27 50
 D27 d_wide_jail 14 19 29
 D28 d_oblong_hippos 13 20 30
 D29 d_quadrants 16 26 40
-D30 d_hippos 12 24 36
+D30 d_peas_in_a_pod 13 20 30
+D31 d_hippos 12 24 36
