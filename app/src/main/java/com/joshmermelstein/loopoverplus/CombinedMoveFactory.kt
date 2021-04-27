@@ -35,9 +35,4 @@ class CombinedMoveFactory(private val horizontal: MoveFactory, private val verti
     override fun horizontalHelpText(): String {
         return horizontal.horizontalHelpText()
     }
-
-    // It would be weird to mix modes that have this but maybe not a bug?
-    override fun generalHelpText(): String {
-        return ""
-    }
 }

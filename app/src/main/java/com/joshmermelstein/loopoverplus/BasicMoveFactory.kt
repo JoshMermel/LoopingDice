@@ -28,7 +28,7 @@ open class BasicMoveFactory : MoveFactory {
         return "Horizontal moves affect a single row"
     }
 
-    override fun generalHelpText(): String {
-        return ""
+    override fun helpText(): String {
+        return "Horizontal and vertical moves affect a single row/col"
     }
 }

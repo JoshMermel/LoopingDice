@@ -75,16 +75,17 @@ class BandagedMoveFactory : MoveFactory {
         }
     }
 
+    // unused?
     override fun verticalHelpText(): String {
         return "Vertical moves affect a single column"
     }
 
+    // unused
     override fun horizontalHelpText(): String {
         return "Horizontal moves affect a single row"
     }
 
-    // It would be weird to mix modes that have this but maybe not a bug?
-    override fun generalHelpText(): String {
+    override fun helpText(): String {
         return "Blocks connected by a bond always move together and will cause extra rows/columns to be dragged"
     }
 }

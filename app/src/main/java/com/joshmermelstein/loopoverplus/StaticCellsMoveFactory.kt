@@ -25,7 +25,7 @@ class StaticCellsMoveFactory(override val rowDepth: Int, override val colDepth: 
         return super.makeMove(axis, direction, offset, board)
     }
 
-    override fun generalHelpText(): String {
-        return "Neither is allowed to move a black square"
+    override fun helpText(): String {
+        return super.helpText() + "\nNeither is allowed to move a black square"
     }
 }

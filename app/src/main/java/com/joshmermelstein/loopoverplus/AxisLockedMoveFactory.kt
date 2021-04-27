@@ -22,7 +22,7 @@ class AxisLockedMoveFactory : BasicMoveFactory() {
         return super.makeMove(axis, direction, offset, board)
     }
 
-    override fun generalHelpText(): String {
+    override fun helpText(): String {
         return "Cells containing arrows can only move in those directions."
     }
 }

@@ -30,7 +30,7 @@ class DynamicBandagingMoveFactory : BasicMoveFactory() {
         return super.makeMove(axis, direction, offset, board)
     }
 
-    override fun generalHelpText(): String {
-        return "Neither is allowed to move a black square off the edge of the board"
+    override fun helpText(): String {
+        return "Moves cannot push a black square off the edge of the board"
     }
 }

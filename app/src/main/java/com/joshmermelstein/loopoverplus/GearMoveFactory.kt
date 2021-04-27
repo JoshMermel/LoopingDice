@@ -24,14 +24,14 @@ class GearMoveFactory : MoveFactory {
     }
 
     override fun verticalHelpText(): String {
-        return "Vertical moves slide a single column but the next column to the right moves the opposite direction"
+        return "Vertical moves are gear moves"
     }
 
     override fun horizontalHelpText(): String {
-        return "Horizontal moves slide a single row but the row below it slides the opposite direction"
+        return "Horizontal moves are gear moves"
     }
 
-    override fun generalHelpText(): String {
-        return ""
+    override fun helpText(): String {
+        return "Horizontal and vertical moves are gear moves"
     }
 }

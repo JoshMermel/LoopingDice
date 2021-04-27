@@ -23,20 +23,12 @@ interface MoveFactory {
     ): Array<Highlight>
 
     fun helpText(): String {
-        val general = generalHelpText()
-        return verticalHelpText() + "\n" + horizontalHelpText() + if (general.isNotEmpty()) {
-            "\n" + general
-        } else {
-            ""
-        }
+        return verticalHelpText() + "\n" + horizontalHelpText()
     }
 
     // Human readable explanation of what happens for horizontal and vertical moves.
     fun horizontalHelpText(): String
     fun verticalHelpText(): String
-
-    // Human readable explanation of extra rules like what makes moves invalid.
-    fun generalHelpText(): String
 }
 
 // This is a move factory factory lol

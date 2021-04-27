@@ -17,7 +17,7 @@ class EnablerMoveFactory : BasicMoveFactory() {
         return IllegalMove(board.findEnablers())
     }
 
-    override fun generalHelpText(): String {
-        return "Both must always contain the gold square"
+    override fun helpText(): String {
+        return "Moves must contain a gold square"
     }
 }

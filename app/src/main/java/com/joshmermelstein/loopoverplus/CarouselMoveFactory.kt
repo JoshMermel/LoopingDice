@@ -24,14 +24,14 @@ class CarouselMoveFactory : MoveFactory {
     }
 
     override fun verticalHelpText(): String {
-        return "Vertical moves form a loop with the column to the right and rotate cells in those two columns"
+        return "Vertical moves are carousel moves"
     }
 
     override fun horizontalHelpText(): String {
-        return "Horizontal moves form a loop with the row below and rotate cells in those two rows"
+        return "Horizontal moves are carousel moves"
     }
 
-    override fun generalHelpText(): String {
-        return ""
+    override fun helpText(): String {
+        return "Horizontal and vertical moves are carousel moves"
     }
 }

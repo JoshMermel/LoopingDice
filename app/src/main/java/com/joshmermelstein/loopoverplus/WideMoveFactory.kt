@@ -37,8 +37,4 @@ open class WideMoveFactory(open val rowDepth: Int, open val colDepth: Int) :
     override fun horizontalHelpText(): String {
         return "Horizontal moves affect $rowDepth " + pluralizedRows(rowDepth)
     }
-
-    override fun generalHelpText(): String {
-        return ""
-    }
 }
