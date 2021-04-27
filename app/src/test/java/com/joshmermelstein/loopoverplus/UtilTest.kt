@@ -28,7 +28,7 @@ class UtilTest : TestCase() {
         assertTrue(sameElements(arrayOf("a", "B 1", "1234"), arrayOf("B 1", "a", "1234")))
         assertFalse(sameElements(arrayOf("a", "B 1", "1234"), arrayOf("a", "a", "B 1", "1234")))
         assertFalse(sameElements(arrayOf("a", "B 1", "1234"), arrayOf("a", "B 1")))
-        assertFalse(sameElements(arrayOf("a", "B 1", "1234"), arrayOf("arq", "B123", "abcd")))
+        assertFalse(sameElements(arrayOf("a", "B 1", "1234"), arrayOf("arq", "B123", "word")))
     }
 
     fun testMod() {
