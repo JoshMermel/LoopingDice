@@ -95,6 +95,7 @@ class BandagedGameCell(
     ) {
         val paint = Paint()
         paint.color = Color.BLACK
+        // TODO(jmerm): these bounds can be a fraction of the size of the canvas if the board is really tall - use something better?
         paint.strokeWidth = bounds.width().toFloat() / 24
         paint.strokeCap = Paint.Cap.ROUND
 
