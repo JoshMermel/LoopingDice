@@ -4,3 +4,4 @@ ENABLER
 E,E,E,1,2,3,5,6,7
 E,E,E,7,6,5,3,2,1
  # C0,R0',R1',C1,C2',R1,C2',R2',C1 (9)
+ human solution: Col1' Row0' Col1 Row0 Col1' Col0' Row0 Col2 Row0 Col2 Col0' Row0' Col2 Row0' Col0'
