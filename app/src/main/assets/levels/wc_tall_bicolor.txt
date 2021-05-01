@@ -4,3 +4,4 @@ WIDE 3 3|CAROUSEL
 4,4,2,2,4,4,4,2,2,2
 4,2,4,2,4,2,4,2,4,2
 # C0,R0,R4,C0,R1',R0' (6)
+TODO(jmerm): this level is different from others called tall_bicolor. Should it be unified?
