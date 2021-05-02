@@ -12,15 +12,15 @@ Libraries:
 
  - board.h contains helpers for representing, printing, and hashing the board
  - move.h contains helpers for executing moves on a board
- - board_test.cc and mov_test.cc contain tests for the corresponding .h files.
- - enums.h contains enumns, constants, and some helpers related to them.
+ - board_test.cc and move_test.cc contain tests for the corresponding .h files.
+ - enums.h contains enums, constants, and some helpers related to them.
 
 Binaries:
 
  - scramble.cc takes a puzzle and scrambles it by applying random moves
  - bfs.cc takes a puzzle and breadth-first explores it, printing the state every
    time a new state is discovered. I found it useful to write little helper like
-   `is_symmetry()` to limit the output spam from this binary.
+   `is_symmetric()` to limit the output spam from this binary.
  - mitm.cc take an intial state and final state and does meet-in-the-middle
    breadth first search to find an optimal path from the start to the finish.
    Its output is in the format the the looping dice accepts.
