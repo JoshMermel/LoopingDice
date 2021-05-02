@@ -17,4 +17,4 @@ WC15 wc_inverse_firework 9 14 21
 WC16 wc_join_edges 5 9 16
 WC17 wc_too_wide 5 9 16
 WC18 wc_quad_stripe 7 8 15
-WC19 wc_big_stairs 10 13 25
+WC19 wc_big_stairs 10 14 25
