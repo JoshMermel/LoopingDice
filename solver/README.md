@@ -1,7 +1,7 @@
 # Solving tools
 
-This directory a library for simulating looping dice as well as some executables
-that use that library.
+This directory contains a library for simulating looping dice as well as some
+executables that use that library.
 
 These tools were created for my personal use without any consideration for
 usability by others so the interfaces are admittedly awkward.
