@@ -10,18 +10,18 @@ https://play.google.com/store/apps/details?id=com.joshmermelstein.loopingdice
 Let's start by talking about a few relatively abstract classes the are the core
 of the game.
 
-GameCell: These represent the different kinds of cells that exist across levels.
+`GameCell`: These represent the different kinds of cells that exist across levels.
 The base class mostly manages drawing the cell at the right position/wraparound
 and drawing the pips. Specialized subclasses override this logic to draw cells
 in special ways (i.e. different outline, overriding pip shape). GameCells are
 stored in a GameBoard which is a glorified 2D array with some helper functions.
 
-Move: Move represent the outcome of the player swiping; usually this means
+`Move`: Move represent the outcome of the player swiping; usually this means
 permuting GameCells on the board. Moves are stored in a MoveQueue that ensures
 that only one move is executing a time. Each subclass of Move permutes the board
 in its own way.
 
-MoveFactory: Move factories produce moves, like you might expect. Subclasses
+`MoveFactory`: Move factories produce moves, like you might expect. Subclasses
 return different kinds of moves and also handle validating moves.
 
 ## Data format for levels
@@ -46,11 +46,8 @@ type it is. The current possibilities are:
 |1-24 | normal game cells with various colors and numbers of pips|
 |V \d | a vertical gamecell whose color is determined by the number|
 |H \d | a horizontal  gamecell whose color is determined by the number|
-|F \d | a fixed cell (for static + dynamic modes) with a number of pips
-determined by the number E | An enabler cell|
-|B \d U D L R | a bandaged cell with color determined by the number and bonds
-determined by which of the {U, D, L, R} follow the number. Order does not
-matter.|
+|F \d | a fixed cell (for static + dynamic modes) with a number of pips determined by the number E | An enabler cell|
+|B \d U D L R | a bandaged cell with color determined by the number and bonds determined by which of the {U, D, L, R} follow the number. Order does not matter.|
 
 ### Packs
 
