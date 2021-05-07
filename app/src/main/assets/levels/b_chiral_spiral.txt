@@ -4,3 +4,4 @@ BANDAGED
 B 4 D,3,3,3,B 4 R,B 4 L,B 4 U,B 4 D,3,B 4 R,B 4 L,3,3,B 4 U,3,3,B 4 D,3,3,3,B 4 R,B 4 L,B 4 U,B 4 D,3,B 4 R,B 4 L,3,3,B 4 U,B 4 R,B 4 L,3,3,3,3
 B 4 R,B 4 L,3,3,3,B 4 D,3,B 4 R,B 4 L,3,B 4 D,B 4 U,3,B 4 D,3,3,B 4 U,3,B 4 D,B 4 U,B 4 R,B 4 L,3,3,B 4 U,3,3,B 4 R,B 4 L,3,3,3,3,3,B 4 R,B 4 L
 # R0',C0',R0,C0,R4,C0,R0,R1',R1',C4',R4,C0,R1,C0',R0' (15)
+human solution: Row5 Col0 Row0' Col5' Row4 Row5 Col0 Col1 Row0' Row0' Row1' Row1' Col4' Col5' Row4 Row5 Col0 Row0' Col5' Row5

@@ -4,3 +4,4 @@ STATIC 2 2
 1,1,4,1,4,4,1,4,1,4,4,1,1,1,4,F 0
 1,1,1,1,1,1,1,1,4,4,4,4,4,4,4,F 0
 # R0,C0,R1',R0',C1',C0 (6)
+human solution: Row0' Row1 Col0 Row1 Col0 Row1' Row0 Col1 Row0' Col0'

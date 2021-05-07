@@ -1,0 +1,7 @@
+3
+3
+GEAR|WIDE 2 2
+1,2,3,4,1,2,3,4,1
+1,1,1,2,3,4,2,3,4
+# C1',R0,C1',R1',C2 (5)
+human solution: Col2 Col0' Row1' Row0' Col0 Row1' Col0' Row0' Col0 Row1' Col0' Row0' Col0 Row1' Col0'
