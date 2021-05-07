@@ -10,20 +10,22 @@
 // TODO(jmerm): pre-check that initial and win contain same elements.
 
 // Global settings
-constexpr size_t num_rows = 3;
-constexpr size_t num_cols = 3;
+constexpr size_t num_rows = 4;
+constexpr size_t num_cols = 4;
 constexpr Board<num_rows, num_cols> initial = {{
-  {{1,1,1}},
-  {{2,2,2}},
-  {{3,3,0}},
+  {{2,2,2,2}},
+  {{2,3,3,2}},
+  {{2,3,3,2}},
+  {{2,2,2,2}},
 }};
 constexpr Board<num_rows, num_cols> win = {{
-  {{1,2,3}},
-  {{1,2,3}},
-  {{1,2,0}},
+  {{3,2,2,3}},
+  {{2,2,2,2}},
+  {{2,2,2,2}},
+  {{3,2,2,3}},
 }};
-Mode row_mode = Mode::STATIC_2;
-Mode col_mode = Mode::STATIC_2;
+Mode row_mode = Mode::WIDE_2;
+Mode col_mode = Mode::GEAR;
 
 template<std::size_t num_rows, std::size_t num_cols>
 struct Node {
