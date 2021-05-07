@@ -38,7 +38,23 @@ initial state (as comma separated list)
 goal state (as comma separated list)
 ```
 
-The entries in those comma separated lists are strings to tell a gamecell what
+The move factories are specified with one of the following strings:
+
+
+| spec | effect | 
+| --- | --- |
+| BASIC | A basic move factory |
+| WIDE \d \d | Numbers after wide are row depth and col depth |
+| DYNAMIC | Dynamic bandaging (basic but with extra validation) |
+| CAROUSEL | Carousel mode |
+| BANDAGED | Bandaged mode (a wide move factory that figures out depth based on bonds)|
+| GEAR | Gear mode |
+| AXIS | Arrows mode (basic but with extra validation) |
+| ENABLER | Enabler mode (basic but with extra validation) |
+| STATIC | Static bandaging (wide but with extra validation) |
+| Foo \| Bar | A combined factory with Foo's logic for rows and Bar's logic for columns |
+
+The entries in the comma separated lists are strings to tell a gamecell what
 type it is. The current possibilities are:
 
 | spec | effect | 
