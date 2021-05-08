@@ -30,12 +30,19 @@ open class WideMoveFactory(open val rowDepth: Int, open val colDepth: Int) :
         }
     }
 
-    // TODO(jmerm): consider using the word "depth" and also special casing when they are the same
     override fun verticalHelpText(): String {
         return "Vertical moves affect $colDepth " + pluralizedCols(colDepth)
     }
 
     override fun horizontalHelpText(): String {
         return "Horizontal moves affect $rowDepth " + pluralizedRows(rowDepth)
+    }
+
+    override fun helpText(): String {
+        return if (colDepth == rowDepth) {
+            "Vertical and horizontal moves have depth $rowDepth"
+        } else {
+            super.helpText()
+        }
     }
 }
