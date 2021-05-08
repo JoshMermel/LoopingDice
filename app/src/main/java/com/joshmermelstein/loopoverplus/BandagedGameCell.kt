@@ -63,6 +63,7 @@ class BandagedGameCell(
     ) {
         val x0 = (right + left) / 2
         val y0 = (bottom + top) / 2
+        val strokeWidth = (right - left).toFloat() / 6
 
         for (bond in bonds) {
             var x1 = x0
@@ -81,7 +82,7 @@ class BandagedGameCell(
                     y1 += (bottom - top + padding)
                 }
             }
-            drawLineClamped(canvas, x0, y0, x1, y1, bounds)
+            drawLineClamped(canvas, x0, y0, x1, y1, strokeWidth, bounds)
         }
     }
 
@@ -91,12 +92,12 @@ class BandagedGameCell(
         y0: Double,
         x1: Double,
         y1: Double,
+        strokeWidth : Float,
         bounds: Bounds
     ) {
         val paint = Paint()
         paint.color = Color.BLACK
-        // TODO(jmerm): these bounds can be a fraction of the size of the canvas if the board is really tall - use something better?
-        paint.strokeWidth = bounds.width().toFloat() / 24
+        paint.strokeWidth = strokeWidth
         paint.strokeCap = Paint.Cap.ROUND
 
         val boundedX0 = x0.coerceIn(bounds.left, bounds.right)
