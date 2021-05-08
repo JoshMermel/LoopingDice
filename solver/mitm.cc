@@ -7,8 +7,6 @@
 #include "enums.h"
 #include "moves.h"
 
-// TODO(jmerm): pre-check that initial and win contain same elements.
-
 // Global settings
 constexpr size_t num_rows = 4;
 constexpr size_t num_cols = 4;
@@ -16,7 +14,7 @@ constexpr Board<num_rows, num_cols> initial = {{
   {{2,2,2,2}},
   {{2,3,3,2}},
   {{2,3,3,2}},
-  {{2,2,2,2}},
+  {{2,2,2,3}},
 }};
 constexpr Board<num_rows, num_cols> win = {{
   {{3,2,2,3}},
@@ -115,6 +113,10 @@ int main () {
   if (!isCompatible(row_mode, col_mode)) {
     std::cout << "Row mode and col mode are not compatible" << std::endl;
     return 1;
+  }
+  if (!sameElements(initial, win)) {
+    std::cout << "Initial and win must contain the same elements" << std::endl;
+    return 2;
   }
 
   std::cout << num_rows << std::endl

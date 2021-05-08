@@ -51,3 +51,23 @@ TEST(Enums, ModesToString) {
   EXPECT_EQ(modesToString(Mode::WIDE_3, Mode::CAROUSEL), "WIDE 3 3|CAROUSEL");
   EXPECT_EQ(modesToString(Mode::GEAR, Mode::CAROUSEL), "GEAR|CAROUSEL");
 }
+
+TEST(Enums, SameElements) {
+  std::array<std::array<int, 3>, 2> b = {{
+    {{1,2,3}},
+    {{4,5,6}},
+  }};
+  std::array<std::array<int, 3>, 2> shuffled = {{
+    {{2,4,6}},
+    {{3,1,5}},
+  }};
+
+  EXPECT_TRUE(sameElements(b, shuffled));
+
+  std::array<std::array<int, 3>, 2> unequal = {{
+    {{2,2,2}},
+    {{3,1,5}},
+  }};
+
+  EXPECT_FALSE(sameElements(b, unequal));
+}

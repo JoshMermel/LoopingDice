@@ -1,8 +1,10 @@
 #ifndef LOOPINGDICE_ENUMS
 #define LOOPINGDICE_ENUMS
 
+#include <array>
 #include <initializer_list>
 #include <string>
+#include <unordered_map>
 
 // Defines the kinds of moves that are possible
 // Note that basic and wide are bandage-aware
@@ -97,6 +99,22 @@ std::string modesToString(const Mode& horizontal, const Mode& vertical) {
     ? modesToString(vertical,vertical)
     : modeToString(vertical);
   return H + "|" +  V;
+}
+
+template<std::size_t num_rows, std::size_t num_cols>
+bool sameElements(
+    std::array<std::array<int, num_cols>, num_rows> first,
+    std::array<std::array<int, num_cols>, num_rows> second) {
+  std::unordered_map<int, int> elements_first;
+  std::unordered_map<int, int> elements_second;
+  for (size_t row = 0; row < num_rows; ++row) {
+    for (size_t col = 0; col < num_cols; ++col) {
+      elements_first[first[row][col]] += 1;
+      elements_second[second[row][col]] += 1;
+    }
+  }
+
+  return elements_first == elements_second;
 }
 
 // defines the directions bonds can be
