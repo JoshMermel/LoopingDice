@@ -71,3 +71,19 @@ TEST(Enums, SameElements) {
 
   EXPECT_FALSE(sameElements(b, unequal));
 }
+
+TEST(Enums, MoveFits) {
+  EXPECT_TRUE(moveFits(Mode::WIDE_2, 3));
+  EXPECT_TRUE(moveFits(Mode::WIDE_2, 4));
+  EXPECT_TRUE(moveFits(Mode::WIDE_3, 3));
+  EXPECT_TRUE(moveFits(Mode::STATIC_2, 3));
+  EXPECT_TRUE(moveFits(Mode::STATIC_2, 4));
+  EXPECT_TRUE(moveFits(Mode::STATIC_3, 3));
+
+  EXPECT_FALSE(moveFits(Mode::WIDE_2, 1));
+  EXPECT_FALSE(moveFits(Mode::WIDE_1, 0));
+  EXPECT_FALSE(moveFits(Mode::WIDE_4, 3));
+  EXPECT_FALSE(moveFits(Mode::STATIC_2, 1));
+  EXPECT_FALSE(moveFits(Mode::STATIC_1, 0));
+  EXPECT_FALSE(moveFits(Mode::STATIC_3, 1));
+}

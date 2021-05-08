@@ -8,8 +8,8 @@
 #include "moves.h"
 
 // Global settings
-constexpr size_t num_rows = 4;
-constexpr size_t num_cols = 4;
+constexpr size_t num_rows = 3;
+constexpr size_t num_cols = 3;
 constexpr Board<num_rows, num_cols> initial = {{
   {{2,2,2,2}},
   {{2,3,3,2}},
@@ -114,9 +114,17 @@ int main () {
     std::cout << "Row mode and col mode are not compatible" << std::endl;
     return 1;
   }
+  if (!moveFits(row_mode, num_rows)) {
+    std::cout << "Row move affects too many rows" << std::endl;
+    return 2;
+  }
+  if (!moveFits(col_mode, num_cols)) {
+    std::cout << "col move affects too many rows" << std::endl;
+    return 3;
+  }
   if (!sameElements(initial, win)) {
     std::cout << "Initial and win must contain the same elements" << std::endl;
-    return 2;
+    return 4;
   }
 
   std::cout << num_rows << std::endl

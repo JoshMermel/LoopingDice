@@ -117,6 +117,20 @@ bool sameElements(
   return elements_first == elements_second;
 }
 
+bool moveFits(const Mode& mode, size_t size) {
+  // horizontal
+  if ((mode == Mode::WIDE_4 && size < 4) ||
+      (mode == Mode::WIDE_3 && size < 3) ||
+      (mode == Mode::WIDE_2 && size < 2) ||
+      (mode == Mode::WIDE_1 && size < 1) ||
+      (mode == Mode::STATIC_3 && size < 3) ||
+      (mode == Mode::STATIC_2 && size < 2) ||
+      (mode == Mode::STATIC_1 && size < 1)) {
+    return false;
+  }
+  return true;
+}
+
 // defines the directions bonds can be
 constexpr int UP = 1 << 8;
 constexpr int DOWN = 1 << 9;

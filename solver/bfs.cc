@@ -75,6 +75,14 @@ int main () {
     std::cout << "Row mode and col mode are not compatible" << std::endl;
     return 1;
   }
+  if (!moveFits(row_mode, num_rows)) {
+    std::cout << "Row move affects too many rows" << std::endl;
+    return 2;
+  }
+  if (!moveFits(col_mode, num_cols)) {
+    std::cout << "col move affects too many rows" << std::endl;
+    return 3;
+  }
 
   std::queue<Node<num_rows, num_cols>> q;
   q.push(Node<num_rows, num_cols>(initial, ""));
