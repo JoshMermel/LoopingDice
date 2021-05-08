@@ -21,7 +21,7 @@ Binaries:
  - bfs.cc takes a puzzle and breadth-first explores it, printing the state every
    time a new state is discovered. I found it useful to write little helper like
    `is_symmetric()` to limit the output spam from this binary.
- - mitm.cc take an intial state and final state and does meet-in-the-middle
+ - mitm.cc take an initial state and final state and does meet-in-the-middle
    breadth first search to find an optimal path from the start to the finish.
    Its output is in the format the the looping dice accepts.
 
