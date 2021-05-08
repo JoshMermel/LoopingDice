@@ -40,7 +40,6 @@ void slideCol(Board<num_rows, num_cols>& board, int offset, bool forward) {
   }
 }
 
-// TODO(jmerm): some kind of assertion that depth < dimension?
 // wide
 template<std::size_t num_rows, std::size_t num_cols>
 Board<num_rows, num_cols> wideRowMove(Board<num_rows, num_cols> board, int offset, bool forward, int depth) {
@@ -57,7 +56,6 @@ Board<num_rows, num_cols> wideColMove(Board<num_rows, num_cols> board, int offse
   return board;
 }
 
-// TODO(jmerm): some kind of assertion that depth < dimension?
 // static
 template<std::size_t num_rows, std::size_t num_cols>
 Board<num_rows, num_cols> staticRowMove(Board<num_rows, num_cols> board, int offset, bool forward, int depth) {
