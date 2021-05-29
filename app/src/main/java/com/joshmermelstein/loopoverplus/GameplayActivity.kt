@@ -5,7 +5,10 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.SharedPreferences
+import android.content.res.Resources
+import android.os.Build
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
@@ -13,8 +16,10 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isVisible
+import androidx.core.widget.TextViewCompat
 import java.io.BufferedReader
 import java.io.InputStreamReader
+
 
 // An activity for displaying the lifetime of a level as well as other UI elements.
 class GameplayActivity : AppCompatActivity() {
@@ -50,11 +55,24 @@ class GameplayActivity : AppCompatActivity() {
         // proceed as though it wasn't a sampler level.
         this.id = unSampler(this.id)
 
+        // Load the level and possibly load the saved state
         this.gameManager = GameManager(params, this, buttonState)
         val save = loadSavedLevel(id, params.numRows, params.numCols)
         if (save != null && sameElements(save.board, params.goal)) {
             this.gameManager.loadFromSavedLevel(save)
         }
+
+        // Set tutorial text
+        val tutorialText = findViewById<TextView>(R.id.tutorialText)
+        val height = Resources.getSystem().displayMetrics.heightPixels / 4
+        val width = Resources.getSystem().displayMetrics.widthPixels - height
+        tutorialText.layoutParams.height = height * 7 / 8
+        tutorialText.layoutParams.width = width  * 7 / 8
+        tutorialText.text = params.tutorialText
+        TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(
+            tutorialText, 1, 200, 1,
+            TypedValue.COMPLEX_UNIT_DIP
+        )
 
         gameplayView.gameManager = this.gameManager
         val toolbar = findViewById<Toolbar>(R.id.gameplay_toolbar)
@@ -172,8 +190,17 @@ class GameplayActivity : AppCompatActivity() {
             val factory: MoveFactory = makeMoveFactory(reader.readLine())
             val initial: Array<String> = reader.readLine().split(",").toTypedArray()
             val final: Array<String> = reader.readLine().split(",").toTypedArray()
+            val tutorialText : String = reader.readLine() ?: ""
             reader.close()
-            return GameplayParams(id, numRows, numCols, factory, initial, final)
+            return GameplayParams(
+                id,
+                numRows,
+                numCols,
+                factory,
+                initial,
+                final,
+                tutorialText
+            )
         } catch (e: Exception) {
         }
         return null

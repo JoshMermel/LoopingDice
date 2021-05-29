@@ -3,4 +3,5 @@
 BASIC
 1,1,2
 2,1,1
+Swipe vertically match the pattern in the top left
 # C0 (1)

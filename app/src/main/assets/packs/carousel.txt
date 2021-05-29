@@ -1,5 +1,5 @@
 Carousel
-C1 c_simpler_intro 2 3 4
+C1 c_simpler_intro 4 6 8
 C2 c_intro 2 3 4
 C3 c_centralize 4 5 8
 C4 c_plus 3 4 7

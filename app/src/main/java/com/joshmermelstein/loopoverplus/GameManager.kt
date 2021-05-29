@@ -19,7 +19,8 @@ class GameplayParams(
     val numCols: Int,
     val moveFactory: MoveFactory,
     val initial: Array<String>,
-    val goal: Array<String>
+    val goal: Array<String>,
+    val tutorialText : String
 )
 
 // Struct for passing around save files

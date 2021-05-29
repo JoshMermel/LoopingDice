@@ -3,4 +3,5 @@
 BASIC
 1,1,1,2,1,2
 2,2,1,1,1,1
+Mix vertical and horizontal moves to match the goal
 # R1,C0',C1 (3)

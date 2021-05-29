@@ -3,4 +3,5 @@
 GEAR
 2,3,3,2,2,3,3,2
 2,3,2,3,2,3,2,3
+In "Gear" mode, the next row/column moves in the opposite direction of your swipe
 # R3,R0' (2)

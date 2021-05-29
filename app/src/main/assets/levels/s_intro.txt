@@ -3,4 +3,5 @@
 STATIC 1 1
 F 0,1,2,1,F 0,1,3,1
 F 0,1,3,1,F 0,1,2,1
+In "Static Cells" mode, some cells cannot move.
 # R1,R3,C1',C1',R3',R1' (6)

@@ -3,4 +3,5 @@
 BANDAGED
 1,1,2,2,3,3,4,4,B 1 D R,B 1 D L,B 1 D R,B 1 D L,B 1 U R,B 1 U L,B 1 U R,B 1 U L
 4,3,2,1,4,3,2,1,B 1 D R,B 1 D L,B 1 D R,B 1 D L,B 1 U R,B 1 U L,B 1 U R,B 1 U L
+
 # R0,R0,C0,R1,C0',R2',C0,R0,C0' (9)

@@ -3,5 +3,6 @@
 GEAR
 1,2,3,4,1,2,3,4,1
 1,4,3,2,1,4,3,2,1
+
 # C0',R2',C0',R0' (4)
 human solution: Col2' Row2 Col2 Row2 Col2 Col2

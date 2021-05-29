@@ -3,5 +3,6 @@
 CAROUSEL|WIDE 1 1
 1,1,1,2,2,2,4,4,4,2,2,2,1,1,1
 1,1,1,1,1,4,1,4,2,4,2,2,2,2,2
+
 # R0,C0',C1,R4,R1',R2 (6)
 human solution: Row1' Col0 Row3 Row2' Row2' Col1 Row2 Col0

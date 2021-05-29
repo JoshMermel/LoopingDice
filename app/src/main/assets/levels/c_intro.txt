@@ -3,4 +3,5 @@
 CAROUSEL
 2,1,4,2,1,4
 4,1,2,4,1,2
+Start a swipe and look at the glowing edges to see which rows/columns will move.
 # C2 C2 (2)

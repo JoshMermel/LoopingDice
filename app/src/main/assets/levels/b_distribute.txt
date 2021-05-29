@@ -3,5 +3,6 @@
 BANDAGED
 2,2,B 3 D,1,1,2,2,B 3 U,1,1,B 3 R,B 3 L,1,B 3 R,B 3 L,1,1,B 3 D,1,1,1,1,B 3 U,1,1
 2,1,B 3 D,1,2,1,1,B 3 U,1,1,B 3 R,B 3 L,1,B 3 R,B 3 L,1,1,B 3 D,1,1,2,1,B 3 U,1,2
+
 # R0',R2',C1,C4',R1,R1,C1,R1',C2' (9)
 human solution: Col2' Row1' Col2' Row0' Col2 Col2 Row2' Row2' Col0' Row2' Col4' Row2' Row2'

@@ -3,5 +3,6 @@
 CAROUSEL
 1,1,1,2,2,2,3,3,3,4,4,4
 1,2,3,1,2,3,1,2,3,4,4,4
+
 # R2,C2',R1',R0' (4)
 human solution Row0' Row0' Row1' Col1' Row0' Row1 Row0 Row1' Col1

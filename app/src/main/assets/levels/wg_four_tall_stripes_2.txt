@@ -4,4 +4,5 @@ WIDE 1 1|GEAR
 4,4,2,2,4,4,2,2,4,4,2,2,4,4,2,2,4,4,2,2
 4,2,4,2,4,2,4,2,4,2,4,2,4,2,4,2,4,2,4,2
 # R0,R0,R2,C1,R0,R3',R2,C0,R3' (9)
+
 human solution: Row1' Col3' Row0' Col3' Row4' Col3' Row3' Col3' Row2' Row0 Col3' Row1' Col3 Row0'

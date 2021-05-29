@@ -3,7 +3,7 @@ W1 sampler_w_intro 3 4 6
 W2 sampler_w_stripe 2 3 6
 D1 sampler_d_intro 3 4 5
 D2 sampler_d_make_square 6 7 10
-C1 sampler_c_simpler_intro 2 3 4
+C1 sampler_c_simpler_intro 4 6 8
 C2 sampler_c_intro 2 3 4
 B1 sampler_b_intro 2 3 5
 B2 sampler_b_three_block 7 8 13

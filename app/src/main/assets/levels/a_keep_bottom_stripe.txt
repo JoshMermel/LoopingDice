@@ -3,5 +3,6 @@
 AXISLOCKED
 1,1,1,2,2,2,3,3,3,V 4,V 4,V 4
 1,2,3,1,2,3,1,2,3,V 4,V 4,V 4
+
 # C1',R0,R1',C1,C0',R1',R0',C0 (8)
 human solution: Col1 Col0' Row1' Col1 Row0 Col0 Col1 Col1
