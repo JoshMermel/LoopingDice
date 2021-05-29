@@ -36,6 +36,7 @@ num_cols
 move factory
 initial state (as comma separated list)
 goal state (as comma separated list)
+help text (can be blank)
 ```
 
 The move factories are specified with one of the following strings:
