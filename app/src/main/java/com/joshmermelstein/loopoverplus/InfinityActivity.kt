@@ -180,7 +180,7 @@ fun fromRandomFactory(name: String, rowDepth: Int?, colDepth: Int?): MoveFactory
 }
 
 fun randomMove(
-    board : GameBoard,
+    board: GameBoard,
     factory: MoveFactory,
     num_rows: Int,
     num_cols: Int,
@@ -223,11 +223,8 @@ fun generateRandomLevel(options: RandomLevelParams, context: Context): GameplayP
             )
         }
 
-    // TODO(jmerm): make the board in a nicer way.
-    // TODO(jmerm): replace this with a proper scrambler
-    val goal = Array(options.numRows * options.numCols) { i ->
-        i + 1
-    }.map { i -> i.toString() }.toTypedArray()
+    val goal = (0..23).filter { (it < options.numRows * 4) && (it % 4 < options.numCols) }
+        .map { i -> (i + 1).toString() }.toTypedArray()
     val start = scramble(goal, factory, options.numRows, options.numCols, context)
 
     return GameplayParams(
