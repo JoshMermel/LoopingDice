@@ -42,7 +42,6 @@ class MetadataSingleton private constructor(context: Context) {
             "hybrid_wc",
             "hybrid_wg",
             // "hybrid_cg",
-            "unique",
         )) {
             val reader =
                 BufferedReader(InputStreamReader(context.assets.open("packs/$filename.txt")))
@@ -94,7 +93,17 @@ class MetadataSingleton private constructor(context: Context) {
     }
 
     fun getLevelData(id: String): LevelMetadata? {
-        return levelData[id]
+        if (id != "∞") {
+            return levelData[id]
+        }
+        return LevelMetadata(
+            null,
+            "∞",
+            "∞",
+            1000000,
+            1000000,
+            1000000
+        )
     }
 
     companion object : SingletonHolder<MetadataSingleton, Context>(::MetadataSingleton)

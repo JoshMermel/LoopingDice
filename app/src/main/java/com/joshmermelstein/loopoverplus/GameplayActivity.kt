@@ -6,7 +6,6 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Resources
-import android.os.Build
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.Menu
@@ -34,30 +33,48 @@ class GameplayActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.activity_gameplay)
-        val gameplayView = findViewById<GameplayView>(R.id.gameplayView)
 
-        this.id = intent.getStringExtra("id") ?: return
+        if (intent.hasExtra("id")) {
+            // The normal way of creating a level - looking up its params based on an id
+            this.id = intent.getStringExtra("id") ?: return
+            val params = loadInitialLevel(this.id)
+            if (params == null) {
+                Toast.makeText(
+                    applicationContext,
+                    "Failed to load level params for $id",
+                    Toast.LENGTH_SHORT
+                ).show()
+                finish()
+                return
+            }
 
-        val params = loadInitialLevel(id)
-        if (params == null) {
+            // If this is a sampler level, we've now looked up params telling us what's next and can
+            // proceed as though it wasn't a sampler level.
+            this.id = unSampler(this.id)
+            createFromParams(params, loadSavedLevel(id, params.numRows, params.numCols))
+        } else if (intent.hasExtra("randomLevelParams")) {
+            // A secondary way of making a level. Generating GameplayParams based on a
+            // RandomLevelParams struct
+            val randomParams =
+                intent.getParcelableExtra<RandomLevelParams>("randomLevelParams") ?: return
+            this.id = "∞"
+            createFromParams(generateRandomLevel(randomParams, this), null)
+        } else {
             Toast.makeText(
                 applicationContext,
-                "Failed to load level params for $id",
+                "Tried to create gameplay activity without either kind of intent!",
                 Toast.LENGTH_SHORT
             ).show()
             finish()
-            return
         }
 
-        // If this is a sampler level, we've now looked up params telling us what's next and can
-        // proceed as though it wasn't a sampler level.
-        this.id = unSampler(this.id)
+    }
 
+    // Finishes initializing the gameplay activity based on a gameplay params
+    private fun createFromParams(params: GameplayParams, save: SavedLevel?) {
         // Load the level and possibly load the saved state
         this.gameManager = GameManager(params, this, buttonState)
-        val save = loadSavedLevel(id, params.numRows, params.numCols)
         if (save != null && sameElements(save.board, params.goal)) {
             this.gameManager.loadFromSavedLevel(save)
         }
@@ -67,13 +84,14 @@ class GameplayActivity : AppCompatActivity() {
         val height = Resources.getSystem().displayMetrics.heightPixels / 4
         val width = Resources.getSystem().displayMetrics.widthPixels - height
         tutorialText.layoutParams.height = height * 7 / 8
-        tutorialText.layoutParams.width = width  * 7 / 8
+        tutorialText.layoutParams.width = width * 7 / 8
         tutorialText.text = params.tutorialText
         TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(
             tutorialText, 1, 200, 1,
             TypedValue.COMPLEX_UNIT_DIP
         )
 
+        val gameplayView = findViewById<GameplayView>(R.id.gameplayView)
         gameplayView.gameManager = this.gameManager
         val toolbar = findViewById<Toolbar>(R.id.gameplay_toolbar)
         setSupportActionBar(toolbar)
@@ -190,7 +208,7 @@ class GameplayActivity : AppCompatActivity() {
             val factory: MoveFactory = makeMoveFactory(reader.readLine())
             val initial: Array<String> = reader.readLine().split(",").toTypedArray()
             val final: Array<String> = reader.readLine().split(",").toTypedArray()
-            val tutorialText : String = reader.readLine() ?: ""
+            val tutorialText: String = reader.readLine() ?: ""
             reader.close()
             return GameplayParams(
                 id,

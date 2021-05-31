@@ -26,6 +26,8 @@ class MainActivity : AppCompatActivity() {
         for (pack in MetadataSingleton.getInstance(this).packData) {
             appendLevelPack(pack)
         }
+
+        appendInfinityButton()
     }
 
     // Because I am dumb and didn't use Room or something for my underlying storage, I need to
@@ -41,6 +43,7 @@ class MainActivity : AppCompatActivity() {
         for (pack in MetadataSingleton.getInstance(this).packData) {
             appendLevelPack(pack)
         }
+        appendInfinityButton()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -124,6 +127,36 @@ class MainActivity : AppCompatActivity() {
             }
             layout.addView(row)
         }
+    }
+
+    private fun appendInfinityButton() {
+        val layout = findViewById<LinearLayout>(R.id.LevelLinearLayout)
+
+        val title = TextView(this)
+        title.text = "Infinity"
+        title.setPadding(10, 10, 10, 10)
+        layout.addView(title)
+
+
+        var row = LinearLayout(this)
+        row.layoutParams = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        )
+
+        val btnTag = Button(this)
+        btnTag.layoutParams = LinearLayout.LayoutParams(
+            0,
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            1.0f
+        )
+        btnTag.text = "Infinity"
+        btnTag.setOnClickListener {
+            val intent = Intent(this, InfinityActivity::class.java)
+            startActivity(intent)
+        }
+        row.addView(btnTag)
+        layout.addView(row)
     }
 
     // Figures out what text to write to a button based on looking up the user's highscore and
