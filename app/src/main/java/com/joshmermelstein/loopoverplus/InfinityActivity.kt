@@ -1,10 +1,8 @@
 package com.joshmermelstein.loopoverplus
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
-import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -14,15 +12,17 @@ import androidx.appcompat.app.AppCompatActivity
 import kotlinx.parcelize.Parcelize
 import kotlin.random.Random
 
-// TODO(jmerm): move board generating logic to own file
 // TODO(jmerm): add spinner for num enablers, num_bandaged, etc
+// TODO(jmerm): allow more rows and columns when the colorscheme is bicolor
+// TODO(jmerm): limit row/col depth more in static mode than wide mode
 
 @Parcelize
 class RandomLevelParams(
     val numRows: Int,
     val numCols: Int,
-    val rowFactory: String,
-    val colFactory: String?,
+    val colorScheme : String,
+    val rowMode: String,
+    val colMode: String?,
     val rowDepth: Int?,
     val colDepth: Int?
 ) : Parcelable
@@ -33,12 +33,14 @@ class InfinityActivity : AppCompatActivity(),  AdapterView.OnItemSelectedListene
     private val colSizes = (2..4).map { num -> num.toString() }
     private val rowModes = arrayOf("Wide", "Carousel", "Gear", "Dynamic Bandaging", "Static Cells", "Enabler")
     private val colModes = arrayOf("Wide", "Carousel", "Gear")
+    private val colorSchemes = arrayOf("Bicolor", "Columns", "Unique")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_infinity)
         configureSizePickers()
         configureRowModePicker()
+        configureColorSchemePicker()
         configureButton()
     }
 
@@ -51,9 +53,9 @@ class InfinityActivity : AppCompatActivity(),  AdapterView.OnItemSelectedListene
         rowSizeSpinner.setSelection(Random.nextInt(1, 3))
 
         val colSizeSpinner = findViewById<Spinner>(R.id.colSizeSpinner)
-        val colAdapter = ArrayAdapter(this, R.layout.spinner_item, colSizes)
-        colAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
-        colSizeSpinner.adapter = colAdapter
+        val adapter = ArrayAdapter(this, R.layout.spinner_item, colSizes)
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
+        colSizeSpinner.adapter = adapter
         colSizeSpinner.onItemSelectedListener = this
         colSizeSpinner.setSelection(Random.nextInt(1, 3))
 
@@ -61,11 +63,22 @@ class InfinityActivity : AppCompatActivity(),  AdapterView.OnItemSelectedListene
 
     private fun configureRowModePicker() {
         val rowModeSpinner = findViewById<Spinner>(R.id.rowModeSpinner)
-        val rowAdapter = ArrayAdapter(this, R.layout.spinner_item, rowModes)
-        rowAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
-        rowModeSpinner.adapter = rowAdapter
+        val adapter = ArrayAdapter(this, R.layout.spinner_item, rowModes)
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
+        rowModeSpinner.adapter = adapter
         rowModeSpinner.onItemSelectedListener = this
         rowModeSpinner.setSelection(Random.nextInt(0, rowModes.size + 1) % rowModes.size)
+
+    }
+
+    private fun configureColorSchemePicker() {
+        val colorSchemeSpinner = findViewById<Spinner>(R.id.colorSchemeSpinner)
+        val adapter = ArrayAdapter(this, R.layout.spinner_item, colorSchemes)
+
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
+        colorSchemeSpinner.adapter = adapter
+        colorSchemeSpinner.onItemSelectedListener = this
+        // colorSchemeSpinner.setSelection(Random.nextInt(0, rowModes.size + 1) % rowModes.size)
     }
 
     private fun getNumRows(): Int {
@@ -74,6 +87,10 @@ class InfinityActivity : AppCompatActivity(),  AdapterView.OnItemSelectedListene
 
     private fun getNumCols(): Int {
         return findViewById<Spinner>(R.id.colSizeSpinner).selectedItem.toString().toInt()
+    }
+
+    private fun getColorScheme(): String {
+        return findViewById<Spinner>(R.id.colorSchemeSpinner).selectedItem.toString()
     }
 
     private fun getRowMode(): String {
@@ -176,83 +193,11 @@ class InfinityActivity : AppCompatActivity(),  AdapterView.OnItemSelectedListene
         return RandomLevelParams(
             getNumRows(),
             getNumCols(),
+            getColorScheme(),
             getRowMode(),
             getColMode(),
             getRowDepth(),
             getColDepth()
         )
     }
-}
-
-fun fromRandomFactory(name: String, rowDepth: Int?, colDepth: Int?): MoveFactory {
-    return when (name) {
-        "Gear" -> GearMoveFactory()
-        "Carousel" -> CarouselMoveFactory()
-        "Wide" -> WideMoveFactory(rowDepth!!, colDepth!!)
-        "Enabler" -> EnablerMoveFactory()
-        "Dynamic Bandaging" -> DynamicBandagingMoveFactory()
-        "Static Cells" -> StaticCellsMoveFactory(rowDepth!!, colDepth!!)
-        else -> BasicMoveFactory()
-    }
-}
-
-fun randomMove(
-    board: GameBoard,
-    factory: MoveFactory,
-    num_rows: Int,
-    num_cols: Int
-): Move {
-    val direction = if (Random.nextBoolean()) {
-        Direction.FORWARD
-    } else {
-        Direction.BACKWARD
-    }
-    val seed = Random.nextInt(num_rows + num_cols)
-    return if (seed < num_rows) {
-        factory.makeMove(Axis.HORIZONTAL, direction, seed, board)
-    } else {
-        factory.makeMove(Axis.VERTICAL, direction, seed - num_rows, board)
-    }
-}
-
-// TODO(jmerm): make scramble logic work in S, D, E modes
-fun scramble(
-    solved: Array<String>, factory: MoveFactory, num_rows: Int, num_cols: Int, context: Context
-): Array<String> {
-    val gameBoard = GameBoard(num_rows, num_cols, solved, context)
-    for (i in (0..1000)) {
-        val move = randomMove(gameBoard, factory, num_rows, num_cols)
-        move.finalize(gameBoard)
-    }
-    return gameBoard.toString().split(",").toTypedArray()
-}
-
-// TODO(jmerm): needing to take the context here is silly, fix that.
-fun generateRandomLevel(options: RandomLevelParams, context: Context): GameplayParams {
-    // make factory
-    val factory: MoveFactory =
-        if (options.rowFactory == options.colFactory || options.colFactory == null) {
-            fromRandomFactory(options.rowFactory, options.rowDepth, options.colDepth)
-        } else {
-            CombinedMoveFactory(
-                fromRandomFactory(options.rowFactory, options.rowDepth, options.colDepth),
-                fromRandomFactory(options.colFactory!!, options.rowDepth, options.colDepth)
-            )
-        }
-
-    // TODO(jmerm): add in E, and F cells as necessary
-    val goal = (0..23).filter { (it < options.numRows * 4) && (it % 4 < options.numCols) }
-        .map { i -> (i + 1).toString() }.toTypedArray()
-    // TODO(jmerm): handle case where start == goal?
-    val start = scramble(goal, factory, options.numRows, options.numCols, context)
-
-    return GameplayParams(
-        "∞",
-        options.numRows,
-        options.numCols,
-        factory,
-        start,
-        goal,
-        ""
-    )
 }
