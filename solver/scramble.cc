@@ -27,7 +27,7 @@ Board<num_rows, num_cols> randomMove(Board<num_rows, num_cols> board) {
   unsigned int seed = rand() % (2 * (num_rows + num_cols));
   bool direction = seed % 2;
   seed /= 2;
-  if (seed <= num_rows) {
+  if (seed < num_rows) {
     return rowMove(board, seed, direction, row_mode);
   } else {
     return colMove(board, seed - num_rows, direction, col_mode);
