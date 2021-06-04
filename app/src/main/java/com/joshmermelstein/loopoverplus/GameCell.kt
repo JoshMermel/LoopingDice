@@ -11,10 +11,10 @@ import android.graphics.Color
 
 // from https://medium.com/cafe-pixo/inclusive-color-palettes-for-the-web-bbfe8cf2410e
 val colors = arrayOf(
-    Color.parseColor("#6FDE6E"),
-    Color.parseColor("#FF4242"),
-    Color.parseColor("#A691AE"),
-    Color.parseColor("#235FA4"),
+    Color.parseColor("#FF4242"), // red
+    Color.parseColor("#A691AE"), // gray
+    Color.parseColor("#235FA4"), // blue
+    Color.parseColor("#6FDE6E"), // green
     Color.parseColor("#000000"), // bandaged
     Color.parseColor("#E8F086"), // enabler
 )

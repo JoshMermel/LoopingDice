@@ -29,7 +29,7 @@ class RandomLevelParams(
 // Activity for letting the user build a level
 class InfinityActivity : AppCompatActivity() {
     private val rowSizes = (2..6).map { num -> num.toString() }
-    private val colSizes = (2..4).map { num -> num.toString() }
+    private val colSizes = (2..6).map { num -> num.toString() }
     private val rowModes =
         arrayOf("Wide", "Carousel", "Gear", "Dynamic Bandaging", "Static Cells", "Enabler")
     private val colModes = arrayOf("Wide", "Carousel", "Gear")

@@ -52,17 +52,17 @@ fun generateBasicGoal(numRows: Int, numCols: Int, colorScheme: String): Array<St
     return when (colorScheme) {
         "Bicolor" -> {
             // TODO(jmerm): improve this
-            (0..23).filter { (it < numRows * 4) && (it % 4 < numCols) }
+            (0..35).filter { (it < numRows * 6) && (it % 6 < numCols) }
                 .map { i -> ((i % 2) + 1).toString() }.toTypedArray()
         }
         "Columns" -> {
             // vertical stripes
-            (0..23).filter { (it < numRows * 4) && (it % 4 < numCols) }
-                .map { i -> ((i % 4) + 1).toString() }.toTypedArray()
+            (0..35).filter { (it < numRows * 6) && (it % 6 < numCols) }
+                .map { i -> ((i % 6) + 1).toString() }.toTypedArray()
         }
         else -> {
             // unique vertical stripes
-            (0..23).filter { (it < numRows * 4) && (it % 4 < numCols) }
+            (0..35).filter { (it < numRows * 6) && (it % 6 < numCols) }
                 .map { i -> (i + 1).toString() }.toTypedArray()
         }
     }

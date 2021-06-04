@@ -22,7 +22,7 @@ abstract class AxisLockedGameCell(
 
     init {
         val parts = colorId.split(" ")
-        color = parts[1].toInt() % 4
+        color = (parts[1].toInt()-1) % 6
     }
 
     override fun drawPips(
