@@ -63,8 +63,11 @@ type it is. The current possibilities are:
 |1-24 | normal game cells with various colors and numbers of pips|
 |V \d | a vertical gamecell whose color is determined by the number|
 |H \d | a horizontal  gamecell whose color is determined by the number|
-|F \d | a fixed cell (for static + dynamic modes) with a number of pips determined by the number E | An enabler cell|
+|F \d | a fixed cell (for static + dynamic modes) with a number of pips determined by the number |
+|E | An enabler cell|
 |B \d U D L R | a bandaged cell with color determined by the number and bonds determined by which of the {U, D, L, R} follow the number. Order does not matter.|
+
+Everything after the help text is ignored. In most level files, I've used this as a space for notes such as the optimal solution or my personal best solution.
 
 ### Packs
 
