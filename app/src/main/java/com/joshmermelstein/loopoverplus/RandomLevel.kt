@@ -16,7 +16,6 @@ fun fromRandomFactory(name: String, rowDepth: Int?, colDepth: Int?): MoveFactory
     }
 }
 
-// TODO(jmerm): maybe refactor this into some method on the factory?
 fun randomMove(
     board: GameBoard,
     factory: MoveFactory,
@@ -36,7 +35,6 @@ fun randomMove(
     }
 }
 
-// TODO(jmerm): make scramble logic work in S, D, E modes
 fun scramble(
     solved: Array<String>, factory: MoveFactory, num_rows: Int, num_cols: Int, context: Context
 ): Array<String> {
@@ -51,9 +49,14 @@ fun scramble(
 fun generateBasicGoal(numRows: Int, numCols: Int, colorScheme: String): Array<String> {
     return when (colorScheme) {
         "Bicolor" -> {
-            // TODO(jmerm): improve this
-            (0..35).filter { (it < numRows * 6) && (it % 6 < numCols) }
-                .map { i -> ((i % 2) + 1).toString() }.toTypedArray()
+            // TODO(jmerm): more interesting patterns? Staircase?
+            Array<String>(numRows * numCols) { i ->
+                if (i < numRows * numCols / 2) {
+                    "1"
+                } else {
+                    "2"
+                }
+            }
         }
         "Columns" -> {
             // vertical stripes
@@ -84,7 +87,6 @@ fun generateDynamicBandagingGoal(
     colorScheme: String,
     numBandaged: String
 ): Array<String> {
-    var goal = generateBasicGoal(numRows, numCols, colorScheme)
     val bandagedCount = when (numBandaged) {
         "Rare" -> (numRows * numCols / 6) + 1
         "Common" -> numRows * numCols / 2
@@ -93,7 +95,7 @@ fun generateDynamicBandagingGoal(
     }
     return when (colorScheme) {
         "Bicolor" -> {
-            val ret =  Array<String>(numRows * numCols) { _ -> "1" }
+            val ret = Array<String>(numRows * numCols) { _ -> "1" }
             for (idx in (1 until numRows * numCols).shuffled().take(bandagedCount)) {
                 ret[idx] = "F 1"
             }
@@ -113,7 +115,7 @@ fun generateDynamicBandagingGoal(
             }
             ret
         }
-        else -> {
+        else -> { // unique
             var pips = 0
             val ret = (0..35).filter { (it < numRows * 6) && (it % 6 < numCols) }
                 .map { i ->

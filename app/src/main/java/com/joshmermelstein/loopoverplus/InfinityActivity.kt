@@ -45,6 +45,8 @@ class InfinityActivity : AppCompatActivity() {
         configureButton()
     }
 
+    // TODO(jmerm): consider allowing a 6th column when the colorscheme is bicolor or if the
+    //  row_mode is in {wide, carousel, gear}
     private fun configureSizePickers() {
         val rowSizeSpinner = findViewById<Spinner>(R.id.rowSizeSpinner)
         val rowAdapter = ArrayAdapter(this, R.layout.spinner_item, rowSizes)
@@ -70,7 +72,6 @@ class InfinityActivity : AppCompatActivity() {
         rowModeSpinner.adapter = adapter
         rowModeSpinner.onItemSelectedListener = SelectionMadeListener(::onUpdateRowMode)
         rowModeSpinner.setSelection(Random.nextInt(0, rowModes.size + 1) % rowModes.size)
-
     }
 
     private fun configureColorSchemePicker() {
