@@ -23,7 +23,7 @@ class RandomLevelParams(
     val colMode: String?,
     val rowDepth: Int?,
     val colDepth: Int?,
-    val numBandaged : String?
+    val numBandaged: String?
 ) : Parcelable
 
 // Activity for letting the user build a level
@@ -34,7 +34,7 @@ class InfinityActivity : AppCompatActivity() {
         arrayOf("Wide", "Carousel", "Gear", "Dynamic Bandaging", "Static Cells", "Enabler")
     private val colModes = arrayOf("Wide", "Carousel", "Gear")
     private val colorSchemes = arrayOf("Bicolor", "Columns", "Unique")
-    private val numBandagedOptions = arrayOf("Rare", "Common", "Frequent")
+    private val densities = arrayOf("Rare", "Common", "Frequent")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -112,7 +112,7 @@ class InfinityActivity : AppCompatActivity() {
         return findViewById<Spinner>(R.id.colDepthSpinner).selectedItem?.toString()?.toInt()
     }
 
-    private fun GetNumBandaged(): String? {
+    private fun getNumBandaged(): String? {
         return findViewById<Spinner>(R.id.numBandagedSpinner).selectedItem?.toString()
     }
 
@@ -137,19 +137,30 @@ class InfinityActivity : AppCompatActivity() {
 
     private fun updateRowDepthPicker() {
         val container = findViewById<View>(R.id.row_depth_container)
-        if (getRowMode() == "Wide" || getRowMode() == "Static Cells") {
-            val oldDepth = getRowDepth()
+        val mode = getRowMode()
+        if (mode == "Wide" || mode == "Static Cells") {
             container.visibility = View.VISIBLE
             val rowDepthSpinner = findViewById<Spinner>(R.id.rowDepthSpinner)
-            val options = (1..getNumRows()).map { num -> num.toString() }
+
+            val oldDepth = getRowDepth()
+            val maxDepth = if (mode == "Wide") {
+                getNumRows()
+            } else {
+                getNumRows() - 1
+            }
+
+            val options = (1..maxDepth).map { num -> num.toString() }
             val adapter = ArrayAdapter(this, R.layout.spinner_item, options)
             adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
             rowDepthSpinner.adapter = adapter
+
+            // set spinner to old value if it still fits
+
             if (oldDepth != null) {
-                if (oldDepth <= getNumRows()) {
+                if (oldDepth <= maxDepth) {
                     rowDepthSpinner.setSelection(oldDepth - 1)
                 } else {
-                    rowDepthSpinner.setSelection(getNumRows() - 1)
+                    rowDepthSpinner.setSelection(maxDepth - 1)
                 }
             }
         } else {
@@ -159,20 +170,30 @@ class InfinityActivity : AppCompatActivity() {
 
     private fun updateColDepthPicker() {
         val container = findViewById<View>(R.id.col_depth_container)
-        if (getColMode() == "Wide" || getRowMode() == "Static Cells") {
-            val oldDepth = getColDepth()
-            container?.visibility = View.VISIBLE
+        val colMode = getColMode()
+        val rowMode = getRowMode()
+        if (colMode == "Wide" || rowMode == "Static Cells") {
+            container.visibility = View.VISIBLE
             val colDepthSpinner = findViewById<Spinner>(R.id.colDepthSpinner)
-            val options = (1..getNumCols()).map { num -> num.toString() }
+
+            val oldDepth = getColDepth()
+            val maxDepth = if (rowMode == "Wide") {
+                getNumCols()
+            } else {
+                getNumCols() - 1
+            }
+
+            val options = (1..maxDepth).map { num -> num.toString() }
             val adapter = ArrayAdapter(this, R.layout.spinner_item, options)
             adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
             colDepthSpinner.adapter = adapter
 
+            // set spinner to old value if it still fits
             if (oldDepth != null) {
-                if (oldDepth <= getNumCols()) {
+                if (oldDepth <= maxDepth) {
                     colDepthSpinner.setSelection(oldDepth - 1)
                 } else {
-                    colDepthSpinner.setSelection(getNumCols() - 1)
+                    colDepthSpinner.setSelection(maxDepth - 1)
                 }
             }
         } else {
@@ -185,7 +206,7 @@ class InfinityActivity : AppCompatActivity() {
         if (getRowMode() == "Dynamic Bandaging") {
             container?.visibility = View.VISIBLE
             val numBandagedSpinner = findViewById<Spinner>(R.id.numBandagedSpinner)
-            val adapter = ArrayAdapter(this, R.layout.spinner_item, numBandagedOptions)
+            val adapter = ArrayAdapter(this, R.layout.spinner_item, densities)
             adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
             numBandagedSpinner.adapter = adapter
         } else {
@@ -200,6 +221,7 @@ class InfinityActivity : AppCompatActivity() {
         updateColDepthPicker()
         updateNumBandagedPicker()
     }
+
     private fun onUpdateColMode() {
         updateColDepthPicker()
     }
@@ -230,7 +252,7 @@ class InfinityActivity : AppCompatActivity() {
             getColMode(),
             getRowDepth(),
             getColDepth(),
-            GetNumBandaged()
+            getNumBandaged()
         )
     }
 }
