@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import kotlinx.parcelize.Parcelize
 import kotlin.random.Random
 
-// TODO(jmerm): add spinner for num enablers, num_bandaged, etc
+// TODO(jmerm): add spinner for num enablers, num_static
 
 @Parcelize
 class RandomLevelParams(
@@ -45,7 +45,7 @@ class InfinityActivity : AppCompatActivity() {
         configureButton()
     }
 
-    // TODO(jmerm): consider allowing a 6th column when the colorscheme is bicolor or if the
+    // TODO(jmerm): consider allowing a 6th column when the color scheme is bicolor or if the
     //  row_mode is in {wide, carousel, gear}
     private fun configureSizePickers() {
         val rowSizeSpinner = findViewById<Spinner>(R.id.rowSizeSpinner)
