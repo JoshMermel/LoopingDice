@@ -195,6 +195,30 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/num_enablers_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/num_enablers"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="# Enablers"
+                    android:textSize="30dp" />
+
+                <Spinner
+                    android:id="@+id/numEnablersSpinner"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end" />
+
+            </LinearLayout>
+
             <Button
                 android:id="@+id/generate_level"
                 android:layout_width="match_parent"

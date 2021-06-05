@@ -71,13 +71,29 @@ fun generateBasicGoal(numRows: Int, numCols: Int, colorScheme: String): Array<St
     }
 }
 
-// TODO(jmerm): make this more configurable
-fun generateEnablerGoal(numRows: Int, numCols: Int, colorScheme: String): Array<String> {
+fun generateEnablerGoal(
+    numRows: Int,
+    numCols: Int,
+    colorScheme: String,
+    numEnablers: String
+): Array<String> {
     val goal = generateBasicGoal(numRows, numCols, colorScheme)
-    val numEnablers = Random.nextInt(1, numRows * numCols / 3)
-    for (i in (0..numEnablers)) {
-        goal[Random.nextInt(0, numRows * numCols)] = "E"
+    when (numEnablers) {
+        "Rare" -> {
+            goal[0] = "E"
+        }
+        "Common" -> {
+            for (idx in (1 until numRows * numCols).shuffled().take(1 + (numRows * numCols / 8))) {
+                goal[idx] = "E"
+            }
+        }
+        "Frequent" -> {
+            for (idx in (1 until numRows * numCols).shuffled().take(1 + (numRows * numCols / 4))) {
+                goal[idx] = "E"
+            }
+        }
     }
+
     return goal
 }
 
@@ -154,7 +170,12 @@ fun generateRandomLevel(options: RandomLevelParams, context: Context): GameplayP
         }
     val goal = when (options.rowMode) {
         "Enabler" -> {
-            generateEnablerGoal(options.numRows, options.numCols, options.colorScheme)
+            generateEnablerGoal(
+                options.numRows,
+                options.numCols,
+                options.colorScheme,
+                options.numEnablers!!
+            )
         }
         "Dynamic Bandaging" -> {
             generateDynamicBandagingGoal(

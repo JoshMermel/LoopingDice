@@ -23,7 +23,8 @@ class RandomLevelParams(
     val colMode: String?,
     val rowDepth: Int?,
     val colDepth: Int?,
-    val numBandaged: String?
+    val numBandaged: String?,
+    val numEnablers: String?
 ) : Parcelable
 
 // Activity for letting the user build a level
@@ -114,6 +115,10 @@ class InfinityActivity : AppCompatActivity() {
 
     private fun getNumBandaged(): String? {
         return findViewById<Spinner>(R.id.numBandagedSpinner).selectedItem?.toString()
+    }
+
+    private fun getNumEnablers(): String? {
+        return findViewById<Spinner>(R.id.numEnablersSpinner).selectedItem?.toString()
     }
 
     private fun updateColModePicker() {
@@ -214,12 +219,26 @@ class InfinityActivity : AppCompatActivity() {
         }
     }
 
+    private fun updateNumEnablersPicker() {
+        val container = findViewById<View>(R.id.num_enablers_container)
+        if (getRowMode() == "Enabler") {
+            container?.visibility = View.VISIBLE
+            val numEnablersSpinner = findViewById<Spinner>(R.id.numEnablersSpinner)
+            val adapter = ArrayAdapter(this, R.layout.spinner_item, densities)
+            adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
+            numEnablersSpinner.adapter = adapter
+        } else {
+            container?.visibility = View.GONE
+        }
+    }
+
 
     private fun onUpdateRowMode() {
         updateColModePicker()
         updateRowDepthPicker()
         updateColDepthPicker()
         updateNumBandagedPicker()
+        updateNumEnablersPicker()
     }
 
     private fun onUpdateColMode() {
@@ -252,7 +271,8 @@ class InfinityActivity : AppCompatActivity() {
             getColMode(),
             getRowDepth(),
             getColDepth(),
-            getNumBandaged()
+            getNumBandaged(),
+            getNumEnablers()
         )
     }
 }
