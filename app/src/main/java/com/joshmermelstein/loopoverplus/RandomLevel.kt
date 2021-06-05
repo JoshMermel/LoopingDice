@@ -78,33 +78,56 @@ fun generateEnablerGoal(numRows: Int, numCols: Int, colorScheme: String): Array<
     return goal
 }
 
-// TODO(jmerm): random isn't great here - maybe a zigzag pattern of F cells?
-fun generateDynamicBandagingGoal(numRows: Int, numCols: Int, colorScheme: String): Array<String> {
-    val goal = generateBasicGoal(numRows, numCols, colorScheme)
+fun generateDynamicBandagingGoal(
+    numRows: Int,
+    numCols: Int,
+    colorScheme: String,
+    numBandaged: String
+): Array<String> {
+    var goal = generateBasicGoal(numRows, numCols, colorScheme)
+    val bandagedCount = when (numBandaged) {
+        "Rare" -> (numRows * numCols / 6) + 1
+        "Common" -> numRows * numCols / 2
+        "Frequent" -> 2 * numRows * numCols / 3
+        else -> 1
+    }
     return when (colorScheme) {
         "Bicolor" -> {
-            val first = goal[0]
-            goal.map { i ->
-                if (i == first) {
-                    "F 1"
-                } else {
-                    i
-                }
-            }.toTypedArray()
+            val ret =  Array<String>(numRows * numCols) { _ -> "1" }
+            for (idx in (1 until numRows * numCols).shuffled().take(bandagedCount)) {
+                ret[idx] = "F 1"
+            }
+            ret
         }
         "Columns" -> {
-            for (row in (0 until numRows)) {
-                val idx = (row * numCols) + Random.nextInt(0, numCols)
-                goal[idx] = "F 1"
+            val ret = (0..35).filter { (it < numRows * 6) && (it % 6 < numCols) }
+                .map { i ->
+                    (if (i % 6 == 4) {
+                        6
+                    } else {
+                        i % 6 + 1
+                    }).toString()
+                }.toTypedArray()
+            for (idx in (1 until numRows * numCols).shuffled().take(bandagedCount)) {
+                ret[idx] = "F 1"
             }
-            goal
+            ret
         }
         else -> {
-            for (row in (0 until numRows)) {
-                val idx = (row * numCols) + Random.nextInt(0, numCols)
-                goal[idx] = "F " + (row + 1).toString()
+            var pips = 0
+            val ret = (0..35).filter { (it < numRows * 6) && (it % 6 < numCols) }
+                .map { i ->
+                    (if (i % 6 == 4) {
+                        i + 2
+                    } else {
+                        i + 1
+                    }).toString()
+                }.toTypedArray()
+            for (idx in (1 until numRows * numCols).shuffled().take(bandagedCount)) {
+                ret[idx] = "F " + (pips + 1).toString()
+                pips = (pips + 1) % 6
             }
-            goal
+            ret
         }
     }
 }
@@ -132,7 +155,12 @@ fun generateRandomLevel(options: RandomLevelParams, context: Context): GameplayP
             generateEnablerGoal(options.numRows, options.numCols, options.colorScheme)
         }
         "Dynamic Bandaging" -> {
-            generateDynamicBandagingGoal(options.numRows, options.numCols, options.colorScheme)
+            generateDynamicBandagingGoal(
+                options.numRows,
+                options.numCols,
+                options.colorScheme,
+                options.numBandaged!!
+            )
         }
         "Static Cells" -> {
             generateStaticCellGoal(options.numRows, options.numCols, options.colorScheme)

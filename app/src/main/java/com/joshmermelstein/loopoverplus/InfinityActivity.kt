@@ -13,7 +13,6 @@ import kotlinx.parcelize.Parcelize
 import kotlin.random.Random
 
 // TODO(jmerm): add spinner for num enablers, num_bandaged, etc
-// TODO(jmerm): allow more rows and columns when the colorscheme is bicolor
 
 @Parcelize
 class RandomLevelParams(
@@ -23,17 +22,19 @@ class RandomLevelParams(
     val rowMode: String,
     val colMode: String?,
     val rowDepth: Int?,
-    val colDepth: Int?
+    val colDepth: Int?,
+    val numBandaged : String?
 ) : Parcelable
 
 // Activity for letting the user build a level
 class InfinityActivity : AppCompatActivity() {
     private val rowSizes = (2..6).map { num -> num.toString() }
-    private val colSizes = (2..6).map { num -> num.toString() }
+    private val colSizes = (2..5).map { num -> num.toString() }
     private val rowModes =
         arrayOf("Wide", "Carousel", "Gear", "Dynamic Bandaging", "Static Cells", "Enabler")
     private val colModes = arrayOf("Wide", "Carousel", "Gear")
     private val colorSchemes = arrayOf("Bicolor", "Columns", "Unique")
+    private val numBandagedOptions = arrayOf("Rare", "Common", "Frequent")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,7 +79,7 @@ class InfinityActivity : AppCompatActivity() {
 
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
         colorSchemeSpinner.adapter = adapter
-        colorSchemeSpinner.onItemSelectedListener = SelectionMadeListener(::onUpdateColorScheme)
+        // TODO(jmerm): randomize color scheme
         // colorSchemeSpinner.setSelection(Random.nextInt(0, rowModes.size + 1) % rowModes.size)
     }
 
@@ -110,6 +111,10 @@ class InfinityActivity : AppCompatActivity() {
         return findViewById<Spinner>(R.id.colDepthSpinner).selectedItem?.toString()?.toInt()
     }
 
+    private fun GetNumBandaged(): String? {
+        return findViewById<Spinner>(R.id.numBandagedSpinner).selectedItem?.toString()
+    }
+
     private fun updateColModePicker() {
         val container = findViewById<View>(R.id.col_mode_container)
         if (colModes.contains(getRowMode())) {
@@ -124,7 +129,7 @@ class InfinityActivity : AppCompatActivity() {
             colModeSpinner.onItemSelectedListener = SelectionMadeListener(::onUpdateColMode)
             colModeSpinner.setSelection(Random.nextInt(0, colModes.size + 1) % colModes.size)
         } else if (container?.visibility == View.VISIBLE) {
-            container?.visibility = View.GONE
+            container.visibility = View.GONE
             findViewById<Spinner>(R.id.colModeSpinner).adapter = null
         }
     }
@@ -133,7 +138,7 @@ class InfinityActivity : AppCompatActivity() {
         val container = findViewById<View>(R.id.row_depth_container)
         if (getRowMode() == "Wide" || getRowMode() == "Static Cells") {
             val oldDepth = getRowDepth()
-            container?.visibility = View.VISIBLE
+            container.visibility = View.VISIBLE
             val rowDepthSpinner = findViewById<Spinner>(R.id.rowDepthSpinner)
             val options = (1..getNumRows()).map { num -> num.toString() }
             val adapter = ArrayAdapter(this, R.layout.spinner_item, options)
@@ -147,7 +152,7 @@ class InfinityActivity : AppCompatActivity() {
                 }
             }
         } else {
-            container?.visibility = View.GONE
+            container.visibility = View.GONE
         }
     }
 
@@ -174,14 +179,25 @@ class InfinityActivity : AppCompatActivity() {
         }
     }
 
-    private fun onUpdateColorScheme() {
-        // TODO(jmerm)
+    private fun updateNumBandagedPicker() {
+        val container = findViewById<View>(R.id.num_bandaged_container)
+        if (getRowMode() == "Dynamic Bandaging") {
+            container?.visibility = View.VISIBLE
+            val numBandagedSpinner = findViewById<Spinner>(R.id.numBandagedSpinner)
+            val adapter = ArrayAdapter(this, R.layout.spinner_item, numBandagedOptions)
+            adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
+            numBandagedSpinner.adapter = adapter
+        } else {
+            container?.visibility = View.GONE
+        }
     }
+
 
     private fun onUpdateRowMode() {
         updateColModePicker()
         updateRowDepthPicker()
         updateColDepthPicker()
+        updateNumBandagedPicker()
     }
     private fun onUpdateColMode() {
         updateColDepthPicker()
@@ -212,7 +228,8 @@ class InfinityActivity : AppCompatActivity() {
             getRowMode(),
             getColMode(),
             getRowDepth(),
-            getColDepth()
+            getColDepth(),
+            GetNumBandaged()
         )
     }
 }
