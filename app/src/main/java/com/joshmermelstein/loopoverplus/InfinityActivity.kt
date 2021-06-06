@@ -4,12 +4,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.Spinner
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.parcelize.Parcelize
+import org.w3c.dom.Text
 import kotlin.random.Random
 
 // TODO(jmerm): add spinner for num enablers, num_static
@@ -30,7 +28,6 @@ class RandomLevelParams(
 // Activity for letting the user build a level
 class InfinityActivity : AppCompatActivity() {
     private val rowSizes = (2..6).map { num -> num.toString() }
-    private val colSizes = (2..5).map { num -> num.toString() }
     private val rowModes =
         arrayOf("Wide", "Carousel", "Gear", "Dynamic Bandaging", "Static Cells", "Enabler")
     private val colModes = arrayOf("Wide", "Carousel", "Gear")
@@ -40,15 +37,13 @@ class InfinityActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_infinity)
-        configureSizePickers()
+        configureRowSizePicker()
         configureRowModePicker()
         configureColorSchemePicker()
         configureButton()
     }
 
-    // TODO(jmerm): consider allowing a 6th column when the color scheme is bicolor or if the
-    //  row_mode is in {wide, carousel, gear}
-    private fun configureSizePickers() {
+    private fun configureRowSizePicker() {
         val rowSizeSpinner = findViewById<Spinner>(R.id.rowSizeSpinner)
         val rowAdapter = ArrayAdapter(this, R.layout.spinner_item, rowSizes)
         rowAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
@@ -56,14 +51,6 @@ class InfinityActivity : AppCompatActivity() {
         rowSizeSpinner.onItemSelectedListener = SelectionMadeListener(::onUpdateNumRows)
 
         rowSizeSpinner.setSelection(Random.nextInt(1, 3))
-
-        val colSizeSpinner = findViewById<Spinner>(R.id.colSizeSpinner)
-        val adapter = ArrayAdapter(this, R.layout.spinner_item, colSizes)
-        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
-        colSizeSpinner.adapter = adapter
-        colSizeSpinner.onItemSelectedListener = SelectionMadeListener(::onUpdateNumCols)
-        colSizeSpinner.setSelection(Random.nextInt(1, 3))
-
     }
 
     private fun configureRowModePicker() {
@@ -121,10 +108,43 @@ class InfinityActivity : AppCompatActivity() {
         return findViewById<Spinner>(R.id.numEnablersSpinner).selectedItem?.toString()
     }
 
+    private fun updateColSizePicker() {
+        val colSizeSpinner = findViewById<Spinner>(R.id.colSizeSpinner)
+        val oldValue: Int? = colSizeSpinner.selectedItem?.toString()?.toInt()
+        val rowMode = getRowMode()
+        val maxValue = if (rowMode in colModes) {
+            6
+        } else {
+            5
+        }
+        val colSizes = (2..maxValue).map { num -> num.toString() }
+
+
+        val adapter = ArrayAdapter(this, R.layout.spinner_item, colSizes)
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
+        colSizeSpinner.adapter = adapter
+        colSizeSpinner.onItemSelectedListener = SelectionMadeListener(::onUpdateNumCols)
+
+        if (oldValue == null) {
+            // initialize to random
+            colSizeSpinner.setSelection(Random.nextInt(1, 3))
+        } else if (oldValue <= maxValue) {
+            // reset old value
+            colSizeSpinner.setSelection(oldValue - 2)
+        } else {
+            // old value was too big, replace with largest value that fits
+            colSizeSpinner.setSelection(maxValue - 2)
+        }
+
+
+    }
+
+
     private fun updateColModePicker() {
         val container = findViewById<View>(R.id.col_mode_container)
         if (colModes.contains(getRowMode())) {
             if (container?.visibility == View.VISIBLE) {
+                // avoid churn if spinner was already visible
                 return
             }
             container.visibility = View.VISIBLE
@@ -133,7 +153,7 @@ class InfinityActivity : AppCompatActivity() {
             colAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
             colModeSpinner.adapter = colAdapter
             colModeSpinner.onItemSelectedListener = SelectionMadeListener(::onUpdateColMode)
-            colModeSpinner.setSelection(Random.nextInt(0, colModes.size + 1) % colModes.size)
+            colModeSpinner.setSelection(findViewById<Spinner>(R.id.rowModeSpinner).selectedItemPosition)
         } else if (container?.visibility == View.VISIBLE) {
             container.visibility = View.GONE
             findViewById<Spinner>(R.id.colModeSpinner).adapter = null
@@ -232,8 +252,16 @@ class InfinityActivity : AppCompatActivity() {
         }
     }
 
-
     private fun onUpdateRowMode() {
+        val rowMode = getRowMode()
+        val rowModeLabel = findViewById<TextView>(R.id.row_mode)
+        rowModeLabel.text = if (rowMode in colModes) {
+            "Row Mode"
+        } else {
+            "Mode"
+        }
+
+        updateColSizePicker()
         updateColModePicker()
         updateRowDepthPicker()
         updateColDepthPicker()
