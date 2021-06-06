@@ -1,7 +1,6 @@
 package com.joshmermelstein.loopoverplus
 
 import android.content.Context
-import android.util.Log
 import kotlin.random.Random
 
 fun fromRandomFactory(name: String, rowDepth: Int?, colDepth: Int?): MoveFactory {
@@ -46,17 +45,32 @@ fun scramble(
     return gameBoard.toString().split(",").toTypedArray()
 }
 
+fun generateBicolorGoal(numRows: Int, numCols: Int): Array<String> {
+    val colors = (1..4).shuffled().take(2).map { i -> i.toString() }
+    return if (numCols % 2 == 0) {
+        Array(numRows * numCols) { i ->
+            if (i % numCols < numCols / 2) {
+                colors[0]
+            } else {
+                colors[1]
+            }
+        }
+    } else {
+        Array(numRows * numCols) { i ->
+            if (i < numRows * numCols / 2) {
+                colors[0]
+            } else {
+                colors[1]
+            }
+        }
+    }
+}
+
 fun generateBasicGoal(numRows: Int, numCols: Int, colorScheme: String): Array<String> {
     return when (colorScheme) {
         "Bicolor" -> {
             // TODO(jmerm): more interesting patterns? Staircase?
-            Array<String>(numRows * numCols) { i ->
-                if (i < numRows * numCols / 2) {
-                    "1"
-                } else {
-                    "2"
-                }
-            }
+            generateBicolorGoal(numRows, numCols)
         }
         "Columns" -> {
             // vertical stripes
@@ -152,9 +166,37 @@ fun generateDynamicBandagingGoal(
 
 // TODO(jmerm): add more options here
 fun generateStaticCellGoal(numRows: Int, numCols: Int, colorScheme: String): Array<String> {
-    val goal = generateBasicGoal(numRows, numCols, colorScheme)
-    goal[0] = "F 0"
-    return goal
+    return when (colorScheme) {
+        "Bicolor" -> {
+            val ret = generateBasicGoal(numRows, numCols, colorScheme)
+            ret[0] = "F 0"
+            ret
+        }
+        "Columns" -> {
+            val ret = (0..35).filter { (it < numRows * 6) && (it % 6 < numCols) }
+                .map { i ->
+                    (if (i % 6 == 4) {
+                        6
+                    } else {
+                        i % 6 + 1
+                    }).toString()
+                }.toTypedArray()
+            ret[0] = "F 0"
+            ret
+        }
+        else -> { // unique
+            val ret = (0..35).filter { (it < numRows * 6) && (it % 6 < numCols) }
+                .map { i ->
+                    (if (i % 6 == 4) {
+                        i + 2
+                    } else {
+                        i + 1
+                    }).toString()
+                }.toTypedArray()
+            ret[0] = "F 0"
+            ret
+        }
+    }
 }
 
 // TODO(jmerm): needing to take the context here is silly, fix that.
