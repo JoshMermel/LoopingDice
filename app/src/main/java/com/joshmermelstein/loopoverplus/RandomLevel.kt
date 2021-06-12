@@ -1,6 +1,7 @@
 package com.joshmermelstein.loopoverplus
 
 import android.content.Context
+import android.util.Log
 import kotlin.random.Random
 
 fun fromRandomFactory(name: String, rowDepth: Int?, colDepth: Int?): MoveFactory {
@@ -15,14 +16,6 @@ fun fromRandomFactory(name: String, rowDepth: Int?, colDepth: Int?): MoveFactory
         else -> BasicMoveFactory()
     }
 }
-
-// Slices a |numRows| by |numCols| size rectangle out of
-// 1  2  3  4  5  6
-// 7  8  ...
-// ...
-// 31         ... 36
-fun boardTemplate(numRows: Int, numCols: Int): List<Int> =
-    (0..35).filter { (it < numRows * 6) && (it % 6 < numCols) }
 
 // helper for applying a "Columns" or "Unique" to a boardTemplate
 fun toId(i: Int, mode: String) = if (mode == "Columns") i % 6 + 1 else i + 1
@@ -40,11 +33,20 @@ fun generateBicolorGoal(numRows: Int, numCols: Int): Array<Int> {
     }
 }
 
+// Generates a sensible goal for modes without special cells. Modes with special cells should
+// overwrite those cells into the returned array.
 fun generateBasicGoal(numRows: Int, numCols: Int, colorScheme: String): Array<Int> {
     return if (colorScheme == "Bicolor") {
         generateBicolorGoal(numRows, numCols)
     } else {
-        boardTemplate(numRows, numCols).map { toId(it, colorScheme) }.toTypedArray()
+        // Slices a |numRows| by |numCols| size rectangle out of
+        // 1  2  3  4  5  6
+        // 7  8  ...
+        // ...
+        // 31         ... 36
+        // and possibly modifies it so all dice have 1 pip.
+        (0..35).filter { (it < numRows * 6) && (it % 6 < numCols) }.map { toId(it, colorScheme) }
+            .toTypedArray()
     }
 }
 
@@ -147,32 +149,31 @@ fun generateStaticCellGoal(numRows: Int, numCols: Int, colorScheme: String): Arr
     return ret
 }
 
-fun randomMove(
-    board: GameBoard,
-    factory: MoveFactory,
-    num_rows: Int,
-    num_cols: Int
-): Move {
-    val direction = if (Random.nextBoolean()) {
-        Direction.FORWARD
-    } else {
-        Direction.BACKWARD
+fun randomMove(board: GameBoard, factory: MoveFactory) : Move {
+    val ret : MutableList<Move> = mutableListOf()
+    for (row in (0 until board.numRows)) {
+        ret.add(factory.makeMove(Axis.HORIZONTAL, Direction.FORWARD, row, board))
+        ret.add(factory.makeMove(Axis.HORIZONTAL, Direction.BACKWARD, row, board))
     }
-    val seed = Random.nextInt(num_rows + num_cols)
-    return if (seed < num_rows) {
-        factory.makeMove(Axis.HORIZONTAL, direction, seed, board)
-    } else {
-        factory.makeMove(Axis.VERTICAL, direction, seed - num_rows, board)
+    for (col in (0 until board.numCols)) {
+        ret.add(factory.makeMove(Axis.VERTICAL, Direction.FORWARD, col, board))
+        ret.add(factory.makeMove(Axis.VERTICAL, Direction.BACKWARD, col, board))
+    }
+    return ret.filter { move -> move !is IllegalMove }.run {
+        if (this.isEmpty()) {
+            IllegalMove(emptyList())
+        } else {
+            this[Random.nextInt(this.size)]
+        }
     }
 }
 
-// TODO(jmerm): more principled approach to scrambling
 fun scramble(
     solved: Array<String>, factory: MoveFactory, num_rows: Int, num_cols: Int, context: Context
 ): Array<String> {
     val gameBoard = GameBoard(num_rows, num_cols, solved, context)
-    for (i in (0..1000)) {
-        val move = randomMove(gameBoard, factory, num_rows, num_cols)
+    for (i in (0..1001)) {
+        val move = randomMove(gameBoard, factory)
         move.finalize(gameBoard)
     }
     return gameBoard.toString().split(",").toTypedArray()
