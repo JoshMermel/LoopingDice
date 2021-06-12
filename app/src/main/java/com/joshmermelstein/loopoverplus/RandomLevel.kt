@@ -86,7 +86,7 @@ fun generateDynamicBandagingGoal(
     // starting with a monocolor board and overwriting random cells with fixed cells.
     val board = if (colorScheme == "Bicolor") {
         val color = Random.nextInt(1, 5).toString()
-        Array(numRows * numCols) { _ -> color }
+        Array(numRows * numCols) { color }
     } else {
         generateBasicGoal(numRows, numCols, colorScheme).map { blackToGold(it) }
             .map { it.toString() }.toTypedArray()

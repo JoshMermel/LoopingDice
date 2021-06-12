@@ -128,15 +128,19 @@ class InfinityActivity : AppCompatActivity() {
         colSizeSpinner.adapter = adapter
         colSizeSpinner.onItemSelectedListener = SelectionMadeListener(::onUpdateNumCols)
 
-        if (oldValue == null) {
-            // initialize to random
-            colSizeSpinner.setSelection(Random.nextInt(1, 3))
-        } else if (oldValue <= maxValue) {
-            // reset old value
-            colSizeSpinner.setSelection(oldValue - 2)
-        } else {
-            // old value was too big, replace with largest value that fits
-            colSizeSpinner.setSelection(maxValue - 2)
+        when {
+            oldValue == null -> {
+                // initialize to random
+                colSizeSpinner.setSelection(Random.nextInt(1, 3))
+            }
+            oldValue <= maxValue -> {
+                // reset old value
+                colSizeSpinner.setSelection(oldValue - 2)
+            }
+            else -> {
+                // old value was too big, replace with largest value that fits
+                colSizeSpinner.setSelection(maxValue - 2)
+            }
         }
     }
 

@@ -138,7 +138,7 @@ class MainActivity : AppCompatActivity() {
         layout.addView(title)
 
 
-        var row = LinearLayout(this)
+        val row = LinearLayout(this)
         row.layoutParams = LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.MATCH_PARENT,
             LinearLayout.LayoutParams.WRAP_CONTENT

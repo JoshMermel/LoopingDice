@@ -45,7 +45,6 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="10dp"
         android:text="tutorial_text"
-        android:textSize="10sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

@@ -35,38 +35,42 @@ class GameplayActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gameplay)
 
-        if (intent.hasExtra("id")) {
-            // The normal way of creating a level - looking up its params based on an id
-            this.id = intent.getStringExtra("id") ?: return
-            val params = loadInitialLevel(this.id)
-            if (params == null) {
+        when {
+            intent.hasExtra("id") -> {
+                // The normal way of creating a level - looking up its params based on an id
+                this.id = intent.getStringExtra("id") ?: return
+                val params = loadInitialLevel(this.id)
+                if (params == null) {
+                    Toast.makeText(
+                        applicationContext,
+                        "Failed to load level params for $id",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    finish()
+                    return
+                }
+
+                // If this is a sampler level, we've now looked up params telling us what's next and can
+                // proceed as though it wasn't a sampler level.
+                this.id = unSampler(this.id)
+                createFromParams(params, loadSavedLevel(id, params.numRows, params.numCols))
+            }
+            intent.hasExtra("randomLevelParams") -> {
+                // A secondary way of making a level. Generating GameplayParams based on a
+                // RandomLevelParams struct
+                val randomParams =
+                    intent.getParcelableExtra<RandomLevelParams>("randomLevelParams") ?: return
+                this.id = "∞"
+                createFromParams(generateRandomLevel(randomParams, this), null)
+            }
+            else -> {
                 Toast.makeText(
                     applicationContext,
-                    "Failed to load level params for $id",
+                    "Tried to create gameplay activity without either kind of intent!",
                     Toast.LENGTH_SHORT
                 ).show()
                 finish()
-                return
             }
-
-            // If this is a sampler level, we've now looked up params telling us what's next and can
-            // proceed as though it wasn't a sampler level.
-            this.id = unSampler(this.id)
-            createFromParams(params, loadSavedLevel(id, params.numRows, params.numCols))
-        } else if (intent.hasExtra("randomLevelParams")) {
-            // A secondary way of making a level. Generating GameplayParams based on a
-            // RandomLevelParams struct
-            val randomParams =
-                intent.getParcelableExtra<RandomLevelParams>("randomLevelParams") ?: return
-            this.id = "∞"
-            createFromParams(generateRandomLevel(randomParams, this), null)
-        } else {
-            Toast.makeText(
-                applicationContext,
-                "Tried to create gameplay activity without either kind of intent!",
-                Toast.LENGTH_SHORT
-            ).show()
-            finish()
         }
 
     }
