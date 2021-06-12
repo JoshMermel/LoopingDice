@@ -149,8 +149,9 @@ fun generateStaticCellGoal(numRows: Int, numCols: Int, colorScheme: String): Arr
     return ret
 }
 
-fun randomMove(board: GameBoard, factory: MoveFactory) : Move {
-    val ret : MutableList<Move> = mutableListOf()
+fun randomMove(board: GameBoard, factory: MoveFactory): Move {
+    val ret: MutableList<Move> = mutableListOf()
+    // TODO(jmerm): I bet there's a cool way to replace these two for-loops with something functional
     for (row in (0 until board.numRows)) {
         ret.add(factory.makeMove(Axis.HORIZONTAL, Direction.FORWARD, row, board))
         ret.add(factory.makeMove(Axis.HORIZONTAL, Direction.BACKWARD, row, board))
