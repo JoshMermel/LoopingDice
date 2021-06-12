@@ -85,7 +85,8 @@ fun generateDynamicBandagingGoal(
     // Bicolor Dynamic is unusual since the black squares are the second color. We handle that by
     // starting with a monocolor board and overwriting random cells with fixed cells.
     val board = if (colorScheme == "Bicolor") {
-        Array(numRows * numCols) { _ -> Random.nextInt(1, 5).toString() }
+        val color = Random.nextInt(1, 5).toString()
+        Array(numRows * numCols) { _ -> color }
     } else {
         generateBasicGoal(numRows, numCols, colorScheme).map { blackToGold(it) }
             .map { it.toString() }.toTypedArray()
