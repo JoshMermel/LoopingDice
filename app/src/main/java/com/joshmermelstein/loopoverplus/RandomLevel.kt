@@ -189,10 +189,9 @@ fun generateArrowsGoal(
     return when (colorScheme) {
         // TODO(jmerm): color scheme
         "Bicolor" -> {
-            val ret = Array<String>(numRows * numCols) { _ -> "1" }
+            val ret = generateBasicGoal(numRows, numCols, colorScheme)
             for (idx in arrowsIdxs) {
-                ret[idx] = randomAxis() + "2"
-
+                ret[idx] = randomAxis() + ret[idx]
             }
             ret
         }
