@@ -20,7 +20,7 @@ class BandagedGameCell(
 
     init {
         val parts = colorId.split(" ")
-        color = (parts[1].toInt()-1) % 6
+        color = (parts[1].toInt() - 1) % 6
         pips = ((parts[1].toInt() - 1) / 6) + 1
         for (i in (2 until parts.size)) {
             bonds.add(
@@ -28,12 +28,14 @@ class BandagedGameCell(
                     "U" -> Bond.UP
                     "D" -> Bond.DOWN
                     "L" -> Bond.LEFT
-                    else -> Bond.RIGHT
+                    "R" -> Bond.RIGHT
+                    else -> throw Exception("Bad bond id in $colorId")
                 }
             )
         }
     }
 
+    // TODO(jmerm): this being an override is weird, revisit that.
     override fun bonds(): List<Bond> {
         return bonds
     }
@@ -69,18 +71,10 @@ class BandagedGameCell(
             var x1 = x0
             var y1 = y0
             when (bond) {
-                Bond.RIGHT -> {
-                    x1 += (right - left + padding)
-                }
-                Bond.UP -> {
-                    y1 -= (bottom - top + padding)
-                }
-                Bond.LEFT -> {
-                    x1 -= (right - left + padding)
-                }
-                Bond.DOWN -> {
-                    y1 += (bottom - top + padding)
-                }
+                Bond.RIGHT -> x1 += (right - left + padding)
+                Bond.UP -> y1 -= (bottom - top + padding)
+                Bond.LEFT -> x1 -= (right - left + padding)
+                Bond.DOWN -> y1 += (bottom - top + padding)
             }
             drawLineClamped(canvas, x0, y0, x1, y1, strokeWidth, bounds)
         }
@@ -92,7 +86,7 @@ class BandagedGameCell(
         y0: Double,
         x1: Double,
         y1: Double,
-        strokeWidth : Float,
+        strokeWidth: Float,
         bounds: Bounds
     ) {
         val paint = Paint()
