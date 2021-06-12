@@ -11,6 +11,7 @@ fun fromRandomFactory(name: String, rowDepth: Int?, colDepth: Int?): MoveFactory
         "Enabler" -> EnablerMoveFactory()
         "Dynamic Bandaging" -> DynamicBandagingMoveFactory()
         "Static Cells" -> StaticCellsMoveFactory(rowDepth!!, colDepth!!)
+        "Arrows" -> AxisLockedMoveFactory()
         else -> BasicMoveFactory()
     }
 }
@@ -34,6 +35,7 @@ fun randomMove(
     }
 }
 
+// TODO(jmerm): more principled approach to scrambling
 fun scramble(
     solved: Array<String>, factory: MoveFactory, num_rows: Int, num_cols: Int, context: Context
 ): Array<String> {
@@ -147,6 +149,7 @@ fun generateDynamicBandagingGoal(
         }
         else -> { // unique
             var pips = 0
+            // TODO(jmerm): consider if some of these lambdas in maps could be named functions for clarity
             val ret = (0..35).filter { (it < numRows * 6) && (it % 6 < numCols) }
                 .map { i ->
                     (if (i % 6 == 4) {
@@ -159,6 +162,60 @@ fun generateDynamicBandagingGoal(
                 ret[idx] = "F " + (pips + 1).toString()
                 pips = (pips + 1) % 6
             }
+            ret
+        }
+    }
+}
+
+fun randomAxis() : String {
+    return if (Random.nextBoolean()) "H " else "V "
+}
+
+fun generateArrowsGoal(
+    numRows: Int,
+    numCols: Int,
+    colorScheme: String,
+    numArrows: String
+): Array<String> {
+    // TODO(jmerm): think more about these densities
+    val arrowsCount = when (numArrows) {
+        "Rare" -> (numRows * numCols / 6) + 1
+        "Common" -> numRows * numCols / 4
+        "Frequent" -> numRows * numCols / 2
+        else -> 1
+    }
+    val arrowsIdxs = (1 until numRows * numCols).shuffled().take(arrowsCount)
+
+    return when (colorScheme) {
+        // TODO(jmerm): color scheme
+        "Bicolor" -> {
+            val ret = Array<String>(numRows * numCols) { _ -> "1" }
+            for (idx in arrowsIdxs) {
+                ret[idx] = randomAxis() + "2"
+
+            }
+            ret
+        }
+        "Columns" -> {
+            val ret = (0..35).filter { (it < numRows * 6) && (it % 6 < numCols) }.toTypedArray()
+                .mapIndexed { idx, i ->
+                    (if (idx in arrowsIdxs) {
+                        randomAxis() + (i % 6 + 1).toString()
+                    } else {
+                        (i % 6 + 1).toString()
+                    })
+                }.toTypedArray()
+            ret
+        }
+        else -> { // unique
+            val ret = (0..35).filter { (it < numRows * 6) && (it % 6 < numCols) }
+                .mapIndexed { idx, i ->
+                    (if (idx in arrowsIdxs) {
+                        randomAxis() + (i % 6 + 1).toString()
+                    } else {
+                        (i + 1).toString()
+                    })
+                }.toTypedArray()
             ret
         }
     }
@@ -229,6 +286,14 @@ fun generateRandomLevel(options: RandomLevelParams, context: Context): GameplayP
         }
         "Static Cells" -> {
             generateStaticCellGoal(options.numRows, options.numCols, options.colorScheme)
+        }
+        "Arrows" -> {
+            generateArrowsGoal(
+                options.numRows,
+                options.numCols,
+                options.colorScheme,
+                options.numArrows!!
+            )
         }
         else -> {
             generateBasicGoal(options.numRows, options.numCols, options.colorScheme)

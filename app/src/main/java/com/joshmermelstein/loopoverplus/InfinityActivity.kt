@@ -7,10 +7,9 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.parcelize.Parcelize
-import org.w3c.dom.Text
 import kotlin.random.Random
 
-// TODO(jmerm): add spinner for num enablers, num_static
+// TODO(jmerm): spinner for how many locked cells in Static mode?
 
 @Parcelize
 class RandomLevelParams(
@@ -22,14 +21,15 @@ class RandomLevelParams(
     val rowDepth: Int?,
     val colDepth: Int?,
     val numBandaged: String?,
-    val numEnablers: String?
+    val numEnablers: String?,
+    val numArrows : String?
 ) : Parcelable
 
 // Activity for letting the user build a level
 class InfinityActivity : AppCompatActivity() {
     private val rowSizes = (2..6).map { num -> num.toString() }
     private val rowModes =
-        arrayOf("Wide", "Carousel", "Gear", "Dynamic Bandaging", "Static Cells", "Enabler")
+        arrayOf("Wide", "Carousel", "Gear", "Dynamic Bandaging", "Static Cells", "Enabler", "Arrows")
     private val colModes = arrayOf("Wide", "Carousel", "Gear")
     private val colorSchemes = arrayOf("Bicolor", "Columns", "Unique")
     private val densities = arrayOf("Rare", "Common", "Frequent")
@@ -108,11 +108,16 @@ class InfinityActivity : AppCompatActivity() {
         return findViewById<Spinner>(R.id.numEnablersSpinner).selectedItem?.toString()
     }
 
+    private fun getNumArrows(): String? {
+        return findViewById<Spinner>(R.id.numArrowsSpinner).selectedItem?.toString()
+    }
+
+    // TODO(jmerm): allow 6 cols when color scheme is bicolor
     private fun updateColSizePicker() {
         val colSizeSpinner = findViewById<Spinner>(R.id.colSizeSpinner)
         val oldValue: Int? = colSizeSpinner.selectedItem?.toString()?.toInt()
         val rowMode = getRowMode()
-        val maxValue = if (rowMode in colModes) {
+        val maxValue = if (rowMode in colModes || rowMode == "Arrows") {
             6
         } else {
             5
@@ -135,8 +140,6 @@ class InfinityActivity : AppCompatActivity() {
             // old value was too big, replace with largest value that fits
             colSizeSpinner.setSelection(maxValue - 2)
         }
-
-
     }
 
 
@@ -252,6 +255,19 @@ class InfinityActivity : AppCompatActivity() {
         }
     }
 
+    private fun updateNumArrowsPicker() {
+        val container = findViewById<View>(R.id.num_arrows_container)
+        if (getRowMode() == "Arrows") {
+            container?.visibility = View.VISIBLE
+            val numArrowsSpinner = findViewById<Spinner>(R.id.numArrowsSpinner)
+            val adapter = ArrayAdapter(this, R.layout.spinner_item, densities)
+            adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
+            numArrowsSpinner.adapter = adapter
+        } else {
+            container?.visibility = View.GONE
+        }
+    }
+
     private fun onUpdateRowMode() {
         val rowMode = getRowMode()
         val rowModeLabel = findViewById<TextView>(R.id.row_mode)
@@ -267,6 +283,7 @@ class InfinityActivity : AppCompatActivity() {
         updateColDepthPicker()
         updateNumBandagedPicker()
         updateNumEnablersPicker()
+        updateNumArrowsPicker()
     }
 
     private fun onUpdateColMode() {
@@ -300,7 +317,8 @@ class InfinityActivity : AppCompatActivity() {
             getRowDepth(),
             getColDepth(),
             getNumBandaged(),
-            getNumEnablers()
+            getNumEnablers(),
+            getNumArrows(),
         )
     }
 }
