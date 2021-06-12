@@ -77,12 +77,12 @@ class BandagedMoveFactory : MoveFactory {
 
     // unused?
     override fun verticalHelpText(): String {
-        return "Vertical moves affect a single column"
+        return "Vertical moves are bandaged moves"
     }
 
     // unused
     override fun horizontalHelpText(): String {
-        return "Horizontal moves affect a single row"
+        return "Horizontal moves are bandaged moves"
     }
 
     override fun helpText(): String {
