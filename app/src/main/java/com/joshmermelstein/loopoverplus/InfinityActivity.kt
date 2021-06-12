@@ -22,14 +22,24 @@ class RandomLevelParams(
     val colDepth: Int?,
     val numBandaged: String?,
     val numEnablers: String?,
-    val numArrows : String?
+    val numArrows: String?
 ) : Parcelable
 
 // Activity for letting the user build a level
 class InfinityActivity : AppCompatActivity() {
     private val rowSizes = (2..6).map { num -> num.toString() }
+
+    // TODO(jmerm): support bandaged mode
     private val rowModes =
-        arrayOf("Wide", "Carousel", "Gear", "Dynamic Bandaging", "Static Cells", "Enabler", "Arrows")
+        arrayOf(
+            "Wide",
+            "Carousel",
+            "Gear",
+            "Dynamic Bandaging",
+            "Static Cells",
+            "Enabler",
+            "Arrows"
+        )
     private val colModes = arrayOf("Wide", "Carousel", "Gear")
     private val colorSchemes = arrayOf("Bicolor", "Columns", "Unique")
     private val densities = arrayOf("Rare", "Common", "Frequent")
