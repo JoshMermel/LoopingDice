@@ -68,8 +68,7 @@ class InfinityActivity : AppCompatActivity() {
 
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
         colorSchemeSpinner.adapter = adapter
-        // TODO(jmerm): randomize color scheme
-        // colorSchemeSpinner.setSelection(Random.nextInt(0, rowModes.size + 1) % rowModes.size)
+        colorSchemeSpinner.setSelection(Random.nextInt(0, colorSchemes.size))
     }
 
     private fun getNumRows(): Int {
@@ -112,7 +111,6 @@ class InfinityActivity : AppCompatActivity() {
         return findViewById<Spinner>(R.id.numArrowsSpinner).selectedItem?.toString()
     }
 
-    // TODO(jmerm): allow 6 cols when color scheme is bicolor
     private fun updateColSizePicker() {
         val colSizeSpinner = findViewById<Spinner>(R.id.colSizeSpinner)
         val oldValue: Int? = colSizeSpinner.selectedItem?.toString()?.toInt()
