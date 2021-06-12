@@ -177,17 +177,15 @@ fun generateArrowsGoal(
     colorScheme: String,
     numArrows: String
 ): Array<String> {
-    // TODO(jmerm): think more about these densities
-    val arrowsCount = when (numArrows) {
-        "Rare" -> (numRows * numCols / 6) + 1
+    val arrowsCount = 1 + when (numArrows) {
+        "Rare" -> numRows * numCols / 6
         "Common" -> numRows * numCols / 4
-        "Frequent" -> numRows * numCols / 2
-        else -> 1
+        "Frequent" -> numRows * numCols / 3
+        else -> 0
     }
     val arrowsIdxs = (1 until numRows * numCols).shuffled().take(arrowsCount)
 
     return when (colorScheme) {
-        // TODO(jmerm): color scheme
         "Bicolor" -> {
             val ret = generateBasicGoal(numRows, numCols, colorScheme)
             for (idx in arrowsIdxs) {
