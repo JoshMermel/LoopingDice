@@ -55,31 +55,23 @@ class FixedGameCell(
         canvas: Canvas
     ) {
         when {
-            shouldDrawIcon -> {
-                // Draws a lock instead of pips.
-                drawLock(left, top, right, bottom, canvas)
-            }
-            numCircles == 0 -> {
-                drawSmallLock(left, top, right, bottom, canvas)
-            }
-            else -> {
-                super.drawPips(left, top, right, bottom, numCircles, canvas)
-            }
+            shouldDrawIcon -> drawLock(left, top, right, bottom, canvas)
+            numCircles == 0 -> drawSmallLock(left, top, right, bottom, canvas)
+            else -> super.drawPips(left, top, right, bottom, numCircles, canvas)
         }
     }
 
     override fun drawPip(centerX: Double, centerY: Double, radius: Double, canvas: Canvas) {
-        val shapeDrawable = ShapeDrawable(RectShape())
-
-        shapeDrawable.setBounds(
-            (centerX - radius).toInt(),
-            (centerY - radius).toInt(),
-            (centerX + radius).toInt(),
-            (centerY + radius).toInt()
-        )
-        shapeDrawable.paint.color = ContextCompat.getColor(context, R.color.gameplay_background)
-
-        shapeDrawable.draw(canvas)
+        ShapeDrawable(RectShape()).apply {
+            setBounds(
+                (centerX - radius).toInt(),
+                (centerY - radius).toInt(),
+                (centerX + radius).toInt(),
+                (centerY + radius).toInt()
+            )
+            paint.color = ContextCompat.getColor(context, R.color.gameplay_background)
+            draw(canvas)
+        }
     }
 
     private fun drawLock(left: Double, top: Double, right: Double, bottom: Double, canvas: Canvas) {
