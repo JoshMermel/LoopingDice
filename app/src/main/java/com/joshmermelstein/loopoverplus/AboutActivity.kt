@@ -34,12 +34,15 @@ class AboutActivity : AppCompatActivity() {
         }
 
         // Magic to make a substring be a link that opens an intent
-        val context: Context = this
         val librariesText =
             getString(R.string.openSourceLibrariesText).toSpannable().apply {
                 this[0..10] = object : ClickableSpan() {
                     override fun onClick(view: View) {
-                        startActivity(Intent(context, OssLicensesMenuActivity::class.java))
+                        startActivity(Intent(
+                                this@AboutActivity,
+                                OssLicensesMenuActivity::class.java
+                            )
+                        )
                     }
                 }
             }
