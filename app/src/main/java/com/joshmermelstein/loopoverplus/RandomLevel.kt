@@ -113,13 +113,12 @@ fun randomAxisPrefix(): String {
 }
 
 fun addArrowCells(board: Array<Int>, indices: List<Int>, colorScheme: String): Array<String> {
-    // The board input starts from 1 so we have to subtract 1 before modulus-ing and then add it
-    // back or else our 6's will turn into 0s (an invalid colorId)
     return board.mapIndexed { idx, i ->
         (if (idx in indices) {
+            // This expressions is like `i%6` except 0's are replaced by 6s (since 0 is not a valid ColorId)
             randomAxisPrefix() + (mod(i - 1, 6) + 1).toString()
         } else {
-            toId(i - 1, colorScheme).toString()
+            i.toString()
         })
     }.toTypedArray()
 }
