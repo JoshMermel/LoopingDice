@@ -84,21 +84,25 @@ class GameplayActivity : AppCompatActivity() {
         }
 
         // Set tutorial text
-        val tutorialText = findViewById<TextView>(R.id.tutorialText)
-        val height = Resources.getSystem().displayMetrics.heightPixels / 4
-        val width = Resources.getSystem().displayMetrics.widthPixels - height
-        tutorialText.layoutParams.height = height * 7 / 8
-        tutorialText.layoutParams.width = width * 7 / 8
-        tutorialText.text = params.tutorialText
-        TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(
-            tutorialText, 1, 200, 1,
-            TypedValue.COMPLEX_UNIT_DIP
-        )
+        val tutorialTextBoxWidth = Resources.getSystem().displayMetrics.heightPixels / 4
+        val tutorialTextBoxHeight =
+            Resources.getSystem().displayMetrics.widthPixels - tutorialTextBoxWidth
+        findViewById<TextView>(R.id.tutorialText).apply {
+            layoutParams.height = tutorialTextBoxWidth * 7 / 8
+            layoutParams.width = tutorialTextBoxHeight * 7 / 8
+            text = params.tutorialText
+            TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(
+                this, 1, 200, 1,
+                TypedValue.COMPLEX_UNIT_DIP
+            )
+        }
 
-        val gameplayView = findViewById<GameplayView>(R.id.gameplayView)
-        gameplayView.gameManager = this.gameManager
-        val toolbar = findViewById<Toolbar>(R.id.gameplay_toolbar)
-        setSupportActionBar(toolbar)
+        findViewById<GameplayView>(R.id.gameplayView).apply {
+            gameManager = this.gameManager
+        }
+        findViewById<Toolbar>(R.id.gameplay_toolbar).also {
+            setSupportActionBar(it)
+        }
 
         supportActionBar?.title =
             "#" + MetadataSingleton.getInstance(this).getLevelData(id)?.displayId
@@ -125,6 +129,7 @@ class GameplayActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.copy -> {
+                // TODO(jmerm): move this to a helper method
                 val moves: String = gameManager.toUserString()
                 if (moves.isEmpty()) {
                     Toast.makeText(applicationContext, "Nothing to copy", Toast.LENGTH_SHORT).show()
@@ -179,24 +184,30 @@ class GameplayActivity : AppCompatActivity() {
         val dialog = Dialog(this)
         dialog.setContentView(R.layout.help_popup)
 
-        val rules = dialog.findViewById<TextView>(R.id.help_dialog_rules)
-        rules.text = gameManager.helpText()
-
-        val pb = dialog.findViewById<TextView>(R.id.help_dialog_pb)
-        if (highscores.contains(id)) {
-            pb.text =
-                "Your best score on this level was $oldHighscore " + pluralizedMoves(oldHighscore)
-        } else {
-            pb.isVisible = false
+        dialog.findViewById<TextView>(R.id.help_dialog_rules).apply {
+            text = gameManager.helpText()
         }
 
-        val stars = dialog.findViewById<TextView>(R.id.help_dialog_stars)
-        stars.text = when {
-            oldHighscore == Int.MAX_VALUE -> "Win in any number of moves to earn a star"
-            oldHighscore > twoStar -> "Win in $twoStar " + pluralizedMoves(twoStar) + " to earn two stars"
-            oldHighscore > threeStar -> "Win in $threeStar " + pluralizedMoves(threeStar) + " to earn three stars"
-            oldHighscore > fourStar -> "A perfect score is $fourStar " + pluralizedMoves(fourStar)
-            else -> "You've earned all possible stars!"
+        dialog.findViewById<TextView>(R.id.help_dialog_pb).apply {
+            if (highscores.contains(this@GameplayActivity.id)) {
+                text = "Your best score on this level was $oldHighscore " + pluralizedMoves(
+                    oldHighscore
+                )
+            } else {
+                isVisible = false
+            }
+        }
+
+        dialog.findViewById<TextView>(R.id.help_dialog_stars).apply {
+            text = when {
+                oldHighscore == Int.MAX_VALUE -> "Win in any number of moves to earn a star"
+                oldHighscore > twoStar -> "Win in $twoStar " + pluralizedMoves(twoStar) + " to earn two stars"
+                oldHighscore > threeStar -> "Win in $threeStar " + pluralizedMoves(threeStar) + " to earn three stars"
+                oldHighscore > fourStar -> "A perfect score is $fourStar " + pluralizedMoves(
+                    fourStar
+                )
+                else -> "You've earned all possible stars!"
+            }
         }
 
         dialog.show()

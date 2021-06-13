@@ -10,6 +10,7 @@ import kotlinx.parcelize.Parcelize
 import kotlin.random.Random
 
 // TODO(jmerm): spinner for how many locked cells in Static mode?
+// TODO(jmerm): should there be a way to resume your last infinity level?
 
 @Parcelize
 class RandomLevelParams(
@@ -281,12 +282,8 @@ class InfinityActivity : AppCompatActivity() {
     }
 
     private fun onUpdateRowMode() {
-        val rowMode = getRowMode()
-        val rowModeLabel = findViewById<TextView>(R.id.row_mode)
-        rowModeLabel.text = if (rowMode in colModes) {
-            "Row Mode"
-        } else {
-            "Mode"
+        findViewById<TextView>(R.id.row_mode).apply {
+            text = if (getRowMode() in colModes) "Row Mode" else "Mode"
         }
 
         updateColSizePicker()

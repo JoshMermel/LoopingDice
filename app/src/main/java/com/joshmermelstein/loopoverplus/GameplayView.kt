@@ -14,7 +14,7 @@ import kotlin.math.floor
 
 // A custom View class for managing interactions between the canvas and gameplay logic.
 class GameplayView : View {
-    lateinit var gameManager: GameManager // = (context as GameplayActivity).gameManager
+    lateinit var gameManager: GameManager
 
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
@@ -79,15 +79,16 @@ class GameplayView : View {
 
         boundsLegend = Bounds(1.0, 1.0, right.toDouble(), bottom.toDouble())
 
-        legendCirclePaint.color = ContextCompat.getColor(context, R.color.legend_background)
-        legendCirclePaint.style = Paint.Style.FILL
-        legendCirclePaint.isAntiAlias = true
-        legendCirclePaint.isDither = true
+        with (legendCirclePaint) {
+            color = ContextCompat.getColor(context, R.color.legend_background)
+            style = Paint.Style.FILL
+            isAntiAlias = true
+            isDither = true
+        }
     }
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        // canvas.drawColor(Color.WHITE)
         gameManager.update()
         if (boundsBoard.left >= 0.0) {
             gameManager.drawHighlights(canvas, boundsBoard)

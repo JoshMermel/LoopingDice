@@ -76,7 +76,6 @@ abstract class GameCell(
     abstract val pips: Int
     abstract val family: CellFamily
 
-
     // There's probably a better way to do this but this is an easy way to let the game manager
     // flash icons on cells without having to worry about which type of cell they are.
     var shouldDrawIcon: Boolean = false

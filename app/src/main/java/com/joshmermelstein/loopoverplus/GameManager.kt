@@ -213,8 +213,7 @@ class GameManager(
 
     // Updates the activity's UI
     private fun updateGameplayMoveCount() {
-        val gameplayMoveCount = context.findViewById<TextView>(R.id.gameplay_move_count)
-        gameplayMoveCount.text = "Moves: $numMoves"
+        context.findViewById<TextView>(R.id.gameplay_move_count)?.text = "Moves: $numMoves"
         // This invalidation also refreshes the when the undo and redo buttons are enabled in the UI
         context.invalidateOptionsMenu()
     }
@@ -295,12 +294,10 @@ class GameManager(
             else -> "Win in $twoStar " + pluralizedMoves(twoStar) + " to earn two stars"
         }
 
-        val menu = dialog.findViewById<Button>(R.id.menu)
-        menu.setOnClickListener {
+        dialog.findViewById<Button>(R.id.menu).setOnClickListener {
             context.finish()
         }
-        val retry = dialog.findViewById<Button>(R.id.retry)
-        retry.setOnClickListener {
+        dialog.findViewById<Button>(R.id.retry).setOnClickListener {
             reset()
             dialog.dismiss()
         }
