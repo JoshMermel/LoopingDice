@@ -108,12 +108,10 @@ class GameManager(
         }
     }
 
-    // TODO(jmerm): think about varying padding when board size is large?
     fun drawBoard(canvas: Canvas, boundsBoard: Bounds) {
-        drawGrid(canvas, boundsBoard, board, 10)
+        drawGrid(canvas, boundsBoard, board, 6)
     }
 
-    // TODO(jmerm): think about varying padding when board size is large?
     fun drawGoal(canvas: Canvas, boundsGoal: Bounds) {
         drawGrid(canvas, boundsGoal, goal, 2)
     }
