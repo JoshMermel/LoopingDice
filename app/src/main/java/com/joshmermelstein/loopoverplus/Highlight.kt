@@ -20,19 +20,20 @@ class Highlight(
         numRows: Int,
         numCols: Int
     ) {
-        val shapeDrawable = ShapeDrawable(RectShape())
-        shapeDrawable.paint.shader =
-            makeShader(
-                axis,
-                direction,
-                ContextCompat.getColor(context, R.color.gameplay_background),
-                ContextCompat.getColor(context, R.color.highlight)
-            )
+        val shapeDrawable = ShapeDrawable(RectShape()).apply {
+            paint.shader =
+                makeShader(
+                    axis,
+                    direction,
+                    ContextCompat.getColor(context, R.color.gameplay_background),
+                    ContextCompat.getColor(context, R.color.highlight)
+                )
+        }
 
         if (axis == Axis.HORIZONTAL) {
             val safeOffset = mod(offset, numRows)
 
-            // determine top and bottom based on numRows and boundsTop/Bottom
+            // Determine top and bottom based on numRows and boundsTop/Bottom
             val height = bounds.height() / numRows
             val top = (safeOffset * height) + bounds.top
             val bottom = ((safeOffset + 1) * height) + bounds.top
