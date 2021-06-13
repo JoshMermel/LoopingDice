@@ -143,7 +143,6 @@ fun generateArrowsGoal(
     )
 }
 
-// TODO(jmerm): add more options here
 fun generateStaticCellGoal(numRows: Int, numCols: Int, colorScheme: String): Array<String> {
     val ret = generateBasicGoal(numRows, numCols, colorScheme).map { blackToGold(it) }
         .map { it.toString() }.toTypedArray()
