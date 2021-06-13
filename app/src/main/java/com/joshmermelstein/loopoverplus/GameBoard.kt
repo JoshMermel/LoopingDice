@@ -72,8 +72,7 @@ class GameBoard(private val board: Array<Array<GameCell>>) {
     fun rowContainsBond(offset: Int, bond: Bond): Boolean {
         for (col in 0 until numCols) {
             val cell = getCell(offset, col)
-            if (cell.family == CellFamily.BANDAGED && (cell as BandagedGameCell).bonds()
-                    .contains(bond)
+            if (cell.family == CellFamily.BANDAGED && (cell as BandagedGameCell).bonds.contains(bond)
             ) {
                 return true
             }
@@ -85,8 +84,7 @@ class GameBoard(private val board: Array<Array<GameCell>>) {
     fun colContainsBond(offset: Int, bond: Bond): Boolean {
         for (row in 0 until numRows) {
             val cell = getCell(row, offset)
-            if (cell.family == CellFamily.BANDAGED && (cell as BandagedGameCell).bonds()
-                    .contains(bond)
+            if (cell.family == CellFamily.BANDAGED && (cell as BandagedGameCell).bonds.contains(bond)
             ) {
                 return true
             }

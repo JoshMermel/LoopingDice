@@ -18,28 +18,22 @@ class BandagedGameCell(
     override val pips: Int
     override val family = CellFamily.BANDAGED
 
-    // TODO(jmerm): why is this a list and not a set?
-    private val bonds: MutableList<Bond> = mutableListOf()
+    // (Possibly empty) set of which directions this cell has bonds
+    val bonds: Set<Bond>
 
     init {
         val parts = colorId.split(" ")
         color = (parts[1].toInt() - 1) % 6
         pips = ((parts[1].toInt() - 1) / 6) + 1
-        for (i in (2 until parts.size)) {
-            bonds.add(
-                when (parts[i]) {
-                    "U" -> Bond.UP
-                    "D" -> Bond.DOWN
-                    "L" -> Bond.LEFT
-                    "R" -> Bond.RIGHT
-                    else -> throw Exception("Bad bond id in $colorId")
-                }
-            )
-        }
-    }
-
-    fun bonds(): List<Bond> {
-        return bonds
+        bonds = parts.drop(2).map {
+            when (it) {
+                "U" -> Bond.UP
+                "D" -> Bond.DOWN
+                "L" -> Bond.LEFT
+                "R" -> Bond.RIGHT
+                else -> throw Exception("Bad bond id in $colorId")
+            }
+        }.toSet()
     }
 
     // Draws the shape but clamps boundaries that would have gone outside the game board.
