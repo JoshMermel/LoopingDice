@@ -23,10 +23,12 @@ class MainActivity : AppCompatActivity() {
 
         // Info on which levels exist and how to group them is lazily loaded into a global
         // singleton for easy lookup.
-        for (pack in MetadataSingleton.getInstance(this).packData) {
-            appendLevelPack(pack)
+        MetadataSingleton.getInstance(this).packData.forEach {
+            appendLevelPack(it)
         }
 
+        // The infinity button goes to a level builder activity where the user can generate a level
+        // on the fly.
         appendInfinityButton()
     }
 
@@ -167,21 +169,11 @@ class MainActivity : AppCompatActivity() {
         val id = levelData.displayId
 
         return when {
-            highscore <= levelData.fourStar -> {
-                "$id\n✯✯✯"
-            }
-            highscore <= levelData.threeStar -> {
-                "$id\n★★★"
-            }
-            highscore <= levelData.twoStar -> {
-                "$id\n★★☆"
-            }
-            highscore < Int.MAX_VALUE -> {
-                "$id\n★☆☆"
-            }
-            else -> {
-                "$id\n☆☆☆"
-            }
+            highscore <= levelData.fourStar -> "$id\n✯✯✯"
+            highscore <= levelData.threeStar -> "$id\n★★★"
+            highscore <= levelData.twoStar -> "$id\n★★☆"
+            highscore < Int.MAX_VALUE -> "$id\n★☆☆"
+            else -> "$id\n☆☆☆"
         }
     }
 
