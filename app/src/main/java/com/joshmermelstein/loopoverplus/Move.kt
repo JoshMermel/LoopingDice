@@ -49,7 +49,7 @@ interface Move {
     fun finalize(board: GameBoard)
 }
 
-// Subclasses of LegalMove get counted toward move counts, be written to the undo stack, and be
+// Subclasses of LegalMove get counted toward move counts, are written to the undo stack, and are
 // saved when the user closes the level
 interface LegalMove : Move {
     val axis: Axis
@@ -117,22 +117,14 @@ interface CoordinatesMove : LegalMove {
 // Helpers are provided for basic looping moves on rows and columns.
 interface RowColMove : CoordinatesMove {
     fun addHorizontal(direction: Direction, offset: Int, numCols: Int) {
-        val delta = if (direction == Direction.FORWARD) {
-            1
-        } else {
-            -1
-        }
+        val delta = if (direction == Direction.FORWARD) 1 else -1
         for (col in 0 until numCols) {
             transitions.add(Transition(col, offset, col + delta, offset))
         }
     }
 
     fun addVertical(direction: Direction, offset: Int, numRows: Int) {
-        val delta = if (direction == Direction.FORWARD) {
-            1
-        } else {
-            -1
-        }
+        val delta = if (direction == Direction.FORWARD) 1 else -1
         for (row in 0 until numRows) {
             transitions.add(Transition(offset, row, offset, row + delta))
         }
@@ -158,21 +150,16 @@ fun stringToMove(s: String, numRows: Int, numCols: Int): LegalMove? {
     val offset = splits[3].toInt()
 
     return when (splits[0]) {
-        "BASIC" -> {
-            BasicMove(axis, direction, offset, numRows, numCols)
-        }
+        "BASIC" -> BasicMove(axis, direction, offset, numRows, numCols)
         "WIDE" -> {
-            when (isNumeric(splits[4])) {
-                true -> WideMove(axis, direction, offset, numRows, numCols, splits[4].toInt())
-                false -> null
+            if (isNumeric(splits[4])) {
+                WideMove(axis, direction, offset, numRows, numCols, splits[4].toInt())
+            } else {
+                null
             }
         }
-        "GEAR" -> {
-            GearMove(axis, direction, offset, numRows, numCols)
-        }
-        "CAROUSEL" -> {
-            CarouselMove(axis, direction, offset, numRows, numCols)
-        }
+        "GEAR" -> GearMove(axis, direction, offset, numRows, numCols)
+        "CAROUSEL" -> CarouselMove(axis, direction, offset, numRows, numCols)
         else -> null
     }
 }
