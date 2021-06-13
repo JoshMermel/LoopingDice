@@ -177,9 +177,8 @@ fun scramble(
     solved: Array<String>, factory: MoveFactory, num_rows: Int, num_cols: Int, context: Context
 ): Array<String> {
     val gameBoard = GameBoard(num_rows, num_cols, solved, context)
-    for (i in (0..10)) {
+    for (i in (0..2000)) {
         val move = randomMove(gameBoard, factory)
-        Log.d("jmerm", "$move")
         move.finalize(gameBoard)
     }
     return gameBoard.toString().split(",").toTypedArray()
