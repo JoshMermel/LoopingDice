@@ -1,6 +1,7 @@
 package com.joshmermelstein.loopoverplus
 
 import android.content.Context
+import android.util.Log
 import kotlin.random.Random
 
 // TODO(jmerm): tests for things in this file
@@ -19,14 +20,14 @@ fun fromRandomFactory(name: String, rowDepth: Int?, colDepth: Int?): MoveFactory
 }
 
 // helper for applying a "Columns" or "Unique" to a boardTemplate
-fun toId(i: Int, mode: String) = if (mode == "Columns") i % 6 else i
+fun toId(i: Int, mode: String) = if (mode == "Columns") i % 6 + 1 else i + 1
 
 // helper for replacing black square with gold in modes where black has a special meaning
 fun blackToGold(i: Int): Int = if (i % 6 == 5) i + 1 else i
 
 // TODO(jmerm): more interesting patterns? Staircase?
 fun generateBicolorGoal(numRows: Int, numCols: Int): Array<Int> {
-    val colors = (0..3).shuffled().take(2)
+    val colors = (1..4).shuffled()
     return if (numCols % 2 == 0) {
         Array(numRows * numCols) { if (it % numCols < numCols / 2) colors[0] else colors[1] }
     } else {
@@ -34,19 +35,17 @@ fun generateBicolorGoal(numRows: Int, numCols: Int): Array<Int> {
     }
 }
 
-// Generates a sensible goal for modes without special cells for callers to transform further into a
-// mode-specific goal.
-// This can't be used directly since it starts at 0 (an invalid colorId). That's so we can map %6
-// onto it and add 1 afterward to keep the color order in the columns but set all pips to 1.
-fun generateBoardTemplate(numRows: Int, numCols: Int, colorScheme: String): Array<Int> {
+// Generates a sensible goal for modes without special cells. Modes with special cells should
+// overwrite those cells into the returned array.
+fun generateBasicGoal(numRows: Int, numCols: Int, colorScheme: String): Array<Int> {
     return if (colorScheme == "Bicolor") {
         generateBicolorGoal(numRows, numCols)
     } else {
         // Slices a |numRows| by |numCols| size rectangle out of
-        // 0  1  2  3  4  5
-        // 6  7  ...
+        // 1  2  3  4  5  6
+        // 7  8  ...
         // ...
-        // 30         ... 35
+        // 31         ... 36
         // and possibly modifies it so all dice have 1 pip.
         (0..35).filter { (it < numRows * 6) && (it % 6 < numCols) }.map { toId(it, colorScheme) }
             .toTypedArray()
@@ -59,8 +58,7 @@ fun generateEnablerGoal(
     colorScheme: String,
     numEnablers: String
 ): Array<String> {
-    val goal =
-        generateBoardTemplate(numRows, numCols, colorScheme).map { (it + 1).toString() }.toTypedArray()
+    val goal = generateBasicGoal(numRows, numCols, colorScheme).map { it.toString() }.toTypedArray()
     val enablersIndices = when (numEnablers) {
         "Common" -> (1 until numRows * numCols).shuffled().take(numRows * numCols / 8)
         "Frequent" -> (1 until numRows * numCols).shuffled().take(numRows * numCols / 4)
@@ -94,7 +92,7 @@ fun generateDynamicBandagingGoal(
         val color = Random.nextInt(1, 5).toString()
         Array(numRows * numCols) { color }
     } else {
-        generateBoardTemplate(numRows, numCols, colorScheme).map { blackToGold(it + 1) }
+        generateBasicGoal(numRows, numCols, colorScheme).map { blackToGold(it) }
             .map { it.toString() }.toTypedArray()
     }
 
@@ -115,11 +113,13 @@ fun randomAxisPrefix(): String {
 }
 
 fun addArrowCells(board: Array<Int>, indices: List<Int>, colorScheme: String): Array<String> {
+    // The board input starts from 1 so we have to subtract 1 before modulus-ing and then add it
+    // back or else our 6's will turn into 0s (an invalid colorId)
     return board.mapIndexed { idx, i ->
         (if (idx in indices) {
-            randomAxisPrefix() + (i % 6 + 1).toString()
+            randomAxisPrefix() + (mod(i - 1, 6) + 1).toString()
         } else {
-            (toId(i, colorScheme) + 1).toString()
+            toId(i - 1, colorScheme).toString()
         })
     }.toTypedArray()
 }
@@ -139,14 +139,14 @@ fun generateArrowsGoal(
     val arrowsIndices = (1 until numRows * numCols).shuffled().take(arrowsCount)
 
     return addArrowCells(
-        generateBoardTemplate(numRows, numCols, colorScheme),
+        generateBasicGoal(numRows, numCols, colorScheme),
         arrowsIndices,
         colorScheme
     )
 }
 
 fun generateStaticCellGoal(numRows: Int, numCols: Int, colorScheme: String): Array<String> {
-    val ret = generateBoardTemplate(numRows, numCols, colorScheme).map { blackToGold(it + 1) }
+    val ret = generateBasicGoal(numRows, numCols, colorScheme).map { blackToGold(it) }
         .map { it.toString() }.toTypedArray()
     ret[0] = "F 0"
     return ret
@@ -220,12 +220,13 @@ fun generateRandomLevel(options: RandomLevelParams, context: Context): GameplayP
             options.colorScheme,
             options.numArrows!!
         )
-        else -> generateBoardTemplate(
+        else -> generateBasicGoal(
             options.numRows,
             options.numCols,
             options.colorScheme
-        ).map { (it + 1).toString() }.toTypedArray()
+        ).map { it.toString() }.toTypedArray()
     }
+
     val start = scramble(goal, factory, options.numRows, options.numCols, context)
 
     return GameplayParams(
