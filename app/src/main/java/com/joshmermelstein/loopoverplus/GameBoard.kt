@@ -71,7 +71,10 @@ class GameBoard(private val board: Array<Array<GameCell>>) {
     // Returns whether any cell in row |offset| has a bond pointing in |bond| direction
     fun rowContainsBond(offset: Int, bond: Bond): Boolean {
         for (col in 0 until numCols) {
-            if (getCell(offset, col).bonds().contains(bond)) {
+            val cell = getCell(offset, col)
+            if (cell.family == CellFamily.BANDAGED && (cell as BandagedGameCell).bonds()
+                    .contains(bond)
+            ) {
                 return true
             }
         }
@@ -81,7 +84,10 @@ class GameBoard(private val board: Array<Array<GameCell>>) {
     // Returns whether any cell in col |offset| has a bond pointing in |bond| direction
     fun colContainsBond(offset: Int, bond: Bond): Boolean {
         for (row in 0 until numRows) {
-            if (getCell(row, offset).bonds().contains(bond)) {
+            val cell = getCell(row, offset)
+            if (cell.family == CellFamily.BANDAGED && (cell as BandagedGameCell).bonds()
+                    .contains(bond)
+            ) {
                 return true
             }
         }

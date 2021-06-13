@@ -54,7 +54,8 @@ enum class CellFamily {
     ENABLER,
     FIXED,
     VERTICAL,
-    HORIZONTAL
+    HORIZONTAL,
+    BANDAGED,
 }
 
 // Base class for shared logic among game cell types
@@ -79,10 +80,6 @@ abstract class GameCell(
     // There's probably a better way to do this but this is an easy way to let the game manager
     // flash icons on cells without having to worry about which type of cell they are.
     var shouldDrawIcon: Boolean = false
-
-    open fun bonds(): List<Bond> {
-        return emptyList()
-    }
 
     // The bounds arguments to this function tell the cell how large the board is so it knows how
     // to scale its coordinate. x, y, and offsets are scaled so that 1.0 means the width of one

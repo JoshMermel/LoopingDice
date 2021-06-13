@@ -16,6 +16,8 @@ class BandagedGameCell(
 ) : NormalGameCellBase(x, y, numRows, numCols, colorId) {
     override val color: Int
     override val pips: Int
+    override val family = CellFamily.BANDAGED
+
     // TODO(jmerm): why is this a list and not a set?
     private val bonds: MutableList<Bond> = mutableListOf()
 
@@ -36,8 +38,7 @@ class BandagedGameCell(
         }
     }
 
-    // TODO(jmerm): this being an override is weird, revisit that.
-    override fun bonds(): List<Bond> {
+    fun bonds(): List<Bond> {
         return bonds
     }
 
