@@ -18,8 +18,8 @@ open class WideMoveFactory(open val rowDepth: Int, open val colDepth: Int) :
         offset: Int,
         board: GameBoard
     ): Array<Highlight> {
-        return Array(depth(axis)) { idx: Int ->
-            Highlight(axis, direction, idx + offset)
+        return Array(depth(axis)) {
+            Highlight(axis, direction, it + offset)
         }
     }
 

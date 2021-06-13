@@ -1,6 +1,7 @@
 package com.joshmermelstein.loopoverplus
 
 // Misc utils that are handy but don't fit elsewhere.
+// TODO(jmerm): this filename is bad
 
 class Bounds(
     val left: Double,

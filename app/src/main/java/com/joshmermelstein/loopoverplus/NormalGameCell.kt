@@ -16,7 +16,7 @@ open class NormalGameCell(
     colorId: String,
     override val context: Context
 ) : NormalGameCellBase(x, y, numRows, numCols, colorId) {
-    override val color: Int = (colorId.toInt()-1) % 6
+    override val color: Int = (colorId.toInt() - 1) % 6
     override val pips: Int = ((colorId.toInt() - 1) / 6) + 1
 }
 
