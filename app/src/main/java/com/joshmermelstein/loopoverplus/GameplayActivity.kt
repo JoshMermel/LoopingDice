@@ -129,24 +129,7 @@ class GameplayActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.copy -> {
-                // TODO(jmerm): move this to a helper method
-                val moves: String = gameManager.toUserString()
-                if (moves.isEmpty()) {
-                    Toast.makeText(applicationContext, "Nothing to copy", Toast.LENGTH_SHORT).show()
-                } else {
-                    val clipboardManager =
-                        getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                    val clip = ClipData.newPlainText("Moves", moves)
-                    clipboardManager.setPrimaryClip(clip)
-                    Toast.makeText(
-                        applicationContext,
-                        "Copied " + when (moves.length) {
-                            in 0..20 -> moves
-                            else -> (moves.subSequence(0, 20)).toString() + "..."
-                        },
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
+                copyToClipboard()
                 true
             }
             R.id.reset -> {
@@ -166,6 +149,26 @@ class GameplayActivity : AppCompatActivity() {
                 true
             }
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun copyToClipboard() {
+        val moves: String = gameManager.toUserString()
+        if (moves.isEmpty()) {
+            Toast.makeText(applicationContext, "Nothing to copy", Toast.LENGTH_SHORT).show()
+        } else {
+            val clipboardManager =
+                getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clip = ClipData.newPlainText("Moves", moves)
+            clipboardManager.setPrimaryClip(clip)
+            Toast.makeText(
+                applicationContext,
+                "Copied " + when (moves.length) {
+                    in 0..20 -> moves
+                    else -> (moves.subSequence(0, 20)).toString() + "..."
+                },
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 
