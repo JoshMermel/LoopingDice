@@ -4,7 +4,7 @@ import java.util.*
 
 // A queue of moves along with info about when they should be executed.
 class MoveQueue {
-    private val moves : Queue<MoveAndTime> = LinkedList()
+    private val moves: Queue<MoveAndTime> = LinkedList()
     private var lastMoveTime: Long = 0
     private val moveDuration: Long = 200 * 1000 * 1000
 
@@ -12,18 +12,19 @@ class MoveQueue {
     // that have completed.
     fun runMoves(currentTime: Long, manager: GameManager) {
         for (moveAndTime in this.moves) {
-            moveAndTime.move.run(manager.board, moveAndTime.startTime, moveAndTime.endTime, currentTime)
+            moveAndTime.move.run(
+                manager.board,
+                moveAndTime.startTime,
+                moveAndTime.endTime,
+                currentTime
+            )
         }
         moves.filter { m -> m.endTime < currentTime }.forEach { moves.remove(it) }
     }
 
     // Adds a move to the queue.
     fun addMove(move: Move) {
-        val startTime = if (moves.isEmpty()) {
-            System.nanoTime()
-        } else {
-            this.lastMoveTime
-        }
+        val startTime = if (moves.isEmpty()) System.nanoTime() else this.lastMoveTime
         val endTime = startTime + moveDuration
         moves.add(MoveAndTime(move, startTime, endTime))
         this.lastMoveTime = endTime
