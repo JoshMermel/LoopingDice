@@ -18,11 +18,11 @@ abstract class AxisLockedGameCell(
     final override val color: Int
     override val pips = 1
     abstract val arrows: Drawable
-    abstract  val lock: Drawable
+    abstract val lock: Drawable
 
     init {
         val parts = colorId.split(" ")
-        color = (parts[1].toInt()-1) % 6
+        color = (parts[1].toInt() - 1) % 6
     }
 
     override fun drawPips(
@@ -84,9 +84,9 @@ class HorizontalGameCell(
         null
     )!!
     override val lock = ResourcesCompat.getDrawable(
-    context.resources,
-    R.drawable.ic_baseline_lock_24,
-    null
+        context.resources,
+        R.drawable.ic_baseline_lock_24,
+        null
     )!!
     override val family = CellFamily.HORIZONTAL
 }
