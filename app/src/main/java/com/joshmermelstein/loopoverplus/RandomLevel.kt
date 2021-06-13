@@ -151,17 +151,20 @@ fun generateStaticCellGoal(numRows: Int, numCols: Int, colorScheme: String): Arr
 }
 
 fun randomMove(board: GameBoard, factory: MoveFactory): Move {
-    val ret: MutableList<Move> = mutableListOf()
-    // TODO(jmerm): I bet there's a cool way to replace these two for-loops with something functional
-    for (row in (0 until board.numRows)) {
-        ret.add(factory.makeMove(Axis.HORIZONTAL, Direction.FORWARD, row, board))
-        ret.add(factory.makeMove(Axis.HORIZONTAL, Direction.BACKWARD, row, board))
-    }
-    for (col in (0 until board.numCols)) {
-        ret.add(factory.makeMove(Axis.VERTICAL, Direction.FORWARD, col, board))
-        ret.add(factory.makeMove(Axis.VERTICAL, Direction.BACKWARD, col, board))
-    }
-    return ret.filter { move -> move !is IllegalMove }.run {
+    return listOf(
+        (0 until board.numRows).map {
+            factory.makeMove(Axis.HORIZONTAL, Direction.FORWARD, it, board)
+        },
+        (0 until board.numRows).map {
+            factory.makeMove(Axis.HORIZONTAL, Direction.BACKWARD, it, board)
+        },
+        (0 until board.numCols).map {
+            factory.makeMove(Axis.VERTICAL, Direction.FORWARD, it, board)
+        },
+        (0 until board.numCols).map {
+            factory.makeMove(Axis.VERTICAL, Direction.BACKWARD, it, board)
+        },
+    ).flatten().filter { move -> move !is IllegalMove }.run {
         if (this.isEmpty()) {
             IllegalMove(emptyList())
         } else {
@@ -174,8 +177,9 @@ fun scramble(
     solved: Array<String>, factory: MoveFactory, num_rows: Int, num_cols: Int, context: Context
 ): Array<String> {
     val gameBoard = GameBoard(num_rows, num_cols, solved, context)
-    for (i in (0..1001)) {
+    for (i in (0..10)) {
         val move = randomMove(gameBoard, factory)
+        Log.d("jmerm", "$move")
         move.finalize(gameBoard)
     }
     return gameBoard.toString().split(",").toTypedArray()
