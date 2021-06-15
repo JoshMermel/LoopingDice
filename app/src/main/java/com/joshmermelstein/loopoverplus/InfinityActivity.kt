@@ -30,7 +30,6 @@ class RandomLevelParams(
 class InfinityActivity : AppCompatActivity() {
     private val rowSizes = (2..6).map { num -> num.toString() }
 
-    // TODO(jmerm): support bandaged mode
     private val rowModes =
         arrayOf(
             "Wide",
@@ -39,7 +38,8 @@ class InfinityActivity : AppCompatActivity() {
             "Dynamic Bandaging",
             "Static Cells",
             "Enabler",
-            "Arrows"
+            "Arrows",
+            "Bandaged"
         )
     private val colModes = arrayOf("Wide", "Carousel", "Gear")
     private val colorSchemes = arrayOf("Bicolor", "Columns", "Unique")

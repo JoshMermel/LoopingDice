@@ -15,6 +15,7 @@ fun fromRandomFactory(name: String, rowDepth: Int?, colDepth: Int?): MoveFactory
         "Dynamic Bandaging" -> DynamicBandagingMoveFactory()
         "Static Cells" -> StaticCellsMoveFactory(rowDepth!!, colDepth!!)
         "Arrows" -> AxisLockedMoveFactory()
+        "Bandaged" -> BandagedMoveFactory()
         else -> BasicMoveFactory()
     }
 }
@@ -105,14 +106,13 @@ fun generateDynamicBandagingGoal(
     val fixedIndices = (1 until numRows * numCols).shuffled().take(bandagedCount)
     val modulus = if (colorScheme == "Unique") 6 else 1
     return addFixedCells(board, fixedIndices, modulus)
-
 }
 
 fun randomAxisPrefix(): String {
     return if (Random.nextBoolean()) "H " else "V "
 }
 
-fun addArrowCells(board: Array<Int>, indices: List<Int>, colorScheme: String): Array<String> {
+fun addArrowCells(board: Array<Int>, indices: List<Int>): Array<String> {
     return board.mapIndexed { idx, i ->
         (if (idx in indices) {
             // This expressions is like `i%6` except 0's are replaced by 6s (since 0 is not a valid ColorId)
@@ -139,8 +139,7 @@ fun generateArrowsGoal(
 
     return addArrowCells(
         generateBasicGoal(numRows, numCols, colorScheme),
-        arrowsIndices,
-        colorScheme
+        arrowsIndices
     )
 }
 
@@ -149,6 +148,14 @@ fun generateStaticCellGoal(numRows: Int, numCols: Int, colorScheme: String): Arr
         .map { it.toString() }.toTypedArray()
     ret[0] = "F 0"
     return ret
+}
+
+
+
+// TODO(jmerm): take density arg
+fun generateBandagedGoal(numRows: Int, numCols: Int, colorScheme: String): Array<String> {
+    val goal = generateBasicGoal(numRows, numCols, colorScheme).map { blackToGold(it)}
+    return addBonds(numRows, numCols, goal).toTypedArray()
 }
 
 fun randomMove(board: GameBoard, factory: MoveFactory): Move {
@@ -165,11 +172,11 @@ fun randomMove(board: GameBoard, factory: MoveFactory): Move {
         (0 until board.numCols).map {
             factory.makeMove(Axis.VERTICAL, Direction.BACKWARD, it, board)
         },
-    ).flatten().filter { move -> move !is IllegalMove }.run {
+    ).flatten().toSet().filter { move -> move !is IllegalMove }.run {
         if (this.isEmpty()) {
             IllegalMove(emptyList())
         } else {
-            this[Random.nextInt(this.size)]
+            this.random()
         }
     }
 }
@@ -219,12 +226,18 @@ fun generateRandomLevel(options: RandomLevelParams, context: Context): GameplayP
             options.colorScheme,
             options.numArrows!!
         )
+        "Bandaged" -> generateBandagedGoal(
+            options.numRows,
+            options.numCols,
+            options.colorScheme
+        )
         else -> generateBasicGoal(
             options.numRows,
             options.numCols,
             options.colorScheme
         ).map { it.toString() }.toTypedArray()
     }
+
 
     val start = scramble(goal, factory, options.numRows, options.numCols, context)
 
