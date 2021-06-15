@@ -1,7 +1,5 @@
 package com.joshmermelstein.loopoverplus
 
-import android.util.Log
-
 /*
  * Generating random banding schemes is such a pain that I'm moving it to its own file to keep
  * everything else organized. The big idea is to map each board size to a set of which bandaged
@@ -9,8 +7,6 @@ import android.util.Log
  */
 
 // TODO(jmerm): something about the fact that all these methods can throw exceptions on failure
-// TODO(jmerm): consider having the helpers that add bonds prefer positions without wraparound
-// TODO(jmerm): unify all the CanAddFoo functions into something that takes a predicate?
 
 class BondSignature(
     val numHDomino: Int,
@@ -23,6 +19,7 @@ class BondSignature(
         return BondSignature(numVDomino, numHDomino, numSquare, numVTriple, numHTriple)
     }
 }
+
 
 // maps from Pair(numRows, numCols) to a sensible bond signature for a board of those dimensions
 // TODO(jmerm): map to a list that we choose randomly from for variety?
@@ -44,112 +41,114 @@ val signatures: Map<Pair<Int, Int>, BondSignature> = mapOf(
     Pair(6, 5) to BondSignature(2, 2, 1, 1, 1),
 )
 
-// Returns true if a horizontal domino placed at |row|, |col| (and extending right) wouldn't overlap any bonds
-fun canAddHDomino(bonds: Array<Array<String>>, row: Int, col: Int): Boolean {
-    val dstCol = (col + 1) % bonds[0].size
-    return bonds[row][col].isEmpty() && bonds[row][dstCol].isEmpty()
-}
+interface BondPlacer {
+    val occupiedCells: List<Pair<Int, Int>>
 
-// Adds a horizontal domino to a random position in |bonds| such that it doesn't overlap any existing bonds
-fun addHDomino(bonds: Array<Array<String>>) {
-    val (row, col) = bonds.indices.map { row ->
-        bonds[0].indices.toList().map { col ->
-            Pair(row, col)
+    // TODO(jmerm): this method needs to check for out of bounds!
+    fun canPlaceSelfWithoutWraparound(bonds: Array<Array<String>>, row: Int, col: Int): Boolean {
+        return occupiedCells.map { (rowOffset, colOffset) ->
+            (row + rowOffset < bonds.size) && (col + colOffset < bonds[0].size) &&
+                    bonds[row + rowOffset][col + colOffset].isEmpty()
+        }.all { it }
+    }
+
+    fun validPositionsWithoutWraparound(bonds: Array<Array<String>>): List<Pair<Int, Int>> {
+        return bonds.indices.map { row ->
+            bonds[0].indices.toList().map { col ->
+                Pair(row, col)
+            }
+        }.flatten().filter { canPlaceSelfWithoutWraparound(bonds, it.first, it.second) }
+    }
+
+    fun canPlaceSelf(bonds: Array<Array<String>>, row: Int, col: Int): Boolean {
+        return occupiedCells.map { (rowOffset, colOffset) ->
+            bonds[(row + rowOffset) % bonds.size][(col + colOffset) % bonds[0].size].isEmpty()
+        }.all { it }
+    }
+
+    fun validPositions(bonds: Array<Array<String>>): List<Pair<Int, Int>> {
+        return bonds.indices.map { row ->
+            bonds[0].indices.toList().map { col ->
+                Pair(row, col)
+            }
+        }.flatten().filter { canPlaceSelf(bonds, it.first, it.second) }
+    }
+
+    fun pickPosition(bonds: Array<Array<String>>): Pair<Int, Int> {
+        val noWraparoundPositions = validPositionsWithoutWraparound(bonds)
+        if (noWraparoundPositions.isNotEmpty()) {
+            return noWraparoundPositions.random()
         }
-    }.flatten().filter { canAddHDomino(bonds, it.first, it.second) }.random()
 
-    val dstCol = (col + 1) % bonds[0].size
-    bonds[row][col] = "R"
-    bonds[row][dstCol] = "L"
-}
-
-// Returns true if a vertical domino placed at |row|, |col| (and extending down) wouldn't overlap any bonds
-fun canAddVDomino(bonds: Array<Array<String>>, row: Int, col: Int): Boolean {
-    val dstRow = (row + 1) % bonds.size
-    return bonds[row][col].isEmpty() && bonds[dstRow][col].isEmpty()
-}
-
-// Adds a horizontal domino to a random position in |bonds| such that it doesn't overlap any existing bonds
-fun addVDomino(bonds: Array<Array<String>>) {
-    val (row, col) = bonds.indices.map { row ->
-        bonds[0].indices.toList().map { col ->
-            Pair(row, col)
+        val positions = validPositions(bonds)
+        if (positions.isNotEmpty()) {
+            return positions.random()
         }
-    }.flatten().filter { canAddVDomino(bonds, it.first, it.second) }.random()
 
-    val dstRow = (row + 1) % bonds.size
-    bonds[row][col] = "D"
-    bonds[dstRow][col] = "U"
+        throw NoSuchElementException()
+    }
+
+    fun placeSelf(bonds: Array<Array<String>>)
 }
 
-// Returns true if a square placed at |row|, |col| (and extending down and right) wouldn't overlap any bonds
-fun canAddSquare(bonds: Array<Array<String>>, row: Int, col: Int): Boolean {
-    val dstRow = (row + 1) % bonds.size
-    val dstCol = (col + 1) % bonds[0].size
-
-    return bonds[row][col].isEmpty() &&
-            bonds[dstRow][col].isEmpty() &&
-            bonds[row][dstCol].isEmpty() &&
-            bonds[dstRow][dstCol].isEmpty()
+class HDominoPlacer : BondPlacer {
+    override val occupiedCells = listOf(Pair(0, 0), Pair(0,1))
+    override fun placeSelf(bonds: Array<Array<String>>) {
+        val (row, col) = pickPosition(bonds)
+        val dstCol = (col + 1) % bonds[0].size
+        bonds[row][col] = "R"
+        bonds[row][dstCol] = "L"
+    }
 }
 
-fun addSquare(bonds: Array<Array<String>>) {
-    val (row, col) = bonds.indices.map { row ->
-        bonds[0].indices.toList().map { col ->
-            Pair(row, col)
-        }
-    }.flatten().filter { canAddSquare(bonds, it.first, it.second) }.random()
-
-    val dstRow = (row + 1) % bonds.size
-    val dstCol = (col + 1) % bonds[0].size
-
-    bonds[row][col] = "D R"
-    bonds[dstRow][col] = "U R"
-    bonds[row][dstCol] = "D L"
-    bonds[dstRow][dstCol] = "U L"
+class VDominoPlacer : BondPlacer {
+    override val occupiedCells = listOf(Pair(0, 0), Pair(1,0))
+    override fun placeSelf(bonds: Array<Array<String>>) {
+        val (row, col) = pickPosition(bonds)
+        val dstRow = (row + 1) % bonds.size
+        bonds[row][col] = "D"
+        bonds[dstRow][col] = "U"
+    }
 }
 
-// Returns true if a horizontal triple placed at |row|, |col| (and extending right) wouldn't overlap any bonds
-fun canAddHTriple(bonds: Array<Array<String>>, row: Int, col: Int): Boolean {
-    val dstCol = (col + 1) % bonds[0].size
-    val dstCol2 = (dstCol + 1) % bonds[0].size
-    return bonds[row][col].isEmpty() && bonds[row][dstCol].isEmpty() && bonds[row][dstCol2].isEmpty()
+class SquarePlacer : BondPlacer {
+    override val occupiedCells = listOf(Pair(0, 0), Pair(1, 0), Pair(0, 1), Pair(1, 1))
+    override fun placeSelf(bonds: Array<Array<String>>) {
+        val (row, col) = pickPosition(bonds)
+        val dstRow = (row + 1) % bonds.size
+        val dstCol = (col + 1) % bonds[0].size
+
+        bonds[row][col] = "D R"
+        bonds[dstRow][col] = "U R"
+        bonds[row][dstCol] = "D L"
+        bonds[dstRow][dstCol] = "U L"
+    }
 }
 
-fun addHTriple(bonds: Array<Array<String>>) {
-    val (row, col) = bonds.indices.map { row ->
-        bonds[0].indices.toList().map { col ->
-            Pair(row, col)
-        }
-    }.flatten().filter { canAddHTriple(bonds, it.first, it.second) }.random()
-
-    val dstCol = (col + 1) % bonds[0].size
-    val dstCol2 = (dstCol + 1) % bonds[0].size
-    bonds[row][col] = "R"
-    bonds[row][dstCol] = "R L"
-    bonds[row][dstCol2] = "L"
+class HTriplePlacer : BondPlacer {
+    override val occupiedCells = listOf(Pair(0, 0), Pair(0, 1), Pair(0, 2))
+    override fun placeSelf(bonds: Array<Array<String>>) {
+        val (row, col) = pickPosition(bonds)
+        val dstCol = (col + 1) % bonds[0].size
+        val dstCol2 = (dstCol + 1) % bonds[0].size
+        bonds[row][col] = "R"
+        bonds[row][dstCol] = "R L"
+        bonds[row][dstCol2] = "L"
+    }
 }
 
-// Returns true if a vertical triple placed at |row|, |col| (and extending down) wouldn't overlap any bonds
-fun canAddVTriple(bonds: Array<Array<String>>, row: Int, col: Int): Boolean {
-    val dstRow = (row + 1) % bonds.size
-    val dstRow2 = (dstRow + 1) % bonds.size
-    return bonds[row][col].isEmpty() && bonds[dstRow][col].isEmpty() && bonds[dstRow2][col].isEmpty()
+class VTriplePlacer : BondPlacer {
+    override val occupiedCells = listOf(Pair(0, 0), Pair(1,0), Pair(2,0))
+    override fun placeSelf(bonds: Array<Array<String>>) {
+        val (row, col) = pickPosition(bonds)
+        val dstRow = (row + 1) % bonds.size
+        val dstRow2 = (dstRow + 1) % bonds.size
+        bonds[row][col] = "D"
+        bonds[dstRow][col] = "U D"
+        bonds[dstRow2][col] = "U"
+    }
 }
 
-fun addVTriple(bonds: Array<Array<String>>) {
-    val (row, col) = bonds.indices.map { row ->
-        bonds[0].indices.toList().map { col ->
-            Pair(row, col)
-        }
-    }.flatten().filter { canAddVTriple(bonds, it.first, it.second) }.random()
-
-    val dstRow = (row + 1) % bonds.size
-    val dstRow2 = (dstRow + 1) % bonds.size
-    bonds[row][col] = "D"
-    bonds[dstRow][col] = "U D"
-    bonds[dstRow2][col] = "U"
-}
 
 fun addBonds(numRows: Int, numCols: Int, board: List<Int>): List<String> {
     val bonds = Array(numRows) { Array(numCols) { "" } }
@@ -168,19 +167,19 @@ fun addBonds(numRows: Int, numCols: Int, board: List<Int>): List<String> {
     }
 
     repeat(bondSignature.numHTriple) {
-        addHTriple(bonds)
+        HTriplePlacer().placeSelf(bonds)
     }
     repeat(bondSignature.numVTriple) {
-        addVTriple(bonds)
+        VTriplePlacer().placeSelf(bonds)
     }
     repeat(bondSignature.numSquare) {
-        addSquare(bonds)
+        SquarePlacer().placeSelf(bonds)
     }
     repeat(bondSignature.numHDomino) {
-        addHDomino(bonds)
+        HDominoPlacer().placeSelf(bonds)
     }
     repeat(bondSignature.numVDomino) {
-        addVDomino(bonds)
+        VDominoPlacer().placeSelf(bonds)
     }
 
     return board.zip(bonds.flatten()).map {
