@@ -21,14 +21,14 @@ class BandagedMoveFactory : MoveFactory {
         var depth = 1
 
         if (axis == Axis.HORIZONTAL) {
-            while (board.rowContainsBond(retOffset, Bond.UP) && depth <= board.numCols) {
+            while (board.rowContainsBond(retOffset, Bond.UP) && depth <= board.numRows) {
                 retOffset -= 1
                 depth += 1
             }
             while (board.rowContainsBond(
                     retOffset + depth - 1,
                     Bond.DOWN
-                ) && depth <= board.numCols
+                ) && depth <= board.numRows
             ) {
                 depth += 1
             }
@@ -36,14 +36,14 @@ class BandagedMoveFactory : MoveFactory {
             // user-visible strings so we mod it back into range.
             retOffset = mod(retOffset, board.numRows)
         } else {
-            while (board.colContainsBond(retOffset, Bond.LEFT) && depth <= board.numRows) {
+            while (board.colContainsBond(retOffset, Bond.LEFT) && depth <= board.numCols) {
                 retOffset -= 1
                 depth += 1
             }
             while (board.colContainsBond(
                     retOffset + depth - 1,
                     Bond.RIGHT
-                ) && depth <= board.numRows
+                ) && depth <= board.numCols
             ) {
                 depth += 1
             }
