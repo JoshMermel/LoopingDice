@@ -21,30 +21,65 @@ class BondSignature(
 }
 
 
-// maps from Pair(numRows, numCols) to a sensible bond signature for a board of those dimensions
+// per-density maps from Pair(numRows, numCols) to a sensible bond signature for a board of those dimensions
 // TODO(jmerm): map to a list that we choose randomly from for variety?
-// TODO(jmerm): variants for density :(
-val signatures: Map<Pair<Int, Int>, BondSignature> = mapOf(
+val rareSignatures: Map<Pair<Int, Int>, BondSignature> = mapOf(
     Pair(2, 2) to BondSignature(1, 0, 0, 0, 0),
     Pair(3, 2) to BondSignature(0, 1, 0, 0, 0),
-    Pair(3, 3) to BondSignature(1, 1, 0, 0, 0),
-    Pair(4, 2) to BondSignature(0, 2, 0, 0, 0),
-    Pair(4, 3) to BondSignature(0, 1, 1, 0, 0),
-    Pair(4, 4) to BondSignature(0, 2, 0, 1, 0),
-    Pair(5, 2) to BondSignature(0, 3, 0, 0, 0),
-    Pair(5, 3) to BondSignature(0, 0, 1, 0, 1),
-    Pair(5, 4) to BondSignature(1, 1, 1, 1, 0),
-    Pair(5, 5) to BondSignature(1, 2, 0, 1, 1),
+    Pair(3, 3) to BondSignature(1, 0, 0, 0, 0),
+    Pair(4, 2) to BondSignature(0, 1, 0, 0, 0),
+    Pair(4, 3) to BondSignature(1, 0, 0, 0, 0),
+    Pair(4, 4) to BondSignature(1, 1, 0, 0, 0),
+    Pair(5, 2) to BondSignature(0, 2, 0, 0, 0),
+    Pair(5, 3) to BondSignature(1, 1, 0, 0, 1),
+    Pair(5, 4) to BondSignature(1, 0, 0, 0, 1),
+    Pair(5, 5) to BondSignature(1, 1, 0, 1, 1),
+    Pair(6, 2) to BondSignature(0, 1, 0, 0, 1),
+    Pair(6, 3) to BondSignature(1, 1, 0, 0, 1),
+    Pair(6, 4) to BondSignature(1, 1, 1, 0, 0),
+    Pair(6, 5) to BondSignature(2, 2, 0, 0, 1),
+)
+val commonSignatures: Map<Pair<Int, Int>, BondSignature> = mapOf(
+    Pair(2, 2) to BondSignature(1, 0, 0, 0, 0),
+    Pair(3, 2) to BondSignature(0, 1, 0, 0, 0),
+    Pair(3, 3) to BondSignature(0, 0, 1, 0, 0),
+    Pair(4, 2) to BondSignature(0, 1, 0, 0, 0),
+    Pair(4, 3) to BondSignature(1, 1, 0, 0, 0),
+    Pair(4, 4) to BondSignature(1, 1, 0, 1, 0),
+    Pair(5, 2) to BondSignature(0, 1, 0, 0, 1),
+    Pair(5, 3) to BondSignature(1, 0, 1, 0, 1),
+    Pair(5, 4) to BondSignature(1, 1, 1, 0, 0),
+    Pair(5, 5) to BondSignature(2, 2, 0, 1, 1),
     Pair(6, 2) to BondSignature(0, 2, 0, 0, 1),
     Pair(6, 3) to BondSignature(1, 1, 1, 0, 1),
     Pair(6, 4) to BondSignature(1, 1, 1, 1, 1),
     Pair(6, 5) to BondSignature(2, 2, 1, 1, 1),
 )
+val frequentSignatures: Map<Pair<Int, Int>, BondSignature> = mapOf(
+    Pair(2, 2) to BondSignature(2, 0, 0, 0, 0),
+    Pair(3, 2) to BondSignature(0, 2, 0, 0, 0),
+    Pair(3, 3) to BondSignature(1, 1, 0, 0, 0),
+    Pair(4, 2) to BondSignature(0, 2, 0, 0, 0),
+    Pair(4, 3) to BondSignature(0, 1, 1, 0, 0),
+    Pair(4, 4) to BondSignature(0, 0, 2, 0, 0),
+    Pair(5, 2) to BondSignature(0, 2, 0, 0, 1),
+    Pair(5, 3) to BondSignature(0, 0, 1, 0, 1),
+    Pair(5, 4) to BondSignature(1, 1, 1, 1, 1),
+    Pair(5, 5) to BondSignature(0, 0, 1, 2, 2),
+    Pair(6, 2) to BondSignature(0, 1, 0, 0, 2),
+    Pair(6, 3) to BondSignature(2, 2, 1, 0, 0),
+    Pair(6, 4) to BondSignature(2, 1, 1, 1, 1),
+    Pair(6, 5) to BondSignature(3, 2, 1, 1, 1),
+)
+val allSignaturesMap = mapOf(
+    "Rare" to rareSignatures,
+    "Common" to commonSignatures,
+    "Frequent" to frequentSignatures
+)
 
 interface BondPlacer {
     val occupiedCells: List<Pair<Int, Int>>
 
-    // TODO(jmerm): this method needs to check for out of bounds!
     fun canPlaceSelfWithoutWraparound(bonds: Array<Array<String>>, row: Int, col: Int): Boolean {
         return occupiedCells.map { (rowOffset, colOffset) ->
             (row + rowOffset < bonds.size) && (col + colOffset < bonds[0].size) &&
@@ -92,7 +127,7 @@ interface BondPlacer {
 }
 
 class HDominoPlacer : BondPlacer {
-    override val occupiedCells = listOf(Pair(0, 0), Pair(0,1))
+    override val occupiedCells = listOf(Pair(0, 0), Pair(0, 1))
     override fun placeSelf(bonds: Array<Array<String>>) {
         val (row, col) = pickPosition(bonds)
         val dstCol = (col + 1) % bonds[0].size
@@ -102,7 +137,7 @@ class HDominoPlacer : BondPlacer {
 }
 
 class VDominoPlacer : BondPlacer {
-    override val occupiedCells = listOf(Pair(0, 0), Pair(1,0))
+    override val occupiedCells = listOf(Pair(0, 0), Pair(1, 0))
     override fun placeSelf(bonds: Array<Array<String>>) {
         val (row, col) = pickPosition(bonds)
         val dstRow = (row + 1) % bonds.size
@@ -138,7 +173,7 @@ class HTriplePlacer : BondPlacer {
 }
 
 class VTriplePlacer : BondPlacer {
-    override val occupiedCells = listOf(Pair(0, 0), Pair(1,0), Pair(2,0))
+    override val occupiedCells = listOf(Pair(0, 0), Pair(1, 0), Pair(2, 0))
     override fun placeSelf(bonds: Array<Array<String>>) {
         val (row, col) = pickPosition(bonds)
         val dstRow = (row + 1) % bonds.size
@@ -149,9 +184,9 @@ class VTriplePlacer : BondPlacer {
     }
 }
 
-
-fun addBonds(numRows: Int, numCols: Int, board: List<Int>): List<String> {
+fun addBonds(numRows: Int, numCols: Int, board: List<Int>, numBlocks: String): List<String> {
     val bonds = Array(numRows) { Array(numCols) { "" } }
+    val signatures = allSignaturesMap.getValue(numBlocks)
 
     val bondSignature = when {
         signatures.containsKey(Pair(numRows, numCols)) -> {

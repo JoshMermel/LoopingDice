@@ -240,6 +240,30 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/num_blocks_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/num_blocks"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="# Blocks"
+                    android:textSize="30sp" />
+
+                <Spinner
+                    android:id="@+id/numBlocksSpinner"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end" />
+
+            </LinearLayout>
+
             <Button
                 android:id="@+id/generate_level"
                 android:layout_width="match_parent"

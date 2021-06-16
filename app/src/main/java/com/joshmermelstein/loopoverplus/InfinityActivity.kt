@@ -23,7 +23,8 @@ class RandomLevelParams(
     val colDepth: Int?,
     val numBandaged: String?,
     val numEnablers: String?,
-    val numArrows: String?
+    val numArrows: String?,
+    val numBlocks: String?
 ) : Parcelable
 
 // Activity for letting the user build a level
@@ -120,6 +121,10 @@ class InfinityActivity : AppCompatActivity() {
 
     private fun getNumArrows(): String? {
         return findViewById<Spinner>(R.id.numArrowsSpinner).selectedItem?.toString()
+    }
+
+    private fun getNumBlocks(): String? {
+        return findViewById<Spinner>(R.id.numBlocksSpinner).selectedItem?.toString()
     }
 
     private fun updateColSizePicker() {
@@ -281,6 +286,20 @@ class InfinityActivity : AppCompatActivity() {
         }
     }
 
+    // TODO(jmerm): this method is very similar to the one above, maybe unify?
+    private fun updateBlocksPicker() {
+        val container = findViewById<View>(R.id.num_blocks_container)
+        if (getRowMode() == "Bandaged") {
+            container?.visibility = View.VISIBLE
+            val numBlocksSpinner = findViewById<Spinner>(R.id.numBlocksSpinner)
+            val adapter = ArrayAdapter(this, R.layout.spinner_item, densities)
+            adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
+            numBlocksSpinner.adapter = adapter
+        } else {
+            container?.visibility = View.GONE
+        }
+    }
+
     private fun onUpdateRowMode() {
         findViewById<TextView>(R.id.row_mode).apply {
             text = if (getRowMode() in colModes) "Row Mode" else "Mode"
@@ -293,6 +312,7 @@ class InfinityActivity : AppCompatActivity() {
         updateNumBandagedPicker()
         updateNumEnablersPicker()
         updateNumArrowsPicker()
+        updateBlocksPicker()
     }
 
     private fun onUpdateColMode() {
@@ -328,6 +348,7 @@ class InfinityActivity : AppCompatActivity() {
             getNumBandaged(),
             getNumEnablers(),
             getNumArrows(),
+            getNumBlocks(),
         )
     }
 }

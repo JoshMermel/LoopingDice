@@ -153,9 +153,9 @@ fun generateStaticCellGoal(numRows: Int, numCols: Int, colorScheme: String): Arr
 
 
 // TODO(jmerm): take density arg
-fun generateBandagedGoal(numRows: Int, numCols: Int, colorScheme: String): Array<String> {
+fun generateBandagedGoal(numRows: Int, numCols: Int, colorScheme: String, numBlocks: String): Array<String> {
     val goal = generateBasicGoal(numRows, numCols, colorScheme).map { blackToGold(it)}
-    return addBonds(numRows, numCols, goal).toTypedArray()
+    return addBonds(numRows, numCols, goal, numBlocks).toTypedArray()
 }
 
 fun randomMove(board: GameBoard, factory: MoveFactory): Move {
@@ -229,7 +229,8 @@ fun generateRandomLevel(options: RandomLevelParams, context: Context): GameplayP
         "Bandaged" -> generateBandagedGoal(
             options.numRows,
             options.numCols,
-            options.colorScheme
+            options.colorScheme,
+            options.numBlocks!!
         )
         else -> generateBasicGoal(
             options.numRows,
