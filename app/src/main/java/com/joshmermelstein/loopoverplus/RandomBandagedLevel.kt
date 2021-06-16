@@ -6,8 +6,6 @@ package com.joshmermelstein.loopoverplus
  * shapes should be added; and also to have a system for randomly placing those blocks.
  */
 
-// TODO(jmerm): something about the fact that all these methods can throw exceptions on failure
-
 class BondSignature(
     val numHDomino: Int,
     val numVDomino: Int,
@@ -20,23 +18,22 @@ class BondSignature(
     }
 }
 
-
 // per-density maps from Pair(numRows, numCols) to a sensible bond signature for a board of those dimensions
 // TODO(jmerm): map to a list that we choose randomly from for variety?
 val rareSignatures: Map<Pair<Int, Int>, BondSignature> = mapOf(
-    Pair(2, 2) to BondSignature(1, 0, 0, 0, 0),
+    Pair(2, 2) to BondSignature(0, 1, 0, 0, 0),
     Pair(3, 2) to BondSignature(0, 1, 0, 0, 0),
     Pair(3, 3) to BondSignature(1, 0, 0, 0, 0),
     Pair(4, 2) to BondSignature(0, 1, 0, 0, 0),
-    Pair(4, 3) to BondSignature(1, 0, 0, 0, 0),
+    Pair(4, 3) to BondSignature(2, 0, 0, 0, 0),
     Pair(4, 4) to BondSignature(1, 1, 0, 0, 0),
     Pair(5, 2) to BondSignature(0, 2, 0, 0, 0),
     Pair(5, 3) to BondSignature(1, 1, 0, 0, 1),
-    Pair(5, 4) to BondSignature(1, 0, 0, 0, 1),
-    Pair(5, 5) to BondSignature(1, 1, 0, 1, 1),
+    Pair(5, 4) to BondSignature(2, 0, 0, 0, 1),
+    Pair(5, 5) to BondSignature(1, 0, 0, 1, 1),
     Pair(6, 2) to BondSignature(0, 1, 0, 0, 1),
     Pair(6, 3) to BondSignature(1, 1, 0, 0, 1),
-    Pair(6, 4) to BondSignature(1, 1, 1, 0, 0),
+    Pair(6, 4) to BondSignature(1, 0, 1, 0, 1),
     Pair(6, 5) to BondSignature(2, 2, 0, 0, 1),
 )
 val commonSignatures: Map<Pair<Int, Int>, BondSignature> = mapOf(
@@ -48,12 +45,12 @@ val commonSignatures: Map<Pair<Int, Int>, BondSignature> = mapOf(
     Pair(4, 4) to BondSignature(1, 1, 0, 1, 0),
     Pair(5, 2) to BondSignature(0, 1, 0, 0, 1),
     Pair(5, 3) to BondSignature(1, 0, 1, 0, 1),
-    Pair(5, 4) to BondSignature(1, 1, 1, 0, 0),
-    Pair(5, 5) to BondSignature(2, 2, 0, 1, 1),
+    Pair(5, 4) to BondSignature(2, 1, 1, 0, 0),
+    Pair(5, 5) to BondSignature(2, 1, 0, 1, 1),
     Pair(6, 2) to BondSignature(0, 2, 0, 0, 1),
     Pair(6, 3) to BondSignature(1, 1, 1, 0, 1),
-    Pair(6, 4) to BondSignature(1, 1, 1, 1, 1),
-    Pair(6, 5) to BondSignature(2, 2, 1, 1, 1),
+    Pair(6, 4) to BondSignature(1, 0, 1, 1, 1),
+    Pair(6, 5) to BondSignature(1, 1, 1, 1, 1),
 )
 val frequentSignatures: Map<Pair<Int, Int>, BondSignature> = mapOf(
     Pair(2, 2) to BondSignature(2, 0, 0, 0, 0),
@@ -63,13 +60,13 @@ val frequentSignatures: Map<Pair<Int, Int>, BondSignature> = mapOf(
     Pair(4, 3) to BondSignature(0, 1, 1, 0, 0),
     Pair(4, 4) to BondSignature(0, 0, 2, 0, 0),
     Pair(5, 2) to BondSignature(0, 2, 0, 0, 1),
-    Pair(5, 3) to BondSignature(0, 0, 1, 0, 1),
-    Pair(5, 4) to BondSignature(1, 1, 1, 1, 1),
-    Pair(5, 5) to BondSignature(0, 0, 1, 2, 2),
+    Pair(5, 3) to BondSignature(0, 1, 1, 0, 1),
+    Pair(5, 4) to BondSignature(1, 2, 1, 1, 0),
+    Pair(5, 5) to BondSignature(1, 2, 1, 1, 0),
     Pair(6, 2) to BondSignature(0, 1, 0, 0, 2),
     Pair(6, 3) to BondSignature(2, 2, 1, 0, 0),
-    Pair(6, 4) to BondSignature(2, 1, 1, 1, 1),
-    Pair(6, 5) to BondSignature(3, 2, 1, 1, 1),
+    Pair(6, 4) to BondSignature(1, 1, 1, 1, 1),
+    Pair(6, 5) to BondSignature(2, 2, 1, 1, 1),
 )
 val allSignaturesMap = mapOf(
     "Rare" to rareSignatures,
@@ -120,6 +117,7 @@ interface BondPlacer {
             return positions.random()
         }
 
+        // TODO(jmerm): think more about this exception
         throw NoSuchElementException()
     }
 
