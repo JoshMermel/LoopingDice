@@ -21,4 +21,3 @@ B19 b_split_dozer 12 19 30
 B20 b_ai 9 16 25
 B21 b_peas_in_a_pod 35 40 65
 B22 b_chiral_spiral 15 20 40
-z1 z1 1 2 3
