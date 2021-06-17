@@ -150,9 +150,6 @@ fun generateStaticCellGoal(numRows: Int, numCols: Int, colorScheme: String): Arr
     return ret
 }
 
-
-
-// TODO(jmerm): take density arg
 fun generateBandagedGoal(numRows: Int, numCols: Int, colorScheme: String, numBlocks: String): Array<String> {
     val goal = generateBasicGoal(numRows, numCols, colorScheme).map { blackToGold(it)}
     return addBonds(numRows, numCols, goal, numBlocks).toTypedArray()
