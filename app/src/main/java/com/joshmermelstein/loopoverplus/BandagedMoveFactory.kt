@@ -1,7 +1,5 @@
 package com.joshmermelstein.loopoverplus
 
-import android.util.Log
-
 // Returns wide moves according to the positions of bonds
 class BandagedMoveFactory : MoveFactory {
     override fun makeMove(
@@ -26,7 +24,6 @@ class BandagedMoveFactory : MoveFactory {
             while (board.rowContainsBond(retOffset, Bond.UP) && depth < board.numRows) {
                 retOffset -= 1
                 depth += 1
-                Log.d("jmerm", "A: $depth")
             }
             while (board.rowContainsBond(
                     retOffset + depth - 1,
@@ -34,8 +31,6 @@ class BandagedMoveFactory : MoveFactory {
                 ) && depth < board.numRows
             ) {
                 depth += 1
-                Log.d("jmerm", "B: $depth")
-
             }
             // The Move will work correctly with an out of bounds offset but this is also used for
             // user-visible strings so we mod it back into range.
