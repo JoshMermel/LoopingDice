@@ -1,7 +1,6 @@
 package com.joshmermelstein.loopoverplus
 
 import android.content.Context
-import android.util.Log
 import kotlin.random.Random
 
 // TODO(jmerm): tests for things in this file
