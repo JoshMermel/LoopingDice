@@ -6,6 +6,8 @@ import android.graphics.Color
 import android.graphics.Paint
 
 // Represents a bandaged gameCell is joined to a neighbor and moves with it.
+// Bonds are not symmetric automatically; if cell A has a bond to the right, the cell to its right
+// ought to also have a bond to the left or the resulting behavior will be confusing.
 class BandagedGameCell(
     override var x: Double,
     override var y: Double,

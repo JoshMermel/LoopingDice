@@ -16,6 +16,7 @@ open class NormalGameCell(
     colorId: String,
     override val context: Context
 ) : NormalGameCellBase(x, y, numRows, numCols, colorId) {
+    // TODO(jmerm): this -1 is confusing and silly. What if I update every single level to 0-index instead of 1-indexing.
     override val color: Int = (colorId.toInt() - 1) % 6
     override val pips: Int = ((colorId.toInt() - 1) / 6) + 1
 }
