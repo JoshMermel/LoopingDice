@@ -52,6 +52,7 @@ class BandagedGameCell(
         drawBonds(canvas, left, top, right, bottom, bounds, padding)
     }
 
+    // Draws bonds but clamps lines that would have gone outside the game board.
     private fun drawBonds(
         canvas: Canvas,
         left: Double,
@@ -78,6 +79,7 @@ class BandagedGameCell(
         }
     }
 
+    // Draws a line from (x0,y0) to (x1,y1) but clamped to fit inside of |bounds|
     private fun drawLineClamped(
         canvas: Canvas,
         x0: Double,
@@ -88,31 +90,25 @@ class BandagedGameCell(
         bounds: Bounds
     ) {
         val paint = Paint()
+        // TODO(jmerm): this is broken in night mode.
         paint.color = Color.BLACK
         paint.strokeWidth = strokeWidth
         paint.strokeCap = Paint.Cap.ROUND
 
+        // Coerce the endpoints of the line so they fit in the bounding box where the game board is
+        // drawn. This approach only works because lines are guaranteed to be horizontal/vertical;
+        // otherwise this would mess with slope.
         val boundedX0 = x0.coerceIn(bounds.left, bounds.right)
         val boundedX1 = x1.coerceIn(bounds.left, bounds.right)
         val boundedY0 = y0.coerceIn(bounds.top, bounds.bottom)
         val boundedY1 = y1.coerceIn(bounds.top, bounds.bottom)
 
+        // It's possible that the coercion above left us with a nub of a line that sits on the edge
+        // of the board's bounding box and which shouldn't be drawn. One cheap way to check for this
+        // is to count how much was changed by the coercion.
         if (countDifferences(x0, y0, x1, y1, boundedX0, boundedY0, boundedX1, boundedY1) < 2) {
             drawLine(canvas, boundedX0, boundedY0, boundedX1, boundedY1, paint)
         }
-    }
-
-    // Canvas APIs are picky about types which force me to use a lot of toType(). This method hides
-    // that ugliness for drawing lines using Double coordinates.
-    private fun drawLine(
-        canvas: Canvas,
-        x0: Double,
-        y0: Double,
-        x1: Double,
-        y1: Double,
-        paint: Paint
-    ) {
-        canvas.drawLine(x0.toFloat(), y0.toFloat(), x1.toFloat(), y1.toFloat(), paint)
     }
 
     private fun countDifferences(
@@ -140,8 +136,22 @@ class BandagedGameCell(
         }
         return ret
     }
+
+    // Canvas APIs are picky about types which force me to use a lot of toType(). This method hides
+    // that ugliness for drawing lines using Double coordinates.
+    private fun drawLine(
+        canvas: Canvas,
+        x0: Double,
+        y0: Double,
+        x1: Double,
+        y1: Double,
+        paint: Paint
+    ) {
+        canvas.drawLine(x0.toFloat(), y0.toFloat(), x1.toFloat(), y1.toFloat(), paint)
+    }
 }
 
+// Enum for the kinds of bonds a cell can have.
 enum class Bond {
     RIGHT,
     DOWN,
