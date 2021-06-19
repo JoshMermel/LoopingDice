@@ -89,7 +89,7 @@ val frequentSignatures: Map<BoardSize, BondSignature> = mapOf(
     BoardSize(5, 4) to BondSignature(1, 2, 1, 1, 0),
     BoardSize(5, 5) to BondSignature(1, 2, 1, 1, 0),
     BoardSize(6, 2) to BondSignature(0, 1, 0, 0, 2),
-    BoardSize(6, 3) to BondSignature(2, 2, 1, 0, 0),
+    BoardSize(6, 3) to BondSignature(0, 2, 2, 0, 0),
     BoardSize(6, 4) to BondSignature(1, 1, 1, 1, 1),
     BoardSize(6, 5) to BondSignature(2, 2, 1, 1, 1),
 )
