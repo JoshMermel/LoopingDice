@@ -11,6 +11,7 @@ import kotlin.random.Random
 
 // TODO(jmerm): spinner for how many locked cells in Static mode?
 // TODO(jmerm): should there be a way to resume your last infinity level?
+//   - this would force me to update the save file format to save the goal as well.
 
 @Parcelize
 class RandomLevelParams(
