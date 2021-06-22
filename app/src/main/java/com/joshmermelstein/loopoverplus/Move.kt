@@ -56,7 +56,7 @@ interface LegalMove : Move {
     val direction: Direction
     val offset: Int
 
-    // Returns a move that undoes this one
+    // Returns a move that undoes this one, used for managing undo and redo stacks.
     fun inverse(): Move
 
     // Used for saving move history to a file.

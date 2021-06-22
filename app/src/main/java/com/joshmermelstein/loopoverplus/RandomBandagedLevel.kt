@@ -1,7 +1,7 @@
 package com.joshmermelstein.loopoverplus
 
 /*
- * Generating random banding schemes is such a pain that I'm moving it to its own file to keep
+ * Generating random bandaging schemes is such a pain that I'm moving it to its own file to keep
  * everything else organized.
  *
  * Rather than thinking about each bond as an isolated problem, I instead think about placing
@@ -108,7 +108,7 @@ interface BlockPlacer {
     // Used for testing whether a block would overlap with any existing blocks.
     val occupiedCells: List<Pair<Int, Int>>
 
-    // Returns whether a block placed a |row|, |col| would fit in the board without wraparound and
+    // Returns true if a block placed a |row|, |col| would fit in the board without wraparound and
     // without overlapping any existing blocks.
     fun canPlaceSelfWithoutWraparound(bondGrid: BondGrid, row: Int, col: Int): Boolean {
         return occupiedCells.map { (rowOffset, colOffset) ->
@@ -127,7 +127,7 @@ interface BlockPlacer {
         }.flatten().filter { canPlaceSelfWithoutWraparound(bondGrid, it.first, it.second) }
     }
 
-    // Returns whether a block placed at |row|, |col| will overlap any existing blocks
+    // Returns true if a block can be placed at |row|, |col| without overlapping any existing blocks
     fun canPlaceSelf(bondGrid: BondGrid, row: Int, col: Int): Boolean {
         return occupiedCells.map { (rowOffset, colOffset) ->
             bondGrid[(row + rowOffset) % bondGrid.size][(col + colOffset) % bondGrid[0].size].isEmpty()

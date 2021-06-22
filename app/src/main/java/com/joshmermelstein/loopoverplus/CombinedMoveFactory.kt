@@ -2,6 +2,10 @@ package com.joshmermelstein.loopoverplus
 
 // Combines two moves factories into one. The first one is used to generate horizontal moves and the
 // second one is used to generate vertical moves.
+// Many combinations would result in levels that don't really make sense - i.e.
+// a level where enabler cells are required for horizontal moves but not
+// vertical ones. For best results, I recommend only combining {wide, carousel,
+// gear} with one another.
 class CombinedMoveFactory(private val horizontal: MoveFactory, private val vertical: MoveFactory) :
     MoveFactory {
     override fun makeMove(

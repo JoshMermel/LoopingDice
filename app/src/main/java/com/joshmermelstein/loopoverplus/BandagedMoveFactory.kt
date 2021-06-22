@@ -1,6 +1,7 @@
 package com.joshmermelstein.loopoverplus
 
-// Returns wide moves according to the positions of bonds
+// Bandaged moves are like basic moves but they can expand to move additional
+// rows/columns depending on the positions of bonds.
 class BandagedMoveFactory : MoveFactory {
     override fun makeMove(
         axis: Axis,
@@ -12,6 +13,8 @@ class BandagedMoveFactory : MoveFactory {
         return WideMove(axis, direction, params.first, board.numRows, board.numCols, params.second)
     }
 
+    // Logic for figuring out which columns move when a particular offset is
+    // swiped. Returns a pair, of (Offset, Depth)
     private fun applyToBoard(
         axis: Axis,
         offset: Int,
@@ -21,10 +24,12 @@ class BandagedMoveFactory : MoveFactory {
         var depth = 1
 
         if (axis == Axis.HORIZONTAL) {
+            // Sweep upward and seee if those rows shoudl be included.
             while (board.rowContainsBond(retOffset, Bond.UP) && depth < board.numRows) {
                 retOffset -= 1
                 depth += 1
             }
+            // Sweep downward and see if those rows should be included.
             while (board.rowContainsBond(
                     retOffset + depth - 1,
                     Bond.DOWN
@@ -36,10 +41,12 @@ class BandagedMoveFactory : MoveFactory {
             // user-visible strings so we mod it back into range.
             retOffset = mod(retOffset, board.numRows)
         } else {
+            // Sweep left and see if those columns should be included.
             while (board.colContainsBond(retOffset, Bond.LEFT) && depth < board.numCols) {
                 retOffset -= 1
                 depth += 1
             }
+            // Sweep right and see if those columns should be included.
             while (board.colContainsBond(
                     retOffset + depth - 1,
                     Bond.RIGHT
@@ -66,6 +73,7 @@ class BandagedMoveFactory : MoveFactory {
             Axis.VERTICAL -> board.numCols
         }
 
+        // TODO(jmerm): is modulus still needed now that Highlights handle // wraparound internally?
         return Array(params.second) { idx: Int ->
             Highlight(
                 axis,
@@ -75,7 +83,7 @@ class BandagedMoveFactory : MoveFactory {
         }
     }
 
-    // unused?
+    // unused
     override fun verticalHelpText(): String {
         return "Vertical moves are bandaged moves"
     }

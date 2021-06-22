@@ -12,6 +12,7 @@ open class CarouselMove(
     override val transitions = mutableListOf<Transition>()
 
     init {
+        // Fills the |transitions| list with transitions to effect the desired move.
         when (axis) {
             Axis.HORIZONTAL -> fillTransitionsHorizontal(direction, offset, numCols)
             Axis.VERTICAL -> fillTransitionsVertical(direction, offset, numRows)

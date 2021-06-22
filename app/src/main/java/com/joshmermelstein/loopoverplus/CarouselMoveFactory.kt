@@ -1,6 +1,8 @@
 package com.joshmermelstein.loopoverplus
 
 // Returns a carousel move.
+// Carousel moves are always legal so this factory doesn't need do any
+// validation.
 class CarouselMoveFactory : MoveFactory {
     override fun makeMove(
         axis: Axis,

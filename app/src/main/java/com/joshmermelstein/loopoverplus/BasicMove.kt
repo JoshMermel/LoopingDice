@@ -1,6 +1,8 @@
 package com.joshmermelstein.loopoverplus
 
 // Basic move moves a single row or column.
+// Almost all functionality for manipulating the board comes from the superclass
+// so this class gets to be a pretty small specialization of that one.
 class BasicMove(
     override val axis: Axis,
     override val direction: Direction,
@@ -11,6 +13,7 @@ class BasicMove(
     override val transitions = mutableListOf<Transition>()
 
     init {
+        // Fills the |transitions| list with transitions to effect a row/col move.
         when (axis) {
             Axis.HORIZONTAL -> addHorizontal(direction, offset, numCols)
             Axis.VERTICAL -> addVertical(direction, offset, numRows)

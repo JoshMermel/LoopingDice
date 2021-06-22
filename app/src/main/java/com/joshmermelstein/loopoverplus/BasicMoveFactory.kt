@@ -1,6 +1,7 @@
 package com.joshmermelstein.loopoverplus
 
 // Returns basic moves
+// Basic moves are ones where row moves affect 1 row and column moves affect 1 column.
 open class BasicMoveFactory : MoveFactory {
     override fun makeMove(
         axis: Axis,
