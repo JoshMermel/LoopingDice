@@ -6,7 +6,11 @@
 
 template<std::size_t num_rows, std::size_t num_cols>
 void slideRow(Board<num_rows, num_cols>& board, int offset, bool forward) {
-  offset = ((offset % num_rows) + num_rows) % num_rows;
+  // num_rows is unsigned so we convert to signed int to avoid errors when
+  // offset is negative.
+  // TODO(jmerm): write a test for this.
+  int num_rows_i = num_rows;
+  offset = ((offset % num_rows_i) + num_rows_i) % num_rows_i;
   if (forward) {
     int tmp = board[offset][num_cols-1];
     for (size_t col = num_cols-1; col > 0; --col) {
@@ -24,7 +28,11 @@ void slideRow(Board<num_rows, num_cols>& board, int offset, bool forward) {
 
 template<std::size_t num_rows, std::size_t num_cols>
 void slideCol(Board<num_rows, num_cols>& board, int offset, bool forward) {
-  offset = ((offset % num_cols) + num_cols) % num_cols;
+  // num_cols is unsigned so we convert to signed int to avoid errors when
+  // offset is negative.
+  // TODO(jmerm): write a test for this.
+  int num_cols_i = num_cols;
+  offset = ((offset % num_cols_i) + num_cols_i) % num_cols_i;
   if (forward) {
     int tmp = board[num_rows-1][offset];
     for (size_t row = num_rows-1; row > 0; --row) {
