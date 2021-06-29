@@ -11,6 +11,7 @@ import androidx.core.graphics.drawable.DrawableCompat
 
 // A fixed gameCell is like a regular gameCell except it is bandaged and it used squared
 // rectangles instead of rounded ones and uses square for pips.
+// These are used in Dynamic Bandaging mode and Static Cells mode.
 class FixedGameCell(
     override var x: Double,
     override var y: Double,
