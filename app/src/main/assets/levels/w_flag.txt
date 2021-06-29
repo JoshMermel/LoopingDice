@@ -5,3 +5,4 @@ WIDE 2 2
 1,1,1,2,3,4,2,3,4
 
 # C0',R2,C0,R1 (4)
+human solution: Row1' Col1' Row1 Col1' Col0' Row2' Col2 Row0 Row1
