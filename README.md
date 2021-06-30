@@ -60,7 +60,7 @@ type it is. The current possibilities are:
 
 | spec | effect | 
 | --- | --- |
-|1-24 | normal game cells with various colors and numbers of pips|
+|0-35 | normal game cells with various colors and numbers of pips|
 |V \d | a vertical gamecell whose color is determined by the number|
 |H \d | a horizontal  gamecell whose color is determined by the number|
 |F \d | a fixed cell (for static + dynamic modes) with a number of pips determined by the number |

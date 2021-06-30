@@ -42,10 +42,10 @@ fun generateBasicGoal(numRows: Int, numCols: Int, colorScheme: String): Array<In
         generateBicolorGoal(numRows, numCols)
     } else {
         // Slices a |numRows| by |numCols| size rectangle out of
-        // 1  2  3  4  5  6
-        // 7  8  ...
+        // 0  1  2  3  4  5
+        // 6  7  ...
         // ...
-        // 31         ... 36
+        // 30         ... 35
         // and possibly modifies it so all dice have 1 pip.
         (0..35).filter { (it < numRows * 6) && (it % 6 < numCols) }.map { toId(it, colorScheme) }
             .toTypedArray()
