@@ -1,7 +1,7 @@
 3
 1
 BASIC
-1,1,2
-2,1,1
+0,0,1
+1,0,0
 Swipe vertically match the pattern in the top left
 # C0 (1)

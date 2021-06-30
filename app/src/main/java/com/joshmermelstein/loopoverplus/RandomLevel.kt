@@ -20,14 +20,14 @@ fun fromRandomFactory(name: String, rowDepth: Int?, colDepth: Int?): MoveFactory
 }
 
 // helper for applying a "Columns" or "Unique" to a boardTemplate
-fun toId(i: Int, mode: String) = if (mode == "Columns") i % 6 + 1 else i + 1
+fun toId(i: Int, mode: String) = if (mode == "Columns") i % 6 else i
 
 // helper for replacing black square with gold in modes where black has a special meaning
-fun blackToGold(i: Int): Int = if (i % 6 == 5) i + 1 else i
+fun blackToGold(i: Int): Int = if (i % 6 == 4) i + 1 else i
 
 // TODO(jmerm): more interesting patterns? Staircase?
 fun generateBicolorGoal(numRows: Int, numCols: Int): Array<Int> {
-    val colors = (1..4).shuffled()
+    val colors = (0..3).shuffled()
     return if (numCols % 2 == 0) {
         Array(numRows * numCols) { if (it % numCols < numCols / 2) colors[0] else colors[1] }
     } else {
@@ -89,7 +89,7 @@ fun generateDynamicBandagingGoal(
     // Bicolor Dynamic is unusual since the black squares are the second color. We handle that by
     // starting with a monocolor board and overwriting random cells with fixed cells.
     val board = if (colorScheme == "Bicolor") {
-        val color = Random.nextInt(1, 5).toString()
+        val color = Random.nextInt(0, 4).toString()
         Array(numRows * numCols) { color }
     } else {
         generateBasicGoal(numRows, numCols, colorScheme).map { blackToGold(it) }
@@ -114,8 +114,7 @@ fun randomAxisPrefix(): String {
 fun addArrowCells(board: Array<Int>, indices: List<Int>): Array<String> {
     return board.mapIndexed { idx, i ->
         (if (idx in indices) {
-            // This expressions is like `i%6` except 0's are replaced by 6s (since 0 is not a valid ColorId)
-            randomAxisPrefix() + (mod(i - 1, 6) + 1).toString()
+            randomAxisPrefix() + i.toString()
         } else {
             i.toString()
         })

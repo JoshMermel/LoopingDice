@@ -1,7 +1,7 @@
 5
 5
 BANDAGED
-B 4 D R,B 4 D L R,B 4 D L,3,3,B 4 U D R,B 4 U D L R,B 4 U D L,3,3,B 4 U R,B 4 U L R,B 4 U L,3,3,2,2,2,B 4 D R,B 4 D L,2,2,2,B 4 U R,B 4 U L
-3,3,3,B 4 D R,B 4 D L,3,3,3,B 4 U R,B 4 U L,B 4 D R,B 4 D L R,B 4 D L,2,2,B 4 U D R,B 4 U D L R,B 4 U D L,2,2,B 4 U R,B 4 U L R,B 4 U L,2,2
+B 3 D R,B 3 D L R,B 3 D L,2,2,B 3 U D R,B 3 U D L R,B 3 U D L,2,2,B 3 U R,B 3 U L R,B 3 U L,2,2,1,1,1,B 3 D R,B 3 D L,1,1,1,B 3 U R,B 3 U L
+2,2,2,B 3 D R,B 3 D L,2,2,2,B 3 U R,B 3 U L,B 3 D R,B 3 D L R,B 3 D L,1,1,B 3 U D R,B 3 U D L R,B 3 U D L,1,1,B 3 U R,B 3 U L R,B 3 U L,1,1
 
 # R0,R0,C0',C2,R1,C3,C2',R2,R2 (9)

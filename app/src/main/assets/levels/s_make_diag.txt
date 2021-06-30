@@ -1,7 +1,7 @@
 3
 3
 STATIC 1 2
-2,2,2,3,3,3,2,2,F 0
-2,2,3,2,3,2,3,2,F 0
+1,1,1,2,2,2,1,1,F 0
+1,1,2,1,2,1,2,1,F 0
 Wide moves are blocked if any cell in the affected rows/columns is locked
 # C0',R0',C0',R1' (4)

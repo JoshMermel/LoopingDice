@@ -1,7 +1,7 @@
 2
 3
 ENABLER
-E,E,E,1,2,3
-E,E,E,2,3,1
+E,E,E,0,1,2
+E,E,E,1,2,0
 Some levels will have more enabler cells than others
 # C1,R0',R1',C0' (4)

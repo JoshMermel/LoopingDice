@@ -1,7 +1,7 @@
 2
 2
 WIDE 1 2
-1,2,3,4
-4,3,2,1
+0,1,2,3
+3,2,1,0
 In "Wide" mode, swiping moves several rows/columns at a time
 # R0,R1,C0' (3)

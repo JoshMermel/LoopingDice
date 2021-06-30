@@ -1,7 +1,7 @@
 3
 3
 BASIC
-1,2,1,2,1,2,1,2,1
-2,1,2,1,1,1,2,1,2
+0,1,0,1,0,1,0,1,0
+1,0,1,0,0,0,1,0,1
 Use the three dots menu to check stats, reset the level, or copy your solution
 # C0',C2,R2,R0' (4)

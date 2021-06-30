@@ -1,8 +1,8 @@
 4
 4
 ENABLER
-1,4,4,4,E,1,4,4,E,E,1,4,E,E,E,1
-1,E,E,E,4,1,E,E,4,4,1,E,4,4,4,1
+0,3,3,3,E,0,3,3,E,E,0,3,E,E,E,0
+0,E,E,E,3,0,E,E,3,3,0,E,3,3,3,0
 
 # R1',R2,C1,C1,C2',R3',C3,C2',R1 (9)
 human solution: Row3' Row1' Col3' Row2 Row3 Col1' Col1' Col2' Col2' Row1 Row2'

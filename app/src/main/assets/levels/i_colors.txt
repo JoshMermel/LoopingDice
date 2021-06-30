@@ -1,7 +1,7 @@
 2
 2
 BASIC
-1,2,3,4
-4,1,2,3
+0,1,2,3
+3,0,1,2
 Puzzles come in many shapes and colors
 # R0,R1,C0' (3)

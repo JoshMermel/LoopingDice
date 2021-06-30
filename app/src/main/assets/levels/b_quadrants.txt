@@ -1,8 +1,8 @@
 4
 4
 BANDAGED
-B 1 D,B 2 D,B 3 R,B 3 L,B 1 U,B 2 U,B 1 R,B 1 L,B 4 R,B 4 L,B 3 D,B 4 D,B 2 R,B 2 L,B 3 U,B 4 U
-B 2 D,B 1 D,B 2 R,B 2 L,B 2 U,B 1 U,B 4 R,B 4 L,B 3 R,B 3 L,B 4 D,B 3 D,B 1 R,B 1 L,B 4 U,B 3 U
+B 0 D,B 1 D,B 2 R,B 2 L,B 0 U,B 1 U,B 0 R,B 0 L,B 3 R,B 3 L,B 2 D,B 3 D,B 1 R,B 1 L,B 2 U,B 3 U
+B 1 D,B 0 D,B 1 R,B 1 L,B 1 U,B 0 U,B 3 R,B 3 L,B 2 R,B 2 L,B 3 D,B 2 D,B 0 R,B 0 L,B 3 U,B 2 U
 
 C0,C2',R0,R3',C0',R0,R3',C0',R0',R0',C3,C2',R0',R0' (14)
 human solution: Col0 Row0 Row0 Col0 Row2' Row1' Row1' Col0 Row1 Row1 Col0 Row0 Row0 Col3 Col3 Row0' Row0'

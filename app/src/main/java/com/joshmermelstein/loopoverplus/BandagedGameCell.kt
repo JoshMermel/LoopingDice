@@ -25,8 +25,8 @@ class BandagedGameCell(
 
     init {
         val parts = colorId.split(" ")
-        color = (parts[1].toInt() - 1) % 6
-        pips = ((parts[1].toInt() - 1) / 6) + 1
+        color = parts[1].toInt() % 6
+        pips = (parts[1].toInt() / 6) + 1
         bonds = parts.drop(2).map {
             when (it) {
                 "U" -> Bond.UP

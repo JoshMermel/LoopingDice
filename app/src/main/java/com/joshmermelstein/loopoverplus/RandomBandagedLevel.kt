@@ -267,8 +267,7 @@ fun addBonds(numRows: Int, numCols: Int, board: List<Int>, numBlocks: String): L
         if (it.second.isEmpty()) {
             it.first.toString()
         } else {
-            // like (it.first % 6) but maps mod-6 things to 6 instead of 0.
-            "B ${mod(it.first - 1, 6) + 1} ${it.second}"
+            "B ${it.first % 6} ${it.second}"
         }
     }
 }

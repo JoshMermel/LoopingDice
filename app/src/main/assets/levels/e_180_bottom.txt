@@ -1,8 +1,8 @@
 3
 3
 ENABLER
-E,E,E,1,2,3,7,8,9
-E,E,E,9,8,7,3,2,1
+E,E,E,0,1,2,6,7,8
+E,E,E,8,7,6,2,1,0
 
  # C0,R0',R1',C1,C2',R1,C2',R2',C1 (9)
  human solution: Col1' Row0' Col1 Row0 Col1' Col0' Row0 Col2 Row0 Col2 Col0' Row0' Col2 Row0' Col0'
