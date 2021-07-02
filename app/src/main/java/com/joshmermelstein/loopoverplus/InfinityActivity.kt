@@ -56,6 +56,7 @@ class InfinityActivity : AppCompatActivity() {
         configureButton()
     }
 
+    // Configures the row size spinner. This is always shown.
     private fun configureRowSizePicker() {
         val rowSizeSpinner = findViewById<Spinner>(R.id.rowSizeSpinner)
         val rowAdapter = ArrayAdapter(this, R.layout.spinner_item, rowSizes)
@@ -66,6 +67,7 @@ class InfinityActivity : AppCompatActivity() {
         rowSizeSpinner.setSelection(Random.nextInt(1, 3))
     }
 
+    // Configures the row mode spinner. This is always shown.
     private fun configureRowModePicker() {
         val rowModeSpinner = findViewById<Spinner>(R.id.rowModeSpinner)
         val adapter = ArrayAdapter(this, R.layout.spinner_item, rowModes)
@@ -75,6 +77,7 @@ class InfinityActivity : AppCompatActivity() {
         rowModeSpinner.setSelection(Random.nextInt(0, rowModes.size + 1) % rowModes.size)
     }
 
+    // Configures the color scheme spinner. This is always shown.
     private fun configureColorSchemePicker() {
         val colorSchemeSpinner = findViewById<Spinner>(R.id.colorSchemeSpinner)
         val adapter = ArrayAdapter(this, R.layout.spinner_item, colorSchemes)
@@ -128,6 +131,10 @@ class InfinityActivity : AppCompatActivity() {
         return findViewById<Spinner>(R.id.numBlocksSpinner).selectedItem?.toString()
     }
 
+    // The available col sizes depends on the user's mode. In modes where a color has a special
+    // meaning, the number of columns is limited to 5 so no normal game cells of that special color
+    // will be used. Arguably this could be increased in the "bicolor" color scheme but I think that
+    // would be too confusing a UI.
     private fun updateColSizePicker() {
         val colSizeSpinner = findViewById<Spinner>(R.id.colSizeSpinner)
         val oldValue: Int? = colSizeSpinner.selectedItem?.toString()?.toInt()
@@ -139,7 +146,6 @@ class InfinityActivity : AppCompatActivity() {
         }
         val colSizes = (2..maxValue).map { num -> num.toString() }
 
-
         val adapter = ArrayAdapter(this, R.layout.spinner_item, colSizes)
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
         colSizeSpinner.adapter = adapter
@@ -147,15 +153,15 @@ class InfinityActivity : AppCompatActivity() {
 
         when {
             oldValue == null -> {
-                // initialize to random
+                // Initialize to random
                 colSizeSpinner.setSelection(Random.nextInt(1, 3))
             }
             oldValue <= maxValue -> {
-                // reset old value
+                // Reset old value
                 colSizeSpinner.setSelection(oldValue - 2)
             }
             else -> {
-                // old value was too big, replace with largest value that fits
+                // Old value was too big, replace with largest value that fits
                 colSizeSpinner.setSelection(maxValue - 2)
             }
         }
@@ -166,7 +172,7 @@ class InfinityActivity : AppCompatActivity() {
         val container = findViewById<View>(R.id.col_mode_container)
         if (colModes.contains(getRowMode())) {
             if (container?.visibility == View.VISIBLE) {
-                // avoid churn if spinner was already visible
+                // Avoid churn if spinner was already visible.
                 return
             }
             container.visibility = View.VISIBLE
@@ -202,7 +208,6 @@ class InfinityActivity : AppCompatActivity() {
             rowDepthSpinner.adapter = adapter
 
             // set spinner to old value if it still fits
-
             if (oldDepth != null) {
                 if (oldDepth <= maxDepth) {
                     rowDepthSpinner.setSelection(oldDepth - 1)
@@ -248,11 +253,12 @@ class InfinityActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateNumBandagedPicker() {
-        val container = findViewById<View>(R.id.num_bandaged_container)
-        if (getRowMode() == "Dynamic Bandaging") {
+    // Shared logic for showing/hiding a density picker (i.e. how many bonds, how many enablers)
+    private fun updateDensityPicker(spinnerId: Int, containerId: Int, requiredRowMode: String) {
+        val container = findViewById<View>(containerId)
+        if (getRowMode() == requiredRowMode) {
             container?.visibility = View.VISIBLE
-            val numBandagedSpinner = findViewById<Spinner>(R.id.numBandagedSpinner)
+            val numBandagedSpinner = findViewById<Spinner>(spinnerId)
             val adapter = ArrayAdapter(this, R.layout.spinner_item, densities)
             adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
             numBandagedSpinner.adapter = adapter
@@ -261,44 +267,36 @@ class InfinityActivity : AppCompatActivity() {
         }
     }
 
+    private fun updateNumBandagedPicker() {
+        updateDensityPicker(
+            R.id.numBandagedSpinner,
+            R.id.num_bandaged_container,
+            "Dynamic Bandaging"
+        )
+    }
+
     private fun updateNumEnablersPicker() {
-        val container = findViewById<View>(R.id.num_enablers_container)
-        if (getRowMode() == "Enabler") {
-            container?.visibility = View.VISIBLE
-            val numEnablersSpinner = findViewById<Spinner>(R.id.numEnablersSpinner)
-            val adapter = ArrayAdapter(this, R.layout.spinner_item, densities)
-            adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
-            numEnablersSpinner.adapter = adapter
-        } else {
-            container?.visibility = View.GONE
-        }
+        updateDensityPicker(
+            R.id.numEnablersSpinner,
+            R.id.num_enablers_container,
+            "Enabler"
+        )
     }
 
     private fun updateNumArrowsPicker() {
-        val container = findViewById<View>(R.id.num_arrows_container)
-        if (getRowMode() == "Arrows") {
-            container?.visibility = View.VISIBLE
-            val numArrowsSpinner = findViewById<Spinner>(R.id.numArrowsSpinner)
-            val adapter = ArrayAdapter(this, R.layout.spinner_item, densities)
-            adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
-            numArrowsSpinner.adapter = adapter
-        } else {
-            container?.visibility = View.GONE
-        }
+        updateDensityPicker(
+            R.id.numArrowsSpinner,
+            R.id.num_arrows_container,
+            "Arrows"
+        )
     }
 
-    // TODO(jmerm): this method is very similar to the one above, maybe unify?
     private fun updateBlocksPicker() {
-        val container = findViewById<View>(R.id.num_blocks_container)
-        if (getRowMode() == "Bandaged") {
-            container?.visibility = View.VISIBLE
-            val numBlocksSpinner = findViewById<Spinner>(R.id.numBlocksSpinner)
-            val adapter = ArrayAdapter(this, R.layout.spinner_item, densities)
-            adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
-            numBlocksSpinner.adapter = adapter
-        } else {
-            container?.visibility = View.GONE
-        }
+        updateDensityPicker(
+            R.id.numBlocksSpinner,
+            R.id.num_blocks_container,
+            "Bandaged"
+        )
     }
 
     private fun onUpdateRowMode() {
@@ -316,18 +314,22 @@ class InfinityActivity : AppCompatActivity() {
         updateBlocksPicker()
     }
 
+    // Callback for when col mode is changed.
     private fun onUpdateColMode() {
         updateColDepthPicker()
     }
 
+    // Callback for when num cols is changed.
     private fun onUpdateNumCols() {
         updateColDepthPicker()
     }
 
+    // Callback for when num rows is changed.
     private fun onUpdateNumRows() {
         updateRowDepthPicker()
     }
 
+    // Configured the "generate level" button to launch a gameplay activity based on the values of spinners.
     private fun configureButton() {
         val button = findViewById<Button>(R.id.generate_level)
         button?.setOnClickListener {
@@ -337,6 +339,7 @@ class InfinityActivity : AppCompatActivity() {
         }
     }
 
+    // Collects the values of all spinners into a struct for easy serialization.
     private fun build(): RandomLevelParams {
         return RandomLevelParams(
             getNumRows(),
