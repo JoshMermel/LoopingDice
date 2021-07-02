@@ -1,12 +1,10 @@
 package com.joshmermelstein.loopoverplus
 
-// TODO(jmerm): rename axis stuff to "Arrows" to match UI
-
-// An Axis locked move factory is used in the arrows mode to make sure that axis locked game cells
+// An Arrows move factory is used in the arrows mode to make sure that arrows game cells
 // only move in the ways that their arrows (and underlying types) permit.
 // Valid moves are returned as BasicMoves (1 row or 1 column).
 // Invalid moves are returned as IllegalMoves which list cells whose lock should flash.
-class AxisLockedMoveFactory : BasicMoveFactory() {
+class ArrowsMoveFactory : BasicMoveFactory() {
     override fun makeMove(
         axis: Axis,
         direction: Direction,

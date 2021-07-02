@@ -56,8 +56,8 @@ fun makeMoveFactory(id: String): MoveFactory {
         id == "DYNAMIC" -> {
             return DynamicBandagingMoveFactory()
         }
-        id == "AXISLOCKED" -> {
-            return AxisLockedMoveFactory()
+        id == "ARROWS" -> {
+            return ArrowsMoveFactory()
         }
         id.startsWith("WIDE") -> {
             val args = id.split(" ")

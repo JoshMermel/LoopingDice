@@ -7,10 +7,10 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.DrawableCompat
 
-// An Axis locked gamecell is limited to either its row or its column. They are used in the Arrows
+// An Arrows gamecell is limited to either its row or its column. They are used in the Arrows
 // levels. It indicates which one by drawing an arrow icon instead of pips. When it is swiped
 // perpendicular to its axis, it flashes a lock icon instead of of the arrows.
-abstract class AxisLockedGameCell(
+abstract class ArrowsGameCell(
     override var x: Double,
     override var y: Double,
     override val numRows: Int,
@@ -81,7 +81,7 @@ class HorizontalGameCell(
     override val numCols: Int,
     colorId: String,
     override val context: Context
-) : AxisLockedGameCell(x, y, numRows, numCols, colorId, context) {
+) : ArrowsGameCell(x, y, numRows, numCols, colorId, context) {
     override val arrows = ResourcesCompat.getDrawable(
         context.resources,
         R.drawable.ic_baseline_swap_horiz_24,
@@ -103,7 +103,7 @@ class VerticalGameCell(
     override val numCols: Int,
     colorId: String,
     override val context: Context
-) : AxisLockedGameCell(x, y, numRows, numCols, colorId, context) {
+) : ArrowsGameCell(x, y, numRows, numCols, colorId, context) {
     override val arrows = ResourcesCompat.getDrawable(
         context.resources,
         R.drawable.ic_baseline_swap_vert_24,

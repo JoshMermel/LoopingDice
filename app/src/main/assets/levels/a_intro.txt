@@ -1,6 +1,6 @@
 4
 2
-AXISLOCKED
+ARROWS
 0,0,0,V 2,0,0,V 2,0
 0,0,V 2,0,0,0,0,V 2
 In "Arrows" mode, some cells are limited to moving in certain directions

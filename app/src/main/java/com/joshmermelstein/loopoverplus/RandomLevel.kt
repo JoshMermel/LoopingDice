@@ -13,7 +13,7 @@ fun fromRandomFactory(name: String, rowDepth: Int?, colDepth: Int?): MoveFactory
         "Enabler" -> EnablerMoveFactory()
         "Dynamic Bandaging" -> DynamicBandagingMoveFactory()
         "Static Cells" -> StaticCellsMoveFactory(rowDepth!!, colDepth!!)
-        "Arrows" -> AxisLockedMoveFactory()
+        "Arrows" -> ArrowsMoveFactory()
         "Bandaged" -> BandagedMoveFactory()
         else -> BasicMoveFactory()
     }

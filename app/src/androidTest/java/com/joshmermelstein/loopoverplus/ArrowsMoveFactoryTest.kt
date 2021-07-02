@@ -3,13 +3,13 @@ package com.joshmermelstein.loopoverplus
 import androidx.test.platform.app.InstrumentationRegistry
 import junit.framework.TestCase
 
-class AxisLockedMoveFactoryTest : TestCase() {
+class ArrowsMoveFactoryTest : TestCase() {
     private val appContext = InstrumentationRegistry.getInstrumentation().targetContext
     private val numRows = 2
     private val numCols = 3
     private val arr = arrayOf("V 1", "H 2", "V 3", "4", "H 5", "6")
     private val board = GameBoard(numRows, numCols, arr, appContext)
-    private val factory = AxisLockedMoveFactory()
+    private val factory = ArrowsMoveFactory()
 
     fun testMakeMoveHorizontal() {
         val move = factory.makeMove(Axis.HORIZONTAL, Direction.BACKWARD, 1, board)
