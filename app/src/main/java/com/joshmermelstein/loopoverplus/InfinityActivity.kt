@@ -9,6 +9,16 @@ import androidx.appcompat.app.AppCompatActivity
 import kotlinx.parcelize.Parcelize
 import kotlin.random.Random
 
+/*
+ * This activity lets the user pick params for a level and then randomly generates a level to fit
+ * those params. The user picks their options using a bunch of Spinner views. The set of spinners
+ * that are shown may depend on the values of other spinners, for example, it only makes sense to
+ * let the user configure "row depth" when row mode is wide or static. This is implemented by giving
+ * each spinner an onUpdate callback which updates the visibility/possible values of other spinners.
+ * Luckily, it is possible to do so without any cyclic updates.
+ */
+
+
 // TODO(jmerm): spinner for how many locked cells in Static mode?
 // TODO(jmerm): should there be a way to resume your last infinity level?
 //   - this would force me to update the save file format to save the goal as well.
