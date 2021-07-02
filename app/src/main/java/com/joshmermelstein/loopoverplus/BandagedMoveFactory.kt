@@ -68,17 +68,13 @@ class BandagedMoveFactory : MoveFactory {
         board: GameBoard
     ): Array<Highlight> {
         val params = applyToBoard(axis, offset, board)
-        val modulus = when (axis) {
-            Axis.HORIZONTAL -> board.numRows
-            Axis.VERTICAL -> board.numCols
-        }
 
-        // TODO(jmerm): is modulus still needed now that Highlights handle // wraparound internally?
+        // It's fine if offset goes out of range, it'll get modulus'd into range before being drawn
         return Array(params.second) { idx: Int ->
             Highlight(
                 axis,
                 direction,
-                (idx + params.first) % modulus
+                idx + params.first
             )
         }
     }
