@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.parcelize.Parcelize
+import org.w3c.dom.Text
 import kotlin.random.Random
 
 /*
@@ -32,10 +33,7 @@ class RandomLevelParams(
     val colMode: String?,
     val rowDepth: Int?,
     val colDepth: Int?,
-    val numBandaged: String?,
-    val numEnablers: String?,
-    val numArrows: String?,
-    val numBlocks: String?
+    val density: String?,
 ) : Parcelable
 
 // Activity for letting the user build a level
@@ -126,20 +124,8 @@ class InfinityActivity : AppCompatActivity() {
         return findViewById<Spinner>(R.id.colDepthSpinner).selectedItem?.toString()?.toInt()
     }
 
-    private fun getNumBandaged(): String? {
-        return findViewById<Spinner>(R.id.numBandagedSpinner).selectedItem?.toString()
-    }
-
-    private fun getNumEnablers(): String? {
-        return findViewById<Spinner>(R.id.numEnablersSpinner).selectedItem?.toString()
-    }
-
-    private fun getNumArrows(): String? {
-        return findViewById<Spinner>(R.id.numArrowsSpinner).selectedItem?.toString()
-    }
-
-    private fun getNumBlocks(): String? {
-        return findViewById<Spinner>(R.id.numBlocksSpinner).selectedItem?.toString()
+    private fun getDensity(): String? {
+        return findViewById<Spinner>(R.id.densitySpinner).selectedItem?.toString()
     }
 
     // The available col sizes depends on the user's mode. In modes where a color has a special
@@ -264,50 +250,27 @@ class InfinityActivity : AppCompatActivity() {
         }
     }
 
-    // Shared logic for showing/hiding a density picker (i.e. how many bonds, how many enablers)
-    private fun updateDensityPicker(spinnerId: Int, containerId: Int, requiredRowMode: String) {
-        val container = findViewById<View>(containerId)
-        if (getRowMode() == requiredRowMode) {
+    // Shows/hides a density picker (i.e. how many bonds, how many enablers).
+    private fun updateDensityPicker() {
+        val container = findViewById<View>(R.id.density_container)
+        val rowMode = getRowMode()
+        if (rowMode in listOf("Dynamic Bandaging", "Enabler", "Arrows", "Bandaged")) {
             container?.visibility = View.VISIBLE
-            val numBandagedSpinner = findViewById<Spinner>(spinnerId)
+            val numBandagedSpinner = findViewById<Spinner>(R.id.densitySpinner)
             val adapter = ArrayAdapter(this, R.layout.spinner_item, densities)
             adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
             numBandagedSpinner.adapter = adapter
+            findViewById<TextView>(R.id.densityLabel)?.text = when (rowMode) {
+                "Dynamic Bandaging" -> "# Bandaged"
+                "Enabler" -> "# Enablers"
+                "Arrows" -> "# Arrows"
+                "Bandaged" -> "# Blocks"
+                else -> ""
+            }
+            // TODO(jmerm): set title based on row mode.
         } else {
             container?.visibility = View.GONE
         }
-    }
-
-    private fun updateNumBandagedPicker() {
-        updateDensityPicker(
-            R.id.numBandagedSpinner,
-            R.id.num_bandaged_container,
-            "Dynamic Bandaging"
-        )
-    }
-
-    private fun updateNumEnablersPicker() {
-        updateDensityPicker(
-            R.id.numEnablersSpinner,
-            R.id.num_enablers_container,
-            "Enabler"
-        )
-    }
-
-    private fun updateNumArrowsPicker() {
-        updateDensityPicker(
-            R.id.numArrowsSpinner,
-            R.id.num_arrows_container,
-            "Arrows"
-        )
-    }
-
-    private fun updateBlocksPicker() {
-        updateDensityPicker(
-            R.id.numBlocksSpinner,
-            R.id.num_blocks_container,
-            "Bandaged"
-        )
     }
 
     private fun onUpdateRowMode() {
@@ -319,10 +282,7 @@ class InfinityActivity : AppCompatActivity() {
         updateColModePicker()
         updateRowDepthPicker()
         updateColDepthPicker()
-        updateNumBandagedPicker()
-        updateNumEnablersPicker()
-        updateNumArrowsPicker()
-        updateBlocksPicker()
+        updateDensityPicker()
     }
 
     // Callback for when col mode is changed.
@@ -360,10 +320,7 @@ class InfinityActivity : AppCompatActivity() {
             getColMode(),
             getRowDepth(),
             getColDepth(),
-            getNumBandaged(),
-            getNumEnablers(),
-            getNumArrows(),
-            getNumBlocks(),
+            getDensity(),
         )
     }
 }

@@ -202,13 +202,13 @@ fun generateRandomLevel(options: RandomLevelParams, context: Context): GameplayP
             options.numRows,
             options.numCols,
             options.colorScheme,
-            options.numEnablers!!
+            options.density!!
         )
         "Dynamic Bandaging" -> generateDynamicBandagingGoal(
             options.numRows,
             options.numCols,
             options.colorScheme,
-            options.numBandaged!!
+            options.density!!
         )
         "Static Cells" -> generateStaticCellGoal(
             options.numRows,
@@ -219,13 +219,13 @@ fun generateRandomLevel(options: RandomLevelParams, context: Context): GameplayP
             options.numRows,
             options.numCols,
             options.colorScheme,
-            options.numArrows!!
+            options.density!!
         )
         "Bandaged" -> generateBandagedGoal(
             options.numRows,
             options.numCols,
             options.colorScheme,
-            options.numBlocks!!
+            options.density!!
         )
         else -> generateBasicGoal(
             options.numRows,

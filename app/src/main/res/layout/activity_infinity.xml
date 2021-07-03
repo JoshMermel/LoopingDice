@@ -169,94 +169,21 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/num_bandaged_container"
+                android:id="@+id/density_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
                 android:visibility="gone">
 
                 <TextView
-                    android:id="@+id/num_bandaged"
+                    android:id="@+id/densityLabel"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="# Bandaged"
                     android:textSize="30sp" />
 
                 <Spinner
-                    android:id="@+id/numBandagedSpinner"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="end" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/num_enablers_container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:visibility="gone">
-
-                <TextView
-                    android:id="@+id/num_enablers"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="# Enablers"
-                    android:textSize="30sp" />
-
-                <Spinner
-                    android:id="@+id/numEnablersSpinner"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="end" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/num_arrows_container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:visibility="gone">
-
-                <TextView
-                    android:id="@+id/num_arrows"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="# Arrows"
-                    android:textSize="30sp" />
-
-                <Spinner
-                    android:id="@+id/numArrowsSpinner"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="end" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/num_blocks_container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:visibility="gone">
-
-                <TextView
-                    android:id="@+id/num_blocks"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="# Blocks"
-                    android:textSize="30sp" />
-
-                <Spinner
-                    android:id="@+id/numBlocksSpinner"
+                    android:id="@+id/densitySpinner"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
