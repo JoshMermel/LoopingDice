@@ -42,6 +42,7 @@ class RandomLevelParams(
 class InfinityActivity : AppCompatActivity() {
     private val rowSizes = (2..6).map { num -> num.toString() }
 
+    // TODO(jmerm): reorder to match order that modes are introduced?
     private val rowModes =
         arrayOf(
             "Wide",
