@@ -1,0 +1,5 @@
+Static Cells (Intermediate)
+S7 s_top_two 8 9 15
+S8 s_rotate_center 7 8 12
+S9 s_tall_bicolor 7 8 20
+S10 s_ring 5 7 12

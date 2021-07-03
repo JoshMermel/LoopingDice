@@ -1,0 +1,9 @@
+Wide (Beginner)
+W1 w_solo_cell 2 3 4
+W2 w_big_block 2 4 6
+W3 w_stripe 2 3 6
+W4 w_plus 3 4 8
+W5 w_make_x 3 4 5
+W6 w_diag 4 5 7
+W7 w_flip_col 5 6 8
+W8 w_triple_stripe 4 6 10

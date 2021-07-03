@@ -236,7 +236,7 @@ class GameManager(
             return
         }
         with(highscores.edit()) {
-            putInt(unSampler(params.id), numMoves)
+            putInt(params.id, numMoves)
             commit()
         }
     }
@@ -252,7 +252,7 @@ class GameManager(
         val twoStar = levelData.twoStar
         val highscores: SharedPreferences =
             context.getSharedPreferences("highscores", Context.MODE_PRIVATE)
-        val oldHighscore = highscores.getInt(unSampler(params.id), Int.MAX_VALUE)
+        val oldHighscore = highscores.getInt(params.id, Int.MAX_VALUE)
 
         val dialog = Dialog(context)
         dialog.setContentView(R.layout.win_popup)

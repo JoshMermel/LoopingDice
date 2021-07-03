@@ -1,0 +1,8 @@
+Arrows (Beginner)
+A1 a_intro 4 5 6
+A2 a_guardrails 10 12 18
+A3 a_padded_stripe 5 8 12
+A4 a_implied_checkerboard 10 12 18
+A5 a_stripes 5 8 10
+A6 a_plus 6 8 10
+A7 a_rotate_180 5 6 10

@@ -1,0 +1,11 @@
+Dynamic Bandaging (Advanced)
+D23 d_heist 7 9 16
+D24 d_narrow_jail 9 11 18
+D25 d_make_columns2 12 16 28
+D26 d_rotate_square 8 10 18
+D27 d_peas_in_a_pod 13 17 26
+D28 d_bicolor 14 27 50
+D29 d_wide_jail 14 19 29
+D30 d_oblong_hippos 13 20 30
+D31 d_quadrants 16 26 40
+D32 d_hippos 12 24 36

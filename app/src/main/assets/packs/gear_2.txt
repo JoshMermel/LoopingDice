@@ -1,0 +1,8 @@
+Gear (Advanced)
+G15 g_tall_bicolor 5 7 12
+G16 g_pop_out 3 5 8
+G17 g_big_triangle 8 12 25
+G18 g_tall_stripe 5 8 14
+G19 g_flag 4 6 10
+G20 g_equator 5 10 18
+G21 g_quad_horizontal_stripe 6 8 16

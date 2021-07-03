@@ -1,0 +1,13 @@
+Wide (Intermediate)
+W9 w_inverse_hot_dog 7 9 11
+W10 w_tall_bicolor 5 7 10
+W11 w_swap_stairs 3 5 7
+W12 w_ring 5 6 8
+W13 w_big_corners 7 8 10
+W14 w_icy_river 5 7 10
+W15 w_bicolor_31 6 7 14
+W16 w_dominoes 6 7 11
+W17 w_inverse_firework 9 12 21
+W18 w_quad_stripe 7 9 12
+W19 w_quad_horizontal_stripe 7 9 15
+W20 w_big_plus 5 10 20

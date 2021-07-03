@@ -1,0 +1,8 @@
+Wide + Carousel (Intermediate)
+WC6 wc_tall_bicolor 6 7 12
+WC7 wc_narrow_jail 3 4 7
+WC8 wc_dominoes 4 5 8
+WC9 wc_raft 5 6 9
+WC10 wc_staircase 6 9 15
+WC11 wc_defrag 7 9 13
+WC12 wc_stripes 4 6 11

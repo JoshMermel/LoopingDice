@@ -1,0 +1,8 @@
+Wide + Carousel (Advanced)
+WC13 wc_not_equals 5 6 11
+WC14 wc_inverse_firework 9 14 21
+WC15 wc_join_edges 5 9 16
+WC16 wc_make_columns 6 10 21
+WC17 wc_big_stairs 10 14 25
+WC18 wc_too_wide 5 9 16
+WC19 wc_quad_stripe 7 8 15

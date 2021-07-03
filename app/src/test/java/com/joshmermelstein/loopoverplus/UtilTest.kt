@@ -19,11 +19,6 @@ class UtilTest : TestCase() {
         assertFalse(isNumeric("x"))
     }
 
-    fun testUnSampler() {
-        assertEquals("hello", unSampler("hello"))
-        assertEquals("hello", unSampler("sampler_hello"))
-    }
-
     fun testSameElements() {
         assertTrue(sameElements(arrayOf("a", "B 1", "1234"), arrayOf("B 1", "a", "1234")))
         assertFalse(sameElements(arrayOf("a", "B 1", "1234"), arrayOf("a", "a", "B 1", "1234")))

@@ -1,0 +1,8 @@
+Gear (Beginner)
+G1 g_solo_cell 4 6 8
+G2 g_mirror_corners 2 3 5
+G3 g_descending_twins 3 5 8
+G4 g_diag 2 3 5
+G5 g_plus 3 4 7
+G6 g_stripes 2 3 6
+G7 g_stable_center 4 5 8

@@ -1,0 +1,6 @@
+Carousel (Advanced)
+C19 c_make_columns 4 6 10
+C20 c_partial_checkerboard 5 9 20
+C21 c_two_fish 8 14 22
+C22 c_keep_bottom_stripe 4 9 15
+C23 c_four_stripes 8 13 21

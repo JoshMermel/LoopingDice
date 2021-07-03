@@ -50,9 +50,6 @@ class GameplayActivity : AppCompatActivity() {
                     return
                 }
 
-                // If this is a sampler level, we've now looked up params telling us what's next and can
-                // proceed as though it wasn't a sampler level.
-                this.id = unSampler(this.id)
                 createFromParams(params, loadSavedLevel(id, params.numRows, params.numCols))
             }
             intent.hasExtra("randomLevelParams") -> {
@@ -218,8 +215,7 @@ class GameplayActivity : AppCompatActivity() {
 
     private fun loadInitialLevel(id: String): GameplayParams? {
         try {
-            val id2 = unSampler(id)
-            val reader = BufferedReader(InputStreamReader(assets.open("levels/$id2.txt")))
+            val reader = BufferedReader(InputStreamReader(assets.open("levels/$id.txt")))
 
             val numRows: Int = reader.readLine().toInt()
             val numCols: Int = reader.readLine().toInt()
