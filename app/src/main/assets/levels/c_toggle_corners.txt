@@ -1,0 +1,7 @@
+3
+3
+CAROUSEL
+0,0,1,0,0,0,3,0,0
+3,0,0,0,0,0,0,0,1
+Horizontal moves join with their row below. Vertical moves join with the column to their right.
+# R2' (1)

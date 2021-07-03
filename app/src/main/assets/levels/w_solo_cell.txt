@@ -1,0 +1,7 @@
+3
+3
+WIDE 3 3
+1,1,1,1,1,1,1,1,3
+3,1,1,1,1,1,1,1,1
+In "Wide" mode, you will move several rows/columns at a time
+# C0,R0 (2)

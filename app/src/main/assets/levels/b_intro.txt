@@ -3,5 +3,5 @@
 BANDAGED
 B 0 R,B 0 L,0,0,1,1
 0,1,1,0,B 0 R,B 0 L
-In "Bandaged" mode, some cells are stuck together
+
 R0,C1' (2)

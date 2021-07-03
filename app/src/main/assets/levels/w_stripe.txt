@@ -3,5 +3,5 @@
 WIDE 3 2
 0,0,0,2,2,2,0,0,0
 0,0,2,0,2,0,2,0,0
-Look at the edge of the board before releasing a swipe to see which rows/cols will move
+On this level, horizontal moves affect 3 rows but vertical moves only affect 2 columns. These numbers often won't match each other.
 # C1',C0 (2)

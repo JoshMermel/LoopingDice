@@ -30,7 +30,7 @@ class MetadataSingleton private constructor(context: Context) {
         var prevId: String? = null
         for (filename in arrayOf(
             "intro",
-            "sampler",
+            // "sampler",
             "wide",
             "dynamic",
             "carousel",

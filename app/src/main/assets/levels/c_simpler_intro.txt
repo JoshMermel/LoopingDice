@@ -3,5 +3,5 @@
 CAROUSEL
 3,3,3,3,3,3,0,3,3,3,3,3,3,3,3,3,3,3,0,3,3,3,3,3,3
 3,3,3,3,3,3,3,3,0,3,3,3,3,3,3,3,0,3,3,3,3,3,3,3,3
-Carousel moves affect a pair of rows/columns
+C levels use move pairs of rows/columns in a carousel
 # R2,R2,R0',R0' (4)

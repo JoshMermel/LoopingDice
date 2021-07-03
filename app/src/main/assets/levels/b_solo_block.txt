@@ -1,0 +1,7 @@
+4
+4
+BANDAGED
+B 0 D R,B 0 D L,3,3,B 0 U R,B 0 U L,3,3,3,3,3,3,3,3,3,3
+3,3,3,3,3,3,3,3,3,3,B 0 D R,B 0 D L,3,3,B 0 U R,B 0 U L
+In "Bandaged" mode, dice can be joined together
+# C0,C0,R2',R2' (4)
