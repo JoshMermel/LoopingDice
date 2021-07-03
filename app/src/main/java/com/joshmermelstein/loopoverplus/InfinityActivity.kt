@@ -265,9 +265,8 @@ class InfinityActivity : AppCompatActivity() {
                 "Enabler" -> "# Enablers"
                 "Arrows" -> "# Arrows"
                 "Bandaged" -> "# Blocks"
-                else -> ""
+                else -> "Density"  // should never happen.
             }
-            // TODO(jmerm): set title based on row mode.
         } else {
             container?.visibility = View.GONE
         }
