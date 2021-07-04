@@ -27,14 +27,6 @@ fun isNumeric(s: String): Boolean {
     return s.matches("-?\\d+".toRegex())
 }
 
-fun unSampler(s: String): String {
-    return if (s.startsWith("sampler_")) {
-        s.substring(8)
-    } else {
-        s
-    }
-}
-
 // Returns whether two arrays of strings contain the same elements
 fun sameElements(b1: Array<String>, b2: Array<String>): Boolean {
     return b1.groupingBy { it }.eachCount() == b2.groupingBy { it }.eachCount()
