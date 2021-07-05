@@ -1,6 +1,7 @@
 package com.joshmermelstein.loopoverplus
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.util.Log
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -14,17 +15,12 @@ class LevelMetadata(
     val twoStar: Int
 )
 
-class PackMetadata(
-    val title: String,
-    val levels: MutableList<String>
-)
-
 // A singleton for holding metadata about levels
 // |packData| for which levels are in packs
 // |levelData| for par and which levels come after each other
-class MetadataSingleton private constructor(context: Context) {
+class MetadataSingleton private constructor(private val context: Context) {
     private val levelData: MutableMap<String, LevelMetadata> = mutableMapOf()
-    val packData: MutableList<PackMetadata> = mutableListOf()
+    val packData: MutableMap<String, List<String>> = mutableMapOf()
 
     init {
         var prevId: String? = null
@@ -60,24 +56,24 @@ class MetadataSingleton private constructor(context: Context) {
             "static_2",
             "hybrid_wc_2",
             "hybrid_wg_2",
-            )) {
+        )) {
             val reader =
                 BufferedReader(InputStreamReader(context.assets.open("packs/$filename.txt")))
             val title: String = reader.readLine()!!
-            val pack = PackMetadata(title, mutableListOf())
+            val pack: MutableList<String> = mutableListOf()
 
             var line: String? = reader.readLine()
             while (line != null) {
                 val level = parseLevel(line)
                 if (level != null) {
-                    pack.levels.add(level.canonicalId)
+                    pack.add(level.canonicalId)
                     levelData[level.canonicalId] = level
                     levelData[prevId]?.next = level.canonicalId
                     prevId = level.canonicalId
                 }
                 line = reader.readLine()
             }
-            packData.add(pack)
+            packData[title] = pack
             prevId = null
         }
     }
@@ -122,6 +118,18 @@ class MetadataSingleton private constructor(context: Context) {
             1000000,
             1000000
         )
+    }
+
+    fun getNumComplete(packId: String): String {
+        val highscores: SharedPreferences =
+            context.getSharedPreferences("highscores", Context.MODE_PRIVATE)
+        val levelIds = packData[packId] ?: return "0 / 0"
+
+        val numComplete = levelIds.map {
+            if (highscores.contains(it)) 1 else 0;
+        }.sum()
+
+        return "$numComplete / ${levelIds.size}"
     }
 
     companion object : SingletonHolder<MetadataSingleton, Context>(::MetadataSingleton)

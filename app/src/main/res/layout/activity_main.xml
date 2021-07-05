@@ -10,22 +10,24 @@
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/level_select_toolbar"
+        app:layout_constraintTop_toBottomOf="@+id/pack_select_toolbar"
         app:layout_constraintVertical_bias="0.27">
 
         <LinearLayout
-            android:id="@+id/LevelLinearLayout"
+            android:id="@+id/PackLinearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"></LinearLayout>
+            android:orientation="vertical" />
     </ScrollView>
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/level_select_toolbar"
+        android:id="@+id/pack_select_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
