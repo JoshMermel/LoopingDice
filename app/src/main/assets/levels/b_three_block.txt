@@ -3,5 +3,5 @@
 BANDAGED
 0,0,B 1 R D,B 1 L D,0,0,B 1 R U,B 1 L U,0,0,B 2 R,B 2 L,0,0,0,B 3 D,0,0,0,B 3 U
 B 1 R D,B 1 L D,0,0,B 1 R U,B 1 L U,0,0,0,0,0,B 3 D,0,0,0,B 3 U,B 2 L,0,0,B 2 R
-When you move a bandaged cell, it drags along other rows/columns
+
 R0,R2',C1',C1',R0,C2',R4 (7)
