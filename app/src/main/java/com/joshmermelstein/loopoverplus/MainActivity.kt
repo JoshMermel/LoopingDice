@@ -32,16 +32,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.pack_select_toolbar))
-
-        // Info on which levels exist and how to group them is lazily loaded into a global
-        // singleton for easy lookup.
-        MetadataSingleton.getInstance(this).packData.keys.forEach {
-            appendLevelPack(it)
-        }
-
-        // The infinity button goes to a level builder activity where the user can generate a level
-        // on the fly.
-        appendInfinityButton()
+        redrawLevelSelect()
     }
 
     // Because I am dumb and didn't use Room or something for my underlying storage, I need to
@@ -53,11 +44,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun redrawLevelSelect() {
-        // TODO(jmerm): need a way to tell who is expanded and who isn't
         findViewById<LinearLayout>(R.id.PackLinearLayout).removeAllViews()
+
+        // Info on which levels exist and how to group them is lazily loaded into a global
+        // singleton for easy lookup.
         MetadataSingleton.getInstance(this).packData.keys.forEach {
             appendLevelPack(it)
         }
+        // The infinity button goes to a level builder activity where the user can generate a level
+        // on the fly.
         appendInfinityButton()
     }
 
@@ -248,6 +243,7 @@ class MainActivity : AppCompatActivity() {
         layout.addView(line)
     }
 
+    // TODO(jmerm): style the infinity button to match other views
     private fun appendInfinityButton() {
         val layout = findViewById<LinearLayout>(R.id.PackLinearLayout)
 
