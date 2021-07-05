@@ -243,34 +243,35 @@ class MainActivity : AppCompatActivity() {
         layout.addView(line)
     }
 
-    // TODO(jmerm): style the infinity button to match other views
     private fun appendInfinityButton() {
         val layout = findViewById<LinearLayout>(R.id.PackLinearLayout)
+        TextView(this).also {
+            // create full width text view as a row of the main linear layout in the level select
+            // activity in a style that matches other buttons.
+            it.text = "Infinity"
+            it.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30F)
+            it.setPadding(0, 0, 0, 25)
+            it.layoutParams = LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
 
-        val title = TextView(this)
-        title.text = "Infinity"
-        title.setPadding(10, 10, 10, 10)
-        layout.addView(title)
+            // Configure OnClick to open the infinity activity.
+            it.setOnClickListener {
+                val intent = Intent(this, InfinityActivity::class.java)
+                startActivity(intent)
+            }
 
-        val row = LinearLayout(this)
-        row.layoutParams = LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.MATCH_PARENT,
-            LinearLayout.LayoutParams.WRAP_CONTENT
-        )
+            // Configure onclick effects.
+            val attrs = intArrayOf(android.R.attr.selectableItemBackground)
+            val typedArray: TypedArray = obtainStyledAttributes(attrs)
+            val backgroundResource = typedArray.getResourceId(0, 0)
+            it.setBackgroundResource(backgroundResource)
 
-        val btnTag = Button(this)
-        btnTag.layoutParams = LinearLayout.LayoutParams(
-            0,
-            LinearLayout.LayoutParams.WRAP_CONTENT,
-            1.0f
-        )
-        btnTag.text = "Infinity"
-        btnTag.setOnClickListener {
-            val intent = Intent(this, InfinityActivity::class.java)
-            startActivity(intent)
+            layout.addView(it)
         }
-        row.addView(btnTag)
-        layout.addView(row)
+
+
     }
 
     // A dialog to make sure the user really wants to delete all their saved data.
