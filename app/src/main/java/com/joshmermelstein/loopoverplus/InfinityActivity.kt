@@ -330,8 +330,8 @@ class InfinityActivity : AppCompatActivity() {
         AlertDialog.Builder(this)
             .setTitle("Load Save?")
             .setMessage("You've previously played an ∞ level with these params. Would you like to resume it?")
-            .setPositiveButton("Resume old level") { _, _ -> startGame(true) }
-            .setNegativeButton("Create new level") { _, _ -> startGame(false) }
+            .setPositiveButton("Yes (Resume old level)") { _, _ -> startGame(true) }
+            .setNegativeButton("No (Create new level)") { _, _ -> startGame(false) }
             .show()
     }
 
