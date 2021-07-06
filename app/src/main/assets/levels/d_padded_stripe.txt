@@ -5,3 +5,5 @@ DYNAMIC
 0,0,2,F 1,0,2,0,F 1,2,0,0,F 1,F 1,F 1,F 1,F 1
 
 # C0',R0',R1',C1',R0,C1,C0,R1 (8)
+human solution: Row0' Row1' Col0' Col1' Row0 Row1 Col0 Col1
+human solution: Col0' Row1' Col0 Row0' Col1' Row0 Col1 Row1
