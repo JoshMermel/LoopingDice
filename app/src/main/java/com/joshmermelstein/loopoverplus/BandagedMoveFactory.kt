@@ -24,7 +24,7 @@ class BandagedMoveFactory : MoveFactory {
         var depth = 1
 
         if (axis == Axis.HORIZONTAL) {
-            // Sweep upward and seee if those rows shoudl be included.
+            // Sweep upward and see if those rows should be included.
             while (board.rowContainsBond(retOffset, Bond.UP) && depth < board.numRows) {
                 retOffset -= 1
                 depth += 1
