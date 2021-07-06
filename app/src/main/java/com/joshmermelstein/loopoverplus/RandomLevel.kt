@@ -187,7 +187,8 @@ fun scramble(
 }
 
 // TODO(jmerm): needing to take the context here is silly, fix that.
-fun generateRandomLevel(options: RandomLevelParams, context: Context): GameplayParams {
+// Initial and final are optional params for when the caller knows what they want the initial and final state to be.
+fun generateRandomLevel(options: RandomLevelParams, context: Context, initial : Array<String>?, goal : Array<String>?): GameplayParams {
     val factory: MoveFactory =
         if (options.rowMode == options.colMode || options.colMode == null) {
             fromRandomFactory(options.rowMode, options.rowDepth, options.colDepth)
@@ -197,6 +198,19 @@ fun generateRandomLevel(options: RandomLevelParams, context: Context): GameplayP
                 fromRandomFactory(options.colMode, options.colDepth, options.colDepth)
             )
         }
+
+    if (initial != null && goal != null) {
+        return GameplayParams(
+            "∞",
+            options.numRows,
+            options.numCols,
+            factory,
+            initial,
+            goal,
+            ""
+        )
+    }
+
     val goal: Array<String> = when (options.rowMode) {
         "Enabler" -> generateEnablerGoal(
             options.numRows,
@@ -233,8 +247,6 @@ fun generateRandomLevel(options: RandomLevelParams, context: Context): GameplayP
             options.colorScheme
         ).map { it.toString() }.toTypedArray()
     }
-
-
     val start = scramble(goal, factory, options.numRows, options.numCols, context)
 
     return GameplayParams(

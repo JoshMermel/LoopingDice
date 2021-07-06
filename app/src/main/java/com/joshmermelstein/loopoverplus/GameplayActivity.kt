@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Resources
 import android.os.Bundle
+import android.util.Log
 import android.util.TypedValue
 import android.view.Menu
 import android.view.MenuItem
@@ -40,40 +41,18 @@ class GameplayActivity : AppCompatActivity() {
             intent.hasExtra("id") -> {
                 // The normal way of creating a level - looking up its params based on an id
                 this.id = intent.getStringExtra("id") ?: return
-                val params = loadInitialLevel(this.id)
-                if (params == null) {
-                    Toast.makeText(
-                        applicationContext,
-                        "Failed to load level params for $id",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    finish()
-                    return
-                }
-
-                val save = loadSavedLevel(id, params.numRows, params.numCols)?.let {
-                    if (sameElements(it.board, params.goal)) it else null
-                }
-
-                createFromParams(params, save)
+                createFromId(id)
             }
             intent.hasExtra("randomLevelParams") -> {
                 // A secondary way of making a level. Generating GameplayParams based on a
                 // RandomLevelParams struct
                 val randomParams =
                     intent.getParcelableExtra<RandomLevelParams>("randomLevelParams") ?: return
-                val loadSave = intent.getBooleanExtra("loadSave", false)
 
                 // For random levels, we give them a unique ID based on params so we can look up their saves later.
                 this.id = "∞$randomParams"
 
-                val savedLevel = if (loadSave) {
-                    loadSavedLevel(id, randomParams.numRows, randomParams.numCols)
-                } else {
-                    null
-                }
-
-                createFromParams(generateRandomLevel(randomParams, this), savedLevel)
+                createFromRandomParams(randomParams)
             }
             else -> {
                 Toast.makeText(
@@ -84,7 +63,40 @@ class GameplayActivity : AppCompatActivity() {
                 finish()
             }
         }
+    }
 
+    private fun createFromId(id: String) {
+        val params = loadInitialLevel(id)
+        if (params == null) {
+            Toast.makeText(
+                applicationContext,
+                "Failed to load level params for $id",
+                Toast.LENGTH_SHORT
+            ).show()
+            finish()
+            return
+        }
+
+        val save = loadSavedLevel(id, params.numRows, params.numCols)?.let {
+            if (sameElements(it.board, params.goal)) it else null
+        }
+
+        createFromParams(params, save)
+    }
+
+    private fun createFromRandomParams(randomParams: RandomLevelParams) {
+        // Get the save from a file if one exists and the user wants it.
+        val savedLevel = loadSavedLevel(id, randomParams.numRows, randomParams.numCols)?.let {
+            if (intent.getBooleanExtra("loadSave", false)) it else null
+        }
+
+        // Create gameplay params. If there is a save, pass its initial and goal states so they
+        // overwrite the randomly generated initial/goal. This is necessary so that resetting works
+        // properly for random levels loaded from saves.
+        val gameplayParams =
+            generateRandomLevel(randomParams, this, savedLevel?.initial, savedLevel?.goal)
+
+        createFromParams(gameplayParams, savedLevel)
     }
 
     // Finishes initializing the gameplay activity based on a gameplay params
@@ -256,6 +268,7 @@ class GameplayActivity : AppCompatActivity() {
     private fun loadSavedLevel(id: String, numRows: Int, numCols: Int): SavedLevel? {
         try {
             val reader = openFileInput("$id.txt").bufferedReader()
+            val initial: Array<String> = reader.readLine().split(",").toTypedArray()
             val board: Array<String> = reader.readLine().split(",").toTypedArray()
             val goal: Array<String> = reader.readLine().split(",").toTypedArray()
             val undoStack: List<LegalMove> =
@@ -264,7 +277,7 @@ class GameplayActivity : AppCompatActivity() {
                 reader.readLine().split(",").mapNotNull { stringToMove(it, numRows, numCols) }
             val numMoves: Int = reader.readLine().toInt()
 
-            return SavedLevel(board, goal, undoStack, redoStack, numMoves)
+            return SavedLevel(initial, board, goal, undoStack, redoStack, numMoves)
         } catch (e: Exception) {
         }
         return null

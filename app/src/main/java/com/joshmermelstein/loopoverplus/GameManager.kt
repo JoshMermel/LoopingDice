@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Canvas
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
@@ -25,6 +26,7 @@ class GameplayParams(
 
 // Struct for passing around save files
 class SavedLevel(
+    val initial: Array<String>,
     val board: Array<String>,
     val goal: Array<String>,
     val undoStack: List<LegalMove>,
@@ -69,7 +71,6 @@ class GameManager(
 
         this.board = GameBoard(params.numRows, params.numCols, level.board, context)
         this.future = GameBoard(params.numRows, params.numCols, level.board, context)
-        this.goal = GameBoard(params.numRows, params.numCols, level.goal, context)
 
         this.undoStack.addAll(level.undoStack)
         buttonState.undoButtonEnabled = this.undoStack.isNotEmpty()
@@ -84,7 +85,7 @@ class GameManager(
         moveQueue.reset()
         undoStack.removeAllElements()
         redoStack.removeAllElements()
-        loadFromSavedLevel(SavedLevel(params.initial, params.goal, emptyList(), emptyList(), 0))
+        loadFromSavedLevel(SavedLevel(params.initial, params.initial, params.goal, emptyList(), emptyList(), 0))
     }
 
     // Updates the draw positions of game elements and checks for wins. Uses system time to
@@ -223,8 +224,9 @@ class GameManager(
     override fun toString(): String {
         val undo: String = undoStack.joinToString(",") { it.toString() }
         val redo: String = redoStack.joinToString(",") { it.toString() }
+        val initial = params.initial.joinToString(",")
 
-        return "$future\n$goal\n$undo\n$redo\n$numMoves"
+        return "$initial\n$future\n$goal\n$undo\n$redo\n$numMoves"
     }
 
     // Returns a string representing the user's undo stack so they can copy their solution and
