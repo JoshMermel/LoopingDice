@@ -26,6 +26,7 @@ class GameplayParams(
 // Struct for passing around save files
 class SavedLevel(
     val board: Array<String>,
+    val goal: Array<String>,
     val undoStack: List<LegalMove>,
     val redoStack: List<LegalMove>,
     val numMoves: Int
@@ -68,6 +69,8 @@ class GameManager(
 
         this.board = GameBoard(params.numRows, params.numCols, level.board, context)
         this.future = GameBoard(params.numRows, params.numCols, level.board, context)
+        this.goal = GameBoard(params.numRows, params.numCols, level.goal, context)
+
         this.undoStack.addAll(level.undoStack)
         buttonState.undoButtonEnabled = this.undoStack.isNotEmpty()
         this.redoStack.addAll(level.redoStack)
@@ -81,7 +84,7 @@ class GameManager(
         moveQueue.reset()
         undoStack.removeAllElements()
         redoStack.removeAllElements()
-        loadFromSavedLevel(SavedLevel(params.initial, emptyList(), emptyList(), 0))
+        loadFromSavedLevel(SavedLevel(params.initial, params.goal, emptyList(), emptyList(), 0))
     }
 
     // Updates the draw positions of game elements and checks for wins. Uses system time to
@@ -221,7 +224,7 @@ class GameManager(
         val undo: String = undoStack.joinToString(",") { it.toString() }
         val redo: String = redoStack.joinToString(",") { it.toString() }
 
-        return "$future\n$undo\n$redo\n$numMoves"
+        return "$future\n$goal\n$undo\n$redo\n$numMoves"
     }
 
     // Returns a string representing the user's undo stack so they can copy their solution and

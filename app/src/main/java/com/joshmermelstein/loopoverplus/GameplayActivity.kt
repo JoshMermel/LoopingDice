@@ -23,6 +23,7 @@ import java.io.InputStreamReader
 // An activity for displaying the lifetime of a level as well as other UI elements.
 class GameplayActivity : AppCompatActivity() {
     // The id is not known until it is read from intent in OnCreate
+    // This is the canonical ID of the level (i.e. "a_caged_flip"); not the display ID (i.e. "A10")
     private lateinit var id: String
 
     // The gameManager is created based on the id so it must be lateInit as well.
@@ -50,15 +51,29 @@ class GameplayActivity : AppCompatActivity() {
                     return
                 }
 
-                createFromParams(params, loadSavedLevel(id, params.numRows, params.numCols))
+                val save = loadSavedLevel(id, params.numRows, params.numCols)?.let {
+                    if (sameElements(it.board, params.goal)) it else null
+                }
+
+                createFromParams(params, save)
             }
             intent.hasExtra("randomLevelParams") -> {
                 // A secondary way of making a level. Generating GameplayParams based on a
                 // RandomLevelParams struct
                 val randomParams =
                     intent.getParcelableExtra<RandomLevelParams>("randomLevelParams") ?: return
-                this.id = "∞"
-                createFromParams(generateRandomLevel(randomParams, this), null)
+                val loadSave = intent.getBooleanExtra("loadSave", false)
+
+                // For random levels, we give them a unique ID based on params so we can look up their saves later.
+                this.id = "∞$randomParams"
+
+                val savedLevel = if (loadSave) {
+                    loadSavedLevel(id, randomParams.numRows, randomParams.numCols)
+                } else {
+                    null
+                }
+
+                createFromParams(generateRandomLevel(randomParams, this), savedLevel)
             }
             else -> {
                 Toast.makeText(
@@ -76,7 +91,7 @@ class GameplayActivity : AppCompatActivity() {
     private fun createFromParams(params: GameplayParams, save: SavedLevel?) {
         // Load the level and possibly load the saved state
         this.gameManager = GameManager(params, this, buttonState)
-        if (save != null && sameElements(save.board, params.goal)) {
+        if (save != null) {
             this.gameManager.loadFromSavedLevel(save)
         }
 
@@ -242,13 +257,14 @@ class GameplayActivity : AppCompatActivity() {
         try {
             val reader = openFileInput("$id.txt").bufferedReader()
             val board: Array<String> = reader.readLine().split(",").toTypedArray()
+            val goal: Array<String> = reader.readLine().split(",").toTypedArray()
             val undoStack: List<LegalMove> =
                 reader.readLine().split(",").mapNotNull { stringToMove(it, numRows, numCols) }
             val redoStack: List<LegalMove> =
                 reader.readLine().split(",").mapNotNull { stringToMove(it, numRows, numCols) }
             val numMoves: Int = reader.readLine().toInt()
 
-            return SavedLevel(board, undoStack, redoStack, numMoves)
+            return SavedLevel(board, goal, undoStack, redoStack, numMoves)
         } catch (e: Exception) {
         }
         return null

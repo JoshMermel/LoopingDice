@@ -106,14 +106,16 @@ class MetadataSingleton private constructor(private val context: Context) {
         )
     }
 
+    // Gets data about a level from its canonical ID.
+    // For Infinity (randomly generated) levels, this creates a sensible response from thin air.
     fun getLevelData(id: String): LevelMetadata? {
-        if (id != "∞") {
+        if (!id.startsWith("∞")) {
             return levelData[id]
         }
         return LevelMetadata(
             null,
             "∞",
-            "∞",
+            id,
             1000000,
             1000000,
             1000000
@@ -126,7 +128,7 @@ class MetadataSingleton private constructor(private val context: Context) {
         val levelIds = packData[packId] ?: return "0 / 0"
 
         val numComplete = levelIds.map {
-            if (highscores.contains(it)) 1 else 0;
+            if (highscores.contains(it)) 1 else 0
         }.sum()
 
         return "$numComplete / ${levelIds.size}"

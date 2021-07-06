@@ -113,7 +113,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun makeHeader(packId: String): LinearLayout {
         // Create a layout row for views related to this pack.
-        var header = LinearLayout(this)
+        val header = LinearLayout(this)
         header.layoutParams = LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.MATCH_PARENT,
             LinearLayout.LayoutParams.WRAP_CONTENT
@@ -153,7 +153,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun makeLevelButtons(packId: String, levels: List<String>, numCols: Int): LinearLayout {
-        var buttonContainer = LinearLayout(this).apply {
+        val buttonContainer = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
         }
         val metadata = MetadataSingleton.getInstance(this)
@@ -283,8 +283,6 @@ class MainActivity : AppCompatActivity() {
                 clearSharedPreferences()
                 deleteSaves()
                 redrawLevelSelect()
-//                findViewById<View>(R.id.LevelLinearLayout).invalidate()
-
             }
             .setNegativeButton("no", null)
             .setIcon(android.R.drawable.ic_dialog_alert)

@@ -1,5 +1,6 @@
 package com.joshmermelstein.loopoverplus
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
@@ -7,7 +8,7 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.parcelize.Parcelize
-import org.w3c.dom.Text
+import java.io.File
 import kotlin.random.Random
 
 /*
@@ -21,8 +22,6 @@ import kotlin.random.Random
 
 
 // TODO(jmerm): spinner for how many locked cells in Static mode?
-// TODO(jmerm): should there be a way to resume your last infinity level?
-//   - this would force me to update the save file format to save the goal as well.
 
 @Parcelize
 class RandomLevelParams(
@@ -34,7 +33,11 @@ class RandomLevelParams(
     val rowDepth: Int?,
     val colDepth: Int?,
     val density: String?,
-) : Parcelable
+) : Parcelable {
+    override fun toString(): String {
+        return "$numRows,$numCols,$colorScheme,$rowMode,$colMode,$rowDepth,$colDepth,$density"
+    }
+}
 
 // Activity for letting the user build a level
 class InfinityActivity : AppCompatActivity() {
@@ -116,12 +119,19 @@ class InfinityActivity : AppCompatActivity() {
         return findViewById<Spinner>(R.id.colModeSpinner).selectedItem?.toString()
     }
 
+    // It's important to null these two out when they aren't used since they are part of the ID used for saving/restoring.
     private fun getRowDepth(): Int? {
-        return findViewById<Spinner>(R.id.rowDepthSpinner).selectedItem?.toString()?.toInt()
+        if (findViewById<View>(R.id.row_depth_container).visibility == View.VISIBLE) {
+            return findViewById<Spinner>(R.id.rowDepthSpinner).selectedItem?.toString()?.toInt()
+        }
+        return null
     }
 
     private fun getColDepth(): Int? {
-        return findViewById<Spinner>(R.id.colDepthSpinner).selectedItem?.toString()?.toInt()
+        if (findViewById<View>(R.id.col_depth_container).visibility == View.VISIBLE) {
+            return findViewById<Spinner>(R.id.colDepthSpinner).selectedItem?.toString()?.toInt()
+        }
+        return null
     }
 
     private fun getDensity(): String? {
@@ -303,10 +313,33 @@ class InfinityActivity : AppCompatActivity() {
     private fun configureButton() {
         val button = findViewById<Button>(R.id.generate_level)
         button?.setOnClickListener {
-            val intent = Intent(this, GameplayActivity::class.java)
-            intent.putExtra("randomLevelParams", build())
-            startActivity(intent)
+            if (saveFileExists()) {
+                // If there is a save file for these params, ask the user if they want to load it.
+                loadSaveDialog()
+            } else {
+                startGame(false)
+            }
         }
+    }
+
+    private fun saveFileExists(): Boolean {
+        return File(filesDir, "∞${build()}.txt").exists()
+    }
+
+    private fun loadSaveDialog() {
+        AlertDialog.Builder(this)
+            .setTitle("Load Save?")
+            .setMessage("You've previously played an ∞ level with these params. Would you like to resume it?")
+            .setPositiveButton("Yes") { _, _ -> startGame(true) }
+            .setNegativeButton("No, create a new level") { _, _ -> startGame(false) }
+            .show()
+    }
+
+    private fun startGame(loadSave: Boolean) {
+        val intent = Intent(this, GameplayActivity::class.java)
+        intent.putExtra("randomLevelParams", build())
+        intent.putExtra("loadSave", loadSave)
+        startActivity(intent)
     }
 
     // Collects the values of all spinners into a struct for easy serialization.
