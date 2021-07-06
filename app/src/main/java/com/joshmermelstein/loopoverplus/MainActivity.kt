@@ -144,10 +144,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         // configure onclick UI effect
-        val attrs = intArrayOf(android.R.attr.selectableItemBackground)
-        val typedArray: TypedArray = obtainStyledAttributes(attrs)
-        val backgroundResource = typedArray.getResourceId(0, 0)
-        header.setBackgroundResource(backgroundResource)
+        addOnclickEffect(header)
 
         return header
     }
@@ -263,15 +260,18 @@ class MainActivity : AppCompatActivity() {
             }
 
             // Configure onclick effects.
-            val attrs = intArrayOf(android.R.attr.selectableItemBackground)
-            val typedArray: TypedArray = obtainStyledAttributes(attrs)
-            val backgroundResource = typedArray.getResourceId(0, 0)
-            it.setBackgroundResource(backgroundResource)
+            addOnclickEffect(it)
 
             layout.addView(it)
         }
+    }
 
-
+    private fun addOnclickEffect(v : View) {
+        val attrs = intArrayOf(android.R.attr.selectableItemBackground)
+        val typedArray: TypedArray = obtainStyledAttributes(attrs)
+        val backgroundResource = typedArray.getResourceId(0, 0)
+        v.setBackgroundResource(backgroundResource)
+        typedArray.recycle()
     }
 
     // A dialog to make sure the user really wants to delete all their saved data.
