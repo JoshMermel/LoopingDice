@@ -1,8 +1,8 @@
 Gear (Intermediate)
 G8 g_make_square 4 5 8
 G9 g_concentric 4 5 8
-G10 g_centralize_corners 8 9 20
+G10 g_centralize_corners 8 10 20
 G11 g_rotate_center 4 6 10
 G12 g_tower 4 5 10
-G13 g_rotate_strip 6 7 15
-G14 g_ring 4 5 10
+G13 g_ring 4 5 10
+G14 g_rotate_strip 6 7 15

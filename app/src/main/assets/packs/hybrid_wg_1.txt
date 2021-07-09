@@ -1,7 +1,7 @@
 Wide + Gear (Intermediate)
 WG6 wg_magnets 5 7 9
 WG7 wg_crosshairs 4 6 10
-WG8 wg_big_plus 4 7 11
-WG9 wg_join_edges 5 9 14
-WG10 wg_quad_horizontal_stripe 6 8 12
-WG11 wg_dominoes 7 8 14
+WG8 wg_big_plus 4 6 11
+WG9 wg_quad_horizontal_stripe 6 8 12
+WG10 wg_dominoes 7 8 14
+WG11 wg_join_edges 5 9 14

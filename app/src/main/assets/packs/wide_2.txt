@@ -1,9 +1,8 @@
 Wide (Advanced)
-W21 w_narrow_jail 4 7 11
-W22 w_flag 4 9 15
-W23 w_two_fish 6 12 18
-W24 w_thick_checkerboard 4 7 13
-W25 w_join_edges 6 9 13
+W22 w_narrow_jail 4 7 11
+W23 w_thick_checkerboard 4 7 13
+W24 w_flag 4 9 15
+W25 w_two_fish 6 13 20
 W26 w_padded_stripe 4 7 10
 W27 w_staircase 8 13 20
 W28 w_four_squares 9 16 25

@@ -5,3 +5,4 @@ GEAR
 0,0,0,0,0,0,0,3,0,0,0,1,0,1,0,0,0,3,0,0,0,0,0,0,0
 
 # C0',R3,C3',C3',R1,C1',R0',R0' (8)
+human solution: Row4 Col0 Col0 Col3 Col3 Row3' Row3' Row0' Row0'
