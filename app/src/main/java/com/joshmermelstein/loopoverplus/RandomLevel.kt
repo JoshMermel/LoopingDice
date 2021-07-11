@@ -211,7 +211,7 @@ fun generateRandomLevel(options: RandomLevelParams, context: Context, initial : 
         )
     }
 
-    val goal: Array<String> = when (options.rowMode) {
+    val randomGoal: Array<String> = when (options.rowMode) {
         "Enabler" -> generateEnablerGoal(
             options.numRows,
             options.numCols,
@@ -247,15 +247,15 @@ fun generateRandomLevel(options: RandomLevelParams, context: Context, initial : 
             options.colorScheme
         ).map { it.toString() }.toTypedArray()
     }
-    val start = scramble(goal, factory, options.numRows, options.numCols, context)
+    val randomStart = scramble(randomGoal, factory, options.numRows, options.numCols, context)
 
     return GameplayParams(
         "∞",
         options.numRows,
         options.numCols,
         factory,
-        start,
-        goal,
+        randomStart,
+        randomGoal,
         ""
     )
 }
