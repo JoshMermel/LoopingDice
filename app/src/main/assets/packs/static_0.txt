@@ -1,7 +1,11 @@
 Static Cells (Beginner)
 S1 s_intro 6 7 10
-S2 s_roundabout 7 9 12
-S3 s_horseshoe 7 8 12
-S4 s_make_diag 4 5 7
+S2 s_horseshoe 7 8 12
+S3 s_not_equals 8 12 16
+S4 s_roundabout 7 9 12
 S5 s_make_square 5 6 8
-S6 s_bridge 6 7 11
+S6 s_swap_edges 7 9 12
+S7 s_thin_pinwheel 11 16 22
+S8 s_seesaw 5 8 12
+S9 s_bridge 6 7 11
+S10 s_make_diag 4 5 7
