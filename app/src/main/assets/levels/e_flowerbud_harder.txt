@@ -5,3 +5,4 @@ ENABLER
 2,2,2,2,2,2,0,2,0,2,2,2,E,2,2,2,0,2,0,2,2,2,2,2,2
 
 # R2,C3,R3,C4,R4',C3,C3,R1',C2,R2,C3,R3',C2' (13)
+human solution: Row2 Col3 Row3' Row3' Col1' Col1' Row1 Col2 Row2 Row2 Col4 Col4 Row4 Row4 Col1' Row3 Col2' (17)
