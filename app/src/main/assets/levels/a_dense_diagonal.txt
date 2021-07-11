@@ -5,3 +5,4 @@ ARROWS
 V 0,H 0,3,H 0,2,H 0,1,H 0,V 0
 
 # R1',C0',R2,C0',R2',R1',C2',R1' (8)
+human solution: Row1' Col0 Row1' Row2' Col2 Row2 Col2 Row1'

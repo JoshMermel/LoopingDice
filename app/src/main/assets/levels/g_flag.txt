@@ -6,3 +6,4 @@ GEAR
 
 # C0',R2',C0',R0' (4)
 human solution: Col2' Row2 Col2 Row2 Col2 Col2
+human solution: Col2 Row2 Col2 Row2
