@@ -1,11 +1,12 @@
 Arrows (Advanced)
-A18 a_keep_bottom_stripe 8 10 15
-A19 a_keep_two_stripes 12 14 21
-A20 a_diagonal_mirror 12 13 20
-A21 a_staircase 8 12 20
-A22 a_swap_sides 14 18 32
-A23 a_swap_triangles 12 15 24
-A24 a_dense_diagonal 8 10 16
-A25 a_tau 9 10 16
-A26 a_two_fish 15 22 35
-A27 a_peas_in_a_pod 26 29 45
+A22 a_spaced_rotate_columns 9 13 17
+A23 a_keep_bottom_stripe 8 10 15
+A24 a_keep_two_stripes 12 14 21
+A25 a_diagonal_mirror 12 13 20
+A26 a_staircase 8 12 20
+A27 a_swap_sides 14 18 32
+A28 a_swap_triangles 12 15 24
+A29 a_dense_diagonal 8 10 16
+A30 a_tau 9 10 16
+A31 a_two_fish 15 22 35
+A32 a_peas_in_a_pod 26 29 45
