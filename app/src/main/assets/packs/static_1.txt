@@ -7,3 +7,4 @@ S15 s_bicolor_31 8 11 14
 S16 s_spread_corners 8 10 14
 S17 s_upside_down_burger 14 17 22
 S18 s_tall_bicolor 7 8 20
+S19 s_spaced_rotate_columns 9 13 17
