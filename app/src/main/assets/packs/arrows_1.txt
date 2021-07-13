@@ -2,7 +2,7 @@ Arrows (Intermediate)
 A10 a_defrag_vertical 9 11 17
 A11 a_defrag_horizontal 11 13 20
 A12 a_roundabout 11 13 18
-A13 a_preserve_belt 1 2 3
+A13 a_preserve_belt 6 8 10
 A14 a_icy_river 9 12 16
 A15 a_dominoes 7 8 13
 A16 a_columns_ring 6 8 10
