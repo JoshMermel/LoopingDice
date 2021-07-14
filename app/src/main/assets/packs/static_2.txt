@@ -4,10 +4,10 @@ S21 s_swap_sides 11 16 22
 S22 s_quad_horizontal_stripe 8 10 20
 S23 s_quad_strips 7 9 18
 S24 s_quadrant 7 8 15
-S25 s_two_squares 8 10 14
-S26 s_rotate_stripes 7 9 13
-S27 s_defrag 6 10 20
-S28 s_locked_col 10 17 24
+S25 s_defrag 6 10 20
+S26 s_two_squares 8 10 14
+S27 s_rotate_stripes 7 9 13
+S28 s_locked_col 10 12 17
 S29 s_join_edges 6 9 15
 S30 s_wide_middle 8 12 20
 S31 s_compaction 8 16 24

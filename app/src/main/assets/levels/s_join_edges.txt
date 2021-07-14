@@ -5,3 +5,4 @@ STATIC 2 2
 1,1,1,2,1,1,2,2,1,2,2,2,2,2,2,F 0
 
 # C0,R0',R1,C1,R0',R0' (6)
+human solution: Col0 Col1 Row1 Row0' Col1 Row1 Col1' Col0 Row0 Col1' Col1' Row0
