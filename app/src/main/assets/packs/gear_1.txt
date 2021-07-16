@@ -7,5 +7,5 @@ G14 g_rotate_strip 6 7 12
 G15 g_ring 4 5 10
 G16 g_flower 4 5 8
 G17 g_checkerboard_density 4 6 8
-G18 g_just_middle 4 7 10
-G19 g_double_triple 5 7 11
+G18 g_double_triple 5 7 11
+G19 g_flip_4 5 7 9
