@@ -201,7 +201,7 @@ fun generateRandomLevel(options: RandomLevelParams, context: Context, initial : 
 
     if (initial != null && goal != null) {
         return GameplayParams(
-            "∞",
+            "∞$options",
             options.numRows,
             options.numCols,
             factory,
@@ -250,7 +250,7 @@ fun generateRandomLevel(options: RandomLevelParams, context: Context, initial : 
     val randomStart = scramble(randomGoal, factory, options.numRows, options.numCols, context)
 
     return GameplayParams(
-        "∞",
+        "∞$options",
         options.numRows,
         options.numCols,
         factory,

@@ -204,9 +204,8 @@ class GameplayActivity : AppCompatActivity() {
         val fourStar = levelData.fourStar
         val threeStar = levelData.threeStar
         val twoStar = levelData.twoStar
-        val highscores: SharedPreferences =
-            getSharedPreferences("highscores", Context.MODE_PRIVATE)
-        val oldHighscore = highscores.getInt(id, Int.MAX_VALUE)
+        val highscore =
+            getSharedPreferences("highscores", Context.MODE_PRIVATE).getInt(id, Int.MAX_VALUE)
 
         val dialog = Dialog(this)
         dialog.setContentView(R.layout.help_popup)
@@ -216,9 +215,9 @@ class GameplayActivity : AppCompatActivity() {
         }
 
         dialog.findViewById<TextView>(R.id.help_dialog_pb).apply {
-            if (highscores.contains(this@GameplayActivity.id)) {
-                text = "Your best score on this level was $oldHighscore " + pluralizedMoves(
-                    oldHighscore
+            if (highscore != Int.MAX_VALUE) {
+                text = "Your best score on this level was $highscore " + pluralizedMoves(
+                    highscore
                 )
             } else {
                 isVisible = false
@@ -227,10 +226,10 @@ class GameplayActivity : AppCompatActivity() {
 
         dialog.findViewById<TextView>(R.id.help_dialog_stars).apply {
             text = when {
-                oldHighscore == Int.MAX_VALUE -> "Win in any number of moves to earn a star"
-                oldHighscore > twoStar -> "Win in $twoStar " + pluralizedMoves(twoStar) + " to earn two stars"
-                oldHighscore > threeStar -> "Win in $threeStar " + pluralizedMoves(threeStar) + " to earn three stars"
-                oldHighscore > fourStar -> "A perfect score is $fourStar " + pluralizedMoves(
+                highscore == Int.MAX_VALUE -> "Win in any number of moves to earn a star"
+                highscore > twoStar -> "Win in $twoStar " + pluralizedMoves(twoStar) + " to earn two stars"
+                highscore > threeStar -> "Win in $threeStar " + pluralizedMoves(threeStar) + " to earn three stars"
+                highscore > fourStar -> "A perfect score is $fourStar " + pluralizedMoves(
                     fourStar
                 )
                 else -> "You've earned all possible stars!"

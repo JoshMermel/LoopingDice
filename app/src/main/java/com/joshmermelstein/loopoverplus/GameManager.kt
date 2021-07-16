@@ -237,9 +237,6 @@ class GameManager(
 
     // Highscores for each level are stored in shared preferences.
     private fun updateHighscores(highscores: SharedPreferences) {
-        if (params.id == "∞") {
-            return
-        }
         with(highscores.edit()) {
             putInt(params.id, numMoves)
             commit()

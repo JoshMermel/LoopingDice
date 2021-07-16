@@ -1,9 +1,12 @@
 package com.joshmermelstein.loopoverplus
 
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Parcelable
+import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -336,8 +339,13 @@ class InfinityActivity : AppCompatActivity() {
     }
 
     private fun startGame(loadSave: Boolean) {
+        val params = build()
+        if (!loadSave) {
+            getSharedPreferences("highscores", Context.MODE_PRIVATE).edit().remove("∞$params")
+                .apply()
+        }
         val intent = Intent(this, GameplayActivity::class.java)
-        intent.putExtra("randomLevelParams", build())
+        intent.putExtra("randomLevelParams", params)
         intent.putExtra("loadSave", loadSave)
         startActivity(intent)
     }
