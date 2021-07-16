@@ -8,4 +8,4 @@ G6 g_plus 3 4 7
 G7 g_stripes 2 3 6
 G7 g_stripes 2 3 6
 G8 g_make_square 4 5 8
-G9 g_preserve_column 4 6 8
+G9 g_preserve_column 4 5 7
