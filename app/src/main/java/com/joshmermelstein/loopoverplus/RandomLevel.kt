@@ -194,6 +194,7 @@ fun generateStaticCellGoal(numRows: Int, numCols: Int, colorScheme: String): Arr
     return ret
 }
 
+// TODO(jmerm): consider if there should be a special bandaged + speckled interaction and how the hell I'd do that.
 fun generateBandagedGoal(
     numRows: Int,
     numCols: Int,
