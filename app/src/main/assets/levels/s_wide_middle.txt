@@ -5,3 +5,4 @@ F 0,2,2,2,F 0,2,2,3,2,2,2,3,3,3,2,2,2,3,2,2,F 0,2,2,2,F 0
 F 0,2,2,2,F 0,2,3,2,3,2,2,2,3,2,2,2,3,2,3,2,F 0,2,2,2,F 0
 
 # C1,C2',R1,C2,R2',C1',R2,R1' (8)
+human solution (bad): Row1 Col2 Row2 Row1 Row2 Col2' Row1 Row2 Col2 Row1' Col2' Row1' Row2' Row2' Col2' Col2' Row2 Row2
