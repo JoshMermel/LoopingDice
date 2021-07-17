@@ -39,11 +39,10 @@ abstract class NormalGameCellBase(
         bottom: Double,
         canvas: Canvas
     ) {
+        val radius = ((bottom - top) / 4).toFloat()
         val shapeDrawable = ShapeDrawable(
             RoundRectShape(
-                floatArrayOf(
-                    40F, 40F, 40F, 40F, 40F, 40F, 40F, 40F
-                ), null, null
+                FloatArray(8) { radius }, null, null
             )
         )
         shapeDrawable.setBounds(left.toInt(), top.toInt(), right.toInt(), bottom.toInt())
