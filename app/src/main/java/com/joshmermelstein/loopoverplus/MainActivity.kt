@@ -90,7 +90,6 @@ class MainActivity : AppCompatActivity() {
 
         // Configure onclick listener to move to Level Select activity for this pack ID.
         header.setOnClickListener {
-            // TODO(jmerm): maybe animate this.
             levelsContainer.visibility =
                 if (levelsContainer.visibility == View.GONE) {
                     expandedListItems.add(packId)
