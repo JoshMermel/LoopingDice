@@ -1,6 +1,8 @@
 package com.joshmermelstein.loopoverplus
 
 import android.content.Context
+import kotlin.math.floor
+import kotlin.math.sqrt
 import kotlin.random.Random
 
 // TODO(jmerm): tests for things in this file
@@ -19,9 +21,6 @@ fun fromRandomFactory(name: String, rowDepth: Int?, colDepth: Int?): MoveFactory
     }
 }
 
-// helper for applying a "Columns" or "Unique" to a boardTemplate
-fun toId(i: Int, mode: String) = if (mode == "Columns") i % 6 else i
-
 // helper for replacing black square with gold in modes where black has a special meaning
 fun blackToGold(i: Int): Int = if (i % 6 == 4) i + 1 else i
 
@@ -35,20 +34,48 @@ fun generateBicolorGoal(numRows: Int, numCols: Int): Array<Int> {
     }
 }
 
+fun sqrt(i: Int): Int {
+    return floor(sqrt(i.toDouble())).toInt()
+}
+
+fun generateSpeckledGoal(numRows: Int, numCols: Int, indicesToAvoid: Set<Int>): List<Int> {
+    val colors = (0..3).shuffled().toMutableList()
+    val background = colors.removeFirst()
+    val board = Array(numRows * numCols) { background }
+
+    for (idx in (0 until numRows * numCols).filter { it !in indicesToAvoid }.shuffled()
+        .take(sqrt(numRows * numCols))) {
+        board[idx] = colors.random()
+    }
+
+    return board.toList()
+}
+
+// Slices a |numRows| by |numCols| size rectangle out of
+// 0  1  2  3  4  5
+// 6  7  ...
+// ...
+// 30         ... 35
+fun generateUniqueGoal(numRows: Int, numCols: Int): Array<Int> {
+    return (0..35).filter { (it < numRows * 6) && (it % 6 < numCols) }.toTypedArray()
+}
+
+// Slices a |numRows| by |numCols| size rectangle out of
+// 0  1  2  3  4  5
+// 0  1  2  ...
+// ...
+fun generateColumnsGoal(numRows: Int, numCols: Int): Array<Int> {
+    return generateUniqueGoal(numRows, numCols).map { it % 6 }.toTypedArray()
+}
+
 // Generates a sensible goal for modes without special cells. Modes with special cells should
 // overwrite those cells into the returned array.
 fun generateBasicGoal(numRows: Int, numCols: Int, colorScheme: String): Array<Int> {
-    return if (colorScheme == "Bicolor") {
-        generateBicolorGoal(numRows, numCols)
-    } else {
-        // Slices a |numRows| by |numCols| size rectangle out of
-        // 0  1  2  3  4  5
-        // 6  7  ...
-        // ...
-        // 30         ... 35
-        // and possibly modifies it so all dice have 1 pip.
-        (0..35).filter { (it < numRows * 6) && (it % 6 < numCols) }.map { toId(it, colorScheme) }
-            .toTypedArray()
+    return when (colorScheme) {
+        "Bicolor" -> generateBicolorGoal(numRows, numCols)
+        "Speckled" -> generateSpeckledGoal(numRows, numCols, emptySet()).toTypedArray()
+        "Columns" -> generateColumnsGoal(numRows, numCols)
+        else -> generateUniqueGoal(numRows, numCols)
     }
 }
 
@@ -58,12 +85,19 @@ fun generateEnablerGoal(
     colorScheme: String,
     numEnablers: String
 ): Array<String> {
-    val goal = generateBasicGoal(numRows, numCols, colorScheme).map { it.toString() }.toTypedArray()
     val enablersIndices = when (numEnablers) {
         "Common" -> (1 until numRows * numCols).shuffled().take(numRows * numCols / 8)
         "Frequent" -> (1 until numRows * numCols).shuffled().take(numRows * numCols / 4)
         else -> listOf(0)
-    }
+    }.toSet()
+
+    // In Speckled + Enabler, we avoid putting speckles in the same places as enabler cells
+    val goal = when (colorScheme) {
+        "Speckled" -> generateSpeckledGoal(numRows, numCols, enablersIndices)
+        else -> generateBasicGoal(numRows, numCols, colorScheme).toList()
+    }.map { it.toString() }.toTypedArray()
+
+
     for (idx in enablersIndices) {
         goal[idx] = "E"
     }
@@ -86,16 +120,6 @@ fun generateDynamicBandagingGoal(
     colorScheme: String,
     numBandaged: String
 ): Array<String> {
-    // Bicolor Dynamic is unusual since the black squares are the second color. We handle that by
-    // starting with a monocolor board and overwriting random cells with fixed cells.
-    val board = if (colorScheme == "Bicolor") {
-        val color = Random.nextInt(0, 4).toString()
-        Array(numRows * numCols) { color }
-    } else {
-        generateBasicGoal(numRows, numCols, colorScheme).map { blackToGold(it) }
-            .map { it.toString() }.toTypedArray()
-    }
-
     val bandagedCount = when (numBandaged) {
         "Rare" -> (numRows * numCols / 6) + 1
         "Common" -> numRows * numCols / 2
@@ -103,6 +127,23 @@ fun generateDynamicBandagingGoal(
         else -> 1
     }
     val fixedIndices = (1 until numRows * numCols).shuffled().take(bandagedCount)
+
+    val board = when (colorScheme) {
+        "Bicolor" -> {
+            // Bicolor Dynamic is unusual since the black squares are the second color. We handle that by
+            // starting with a monocolor board and overwriting random cells with fixed cells.
+            val color = Random.nextInt(0, 4).toString()
+            List(numRows * numCols) { color }
+        }
+        "Speckled" -> {
+            // Speckled Dynamic is also unusual since we're adding black squares and speckles. We
+            // pass the list of fixed squares when generating the board to keep speckles and black
+            // squares disjoint.
+            generateSpeckledGoal(numRows, numCols, fixedIndices.toSet())
+        }
+        else -> generateBasicGoal(numRows, numCols, colorScheme).map { blackToGold(it) }
+    }.map { it.toString() }.toTypedArray()
+
     val modulus = if (colorScheme == "Unique") 6 else 1
     return addFixedCells(board, fixedIndices, modulus)
 }
@@ -142,14 +183,24 @@ fun generateArrowsGoal(
 }
 
 fun generateStaticCellGoal(numRows: Int, numCols: Int, colorScheme: String): Array<String> {
-    val ret = generateBasicGoal(numRows, numCols, colorScheme).map { blackToGold(it) }
-        .map { it.toString() }.toTypedArray()
+    // Speckled Static is special because we want to avoid putting a speckle where we've
+    // put the fixed cell.
+    val ret = when (colorScheme) {
+        "Speckled" -> generateSpeckledGoal(numRows, numCols, setOf(0))
+        else -> generateBasicGoal(numRows, numCols, colorScheme).map { blackToGold(it) }
+    }.map { it.toString() }.toTypedArray()
+
     ret[0] = "F 0"
     return ret
 }
 
-fun generateBandagedGoal(numRows: Int, numCols: Int, colorScheme: String, numBlocks: String): Array<String> {
-    val goal = generateBasicGoal(numRows, numCols, colorScheme).map { blackToGold(it)}
+fun generateBandagedGoal(
+    numRows: Int,
+    numCols: Int,
+    colorScheme: String,
+    numBlocks: String
+): Array<String> {
+    val goal = generateBasicGoal(numRows, numCols, colorScheme).map { blackToGold(it) }
     return addBonds(numRows, numCols, goal, numBlocks).toTypedArray()
 }
 
@@ -188,7 +239,12 @@ fun scramble(
 
 // TODO(jmerm): needing to take the context here is silly, fix that.
 // Initial and final are optional params for when the caller knows what they want the initial and final state to be.
-fun generateRandomLevel(options: RandomLevelParams, context: Context, initial : Array<String>?, goal : Array<String>?): GameplayParams {
+fun generateRandomLevel(
+    options: RandomLevelParams,
+    context: Context,
+    initial: Array<String>?,
+    goal: Array<String>?
+): GameplayParams {
     val factory: MoveFactory =
         if (options.rowMode == options.colMode || options.colMode == null) {
             fromRandomFactory(options.rowMode, options.rowDepth, options.colDepth)

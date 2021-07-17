@@ -57,7 +57,7 @@ class InfinityActivity : AppCompatActivity() {
             "Bandaged"
         )
     private val colModes = arrayOf("Wide", "Carousel", "Gear")
-    private val colorSchemes = arrayOf("Bicolor", "Columns", "Unique")
+    private val colorSchemes = arrayOf("Bicolor", "Speckled", "Columns", "Unique")
     private val densities = arrayOf("Rare", "Common", "Frequent")
 
     override fun onCreate(savedInstanceState: Bundle?) {
