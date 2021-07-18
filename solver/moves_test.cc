@@ -147,6 +147,40 @@ TEST(Board, BandagedColMove) {
   EXPECT_EQ(moved, expected);
 }
 
+// Tests for an old bug where bandaged moves that wrapped off the top of the
+// board worked incorrectly.
+TEST(Board, BandagedRowMoveUnderflow) {
+  Board<3,2> b = {{
+    {{1,2|UP}},
+    {{3,4}},
+    {{5,6|DOWN}},
+  }};
+  Board<3,2> expected = {{
+    {{2|UP,1}},
+    {{3,4}},
+    {{6|DOWN,5}},
+  }};
+
+  Board<3,2> moved = bandagedRowMove(b, 0, true);
+  EXPECT_EQ(moved, expected);
+}
+
+// Tests for an old bug where bandaged moves that wrapped off the left of the
+// board worked incorrectly.
+TEST(Board, BandagedColMoveUnderflow) {
+  Board<2,3> b = {{
+    {{0 | LEFT ,1 ,2 |RIGHT}},
+    {{3,        4, 5}},
+  }};
+  Board<2,3> expected = {{
+    {{3,        1, 5}},
+    {{0 | LEFT ,4 ,2 |RIGHT}},
+  }};
+
+  Board<2,3> moved = bandagedColMove(b, 0, true);
+  EXPECT_EQ(moved, expected);
+}
+
 TEST(Board, AxisLockedRowMove) {
   Board<2,3> b = {{
     {{0 | RIGHT,1, 2}},

@@ -5,17 +5,16 @@
 #include "enums.h"
 #include "moves.h"
 
-constexpr size_t num_rows = 4;
-constexpr size_t num_cols = 4;
+constexpr size_t num_rows = 3;
+constexpr size_t num_cols = 3;
 constexpr Board<num_rows, num_cols> initial = {{
-  {{3,3,3,3}},
-  {{3,3,3,3}},
-  {{3,2,4,3}},
-  {{3,3,3,0}},
+	{{1,2,3}},
+	{{0,0,0}},
+	{{0,0,0}},
 }};
 
-Mode row_mode = Mode::STATIC_3;
-Mode col_mode = Mode::STATIC_3;
+Mode row_mode = Mode::GEAR;
+Mode col_mode = Mode::GEAR;
 
 template<std::size_t num_rows, std::size_t num_cols>
 struct Node {
@@ -93,7 +92,7 @@ int main () {
     Node<num_rows, num_cols> next = q.front();
     exploreNeighbors<num_rows, num_cols>(next.board, q, seen, next.path);
     std::cout << boardToString(next.board, row_mode, "\n") 
-      << std::endl << next.path << std::endl << std::endl;
+	    << std::endl << next.path << std::endl << std::endl;
     q.pop();
   }
 

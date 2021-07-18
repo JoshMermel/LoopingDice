@@ -8,22 +8,22 @@
 #include "moves.h"
 
 // Global settings
-constexpr size_t num_rows = 3;
-constexpr size_t num_cols = 3;
+constexpr size_t num_rows = 4;
+constexpr size_t num_cols = 4;
 constexpr Board<num_rows, num_cols> initial = {{
-  {{2,2,2,2}},
-  {{2,3,3,2}},
-  {{2,3,3,2}},
-  {{2,2,2,3}},
+	{{3,1,1,1}},
+	{{1,2,2,2}},
+	{{1,2,2,2}},
+	{{1,2,2,2}},
 }};
 constexpr Board<num_rows, num_cols> win = {{
-  {{3,2,2,3}},
-  {{2,2,2,2}},
-  {{2,2,2,2}},
-  {{3,2,2,3}},
+	{{2,2,2,1}},
+	{{2,2,2,1}},
+	{{2,2,2,1}},
+	{{1,1,1,3}},
 }};
-Mode row_mode = Mode::WIDE_2;
-Mode col_mode = Mode::GEAR;
+Mode row_mode = Mode::WIDE_3;
+Mode col_mode = Mode::WIDE_3;
 
 template<std::size_t num_rows, std::size_t num_cols>
 struct Node {
