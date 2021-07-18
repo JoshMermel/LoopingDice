@@ -13,7 +13,7 @@ abstract class ArrowsGameCell(
     override val numRows: Int,
     override val numCols: Int,
     colorId: String,
-    override val data : GameCellMetadata
+    final override val data : GameCellMetadata
 ) : NormalGameCellBase(x, y, numRows, numCols, colorId) {
     final override val color: Int
     final override val drawColor : Int
