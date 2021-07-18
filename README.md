@@ -80,8 +80,8 @@ separated list of fields:
 
 ```
 Title of the pack
-display-name filename pefect-score 3*score 2*score
-display-name filename pefect-score 3*score 2*score
+display-name filename perfect-score 3*score 2*score
+display-name filename perfect-score 3*score 2*score
 ...
 ```
 

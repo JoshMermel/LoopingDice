@@ -70,7 +70,7 @@ TEST(Board, hash) {
   s.insert(b2);
   EXPECT_EQ(s.size(), 2);
 
-  // Try to insert one again and verify its hash is consistant
+  // Try to insert one again and verify its hash is consistent
   s.insert(b2);
   EXPECT_EQ(s.size(), 2);
 }
