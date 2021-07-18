@@ -1,10 +1,7 @@
 package com.joshmermelstein.loopoverplus
 
-import android.content.Context
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
-import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.DrawableCompat
 
 // An Arrows gamecell is limited to either its row or its column. They are used in the Arrows
@@ -16,9 +13,12 @@ abstract class ArrowsGameCell(
     override val numRows: Int,
     override val numCols: Int,
     colorId: String,
-    override val context: Context
+    colors : Array<Int>,
+    override val pipColor: Int
 ) : NormalGameCellBase(x, y, numRows, numCols, colorId) {
     final override val color: Int
+    final override val drawColor : Int
+
     override val pips = 1
     abstract val arrows: Drawable
     abstract val lock: Drawable
@@ -26,6 +26,7 @@ abstract class ArrowsGameCell(
     init {
         val parts = colorId.split(" ")
         color = parts[1].toInt() % 6
+        drawColor = colors[color]
     }
 
     override fun drawPips(
@@ -65,10 +66,7 @@ abstract class ArrowsGameCell(
         canvas: Canvas
     ) {
         icon.setBounds(left.toInt(), top.toInt(), right.toInt(), bottom.toInt())
-        DrawableCompat.setTint(
-            icon.mutate(),
-            ContextCompat.getColor(context, R.color.gameplay_background)
-        )
+        DrawableCompat.setTint(icon.mutate(), pipColor)
         icon.draw(canvas)
     }
 }
@@ -80,18 +78,11 @@ class HorizontalGameCell(
     override val numRows: Int,
     override val numCols: Int,
     colorId: String,
-    override val context: Context
-) : ArrowsGameCell(x, y, numRows, numCols, colorId, context) {
-    override val arrows = ResourcesCompat.getDrawable(
-        context.resources,
-        R.drawable.ic_baseline_swap_horiz_24,
-        null
-    )!!
-    override val lock = ResourcesCompat.getDrawable(
-        context.resources,
-        R.drawable.ic_baseline_lock_24,
-        null
-    )!!
+    colors : Array<Int>,
+    override val pipColor: Int,
+    override val arrows : Drawable,
+    override val lock : Drawable
+) : ArrowsGameCell(x, y, numRows, numCols, colorId, colors, pipColor) {
     override val family = CellFamily.HORIZONTAL
 }
 
@@ -102,17 +93,11 @@ class VerticalGameCell(
     override val numRows: Int,
     override val numCols: Int,
     colorId: String,
-    override val context: Context
-) : ArrowsGameCell(x, y, numRows, numCols, colorId, context) {
-    override val arrows = ResourcesCompat.getDrawable(
-        context.resources,
-        R.drawable.ic_baseline_swap_vert_24,
-        null
-    )!!
-    override val lock = ResourcesCompat.getDrawable(
-        context.resources,
-        R.drawable.ic_baseline_lock_24,
-        null
-    )!!
+    colors : Array<Int>,
+    override val pipColor : Int,
+    override val arrows : Drawable,
+    override val lock : Drawable
+) : ArrowsGameCell(x, y, numRows, numCols, colorId, colors, pipColor) {
+
     override val family = CellFamily.VERTICAL
 }

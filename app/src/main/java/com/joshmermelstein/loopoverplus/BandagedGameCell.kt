@@ -1,8 +1,6 @@
 package com.joshmermelstein.loopoverplus
 
-import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.Paint
 
 // Represents a bandaged gameCell is joined to a neighbor and moves with it.
@@ -14,10 +12,13 @@ class BandagedGameCell(
     override val numRows: Int,
     override val numCols: Int,
     colorId: String,
-    override val context: Context
+    colors : Array<Int>,
+    override val pipColor: Int,
+    private val bondColor: Int
 ) : NormalGameCellBase(x, y, numRows, numCols, colorId) {
     override val color: Int
     override val pips: Int
+    override val drawColor : Int
     override val family = CellFamily.BANDAGED
 
     // (Possibly empty) set of which directions this cell has bonds
@@ -27,6 +28,7 @@ class BandagedGameCell(
         val parts = colorId.split(" ")
         color = parts[1].toInt() % 6
         pips = (parts[1].toInt() / 6) + 1
+        drawColor = colors[color]
         bonds = parts.drop(2).map {
             when (it) {
                 "U" -> Bond.UP
@@ -90,8 +92,7 @@ class BandagedGameCell(
         bounds: Bounds
     ) {
         val paint = Paint()
-        // TODO(jmerm): this is broken in night mode.
-        paint.color = Color.BLACK
+        paint.color = bondColor
         paint.strokeWidth = strokeWidth
         paint.strokeCap = Paint.Cap.ROUND
 

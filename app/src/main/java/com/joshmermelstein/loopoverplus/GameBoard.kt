@@ -19,8 +19,8 @@ class GameBoard(private val board: Array<Array<GameCell>>) {
         Array(numRows) { row ->
             Array(numCols) { col ->
                 makeGameCell(
-                    col,
-                    row,
+                    col.toDouble(),
+                    row.toDouble(),
                     numRows,
                     numCols,
                     contents[row * numCols + col],

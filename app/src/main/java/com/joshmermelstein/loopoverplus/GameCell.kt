@@ -3,48 +3,77 @@ package com.joshmermelstein.loopoverplus
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.drawable.Drawable
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 
 // A gameCell object represents a single square on the board. GameCells are relatively dumb and
 // only know how to draw themselves. Movement is handled by the game manager object.
 //
 // There are several subclasses implementing GameCell to represent different kinds of cells.
 
-// from https://medium.com/cafe-pixo/inclusive-color-palettes-for-the-web-bbfe8cf2410e
-val colors = arrayOf(
-    Color.parseColor("#FF4242"), // red
-    Color.parseColor("#A691AE"), // gray
-    Color.parseColor("#235FA4"), // blue
-    Color.parseColor("#6FDE6E"), // green
-    Color.parseColor("#000000"), // bandaged
-    Color.parseColor("#E8F086"), // enabler
-)
-
 // A factory method for creating gameCells.
+// TODO(jmerm): see if I can find a way to avoid taking the context here. Maybe take some struct
+//  containing all the parts I care about so it's easier to mock in tests.
 fun makeGameCell(
-    x: Int,
-    y: Int,
+    x: Double,
+    y: Double,
     numRows: Int,
     numCols: Int,
     colorId: String,
     context: Context
 ): GameCell {
+    // from https://medium.com/cafe-pixo/inclusive-color-palettes-for-the-web-bbfe8cf2410e
+    val colors = arrayOf(
+        Color.parseColor("#FF4242"), // red
+        Color.parseColor("#A691AE"), // gray
+        Color.parseColor("#235FA4"), // blue
+        Color.parseColor("#6FDE6E"), // green
+        ContextCompat.getColor(context, R.color.bandaged_cell), // bandaged (black/white)
+        Color.parseColor("#E8F086"), // enabler
+    )
+
+    val pipColor = ContextCompat.getColor(context, R.color.gameplay_background)
+    val lock = ResourcesCompat.getDrawable(
+        context.resources,
+        R.drawable.ic_baseline_lock_24,
+        null
+    )!!
+
     return when {
         colorId == "E" -> {
-            EnablerGameCell(x.toDouble(), y.toDouble(), numRows, numCols, colorId, context)
+            val key: Drawable = ResourcesCompat.getDrawable(
+                context.resources,
+                R.drawable.ic_baseline_vpn_key_24,
+                null
+            )!!
+            EnablerGameCell(x, y, numRows, numCols, colorId, colors[5], pipColor, key)
         }
         colorId.startsWith("F") -> {
-            FixedGameCell(x.toDouble(), y.toDouble(), numRows, numCols, colorId, context)
+            val selfColor = ContextCompat.getColor(context, R.color.bandaged_cell)
+            FixedGameCell(x, y, numRows, numCols, colorId, selfColor, pipColor, lock)
         }
         colorId.startsWith("B") -> {
-            BandagedGameCell(x.toDouble(), y.toDouble(), numRows, numCols, colorId, context)
+            val bondColor = ContextCompat.getColor(context, R.color.bandaged_cell)
+            BandagedGameCell(x, y, numRows, numCols, colorId, colors, pipColor, bondColor)
         }
         colorId.startsWith("H") -> {
-            HorizontalGameCell(x.toDouble(), y.toDouble(), numRows, numCols, colorId, context)
+            val arrows = ResourcesCompat.getDrawable(
+                context.resources,
+                R.drawable.ic_baseline_swap_horiz_24,
+                null
+            )!!
+            HorizontalGameCell(x, y, numRows, numCols, colorId, colors, pipColor, arrows, lock)
         }
         colorId.startsWith("V") -> {
-            VerticalGameCell(x.toDouble(), y.toDouble(), numRows, numCols, colorId, context)
+            val arrows = ResourcesCompat.getDrawable(
+                context.resources,
+                R.drawable.ic_baseline_swap_vert_24,
+                null
+            )!!
+            VerticalGameCell(x, y, numRows, numCols, colorId, colors, pipColor, arrows, lock)
         }
-        else -> NormalGameCell(x.toDouble(), y.toDouble(), numRows, numCols, colorId, context)
+        else -> NormalGameCell(x, y, numRows, numCols, colorId, colors, pipColor)
     }
 }
 
@@ -74,6 +103,7 @@ abstract class GameCell(
     var offsetY: Double = 0.0
     abstract val color: Int
     abstract val pips: Int
+    abstract val drawColor: Int
     abstract val family: CellFamily
 
     // There's probably a better way to do this but this is an easy way to let the game manager
@@ -123,7 +153,7 @@ abstract class GameCell(
     }
 
     // Sometimes the boundaries of a cell may go outside the board's boundaries. In that case, we
-    // draw the cell twice, once at it original position (clamped into the boards's boundaries) and
+    // draw the cell twice, once at it original position (clamped into the board's boundaries) and
     // once on the other side of the board.
     private fun drawSelf(
         canvas: Canvas,

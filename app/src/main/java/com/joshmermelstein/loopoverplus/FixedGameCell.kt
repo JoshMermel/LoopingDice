@@ -1,12 +1,9 @@
 package com.joshmermelstein.loopoverplus
 
-import android.content.Context
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.RectShape
-import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.DrawableCompat
 
 // A fixed gameCell is like a regular gameCell except it is bandaged and it used squared
@@ -18,16 +15,13 @@ class FixedGameCell(
     override val numRows: Int,
     override val numCols: Int,
     colorId: String,
-    private val context: Context
+    override val drawColor: Int,
+    private val pipColor: Int,
+    private val lock : Drawable
 ) : GameCell(x, y, numRows, numCols, colorId) {
     override val color = 4
     override val pips: Int
     override val family = CellFamily.FIXED
-    private val lock: Drawable = ResourcesCompat.getDrawable(
-        context.resources,
-        R.drawable.ic_baseline_lock_24,
-        null
-    )!!
 
     init {
         val parts = colorId.split(" ")
@@ -43,7 +37,7 @@ class FixedGameCell(
     ) {
         val shapeDrawable = ShapeDrawable(RectShape())
         shapeDrawable.setBounds(left.toInt(), top.toInt(), right.toInt(), bottom.toInt())
-        shapeDrawable.paint.color = ContextCompat.getColor(context, R.color.bandaged_cell)
+        shapeDrawable.paint.color = drawColor
         shapeDrawable.draw(canvas)
     }
 
@@ -70,17 +64,14 @@ class FixedGameCell(
                 (centerX + radius).toInt(),
                 (centerY + radius).toInt()
             )
-            paint.color = ContextCompat.getColor(context, R.color.gameplay_background)
+            paint.color = pipColor
             draw(canvas)
         }
     }
 
     private fun drawLock(left: Double, top: Double, right: Double, bottom: Double, canvas: Canvas) {
         lock.setBounds(left.toInt(), top.toInt(), right.toInt(), bottom.toInt())
-        DrawableCompat.setTint(
-            lock.mutate(),
-            ContextCompat.getColor(context, R.color.gameplay_background)
-        )
+        DrawableCompat.setTint(lock.mutate(), pipColor)
         lock.draw(canvas)
     }
 

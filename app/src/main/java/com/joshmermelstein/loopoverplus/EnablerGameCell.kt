@@ -1,12 +1,9 @@
 package com.joshmermelstein.loopoverplus
 
-import android.content.Context
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.RectShape
-import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.DrawableCompat
 
 // An enabler cell is like a regular gameCell except it is gold and uses squared off rectangles
@@ -17,16 +14,13 @@ class EnablerGameCell(
     override val numRows: Int,
     override val numCols: Int,
     colorId: String,
-    private val context: Context
+    override val drawColor: Int,
+    private val pipColor: Int,
+    private val key : Drawable
 ) : GameCell(x, y, numRows, numCols, colorId) {
     override val color = 5
     override val pips = 1
     override val family = CellFamily.ENABLER
-    private val key: Drawable = ResourcesCompat.getDrawable(
-        context.resources,
-        R.drawable.ic_baseline_vpn_key_24,
-        null
-    )!!
 
     override fun drawSquare(
         left: Double,
@@ -37,7 +31,7 @@ class EnablerGameCell(
     ) {
         ShapeDrawable(RectShape()).apply {
             setBounds(left.toInt(), top.toInt(), right.toInt(), bottom.toInt())
-            paint.color = colors[this@EnablerGameCell.color]
+            paint.color = drawColor
             draw(canvas)
         }
     }
@@ -50,7 +44,7 @@ class EnablerGameCell(
                 (centerX + radius).toInt(),
                 (centerY + radius).toInt()
             )
-            paint.color = ContextCompat.getColor(context, R.color.gameplay_background)
+            paint.color = pipColor
             draw(canvas)
         }
     }
@@ -73,10 +67,7 @@ class EnablerGameCell(
 
     private fun drawKey(left: Double, top: Double, right: Double, bottom: Double, canvas: Canvas) {
         key.setBounds(left.toInt(), top.toInt(), right.toInt(), bottom.toInt())
-        DrawableCompat.setTint(
-            key.mutate(),
-            ContextCompat.getColor(context, R.color.gameplay_background)
-        )
+        DrawableCompat.setTint(key.mutate(), pipColor)
         key.draw(canvas)
     }
 }

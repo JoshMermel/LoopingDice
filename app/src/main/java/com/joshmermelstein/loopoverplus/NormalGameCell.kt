@@ -1,11 +1,9 @@
 package com.joshmermelstein.loopoverplus
 
-import android.content.Context
 import android.graphics.Canvas
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.OvalShape
 import android.graphics.drawable.shapes.RoundRectShape
-import androidx.core.content.ContextCompat
 
 // Represents a "normal" gameCell - meaning neither bandaged nor enabler.
 open class NormalGameCell(
@@ -14,10 +12,12 @@ open class NormalGameCell(
     override val numRows: Int,
     override val numCols: Int,
     colorId: String,
-    override val context: Context
+    colors : Array<Int>,
+    override val pipColor: Int
 ) : NormalGameCellBase(x, y, numRows, numCols, colorId) {
-    override val color: Int = colorId.toInt()  % 6
+    final override val color: Int = colorId.toInt() % 6
     override val pips: Int = (colorId.toInt() / 6) + 1
+    override val drawColor : Int = colors[color]
 }
 
 // Base class for NormalGameCell that holds all logic but doesn't run initialization code so it's
@@ -28,9 +28,9 @@ abstract class NormalGameCellBase(
     numRows: Int,
     numCols: Int,
     colorId: String
-) :
-    GameCell(x, y, numRows, numCols, colorId) {
-    abstract val context: Context
+) : GameCell(x, y, numRows, numCols, colorId) {
+
+    abstract val pipColor: Int
     override val family = CellFamily.NORMAL
     override fun drawSquare(
         left: Double,
@@ -46,7 +46,9 @@ abstract class NormalGameCellBase(
             )
         )
         shapeDrawable.setBounds(left.toInt(), top.toInt(), right.toInt(), bottom.toInt())
-        shapeDrawable.paint.color = colors[this.color]
+        // TODO(jmerm): think about black cells in infinity in night mode. Is there a natural way
+        //  to invert those?
+        shapeDrawable.paint.color = drawColor
         shapeDrawable.draw(canvas)
     }
 
@@ -58,7 +60,7 @@ abstract class NormalGameCellBase(
             (centerX + radius).toInt(),
             (centerY + radius).toInt()
         )
-        shapeDrawable.paint.color = ContextCompat.getColor(context, R.color.gameplay_background)
+        shapeDrawable.paint.color = pipColor
 
         shapeDrawable.draw(canvas)
     }
