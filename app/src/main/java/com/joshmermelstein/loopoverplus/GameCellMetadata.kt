@@ -22,6 +22,7 @@ class GameCellMetadata(
     val vArrow: Drawable,
 ) {
     constructor(context: Context) : this(
+        // TODO(jmerm): move these colors into R.color
         arrayOf(
             Color.parseColor("#FF4242"), // red
             Color.parseColor("#A691AE"), // gray
