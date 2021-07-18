@@ -23,7 +23,6 @@ fun fromRandomFactory(name: String, rowDepth: Int?, colDepth: Int?): MoveFactory
 // helper for replacing black square with gold in modes where black has a special meaning
 fun blackToGold(i: Int): Int = if (i % 6 == 4) i + 1 else i
 
-// TODO(jmerm): more interesting patterns? Staircase?
 fun generateBicolorGoal(numRows: Int, numCols: Int): Array<Int> {
     val colors = (0..3).shuffled()
     return if (numCols % 2 == 0) {
