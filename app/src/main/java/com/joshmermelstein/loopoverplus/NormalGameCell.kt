@@ -45,8 +45,6 @@ abstract class NormalGameCellBase(
             )
         )
         shapeDrawable.setBounds(left.toInt(), top.toInt(), right.toInt(), bottom.toInt())
-        // TODO(jmerm): think about black cells in infinity in night mode. Is there a natural way
-        //  to invert those?
         shapeDrawable.paint.color = drawColor
         shapeDrawable.draw(canvas)
     }
