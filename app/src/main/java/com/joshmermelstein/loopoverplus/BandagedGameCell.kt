@@ -12,9 +12,7 @@ class BandagedGameCell(
     override val numRows: Int,
     override val numCols: Int,
     colorId: String,
-    colors : Array<Int>,
-    override val pipColor: Int,
-    private val bondColor: Int
+    override val data : GameCellMetadata
 ) : NormalGameCellBase(x, y, numRows, numCols, colorId) {
     override val color: Int
     override val pips: Int
@@ -28,7 +26,7 @@ class BandagedGameCell(
         val parts = colorId.split(" ")
         color = parts[1].toInt() % 6
         pips = (parts[1].toInt() / 6) + 1
-        drawColor = colors[color]
+        drawColor = data.colors[color]
         bonds = parts.drop(2).map {
             when (it) {
                 "U" -> Bond.UP
@@ -92,7 +90,7 @@ class BandagedGameCell(
         bounds: Bounds
     ) {
         val paint = Paint()
-        paint.color = bondColor
+        paint.color = data.bondColor
         paint.strokeWidth = strokeWidth
         paint.strokeCap = Paint.Cap.ROUND
 

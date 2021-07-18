@@ -19,59 +19,21 @@ fun makeGameCell(
 
     return when {
         colorId == "E" -> {
-            EnablerGameCell(
-                x,
-                y,
-                numRows,
-                numCols,
-                colorId,
-                data.colors[5],
-                data.pipColor,
-                data.key
-            )
+            EnablerGameCell(x, y, numRows, numCols, colorId, data)
         }
         colorId.startsWith("F") -> {
-            FixedGameCell(x, y, numRows, numCols, colorId, data.bondColor, data.pipColor, data.lock)
+            FixedGameCell(x, y, numRows, numCols, colorId, data)
         }
         colorId.startsWith("B") -> {
-            BandagedGameCell(
-                x,
-                y,
-                numRows,
-                numCols,
-                colorId,
-                data.colors,
-                data.pipColor,
-                data.bondColor
-            )
+            BandagedGameCell(x, y, numRows, numCols, colorId, data)
         }
         colorId.startsWith("H") -> {
-            HorizontalGameCell(
-                x,
-                y,
-                numRows,
-                numCols,
-                colorId,
-                data.colors,
-                data.pipColor,
-                data.hArrow,
-                data.lock
-            )
+            HorizontalGameCell(x, y, numRows, numCols, colorId, data)
         }
         colorId.startsWith("V") -> {
-            VerticalGameCell(
-                x,
-                y,
-                numRows,
-                numCols,
-                colorId,
-                data.colors,
-                data.pipColor,
-                data.vArrow,
-                data.lock
-            )
+            VerticalGameCell(x, y, numRows, numCols, colorId, data)
         }
-        else -> NormalGameCell(x, y, numRows, numCols, colorId, data.colors, data.pipColor)
+        else -> NormalGameCell(x, y, numRows, numCols, colorId, data)
     }
 }
 

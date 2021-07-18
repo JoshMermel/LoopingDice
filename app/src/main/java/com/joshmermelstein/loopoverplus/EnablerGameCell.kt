@@ -1,7 +1,6 @@
 package com.joshmermelstein.loopoverplus
 
 import android.graphics.Canvas
-import android.graphics.drawable.Drawable
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.RectShape
 import androidx.core.graphics.drawable.DrawableCompat
@@ -14,12 +13,11 @@ class EnablerGameCell(
     override val numRows: Int,
     override val numCols: Int,
     colorId: String,
-    override val drawColor: Int,
-    private val pipColor: Int,
-    private val key : Drawable
+    private val data : GameCellMetadata
 ) : GameCell(x, y, numRows, numCols, colorId) {
     override val color = 5
     override val pips = 1
+    override val drawColor = data.colors[color]
     override val family = CellFamily.ENABLER
 
     override fun drawSquare(
@@ -44,7 +42,7 @@ class EnablerGameCell(
                 (centerX + radius).toInt(),
                 (centerY + radius).toInt()
             )
-            paint.color = pipColor
+            paint.color = data.pipColor
             draw(canvas)
         }
     }
@@ -66,8 +64,8 @@ class EnablerGameCell(
     }
 
     private fun drawKey(left: Double, top: Double, right: Double, bottom: Double, canvas: Canvas) {
-        key.setBounds(left.toInt(), top.toInt(), right.toInt(), bottom.toInt())
-        DrawableCompat.setTint(key.mutate(), pipColor)
-        key.draw(canvas)
+        data.key.setBounds(left.toInt(), top.toInt(), right.toInt(), bottom.toInt())
+        DrawableCompat.setTint(data.key.mutate(), data.pipColor)
+        data.key.draw(canvas)
     }
 }

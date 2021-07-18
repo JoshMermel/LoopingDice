@@ -12,12 +12,11 @@ open class NormalGameCell(
     override val numRows: Int,
     override val numCols: Int,
     colorId: String,
-    colors : Array<Int>,
-    override val pipColor: Int
+    override val data : GameCellMetadata
 ) : NormalGameCellBase(x, y, numRows, numCols, colorId) {
     final override val color: Int = colorId.toInt() % 6
     override val pips: Int = (colorId.toInt() / 6) + 1
-    override val drawColor : Int = colors[color]
+    override val drawColor : Int = data.colors[color]
 }
 
 // Base class for NormalGameCell that holds all logic but doesn't run initialization code so it's
@@ -30,7 +29,7 @@ abstract class NormalGameCellBase(
     colorId: String
 ) : GameCell(x, y, numRows, numCols, colorId) {
 
-    abstract val pipColor: Int
+    abstract val data : GameCellMetadata
     override val family = CellFamily.NORMAL
     override fun drawSquare(
         left: Double,
@@ -60,7 +59,7 @@ abstract class NormalGameCellBase(
             (centerX + radius).toInt(),
             (centerY + radius).toInt()
         )
-        shapeDrawable.paint.color = pipColor
+        shapeDrawable.paint.color = data.pipColor
 
         shapeDrawable.draw(canvas)
     }

@@ -1,7 +1,6 @@
 package com.joshmermelstein.loopoverplus
 
 import android.graphics.Canvas
-import android.graphics.drawable.Drawable
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.RectShape
 import androidx.core.graphics.drawable.DrawableCompat
@@ -15,12 +14,11 @@ class FixedGameCell(
     override val numRows: Int,
     override val numCols: Int,
     colorId: String,
-    override val drawColor: Int,
-    private val pipColor: Int,
-    private val lock : Drawable
+    private val data : GameCellMetadata
 ) : GameCell(x, y, numRows, numCols, colorId) {
     override val color = 4
     override val pips: Int
+    override val drawColor = data.colors[color]
     override val family = CellFamily.FIXED
 
     init {
@@ -64,15 +62,15 @@ class FixedGameCell(
                 (centerX + radius).toInt(),
                 (centerY + radius).toInt()
             )
-            paint.color = pipColor
+            paint.color = data.pipColor
             draw(canvas)
         }
     }
 
     private fun drawLock(left: Double, top: Double, right: Double, bottom: Double, canvas: Canvas) {
-        lock.setBounds(left.toInt(), top.toInt(), right.toInt(), bottom.toInt())
-        DrawableCompat.setTint(lock.mutate(), pipColor)
-        lock.draw(canvas)
+        data.lock.setBounds(left.toInt(), top.toInt(), right.toInt(), bottom.toInt())
+        DrawableCompat.setTint(data.lock.mutate(), data.pipColor)
+        data.lock.draw(canvas)
     }
 
     private fun drawSmallLock(
