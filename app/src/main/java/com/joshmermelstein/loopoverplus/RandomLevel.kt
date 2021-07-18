@@ -1,6 +1,5 @@
 package com.joshmermelstein.loopoverplus
 
-import android.content.Context
 import kotlin.math.floor
 import kotlin.math.sqrt
 import kotlin.random.Random
@@ -229,20 +228,23 @@ fun randomMove(board: GameBoard, factory: MoveFactory): Move {
 }
 
 fun scramble(
-    solved: Array<String>, factory: MoveFactory, num_rows: Int, num_cols: Int, context: Context
+    solved: Array<String>,
+    factory: MoveFactory,
+    num_rows: Int,
+    num_cols: Int,
+    data: GameCellMetadata
 ): Array<String> {
-    val gameBoard = GameBoard(num_rows, num_cols, solved, GameCellMetadata(context))
-    repeat (2001) {
+    val gameBoard = GameBoard(num_rows, num_cols, solved, data)
+    repeat(2001) {
         randomMove(gameBoard, factory).finalize(gameBoard)
     }
     return gameBoard.toString().split(",").toTypedArray()
 }
 
-// TODO(jmerm): needing to take the context here is silly, fix that.
 // Initial and final are optional params for when the caller knows what they want the initial and final state to be.
 fun generateRandomLevel(
     options: RandomLevelParams,
-    context: Context,
+    data: GameCellMetadata,
     initial: Array<String>?,
     goal: Array<String>?
 ): GameplayParams {
@@ -304,7 +306,7 @@ fun generateRandomLevel(
             options.colorScheme
         ).map { it.toString() }.toTypedArray()
     }
-    val randomStart = scramble(randomGoal, factory, options.numRows, options.numCols, context)
+    val randomStart = scramble(randomGoal, factory, options.numRows, options.numCols, data)
 
     return GameplayParams(
         "∞$options",
