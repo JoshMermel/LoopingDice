@@ -148,7 +148,7 @@ interface BlockPlacer {
     // Picks a valid position where a block can be placed. Prefers positions that place the block
     // without it wrapping around any edges.
     // Throws NoSuchElementException if there are no valid positions
-    fun pickPosition(bondGrid: BondGrid): Pair<Int, Int> {
+    fun pickPosition(bondGrid: BondGrid): Pair<Int, Int>? {
         val noWraparoundPositions = validPositionsWithoutWraparound(bondGrid)
         if (noWraparoundPositions.isNotEmpty()) {
             return noWraparoundPositions.random()
@@ -159,8 +159,8 @@ interface BlockPlacer {
             return positions.random()
         }
 
-        // TODO(jmerm): think more about this exception
-        throw NoSuchElementException()
+        Log.e("jmerm", "Failed to place Block, ${bondGrid.contentToString()}")
+        return null
     }
 
     // Adds the block to the grid such that it does not overlap any existing blocks.
@@ -171,7 +171,7 @@ interface BlockPlacer {
 class HDominoPlacer : BlockPlacer {
     override val occupiedCells = listOf(Pair(0, 0), Pair(0, 1))
     override fun placeSelf(bondGrid: BondGrid) {
-        val (row, col) = pickPosition(bondGrid)
+        val (row, col) = pickPosition(bondGrid) ?: return
         val dstCol = (col + 1) % bondGrid[0].size
         bondGrid[row][col] = "R"
         bondGrid[row][dstCol] = "L"
@@ -182,7 +182,7 @@ class HDominoPlacer : BlockPlacer {
 class VDominoPlacer : BlockPlacer {
     override val occupiedCells = listOf(Pair(0, 0), Pair(1, 0))
     override fun placeSelf(bondGrid: BondGrid) {
-        val (row, col) = pickPosition(bondGrid)
+        val (row, col) = pickPosition(bondGrid) ?: return
         val dstRow = (row + 1) % bondGrid.size
         bondGrid[row][col] = "D"
         bondGrid[dstRow][col] = "U"
@@ -193,7 +193,7 @@ class VDominoPlacer : BlockPlacer {
 class SquarePlacer : BlockPlacer {
     override val occupiedCells = listOf(Pair(0, 0), Pair(1, 0), Pair(0, 1), Pair(1, 1))
     override fun placeSelf(bondGrid: BondGrid) {
-        val (row, col) = pickPosition(bondGrid)
+        val (row, col) = pickPosition(bondGrid) ?: return
         val dstRow = (row + 1) % bondGrid.size
         val dstCol = (col + 1) % bondGrid[0].size
 
@@ -208,7 +208,7 @@ class SquarePlacer : BlockPlacer {
 class HTriplePlacer : BlockPlacer {
     override val occupiedCells = listOf(Pair(0, 0), Pair(0, 1), Pair(0, 2))
     override fun placeSelf(bondGrid: BondGrid) {
-        val (row, col) = pickPosition(bondGrid)
+        val (row, col) = pickPosition(bondGrid) ?: return
         val dstCol = (col + 1) % bondGrid[0].size
         val dstCol2 = (dstCol + 1) % bondGrid[0].size
         bondGrid[row][col] = "R"
@@ -221,7 +221,7 @@ class HTriplePlacer : BlockPlacer {
 class VTriplePlacer : BlockPlacer {
     override val occupiedCells = listOf(Pair(0, 0), Pair(1, 0), Pair(2, 0))
     override fun placeSelf(bondGrid: BondGrid) {
-        val (row, col) = pickPosition(bondGrid)
+        val (row, col) = pickPosition(bondGrid) ?: return
         val dstRow = (row + 1) % bondGrid.size
         val dstRow2 = (dstRow + 1) % bondGrid.size
         bondGrid[row][col] = "D"
