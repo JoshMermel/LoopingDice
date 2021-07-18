@@ -10,7 +10,8 @@ import androidx.core.content.res.ResourcesCompat
 
 // Creating a GameCell requires a bunch of nonsense from Context like colors and drawables but that
 // level of access makes testing annoying.
-// This class holds all the things a Game
+// This class holds all the things a GameCell needs to be created but is just a struct so it can be
+// easily replaced by a lightweight fake when needed.
 class GameCellMetadata(
     val colors: Array<Int>,
     val pipColor: Int,
@@ -54,7 +55,8 @@ class GameCellMetadata(
     )
 }
 
-// Returns a well formed but useless GameCellMetadata for use in tests.
+// Returns a well formed but useless GameCellMetadata for use in tests and scrambling (where the
+// board is manipulated but never shown to the user).
 fun fakeGameCellMetadata() : GameCellMetadata {
     return GameCellMetadata(
         Array(6) { Color.BLACK },
