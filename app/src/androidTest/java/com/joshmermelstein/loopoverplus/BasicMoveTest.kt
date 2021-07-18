@@ -1,14 +1,13 @@
 package com.joshmermelstein.loopoverplus
 
-import androidx.test.platform.app.InstrumentationRegistry
 import junit.framework.TestCase
 
 class BasicMoveTest : TestCase() {
-    private val appContext = InstrumentationRegistry.getInstrumentation().targetContext
+    private val data = fakeGameCellMetadata()
     private val numRows = 2
     private val numCols = 3
     private val arr = arrayOf("1", "2", "3", "4", "5", "6")
-    private val board = GameBoard(numRows, numCols, arr, appContext)
+    private val board = GameBoard(numRows, numCols, arr, data)
 
     fun testAnimateProgress() {
         val move = BasicMove(Axis.HORIZONTAL, Direction.BACKWARD, 0, numRows, numCols)
@@ -28,7 +27,7 @@ class BasicMoveTest : TestCase() {
         hMove.finalize(board)
 
         val expectedArr = arrayOf("3", "1", "2", "4", "5", "6")
-        val expectedBoard = GameBoard(numRows, numCols, expectedArr, appContext)
+        val expectedBoard = GameBoard(numRows, numCols, expectedArr, data)
 
         assertEquals(board, expectedBoard)
     }
@@ -38,7 +37,7 @@ class BasicMoveTest : TestCase() {
         vMove.finalize(board)
 
         val expectedArr = arrayOf("1", "5", "3", "4", "2", "6")
-        val expectedBoard = GameBoard(numRows, numCols, expectedArr, appContext)
+        val expectedBoard = GameBoard(numRows, numCols, expectedArr, data)
 
         assertEquals(board, expectedBoard)
     }
@@ -67,7 +66,7 @@ class BasicMoveTest : TestCase() {
 
         // underlying array is updated
         val expectedArr = arrayOf("2", "3", "1", "4", "5", "6")
-        val expectedBoard = GameBoard(numRows, numCols, expectedArr, appContext)
+        val expectedBoard = GameBoard(numRows, numCols, expectedArr, data)
 
         assertEquals(board, expectedBoard)
     }

@@ -1,14 +1,13 @@
 package com.joshmermelstein.loopoverplus
 
-import androidx.test.platform.app.InstrumentationRegistry
 import junit.framework.TestCase
 
 class IllegalMoveTest : TestCase() {
-    private val appContext = InstrumentationRegistry.getInstrumentation().targetContext
+    private val data = fakeGameCellMetadata()
     private val numRows = 2
     private val numCols = 2
     private val arr = arrayOf("F 1", "E", "F 2", "E")
-    private val board = GameBoard(numRows, numCols, arr, appContext)
+    private val board = GameBoard(numRows, numCols, arr, data)
     private val move = IllegalMove(listOf(Pair(0,0), Pair(0,1)))
 
     fun testTestRunTooSoon() {

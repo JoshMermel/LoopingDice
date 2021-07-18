@@ -1,10 +1,9 @@
 package com.joshmermelstein.loopoverplus
 
-import androidx.test.platform.app.InstrumentationRegistry
 import junit.framework.TestCase
 
 class StaticCellsMoveFactoryTest : TestCase() {
-    private val appContext = InstrumentationRegistry.getInstrumentation().targetContext
+    private val data = fakeGameCellMetadata()
     private val numRows = 4
     private val numCols = 3
     private val arr = arrayOf(
@@ -13,7 +12,7 @@ class StaticCellsMoveFactoryTest : TestCase() {
         "7", "8", "9",
         "10", "11", "F 12"
     )
-    private val board = GameBoard(numRows, numCols, arr, appContext)
+    private val board = GameBoard(numRows, numCols, arr, data)
 
     fun testMakeMoveHorizontal() {
         val factory = StaticCellsMoveFactory(2, 1)
@@ -39,7 +38,7 @@ class StaticCellsMoveFactoryTest : TestCase() {
 
     fun testFindLockedCells() {
         val arr = arrayOf("F 1", "F 2", "F 3", "F 4")
-        val board = GameBoard(2, 2, arr, appContext)
+        val board = GameBoard(2, 2, arr, data)
         val factory = StaticCellsMoveFactory(2, 2)
         val move = factory.makeMove(Axis.VERTICAL, Direction.FORWARD, 0, board)
         val expected = IllegalMove(listOf(Pair(0, 0), Pair(1, 0), Pair(0, 1), Pair(1, 1)))

@@ -231,8 +231,8 @@ fun randomMove(board: GameBoard, factory: MoveFactory): Move {
 fun scramble(
     solved: Array<String>, factory: MoveFactory, num_rows: Int, num_cols: Int, context: Context
 ): Array<String> {
-    val gameBoard = GameBoard(num_rows, num_cols, solved, context)
-    for (i in (0..2000)) {
+    val gameBoard = GameBoard(num_rows, num_cols, solved, GameCellMetadata(context))
+    repeat (2001) {
         randomMove(gameBoard, factory).finalize(gameBoard)
     }
     return gameBoard.toString().split(",").toTypedArray()

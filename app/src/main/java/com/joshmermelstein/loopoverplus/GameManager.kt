@@ -20,7 +20,7 @@ class GameplayParams(
     val moveFactory: MoveFactory,
     val initial: Array<String>,
     val goal: Array<String>,
-    val tutorialText : String
+    val tutorialText: String
 )
 
 // Struct for passing around save files
@@ -39,13 +39,15 @@ class GameManager(
     private val context: AppCompatActivity,
     private val buttonState: ButtonState
 ) {
+    private val data = GameCellMetadata(context)
+
     // Represents the current state of the board except for any moves that are currently evaluating.
-    var board = GameBoard(params.numRows, params.numCols, params.initial, context)
+    var board = GameBoard(params.numRows, params.numCols, params.initial, data)
 
     // Represents the state of the board after all moves in the queue have been evaluated. Needed to
     // tell whether moves will be valid before they are enqueued.
-    private var future = GameBoard(params.numRows, params.numCols, params.initial, context)
-    private var goal = GameBoard(params.numRows, params.numCols, params.goal, context)
+    private var future = GameBoard(params.numRows, params.numCols, params.initial, data)
+    private var goal = GameBoard(params.numRows, params.numCols, params.goal, data)
 
     private var moveQueue: MoveQueue = MoveQueue()
     private var undoStack = Stack<LegalMove>()
@@ -68,8 +70,8 @@ class GameManager(
             return
         }
 
-        this.board = GameBoard(params.numRows, params.numCols, level.board, context)
-        this.future = GameBoard(params.numRows, params.numCols, level.board, context)
+        this.board = GameBoard(params.numRows, params.numCols, level.board, data)
+        this.future = GameBoard(params.numRows, params.numCols, level.board, data)
 
         this.undoStack.addAll(level.undoStack)
         buttonState.undoButtonEnabled = this.undoStack.isNotEmpty()
@@ -84,7 +86,16 @@ class GameManager(
         moveQueue.reset()
         undoStack.removeAllElements()
         redoStack.removeAllElements()
-        loadFromSavedLevel(SavedLevel(params.initial, params.initial, params.goal, emptyList(), emptyList(), 0))
+        loadFromSavedLevel(
+            SavedLevel(
+                params.initial,
+                params.initial,
+                params.goal,
+                emptyList(),
+                emptyList(),
+                0
+            )
+        )
     }
 
     // Updates the draw positions of game elements and checks for wins. Uses system time to

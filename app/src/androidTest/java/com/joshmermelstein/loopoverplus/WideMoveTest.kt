@@ -1,10 +1,9 @@
 package com.joshmermelstein.loopoverplus
 
-import androidx.test.platform.app.InstrumentationRegistry
 import junit.framework.TestCase
 
 class WideMoveTest : TestCase() {
-    private val appContext = InstrumentationRegistry.getInstrumentation().targetContext
+    private val data = fakeGameCellMetadata()
     private val numRows = 4
     private val numCols = 3
     private val arr = arrayOf(
@@ -13,7 +12,7 @@ class WideMoveTest : TestCase() {
         "7", "8", "9",
         "10", "11", "12"
     )
-    private val board = GameBoard(numRows, numCols, arr, appContext)
+    private val board = GameBoard(numRows, numCols, arr, data)
 
     fun testTestFinalizeRowForward() {
         val move = WideMove(Axis.HORIZONTAL, Direction.FORWARD, 2, numRows, numCols, 3)
@@ -25,7 +24,7 @@ class WideMoveTest : TestCase() {
             "9", "7", "8",
             "12", "10", "11"
         )
-        val expectedBoard = GameBoard(numRows, numCols, expectedArr, appContext)
+        val expectedBoard = GameBoard(numRows, numCols, expectedArr, data)
 
         assertEquals(board, expectedBoard)
     }
@@ -40,7 +39,7 @@ class WideMoveTest : TestCase() {
             "8", "9", "7",
             "11", "12", "10"
         )
-        val expectedBoard = GameBoard(numRows, numCols, expectedArr, appContext)
+        val expectedBoard = GameBoard(numRows, numCols, expectedArr, data)
 
         assertEquals(board, expectedBoard)
     }
@@ -55,7 +54,7 @@ class WideMoveTest : TestCase() {
             "4", "5", "9",
             "7", "8", "12"
         )
-        val expectedBoard = GameBoard(numRows, numCols, expectedArr, appContext)
+        val expectedBoard = GameBoard(numRows, numCols, expectedArr, data)
 
         assertEquals(board, expectedBoard)
     }
@@ -70,7 +69,7 @@ class WideMoveTest : TestCase() {
             "7", "11", "12",
             "10", "2", "3"
         )
-        val expectedBoard = GameBoard(numRows, numCols, expectedArr, appContext)
+        val expectedBoard = GameBoard(numRows, numCols, expectedArr, data)
 
         assertEquals(board, expectedBoard)
     }

@@ -1,10 +1,9 @@
 package com.joshmermelstein.loopoverplus
 
-import androidx.test.platform.app.InstrumentationRegistry
 import junit.framework.TestCase
 
 class GearMoveTest : TestCase() {
-    private val appContext = InstrumentationRegistry.getInstrumentation().targetContext
+    private val data = fakeGameCellMetadata()
     private val numRows = 4
     private val numCols = 3
     private val arr = arrayOf(
@@ -13,7 +12,7 @@ class GearMoveTest : TestCase() {
         "7", "8", "9",
         "10", "11", "12"
     )
-    private val board = GameBoard(numRows, numCols, arr, appContext)
+    private val board = GameBoard(numRows, numCols, arr, data)
 
     fun testTestFinalizeRowForward() {
         val move = GearMove(Axis.HORIZONTAL, Direction.FORWARD, 0, numRows, numCols)
@@ -25,7 +24,7 @@ class GearMoveTest : TestCase() {
             "7", "8", "9",
             "10", "11", "12"
         )
-        val expectedBoard = GameBoard(numRows, numCols, expectedArr, appContext)
+        val expectedBoard = GameBoard(numRows, numCols, expectedArr, data)
 
         assertEquals(board, expectedBoard)
     }
@@ -40,7 +39,7 @@ class GearMoveTest : TestCase() {
             "9", "7", "8",
             "10", "11", "12"
         )
-        val expectedBoard = GameBoard(numRows, numCols, expectedArr, appContext)
+        val expectedBoard = GameBoard(numRows, numCols, expectedArr, data)
 
         assertEquals(board, expectedBoard)
     }
@@ -55,7 +54,7 @@ class GearMoveTest : TestCase() {
             "4", "11", "9",
             "7", "2", "12"
         )
-        val expectedBoard = GameBoard(numRows, numCols, expectedArr, appContext)
+        val expectedBoard = GameBoard(numRows, numCols, expectedArr, data)
 
         assertEquals(board, expectedBoard)
     }
@@ -70,7 +69,7 @@ class GearMoveTest : TestCase() {
             "7", "11", "6",
             "10", "2", "9"
         )
-        val expectedBoard = GameBoard(numRows, numCols, expectedArr, appContext)
+        val expectedBoard = GameBoard(numRows, numCols, expectedArr, data)
 
         assertEquals(board, expectedBoard)
     }

@@ -1,11 +1,6 @@
 package com.joshmermelstein.loopoverplus
 
-import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.drawable.Drawable
-import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
 
 // A gameCell object represents a single square on the board. GameCells are relatively dumb and
 // only know how to draw themselves. Movement is handled by the game manager object.
@@ -13,67 +8,70 @@ import androidx.core.content.res.ResourcesCompat
 // There are several subclasses implementing GameCell to represent different kinds of cells.
 
 // A factory method for creating gameCells.
-// TODO(jmerm): see if I can find a way to avoid taking the context here. Maybe take some struct
-//  containing all the parts I care about so it's easier to mock in tests.
 fun makeGameCell(
     x: Double,
     y: Double,
     numRows: Int,
     numCols: Int,
     colorId: String,
-    context: Context
+    data: GameCellMetadata
 ): GameCell {
-    // from https://medium.com/cafe-pixo/inclusive-color-palettes-for-the-web-bbfe8cf2410e
-    val colors = arrayOf(
-        Color.parseColor("#FF4242"), // red
-        Color.parseColor("#A691AE"), // gray
-        Color.parseColor("#235FA4"), // blue
-        Color.parseColor("#6FDE6E"), // green
-        ContextCompat.getColor(context, R.color.bandaged_cell), // bandaged (black/white)
-        Color.parseColor("#E8F086"), // enabler
-    )
-
-    val pipColor = ContextCompat.getColor(context, R.color.gameplay_background)
-    val lock = ResourcesCompat.getDrawable(
-        context.resources,
-        R.drawable.ic_baseline_lock_24,
-        null
-    )!!
 
     return when {
         colorId == "E" -> {
-            val key: Drawable = ResourcesCompat.getDrawable(
-                context.resources,
-                R.drawable.ic_baseline_vpn_key_24,
-                null
-            )!!
-            EnablerGameCell(x, y, numRows, numCols, colorId, colors[5], pipColor, key)
+            EnablerGameCell(
+                x,
+                y,
+                numRows,
+                numCols,
+                colorId,
+                data.colors[5],
+                data.pipColor,
+                data.key
+            )
         }
         colorId.startsWith("F") -> {
-            val selfColor = ContextCompat.getColor(context, R.color.bandaged_cell)
-            FixedGameCell(x, y, numRows, numCols, colorId, selfColor, pipColor, lock)
+            FixedGameCell(x, y, numRows, numCols, colorId, data.bondColor, data.pipColor, data.lock)
         }
         colorId.startsWith("B") -> {
-            val bondColor = ContextCompat.getColor(context, R.color.bandaged_cell)
-            BandagedGameCell(x, y, numRows, numCols, colorId, colors, pipColor, bondColor)
+            BandagedGameCell(
+                x,
+                y,
+                numRows,
+                numCols,
+                colorId,
+                data.colors,
+                data.pipColor,
+                data.bondColor
+            )
         }
         colorId.startsWith("H") -> {
-            val arrows = ResourcesCompat.getDrawable(
-                context.resources,
-                R.drawable.ic_baseline_swap_horiz_24,
-                null
-            )!!
-            HorizontalGameCell(x, y, numRows, numCols, colorId, colors, pipColor, arrows, lock)
+            HorizontalGameCell(
+                x,
+                y,
+                numRows,
+                numCols,
+                colorId,
+                data.colors,
+                data.pipColor,
+                data.hArrow,
+                data.lock
+            )
         }
         colorId.startsWith("V") -> {
-            val arrows = ResourcesCompat.getDrawable(
-                context.resources,
-                R.drawable.ic_baseline_swap_vert_24,
-                null
-            )!!
-            VerticalGameCell(x, y, numRows, numCols, colorId, colors, pipColor, arrows, lock)
+            VerticalGameCell(
+                x,
+                y,
+                numRows,
+                numCols,
+                colorId,
+                data.colors,
+                data.pipColor,
+                data.vArrow,
+                data.lock
+            )
         }
-        else -> NormalGameCell(x, y, numRows, numCols, colorId, colors, pipColor)
+        else -> NormalGameCell(x, y, numRows, numCols, colorId, data.colors, data.pipColor)
     }
 }
 

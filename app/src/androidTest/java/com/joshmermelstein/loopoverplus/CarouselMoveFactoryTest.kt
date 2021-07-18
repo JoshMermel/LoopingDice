@@ -1,14 +1,13 @@
 package com.joshmermelstein.loopoverplus
 
-import androidx.test.platform.app.InstrumentationRegistry
 import junit.framework.TestCase
 
 class CarouselMoveFactoryTest : TestCase() {
-    private val appContext = InstrumentationRegistry.getInstrumentation().targetContext
+    private val data = fakeGameCellMetadata()
     private val numRows = 2
     private val numCols = 3
     private val arr = arrayOf("1", "2", "3", "4", "5", "6")
-    private val board = GameBoard(numRows, numCols, arr, appContext)
+    private val board = GameBoard(numRows, numCols, arr, data)
     private val factory = CarouselMoveFactory()
 
     fun testMakeMoveHorizontal() {

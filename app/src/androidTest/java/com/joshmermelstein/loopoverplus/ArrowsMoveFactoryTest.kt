@@ -1,14 +1,14 @@
 package com.joshmermelstein.loopoverplus
 
-import androidx.test.platform.app.InstrumentationRegistry
 import junit.framework.TestCase
 
 class ArrowsMoveFactoryTest : TestCase() {
-    private val appContext = InstrumentationRegistry.getInstrumentation().targetContext
+
+    private val data = fakeGameCellMetadata()
     private val numRows = 2
     private val numCols = 3
     private val arr = arrayOf("V 1", "H 2", "V 3", "4", "H 5", "6")
-    private val board = GameBoard(numRows, numCols, arr, appContext)
+    private val board = GameBoard(numRows, numCols, arr, data)
     private val factory = ArrowsMoveFactory()
 
     fun testMakeMoveHorizontal() {

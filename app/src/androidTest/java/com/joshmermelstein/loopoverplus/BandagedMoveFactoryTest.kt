@@ -1,11 +1,9 @@
 package com.joshmermelstein.loopoverplus
 
-import androidx.test.platform.app.InstrumentationRegistry
 import junit.framework.TestCase
 
 class BandagedMoveFactoryTest : TestCase() {
-    private val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-
+    private val data = fakeGameCellMetadata()
     private val factory = BandagedMoveFactory()
 
     // Tests transitive bonds pushing each other
@@ -14,7 +12,7 @@ class BandagedMoveFactoryTest : TestCase() {
             4,
             2,
             arrayOf("B 1 D", "2", "B 3 U", "B 4 D", "B 5 D", "B 6 U", "B 7 U", "8"),
-            appContext
+            data
         )
 
         val move = factory.makeMove(Axis.HORIZONTAL, Direction.BACKWARD, 3, board)
@@ -27,7 +25,7 @@ class BandagedMoveFactoryTest : TestCase() {
             2,
             4,
             arrayOf("B 1 R", "B 2 L", "B 3 R", "B 4 L", "5", "B 6 R", "B 7 L", "8"),
-            appContext
+            data
         )
 
         val move = factory.makeMove(Axis.VERTICAL, Direction.FORWARD, 1, board)
@@ -41,7 +39,7 @@ class BandagedMoveFactoryTest : TestCase() {
             3,
             2,
             arrayOf("B 1 U D", "2", "B 3 U D", "4", "B 5 U D", "6"),
-            appContext
+            data
         )
 
         val move = factory.makeMove(Axis.HORIZONTAL, Direction.BACKWARD, 1, board)
@@ -54,7 +52,7 @@ class BandagedMoveFactoryTest : TestCase() {
             2,
             3,
             arrayOf("B 1 R L", "B 2 R L", "B 3 R L", "4", "5", "6"),
-            appContext
+            data
         )
 
         val move = factory.makeMove(Axis.VERTICAL, Direction.FORWARD, 1, board)
@@ -67,7 +65,7 @@ class BandagedMoveFactoryTest : TestCase() {
             3,
             2,
             arrayOf("B 1 D", "2", "B 3 U", "4", "5", "6"),
-            appContext
+            data
         )
         val highlights = factory.makeHighlights(Axis.HORIZONTAL, Direction.BACKWARD, 1, board)
         assertEquals(highlights.size, 2)
@@ -80,7 +78,7 @@ class BandagedMoveFactoryTest : TestCase() {
             2,
             3,
             arrayOf("B 1 R", "B 2 L", "3", "4", "5", "6"),
-            appContext
+            data
         )
 
         val highlights = factory.makeHighlights(Axis.VERTICAL, Direction.FORWARD, 1, board)

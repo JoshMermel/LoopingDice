@@ -1,7 +1,5 @@
 package com.joshmermelstein.loopoverplus
 
-import android.content.Context
-
 // Wrapper around a 2d array that represents the game board
 // getters and setters do modulus operations for safety so callers don't need to worry about
 // wrapping out of bounds.
@@ -14,7 +12,7 @@ class GameBoard(private val board: Array<Array<GameCell>>) {
         numRows: Int,
         numCols: Int,
         contents: Array<String>,
-        context: Context
+        data: GameCellMetadata
     ) : this(
         Array(numRows) { row ->
             Array(numCols) { col ->
@@ -24,7 +22,7 @@ class GameBoard(private val board: Array<Array<GameCell>>) {
                     numRows,
                     numCols,
                     contents[row * numCols + col],
-                    context
+                    data
                 )
             }
         })

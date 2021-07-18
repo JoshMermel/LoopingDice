@@ -1,15 +1,14 @@
 package com.joshmermelstein.loopoverplus
 
-import androidx.test.platform.app.InstrumentationRegistry
 import junit.framework.TestCase
 
 class GameBoardTest : TestCase() {
+    private val data = fakeGameCellMetadata()
     private var board: GameBoard
 
     init {
-        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         val arr = arrayOf("1", "E", "F 0", "B 1 R", "V 1", "H 2")
-        board = GameBoard(2, 3, arr, appContext)
+        board = GameBoard(2, 3, arr, data)
     }
 
     fun testGetCell() {
@@ -123,18 +122,17 @@ class GameBoardTest : TestCase() {
     }
 
     fun testTestEquals() {
-        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         val arr = arrayOf("1", "E", "F 0", "B 1 R", "V 1", "H 2")
-        val sameBoard = GameBoard(2, 3, arr, appContext)
+        val sameBoard = GameBoard(2, 3, arr, data)
 
         assertEquals(board, sameBoard)
     }
 
     fun testTestNotEquals() {
-        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         val arr = arrayOf("2", "E", "F 0", "B 1 R", "5", "6")
-        val sameBoard = GameBoard(2, 3, arr, appContext)
+        val sameBoard = GameBoard(2, 3, arr, data)
 
         assertNotSame(board, sameBoard)
     }
+
 }

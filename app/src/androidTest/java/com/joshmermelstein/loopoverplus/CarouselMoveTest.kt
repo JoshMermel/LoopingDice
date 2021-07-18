@@ -1,10 +1,9 @@
 package com.joshmermelstein.loopoverplus
 
-import androidx.test.platform.app.InstrumentationRegistry
 import junit.framework.TestCase
 
 class CarouselMoveTest : TestCase() {
-    private val appContext = InstrumentationRegistry.getInstrumentation().targetContext
+    private val data = fakeGameCellMetadata()
     private val numRows = 4
     private val numCols = 3
     private val arr = arrayOf(
@@ -13,7 +12,7 @@ class CarouselMoveTest : TestCase() {
         "7", "8", "9",
         "10", "11", "12"
     )
-    private val board = GameBoard(numRows, numCols, arr, appContext)
+    private val board = GameBoard(numRows, numCols, arr, data)
 
     fun testTestFinalizeRowForward() {
         val move = CarouselMove(Axis.HORIZONTAL, Direction.FORWARD, 0, numRows, numCols)
@@ -25,7 +24,7 @@ class CarouselMoveTest : TestCase() {
             "7", "8", "9",
             "10", "11", "12"
         )
-        val expectedBoard = GameBoard(numRows, numCols, expectedArr, appContext)
+        val expectedBoard = GameBoard(numRows, numCols, expectedArr, data)
 
         assertEquals(board, expectedBoard)
     }
@@ -40,7 +39,7 @@ class CarouselMoveTest : TestCase() {
             "4", "7", "8",
             "10", "11", "12"
         )
-        val expectedBoard = GameBoard(numRows, numCols, expectedArr, appContext)
+        val expectedBoard = GameBoard(numRows, numCols, expectedArr, data)
 
         assertEquals(board, expectedBoard)
     }
@@ -55,7 +54,7 @@ class CarouselMoveTest : TestCase() {
             "4", "11", "9",
             "7", "10", "12"
         )
-        val expectedBoard = GameBoard(numRows, numCols, expectedArr, appContext)
+        val expectedBoard = GameBoard(numRows, numCols, expectedArr, data)
 
         assertEquals(board, expectedBoard)
     }
@@ -70,14 +69,14 @@ class CarouselMoveTest : TestCase() {
             "7", "11", "6",
             "10", "12", "9"
         )
-        val expectedBoard = GameBoard(numRows, numCols, expectedArr, appContext)
+        val expectedBoard = GameBoard(numRows, numCols, expectedArr, data)
 
         assertEquals(board, expectedBoard)
     }
 
     fun testAnimateProgressAroundEdge() {
         val arr = arrayOf("1", "2", "3", "4")
-        val board = GameBoard(2, 2, arr, appContext)
+        val board = GameBoard(2, 2, arr, data)
         // Swipe down on the right column
         val move = CarouselMove(Axis.VERTICAL, Direction.FORWARD, 1, 2, 2)
         move.animateProgress(0.5, board)
