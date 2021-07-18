@@ -244,7 +244,6 @@ fun scramble(
 // Initial and final are optional params for when the caller knows what they want the initial and final state to be.
 fun generateRandomLevel(
     options: RandomLevelParams,
-    data: GameCellMetadata,
     initial: Array<String>?,
     goal: Array<String>?
 ): GameplayParams {
@@ -306,7 +305,8 @@ fun generateRandomLevel(
             options.colorScheme
         ).map { it.toString() }.toTypedArray()
     }
-    val randomStart = scramble(randomGoal, factory, options.numRows, options.numCols, data)
+    val randomStart =
+        scramble(randomGoal, factory, options.numRows, options.numCols, fakeGameCellMetadata())
 
     return GameplayParams(
         "∞$options",

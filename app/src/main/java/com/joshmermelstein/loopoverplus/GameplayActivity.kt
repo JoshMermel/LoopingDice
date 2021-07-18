@@ -92,7 +92,7 @@ class GameplayActivity : AppCompatActivity() {
         // overwrite the randomly generated initial/goal. This is necessary so that resetting works
         // properly for random levels loaded from saves.
         val gameplayParams =
-            generateRandomLevel(randomParams, GameCellMetadata(this), savedLevel?.initial, savedLevel?.goal)
+            generateRandomLevel(randomParams, savedLevel?.initial, savedLevel?.goal)
 
         createFromParams(gameplayParams, savedLevel)
     }
