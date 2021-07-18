@@ -88,6 +88,10 @@ class GameplayActivity : AppCompatActivity() {
             if (intent.getBooleanExtra("loadSave", false)) it else null
         }
 
+        // If this activity is ever being recreated by the OS (i.e. if the user switches to dark
+        // mode), we want to load the current state.
+        intent.putExtra("loadSave", true)
+
         // Create gameplay params. If there is a save, pass its initial and goal states so they
         // overwrite the randomly generated initial/goal. This is necessary so that resetting works
         // properly for random levels loaded from saves.
