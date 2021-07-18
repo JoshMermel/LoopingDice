@@ -1,5 +1,7 @@
 package com.joshmermelstein.loopoverplus
 
+import android.util.Log
+
 /*
  * Generating random bandaging schemes is such a pain that I'm moving it to its own file to keep
  * everything else organized.
@@ -242,7 +244,10 @@ fun addBonds(numRows: Int, numCols: Int, board: List<Int>, numBlocks: String): L
             signatures.getValue(BoardSize(numCols, numRows)).transpose()
         }
         else -> {
-            // TODO(jmerm): log/toast error here.
+            Log.e(
+                "jmerm",
+                "Failed to find BondSignature for params:: $numRows, $numCols, $numBlocks"
+            )
             BondSignature(0, 0, 0, 0, 0)
         }
     }
