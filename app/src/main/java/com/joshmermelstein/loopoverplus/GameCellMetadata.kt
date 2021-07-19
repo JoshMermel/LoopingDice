@@ -22,14 +22,13 @@ class GameCellMetadata(
     val vArrow: Drawable,
 ) {
     constructor(context: Context) : this(
-        // TODO(jmerm): move these colors into R.color
         arrayOf(
-            Color.parseColor("#FF4242"), // red
-            Color.parseColor("#A691AE"), // gray
-            Color.parseColor("#235FA4"), // blue
-            Color.parseColor("#6FDE6E"), // green
-            ContextCompat.getColor(context, R.color.bandaged_cell), // bandaged (black/white)
-            Color.parseColor("#E8F086"), // enabler
+            ContextCompat.getColor(context, R.color.red_cell),
+            ContextCompat.getColor(context, R.color.gray_cell),
+            ContextCompat.getColor(context, R.color.blue_cell),
+            ContextCompat.getColor(context, R.color.green_cell),
+            ContextCompat.getColor(context, R.color.bandaged_cell),
+            ContextCompat.getColor(context, R.color.enabler_cell),
         ),
         ContextCompat.getColor(context, R.color.gameplay_background),
         ContextCompat.getColor(context, R.color.bandaged_cell),

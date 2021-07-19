@@ -11,7 +11,15 @@
     <color name="legend_background">#F5F0F0</color>
     <color name="gameplay_notif_bar">#DBDBDB</color>
     <color name="gameplay_background">@color/white</color>
+
+
+    <color name="red_cell">#FF4242</color>
+    <color name="gray_cell">#A691AE</color>
+    <color name="blue_cell">#235FA4</color>
+    <color name="green_cell">#6FDE6E</color>
     <color name="bandaged_cell">@color/black</color>
+    <color name="enabler_cell">#E8F086</color>
+
     <color name="popup_background">@color/white</color>
 
     <color name="highlight">#ECF542</color>
