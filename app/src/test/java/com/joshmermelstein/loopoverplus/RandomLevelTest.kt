@@ -122,4 +122,19 @@ class RandomLevelTest : TestCase() {
             }
         }
     }
+
+    // In bandaged + Speckled, all non-dynamic should be the same color
+    fun testDynamicSpeckled() {
+        for (numRows in (2..6)) {
+            for (numCols in (2..5)) {
+                for (numBandaged in arrayOf("Rare", "Common", "Frequent")) {
+                    val board =
+                        generateDynamicBandagingGoal(numRows, numCols, "Speckled", numBandaged)
+                    val keys = board.filter { !it.startsWith("F") }.map { it }.groupingBy { it }
+                        .eachCount().keys.toSet()
+                    assertEquals(keys.size, 1)
+                }
+            }
+        }
+    }
 }

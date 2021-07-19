@@ -110,7 +110,6 @@ fun addFixedCells(board: Array<String>, indices: List<Int>, modulus: Int): Array
     return board
 }
 
-// TODO(jmerm): is speckled correct here or should it be monocolor with multi-pip fixed cells instead?
 fun generateDynamicBandagingGoal(
     numRows: Int,
     numCols: Int,
@@ -126,22 +125,21 @@ fun generateDynamicBandagingGoal(
     val fixedIndices = (1 until numRows * numCols).shuffled().take(bandagedCount)
 
     val board = when (colorScheme) {
-        "Bicolor" -> {
-            // Bicolor Dynamic is unusual since the black squares are the second color. We handle that by
+        "Bicolor", "Speckled" -> {
+            // In both Bicolor and Speckled, non-fixed cells are all one color. We handle that by
             // starting with a monocolor board and overwriting random cells with fixed cells.
             val color = Random.nextInt(0, 4).toString()
             List(numRows * numCols) { color }
         }
-        "Speckled" -> {
-            // Speckled Dynamic is also unusual since we're adding black squares and speckles. We
-            // pass the list of fixed squares when generating the board to keep speckles and black
-            // squares disjoint.
-            generateSpeckledGoal(numRows, numCols, fixedIndices.toSet())
-        }
         else -> generateBasicGoal(numRows, numCols, colorScheme).map { blackToGold(it) }
     }.map { it.toString() }.toTypedArray()
 
-    val modulus = if (colorScheme == "Unique") 6 else 1
+    // In Speckled and Unique, we want to very the number of pips. In other mode we always want 1 pip.
+    val modulus = when (colorScheme) {
+        "Speckled", "Unique" -> 6
+        else -> 1
+    }
+
     return addFixedCells(board, fixedIndices, modulus)
 }
 
