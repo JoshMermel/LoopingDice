@@ -4,8 +4,6 @@ import kotlin.math.floor
 import kotlin.math.sqrt
 import kotlin.random.Random
 
-// TODO(jmerm): tests for things in this file
-
 fun fromRandomFactory(name: String, rowDepth: Int?, colDepth: Int?): MoveFactory {
     return when (name) {
         "Gear" -> GearMoveFactory()
