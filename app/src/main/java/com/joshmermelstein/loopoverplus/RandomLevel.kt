@@ -110,6 +110,7 @@ fun addFixedCells(board: Array<String>, indices: List<Int>, modulus: Int): Array
     return board
 }
 
+// TODO(jmerm): is speckled correct here or should it be monocolor with multi-pip fixed cells instead?
 fun generateDynamicBandagingGoal(
     numRows: Int,
     numCols: Int,
