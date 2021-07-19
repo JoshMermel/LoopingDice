@@ -192,15 +192,38 @@ fun generateStaticCellGoal(numRows: Int, numCols: Int, colorScheme: String): Arr
     return ret
 }
 
-// TODO(jmerm): consider if there should be a special bandaged + speckled interaction and how the hell I'd do that.
 fun generateBandagedGoal(
     numRows: Int,
     numCols: Int,
     colorScheme: String,
     numBlocks: String
 ): Array<String> {
-    val goal = generateBasicGoal(numRows, numCols, colorScheme).map { blackToGold(it) }
-    return addBonds(numRows, numCols, goal, numBlocks).toTypedArray()
+    if (colorScheme != "Speckled") {
+        val goal = generateBasicGoal(numRows, numCols, colorScheme).map { blackToGold(it) }
+        return addBonds(numRows, numCols, goal, numBlocks).toTypedArray()
+    } else {
+        // Speckled bandaged is special because we avoid placing speckles on bandaged blocks
+        val colors = (0..3).shuffled().toMutableList()
+        val background = colors.removeFirst()
+        val board = addBonds(
+            numRows,
+            numCols,
+            List(numRows * numCols) { background },
+            numBlocks
+        ).toTypedArray()
+
+        // Compute which locations shouldn't get a speckle
+        val bondedIndices: Set<Int> =
+            board.mapIndexed { idx, s -> if (s.startsWith("B")) idx else null }.filterNotNull()
+                .toSet()
+
+        // Add speckles to other places
+        for (idx in (0 until numRows * numCols).filter { it !in bondedIndices }.shuffled()
+            .take(sqrt(numRows * numCols))) {
+            board[idx] = colors.random().toString()
+        }
+        return board
+    }
 }
 
 fun randomMove(board: GameBoard, factory: MoveFactory): Move {
