@@ -132,6 +132,26 @@ class GameBoard(private val board: Array<Array<GameCell>>) {
         return ret
     }
 
+    // TODO(jmerm): tests for these
+    // Returns whether any cell in row |offset| is a lightning cell
+    fun rowContainsLightning(offset: Int): Boolean {
+        for (col in 0 until numCols) {
+            if (getCell(offset, col).family == CellFamily.LIGHTNING) {
+                return true
+            }
+        }
+        return false
+    }
+
+    // Returns whether any cell in col |offset| is a lightning cell
+    fun colContainsLightning(offset: Int): Boolean {
+        for (row in 0 until numRows) {
+            if (getCell(row, offset).family == CellFamily.LIGHTNING) {
+                return true
+            }
+        }
+        return false
+    }
     override fun toString(): String {
         return board.joinToString(",") { row -> row.joinToString(",") }
     }

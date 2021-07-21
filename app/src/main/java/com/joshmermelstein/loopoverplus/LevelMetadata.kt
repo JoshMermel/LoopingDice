@@ -26,6 +26,7 @@ class MetadataSingleton private constructor(private val context: Context) {
         var prevId: String? = null
         for (filename in arrayOf(
             "intro",
+            "lightning_0",
             "wide_0",
             "dynamic_0",
             "bandaged_0",

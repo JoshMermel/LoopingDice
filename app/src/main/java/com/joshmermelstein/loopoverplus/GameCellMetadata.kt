@@ -10,7 +10,8 @@ import androidx.core.content.res.ResourcesCompat
 
 // Creating a GameCell requires a bunch of nonsense from Context like colors and drawables but that
 // level of access makes testing annoying.
-// This class holds all the things a Game
+// This class holds all the things a GameCell needs to be created but is just a struct so it can be
+// easily replaced by a lightweight fake when needed.
 class GameCellMetadata(
     val colors: Array<Int>,
     val pipColor: Int,
@@ -19,15 +20,16 @@ class GameCellMetadata(
     val key: Drawable,
     val hArrow: Drawable,
     val vArrow: Drawable,
+    val lightning: Drawable,
 ) {
     constructor(context: Context) : this(
         arrayOf(
-            Color.parseColor("#FF4242"), // red
-            Color.parseColor("#A691AE"), // gray
-            Color.parseColor("#235FA4"), // blue
-            Color.parseColor("#6FDE6E"), // green
-            ContextCompat.getColor(context, R.color.bandaged_cell), // bandaged (black/white)
-            Color.parseColor("#E8F086"), // enabler
+            ContextCompat.getColor(context, R.color.red_cell),
+            ContextCompat.getColor(context, R.color.gray_cell),
+            ContextCompat.getColor(context, R.color.blue_cell),
+            ContextCompat.getColor(context, R.color.green_cell),
+            ContextCompat.getColor(context, R.color.bandaged_cell),
+            ContextCompat.getColor(context, R.color.enabler_cell),
         ),
         ContextCompat.getColor(context, R.color.gameplay_background),
         ContextCompat.getColor(context, R.color.bandaged_cell),
@@ -50,12 +52,18 @@ class GameCellMetadata(
             context.resources,
             R.drawable.ic_baseline_swap_vert_24,
             null
+        )!!,
+        ResourcesCompat.getDrawable(
+            context.resources,
+            R.drawable.ic_baseline_flash_on_24,
+            null
         )!!
     )
 }
 
-// Returns a well formed but useless GameCellMetadata for use in tests.
-fun fakeGameCellMetadata() : GameCellMetadata {
+// Returns a well formed but useless GameCellMetadata for use in tests and scrambling (where the
+// board is manipulated but never shown to the user).
+fun fakeGameCellMetadata(): GameCellMetadata {
     return GameCellMetadata(
         Array(6) { Color.BLACK },
         Color.BLACK,
@@ -63,6 +71,7 @@ fun fakeGameCellMetadata() : GameCellMetadata {
         ShapeDrawable(RectShape()),
         ShapeDrawable(RectShape()),
         ShapeDrawable(RectShape()),
-        ShapeDrawable(RectShape())
+        ShapeDrawable(RectShape()),
+        ShapeDrawable(RectShape()),
     )
 }

@@ -4,8 +4,6 @@ import kotlin.math.floor
 import kotlin.math.sqrt
 import kotlin.random.Random
 
-// TODO(jmerm): tests for things in this file
-
 fun fromRandomFactory(name: String, rowDepth: Int?, colDepth: Int?): MoveFactory {
     return when (name) {
         "Gear" -> GearMoveFactory()
@@ -23,7 +21,6 @@ fun fromRandomFactory(name: String, rowDepth: Int?, colDepth: Int?): MoveFactory
 // helper for replacing black square with gold in modes where black has a special meaning
 fun blackToGold(i: Int): Int = if (i % 6 == 4) i + 1 else i
 
-// TODO(jmerm): more interesting patterns? Staircase?
 fun generateBicolorGoal(numRows: Int, numCols: Int): Array<Int> {
     val colors = (0..3).shuffled()
     return if (numCols % 2 == 0) {
@@ -128,22 +125,21 @@ fun generateDynamicBandagingGoal(
     val fixedIndices = (1 until numRows * numCols).shuffled().take(bandagedCount)
 
     val board = when (colorScheme) {
-        "Bicolor" -> {
-            // Bicolor Dynamic is unusual since the black squares are the second color. We handle that by
+        "Bicolor", "Speckled" -> {
+            // In both Bicolor and Speckled, non-fixed cells are all one color. We handle that by
             // starting with a monocolor board and overwriting random cells with fixed cells.
             val color = Random.nextInt(0, 4).toString()
             List(numRows * numCols) { color }
         }
-        "Speckled" -> {
-            // Speckled Dynamic is also unusual since we're adding black squares and speckles. We
-            // pass the list of fixed squares when generating the board to keep speckles and black
-            // squares disjoint.
-            generateSpeckledGoal(numRows, numCols, fixedIndices.toSet())
-        }
         else -> generateBasicGoal(numRows, numCols, colorScheme).map { blackToGold(it) }
     }.map { it.toString() }.toTypedArray()
 
-    val modulus = if (colorScheme == "Unique") 6 else 1
+    // In Speckled and Unique, we want to very the number of pips. In other mode we always want 1 pip.
+    val modulus = when (colorScheme) {
+        "Speckled", "Unique" -> 6
+        else -> 1
+    }
+
     return addFixedCells(board, fixedIndices, modulus)
 }
 
@@ -193,15 +189,38 @@ fun generateStaticCellGoal(numRows: Int, numCols: Int, colorScheme: String): Arr
     return ret
 }
 
-// TODO(jmerm): consider if there should be a special bandaged + speckled interaction and how the hell I'd do that.
 fun generateBandagedGoal(
     numRows: Int,
     numCols: Int,
     colorScheme: String,
     numBlocks: String
 ): Array<String> {
-    val goal = generateBasicGoal(numRows, numCols, colorScheme).map { blackToGold(it) }
-    return addBonds(numRows, numCols, goal, numBlocks).toTypedArray()
+    if (colorScheme != "Speckled") {
+        val goal = generateBasicGoal(numRows, numCols, colorScheme).map { blackToGold(it) }
+        return addBonds(numRows, numCols, goal, numBlocks).toTypedArray()
+    } else {
+        // Speckled bandaged is special because we avoid placing speckles on bandaged blocks
+        val colors = (0..3).shuffled().toMutableList()
+        val background = colors.removeFirst()
+        val board = addBonds(
+            numRows,
+            numCols,
+            List(numRows * numCols) { background },
+            numBlocks
+        ).toTypedArray()
+
+        // Compute which locations shouldn't get a speckle
+        val bondedIndices: Set<Int> =
+            board.mapIndexed { idx, s -> if (s.startsWith("B")) idx else null }.filterNotNull()
+                .toSet()
+
+        // Add speckles to other places
+        for (idx in (0 until numRows * numCols).filter { it !in bondedIndices }.shuffled()
+            .take(sqrt(numRows * numCols))) {
+            board[idx] = colors.random().toString()
+        }
+        return board
+    }
 }
 
 fun randomMove(board: GameBoard, factory: MoveFactory): Move {
