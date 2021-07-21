@@ -20,6 +20,7 @@ class GameCellMetadata(
     val key: Drawable,
     val hArrow: Drawable,
     val vArrow: Drawable,
+    val lightning: Drawable,
 ) {
     constructor(context: Context) : this(
         arrayOf(
@@ -51,13 +52,18 @@ class GameCellMetadata(
             context.resources,
             R.drawable.ic_baseline_swap_vert_24,
             null
+        )!!,
+        ResourcesCompat.getDrawable(
+            context.resources,
+            R.drawable.ic_baseline_flash_on_24,
+            null
         )!!
     )
 }
 
 // Returns a well formed but useless GameCellMetadata for use in tests and scrambling (where the
 // board is manipulated but never shown to the user).
-fun fakeGameCellMetadata() : GameCellMetadata {
+fun fakeGameCellMetadata(): GameCellMetadata {
     return GameCellMetadata(
         Array(6) { Color.BLACK },
         Color.BLACK,
@@ -65,6 +71,7 @@ fun fakeGameCellMetadata() : GameCellMetadata {
         ShapeDrawable(RectShape()),
         ShapeDrawable(RectShape()),
         ShapeDrawable(RectShape()),
-        ShapeDrawable(RectShape())
+        ShapeDrawable(RectShape()),
+        ShapeDrawable(RectShape()),
     )
 }

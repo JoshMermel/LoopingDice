@@ -59,6 +59,9 @@ fun makeMoveFactory(id: String): MoveFactory {
         id == "ARROWS" -> {
             return ArrowsMoveFactory()
         }
+        id == "LIGHTNING" -> {
+            return LightningMoveFactory()
+        }
         id.startsWith("WIDE") -> {
             val args = id.split(" ")
             return WideMoveFactory(args[1].toInt(), args[2].toInt())

@@ -18,21 +18,12 @@ fun makeGameCell(
 ): GameCell {
 
     return when {
-        colorId == "E" -> {
-            EnablerGameCell(x, y, numRows, numCols, colorId, data)
-        }
-        colorId.startsWith("F") -> {
-            FixedGameCell(x, y, numRows, numCols, colorId, data)
-        }
-        colorId.startsWith("B") -> {
-            BandagedGameCell(x, y, numRows, numCols, colorId, data)
-        }
-        colorId.startsWith("H") -> {
-            HorizontalGameCell(x, y, numRows, numCols, colorId, data)
-        }
-        colorId.startsWith("V") -> {
-            VerticalGameCell(x, y, numRows, numCols, colorId, data)
-        }
+        colorId == "E" -> EnablerGameCell(x, y, numRows, numCols, colorId, data)
+        colorId.startsWith("F") -> FixedGameCell(x, y, numRows, numCols, colorId, data)
+        colorId.startsWith("B") -> BandagedGameCell(x, y, numRows, numCols, colorId, data)
+        colorId.startsWith("H") -> HorizontalGameCell(x, y, numRows, numCols, colorId, data)
+        colorId.startsWith("V") -> VerticalGameCell(x, y, numRows, numCols, colorId, data)
+        colorId.startsWith("L") -> LightningGameCell(x, y, numRows, numCols, colorId, data)
         else -> NormalGameCell(x, y, numRows, numCols, colorId, data)
     }
 }
@@ -45,6 +36,7 @@ enum class CellFamily {
     VERTICAL,
     HORIZONTAL,
     BANDAGED,
+    LIGHTNING,
 }
 
 // Base class for shared logic among game cell types
