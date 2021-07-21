@@ -23,6 +23,7 @@ enum class Mode {
   STATIC_2 = 11,
   STATIC_3 = 12,
   AXIS = 13,
+  LIGHTNING = 14,
 };
 
 std::string modeToString(const Mode& mode) {
@@ -52,7 +53,9 @@ std::string modeToString(const Mode& mode) {
     case Mode::STATIC_3:
       return "3";
     case Mode::AXIS:
-      return "AXISLOCKED";
+      return "ARROWS";
+    case Mode::LIGHTNING:
+      return "LIGHTNING";
   }
   return "ERROR";
 }

@@ -384,3 +384,66 @@ TEST(Board, DynamicColMoveIllegal) {
   EXPECT_EQ(b, up);
   EXPECT_EQ(b, down);
 }
+
+
+TEST(Board, LightiningRowMoveFast) {
+  Board<2,3> b = {{
+    {{0,1|UP,2}},
+    {{3,4,5}},
+  }};
+  Board<2,3> expected = {{
+    {{1|UP,2,0}},
+    {{3,4,5}},
+  }};
+
+  Board<2,3> moved = lightningRowMove(b, 0, true);
+
+  EXPECT_EQ(moved, expected);
+}
+
+TEST(Board, LightiningRowMoveSlow) {
+  Board<2,3> b = {{
+    {{0,1|UP,2}},
+    {{3,4,5}},
+  }};
+  Board<2,3> expected = {{
+    {{0,1|UP,2}},
+    {{5,3,4}},
+  }};
+
+  Board<2,3> moved = lightningRowMove(b, 1, true);
+
+  EXPECT_EQ(moved, expected);
+}
+
+TEST(Board, LightningColMoveFast) {
+  Board<3,2> b = {{
+    {{1,2}},
+    {{3|UP,4}},
+    {{5,6}},
+  }};
+  Board<3,2> expected = {{
+    {{3|UP,2}},
+    {{5,4}},
+    {{1,6}},
+  }};
+
+  Board<3,2> moved = lightningColMove(b, 0, true);
+  EXPECT_EQ(moved, expected);
+}
+
+TEST(Board, LightningColMoveSlow) {
+  Board<3,2> b = {{
+    {{1,2}},
+    {{3|UP,4}},
+    {{5,6}},
+  }};
+  Board<3,2> expected = {{
+    {{1,6}},
+    {{3|UP,2}},
+    {{5,4}},
+  }};
+
+  Board<3,2> moved = lightningColMove(b, 1, true);
+  EXPECT_EQ(moved, expected);
+}

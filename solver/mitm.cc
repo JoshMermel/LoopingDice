@@ -11,19 +11,19 @@
 constexpr size_t num_rows = 4;
 constexpr size_t num_cols = 4;
 constexpr Board<num_rows, num_cols> initial = {{
-	{{3,1,1,1}},
-	{{1,2,2,2}},
-	{{1,2,2,2}},
-	{{1,2,2,2}},
+	{{0|UP,3,3,3}},
+	{{2,0|UP,3,3}},
+	{{2,2,0|UP,3}},
+	{{2,2,2,0|UP}},
 }};
 constexpr Board<num_rows, num_cols> win = {{
-	{{2,2,2,1}},
-	{{2,2,2,1}},
-	{{2,2,2,1}},
-	{{1,1,1,3}},
+	{{0|UP,2,2,2}},
+	{{3,0|UP,2,2}},
+	{{3,3,0|UP,2}},
+	{{3,3,3,0|UP}},
 }};
-Mode row_mode = Mode::WIDE_3;
-Mode col_mode = Mode::WIDE_3;
+Mode row_mode = Mode::LIGHTNING;
+Mode col_mode = Mode::LIGHTNING;
 
 template<std::size_t num_rows, std::size_t num_cols>
 struct Node {

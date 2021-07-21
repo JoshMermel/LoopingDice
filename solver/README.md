@@ -182,3 +182,8 @@ constexpr Board<num_rows, num_cols> win = {{
 Mode row_mode = Mode::STATIC_1;
 Mode col_mode = Mode::STATIC_2;
 ```
+
+Lightning mode reused the masks from bandaged mode. `UP` indicates a lightning
+cell.
+
+TODO(jmerm): example here.

@@ -98,6 +98,20 @@ struct AxisRowFormatter {
   }
 };
 
+template<std::size_t len>
+struct LightningRowFormatter {
+  void operator()(std::string* out, const std::array<int, len>& arr) const {
+    out->append(absl::StrJoin(arr, ",", [](std::string* out, int i) {
+          if (i & UP) {
+            out->append("L " + std::to_string(i & ~UP));
+          } else {
+            out->append(std::to_string(i));
+          }
+     }));
+  }
+};
+
+
 std::string bandagedCellToString(int i) {
   int mask = UP | DOWN | LEFT | RIGHT;
   if (!(i & mask)) {
@@ -144,6 +158,8 @@ std::function<void(std::string*, const std::array<int, num_cols>& arr)> getForma
       return StaticRowFormatter<num_cols>();
     case Mode::AXIS:
       return AxisRowFormatter<num_cols>();
+    case Mode::LIGHTNING:
+      return LightningRowFormatter<num_cols>();
     default:
       return BasicRowFormatter<num_cols>();
   }
@@ -169,6 +185,26 @@ template<std::size_t num_rows, std::size_t num_cols>
 bool col_contains_enabler(const Board<num_rows, num_cols>& board, int offset) {
   for (size_t row = 0; row < num_rows; ++row) {
     if(board[row][offset] == 0) {
+      return true;
+    }
+  }
+  return false;
+}
+
+// Checks for lightning in a row/col
+template<std::size_t num_rows, std::size_t num_cols>
+bool row_contains_lightning(const Board<num_rows, num_cols>& board, int offset) {
+  for (size_t col = 0; col < num_cols; ++col) {
+    if(board[offset][col] & UP) {
+      return true;
+    }
+  }
+  return false;
+}
+template<std::size_t num_rows, std::size_t num_cols>
+bool col_contains_lightning(const Board<num_rows, num_cols>& board, int offset) {
+  for (size_t row = 0; row < num_rows; ++row) {
+    if(board[row][offset] & UP) {
       return true;
     }
   }

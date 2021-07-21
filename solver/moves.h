@@ -63,6 +63,7 @@ Board<num_rows, num_cols> wideColMove(Board<num_rows, num_cols> board, int offse
 }
 
 // static
+// TODO(jmerm): stop using 0 as a special value now that it's a valid colorId.
 template<std::size_t num_rows, std::size_t num_cols>
 Board<num_rows, num_cols> staticRowMove(Board<num_rows, num_cols> board, int offset, bool forward, int depth) {
   for (int i = 0; i < depth; ++i) {
@@ -105,6 +106,7 @@ Board<num_rows, num_cols> enablerColMove(Board<num_rows, num_cols> board, int of
 }
 
 // dynamic
+// TODO(jmerm): stop using 0 as a special value now that it's a valid colorId.
 template<std::size_t num_rows, std::size_t num_cols>
 Board<num_rows, num_cols> dynamicRowMove(Board<num_rows, num_cols> board, int offset, bool forward) {
   size_t end = forward ? num_cols - 1 : 0;
@@ -252,6 +254,24 @@ Board<num_rows, num_cols> axisColMove(Board<num_rows, num_cols> board, int offse
   return board;
 }
 
+// Lightning
+template<std::size_t num_rows, std::size_t num_cols>
+Board<num_rows, num_cols> lightningRowMove(Board<num_rows, num_cols> board, int offset, bool forward) {
+  slideRow(board, offset, forward);
+  if (row_contains_lightning(board, offset)) {
+    slideRow(board, offset, forward);
+  }
+  return board;
+}
+template<std::size_t num_rows, std::size_t num_cols>
+Board<num_rows, num_cols> lightningColMove(Board<num_rows, num_cols> board, int offset, bool forward) {
+  slideCol(board, offset, forward);
+  if (col_contains_lightning(board, offset)) {
+    slideCol(board, offset, forward);
+  }
+  return board;
+}
+
 template<std::size_t num_rows, std::size_t num_cols>
 Board<num_rows, num_cols> rowMove(Board<num_rows, num_cols> board, int offset, bool forward, const Mode& mode) {
   switch (mode) {
@@ -279,6 +299,8 @@ Board<num_rows, num_cols> rowMove(Board<num_rows, num_cols> board, int offset, b
       return staticRowMove(board, offset, forward, 3);
     case Mode::AXIS:
       return axisRowMove(board, offset, forward);
+    case Mode::LIGHTNING:
+      return lightningRowMove(board, offset, forward);
     default:
       return wideRowMove(board, offset, forward, 1);
   }
@@ -311,6 +333,8 @@ Board<num_rows, num_cols> colMove(Board<num_rows, num_cols> board, int offset, b
       return staticColMove(board, offset, forward, 3);
     case Mode::AXIS:
       return axisColMove(board, offset, forward);
+    case Mode::LIGHTNING:
+      return lightningColMove(board, offset, forward);
     default:
       return wideColMove(board, offset, forward, 1);
   }

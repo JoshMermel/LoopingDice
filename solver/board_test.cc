@@ -49,6 +49,15 @@ TEST(Board, AxisToString) {
   EXPECT_EQ(boardToString(b, Mode::AXIS, ","), "V 0,H 1,2,3,V 4,H 5");
 }
 
+TEST(Board, LightningToString) {
+  Board<2,3> b = {{
+    {{0, 1|UP, 2}},
+    {{3, 4, 5|UP}},
+  }};
+
+  EXPECT_EQ(boardToString(b, Mode::LIGHTNING, ","), "0,L 1,2,3,4,L 5");
+}
+
 TEST(Board, hash) {
   std::unordered_set<Board<4,3>> s;
 
