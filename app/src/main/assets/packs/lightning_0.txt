@@ -1,3 +1,10 @@
 Lightning (Experimental)
-L1 l1_experiment 1 2 3
-L2 l2_experiment 1 2 3
+L1 l1_experiment 4 20 30
+L2 l2_experiment 4 20 30
+L3 l3_experiment 4 20 30
+L4 l4_experiment 5 20 30
+L5 l5_experiment 5 20 30
+L6 l6_experiment 6 20 30
+L7 l7_experiment 8 20 30
+L8 l8_experiment 10 20 30
+L9 l9_experiment 12 20 30
