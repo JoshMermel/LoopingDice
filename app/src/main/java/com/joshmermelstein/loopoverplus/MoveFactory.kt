@@ -5,6 +5,7 @@ package com.joshmermelstein.loopoverplus
 // game modes behind one interface.
 
 // Base class for all move factories.
+// TODO(jmerm): consider replacing inheritance with composition here. A move factory could be expressed a RowEffect + RowBlocker + ColEffect + ColBlockers
 interface MoveFactory {
     fun makeMove(
         axis: Axis,

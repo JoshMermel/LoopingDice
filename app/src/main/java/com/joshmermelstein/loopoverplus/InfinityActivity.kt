@@ -44,6 +44,7 @@ class RandomLevelParams(
 class InfinityActivity : AppCompatActivity() {
     private val rowSizes = (2..6).map { num -> num.toString() }
 
+    // TODO(jmerm): Lightning support in infinity mode.
     private val rowModes =
         arrayOf(
             "Wide",

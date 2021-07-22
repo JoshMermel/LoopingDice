@@ -1,5 +1,6 @@
 package com.joshmermelstein.loopoverplus
 
+// TODO(jmerm): tests.
 class LightningMove(
     override val axis: Axis,
     override val direction: Direction,
