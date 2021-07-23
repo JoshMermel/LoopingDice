@@ -5,6 +5,7 @@ C12 c_inverse_hot_dog 6 8 13
 C13 c_raft 6 8 11
 C14 c_dominoes 5 7 12
 C15 c_defrag 6 9 14
-C16 c_drop_row 4 6 7
-C17 c_big_plus 4 5 9
-C18 c_not_equals 4 6 8
+C16 c_sparse_plus 3 5 7
+C17 c_drop_row 4 6 7
+C18 c_big_plus 4 5 9
+C19 c_not_equals 4 6 8
