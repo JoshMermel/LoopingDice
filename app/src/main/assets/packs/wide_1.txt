@@ -14,4 +14,3 @@ W20 w_inverse_firework 9 12 21
 W21 w_quad_stripe 7 9 12
 W22 w_quad_horizontal_stripe 7 9 15
 W23 w_big_plus 5 10 20
-W24 w_join_edges 6 9 13
