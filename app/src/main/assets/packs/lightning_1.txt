@@ -1,0 +1,7 @@
+Lightning (Intermediate)
+L6 l_quad_strips 8 10 12
+L7 l_stripes 6 9 12
+L8 l_toggle_diagonal 4 7 10
+L9 l_stratego 9 12 15
+L10 l_dominoes 7 9 11
+L11 l_flip_4 11 2 3

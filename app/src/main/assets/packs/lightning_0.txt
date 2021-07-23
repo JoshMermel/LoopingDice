@@ -1,10 +1,6 @@
-Lightning (Experimental)
-L1 l1_experiment 4 20 30
-L2 l2_experiment 4 20 30
-L3 l3_experiment 4 20 30
-L4 l4_experiment 5 20 30
-L5 l5_experiment 5 20 30
-L6 l6_experiment 6 20 30
-L7 l7_experiment 8 20 30
-L8 l8_experiment 10 20 30
-L9 l9_experiment 12 20 30
+Lightning (Beginner)
+L1 l_swap_dominoes 4 6 8
+L2 l_rotate_corners 4 7 10
+L3 l_floating_square 5 8 11
+L4 l_ring 5 7 9
+L5 l_shift_square 6 8 10
