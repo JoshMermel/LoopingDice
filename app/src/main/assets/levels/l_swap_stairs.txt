@@ -5,3 +5,4 @@ L 1,1,1,1,1,2,1,2,2,2,2,L 2
 2,2,2,L 2,2,1,2,1,L 1,1,1,1
 
 # R0,R1,R2,C0',C2',C1,R1' (7)
+human solution: Col2' Col0 Row2 Row1' Col1' Row3' Row0 Col1' Col1'

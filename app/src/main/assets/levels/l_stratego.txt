@@ -5,3 +5,4 @@ LIGHTNING
 2,L 3,0,2,L 3,0,2,L 3,0,2,L 3,0,2,L 3,0
 
 # R0,R1,R2',C0,R3',C2',R2',R1,R0 (9)
+human solution: Row1' Row3 Col2 Col0' Row3 Row1' Col2' Row0 Row2 Col2' Row2' Row0'

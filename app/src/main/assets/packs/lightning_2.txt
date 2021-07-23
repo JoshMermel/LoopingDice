@@ -1,5 +1,4 @@
 Lightning (Advanced)
-L12 l_swap_stairs 7 10 13
-L13 l_rotate_center 10 15 20
-L14 l_sparse_plus 8 16 24
+L13 l_sparse_plus 8 16 24
+L14 l_rotate_center 10 15 20
 L15 l_swap_triangles 12 20 30
