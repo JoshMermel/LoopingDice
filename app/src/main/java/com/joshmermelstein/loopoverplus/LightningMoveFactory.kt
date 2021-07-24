@@ -1,6 +1,5 @@
 package com.joshmermelstein.loopoverplus
 
-// TODO(jmerm): tests
 class LightningMoveFactory : MoveFactory {
     override fun makeMove(
         axis: Axis,
