@@ -148,11 +148,10 @@ fun randomAxisPrefix(): String {
     return if (Random.nextBoolean()) "H " else "V "
 }
 
-// TODO(jmerm): This broken in Unique because L0 and L6 draw the same but are different
 fun addArrowCells(board: Array<Int>, indices: Set<Int>): Array<String> {
     return board.mapIndexed { idx, i ->
         (if (idx in indices) {
-            randomAxisPrefix() + i.toString()
+            randomAxisPrefix() + (i % 6).toString()
         } else {
             i.toString()
         })
@@ -179,18 +178,16 @@ fun generateArrowsGoal(
     )
 }
 
-// TODO(jmerm): This broken in Unique because L0 and L6 draw the same but are different
 fun addBolts(board: Array<Int>, indices: List<Int>): Array<String> {
     return board.mapIndexed { idx, i ->
         (if (idx in indices) {
-            "L $i"
+            "L " + (i % 6).toString()
         } else {
             i.toString()
         })
     }.toTypedArray()
 }
 
-// TODO(jmerm): consider special cases for speckled -none lightening?
 fun generateLightningGoal(
     numRows: Int,
     numCols: Int,
