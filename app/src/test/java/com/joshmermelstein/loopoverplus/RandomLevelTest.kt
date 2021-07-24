@@ -78,16 +78,23 @@ class RandomLevelTest : TestCase() {
         }
     }
 
-    // Other than bandaged cells, all cells must be unique in Bandaged mode.
     fun testUniqueBandaged() {
         for (numRows in (2..6)) {
             for (numCols in (2..5)) {
                 for (numBandaged in arrayOf("Rare", "Common", "Frequent")) {
                     val board =
                         generateBandagedGoal(numRows, numCols, "Unique", numBandaged)
-                    val frequencies = board.filter { !it.startsWith("B") }.groupingBy { it }
-                        .eachCount().values.toSet()
-                    assertTrue(frequencies.size <= 1)
+
+                    // Other than bandaged cells, all cells must be unique in Bandaged mode.
+                    val unbandagedFrequencies =
+                        board.filter { !it.startsWith("B") }.groupingBy { it }
+                            .eachCount().values.toSet()
+                    assertTrue(unbandagedFrequencies.size <= 1)
+
+                    // Bandaged cells should have IDs <= 5 so they compare with each other correctly
+                    val bandagedIds =
+                        board.filter { it.startsWith("B") }.map { it.split(" ")[1].toInt() }
+                    bandagedIds.forEach { assertTrue(it <= 5) }
                 }
             }
         }
@@ -137,4 +144,35 @@ class RandomLevelTest : TestCase() {
             }
         }
     }
+
+    fun testArrowsUnique() {
+        for (numRows in (2..6)) {
+            for (numCols in (2..5)) {
+                for (numArrows in arrayOf("Rare", "Common", "Frequent")) {
+                    val board =
+                        generateArrowsGoal(numRows, numCols, "Unique", numArrows)
+                    // Arrows cells should have IDs <= 5 so they compare with each other correctly
+                    val lightningIds =
+                        board.filter { it.startsWith("H") || it.startsWith("V") }.map { it.split(" ")[1].toInt() }
+                    lightningIds.forEach { assertTrue(it <= 5) }
+                }
+            }
+        }
+    }
+
+    fun testLightningUnique() {
+        for (numRows in (2..6)) {
+            for (numCols in (2..5)) {
+                for (numBolts in arrayOf("Rare", "Common", "Frequent")) {
+                    val board =
+                        generateLightningGoal(numRows, numCols, "Unique", numBolts)
+                    // Lightning cells should have IDs <= 5 so they compare with each other correctly
+                    val lightningIds =
+                        board.filter { it.startsWith("L") }.map { it.split(" ")[1].toInt() }
+                    lightningIds.forEach { assertTrue(it <= 5) }
+                }
+            }
+        }
+    }
+
 }

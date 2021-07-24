@@ -132,7 +132,6 @@ class GameBoard(private val board: Array<Array<GameCell>>) {
         return ret
     }
 
-    // TODO(jmerm): tests for these
     // Returns whether any cell in row |offset| is a lightning cell
     fun rowContainsLightning(offset: Int): Boolean {
         for (col in 0 until numCols) {

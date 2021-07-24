@@ -13,6 +13,7 @@ fun fromRandomFactory(name: String, rowDepth: Int?, colDepth: Int?): MoveFactory
         "Dynamic Bandaging" -> DynamicBandagingMoveFactory()
         "Static Cells" -> StaticCellsMoveFactory(rowDepth!!, colDepth!!)
         "Arrows" -> ArrowsMoveFactory()
+        "Lightning" -> LightningMoveFactory()
         "Bandaged" -> BandagedMoveFactory()
         else -> BasicMoveFactory()
     }
@@ -147,10 +148,10 @@ fun randomAxisPrefix(): String {
     return if (Random.nextBoolean()) "H " else "V "
 }
 
-fun addArrowCells(board: Array<Int>, indices: List<Int>): Array<String> {
+fun addArrowCells(board: Array<Int>, indices: Set<Int>): Array<String> {
     return board.mapIndexed { idx, i ->
         (if (idx in indices) {
-            randomAxisPrefix() + i.toString()
+            randomAxisPrefix() + (i % 6).toString()
         } else {
             i.toString()
         })
@@ -169,11 +170,41 @@ fun generateArrowsGoal(
         "Frequent" -> numRows * numCols / 3
         else -> 0
     }
-    val arrowsIndices = (1 until numRows * numCols).shuffled().take(arrowsCount)
+    val arrowsIndices = (1 until numRows * numCols).shuffled().take(arrowsCount).toSet()
 
     return addArrowCells(
         generateBasicGoal(numRows, numCols, colorScheme),
         arrowsIndices
+    )
+}
+
+fun addBolts(board: Array<Int>, indices: List<Int>): Array<String> {
+    return board.mapIndexed { idx, i ->
+        (if (idx in indices) {
+            "L " + (i % 6).toString()
+        } else {
+            i.toString()
+        })
+    }.toTypedArray()
+}
+
+fun generateLightningGoal(
+    numRows: Int,
+    numCols: Int,
+    colorScheme: String,
+    numBolts: String
+): Array<String> {
+    val boltCount = 1 + when (numBolts) {
+        "Rare" -> 1
+        "Common" -> numRows * numCols / 8
+        "Frequent" -> numRows * numCols / 4
+        else -> 0
+    }
+    val boltIndices = (1 until numRows * numCols).shuffled().take(boltCount)
+
+    return addBolts(
+        generateBasicGoal(numRows, numCols, colorScheme),
+        boltIndices
     )
 }
 
@@ -307,6 +338,12 @@ fun generateRandomLevel(
             options.colorScheme
         )
         "Arrows" -> generateArrowsGoal(
+            options.numRows,
+            options.numCols,
+            options.colorScheme,
+            options.density!!
+        )
+        "Lightning" -> generateLightningGoal(
             options.numRows,
             options.numCols,
             options.colorScheme,

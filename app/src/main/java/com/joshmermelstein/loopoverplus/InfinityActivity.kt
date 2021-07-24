@@ -51,6 +51,7 @@ class InfinityActivity : AppCompatActivity() {
             "Gear",
             "Dynamic Bandaging",
             "Bandaged",
+            "Lightning",
             "Arrows",
             "Enabler",
             "Static Cells",
@@ -146,7 +147,7 @@ class InfinityActivity : AppCompatActivity() {
         val colSizeSpinner = findViewById<Spinner>(R.id.colSizeSpinner)
         val oldValue: Int? = colSizeSpinner.selectedItem?.toString()?.toInt()
         val rowMode = getRowMode()
-        val maxValue = if (rowMode in colModes || rowMode == "Arrows") {
+        val maxValue = if (rowMode in colModes || rowMode == "Arrows" || rowMode == "Lightning") {
             6
         } else {
             5
@@ -173,7 +174,6 @@ class InfinityActivity : AppCompatActivity() {
             }
         }
     }
-
 
     private fun updateColModePicker() {
         val container = findViewById<View>(R.id.col_mode_container)
@@ -264,7 +264,7 @@ class InfinityActivity : AppCompatActivity() {
     private fun updateDensityPicker() {
         val container = findViewById<View>(R.id.density_container)
         val rowMode = getRowMode()
-        if (rowMode in listOf("Dynamic Bandaging", "Enabler", "Arrows", "Bandaged")) {
+        if (rowMode in listOf("Dynamic Bandaging", "Enabler", "Arrows", "Bandaged", "Lightning")) {
             container?.visibility = View.VISIBLE
             val numBandagedSpinner = findViewById<Spinner>(R.id.densitySpinner)
             val adapter = ArrayAdapter(this, R.layout.spinner_item, densities)
@@ -275,6 +275,7 @@ class InfinityActivity : AppCompatActivity() {
                 "Enabler" -> "# Enablers"
                 "Arrows" -> "# Arrows"
                 "Bandaged" -> "# Blocks"
+                "Lightning" -> "# Bolts"
                 else -> "Density"  // should never happen.
             }
         } else {

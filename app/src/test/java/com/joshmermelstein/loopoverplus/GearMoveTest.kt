@@ -89,7 +89,7 @@ class GearMoveTest : TestCase() {
         assertEquals(inverse, expected)
     }
 
-    fun testTestToString() {
+    fun testToString() {
         val vMove = GearMove(Axis.VERTICAL, Direction.FORWARD, 0, 1, 2)
         assertEquals(vMove.toString(), "GEAR V F 0")
 

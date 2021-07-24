@@ -1,0 +1,8 @@
+5
+2
+CAROUSEL
+3,2,9,2,15,2,21,2,27,2
+27,2,21,2,15,2,9,2,3,2
+
+# R0,R0,R3',R4',R0',R4',R3 (7)
+(Also works as CAROUSEL | WIDE  2 2 with same optimal answer)
