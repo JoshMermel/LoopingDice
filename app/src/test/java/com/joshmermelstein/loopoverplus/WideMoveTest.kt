@@ -90,7 +90,7 @@ class WideMoveTest : TestCase() {
         assertEquals(inverse, expected)
     }
 
-    fun testTestToString() {
+    fun testToString() {
         val vMove = WideMove(Axis.VERTICAL, Direction.FORWARD, 0, 1, 2, 4)
         assertEquals(vMove.toString(), "WIDE V F 0 4")
 
