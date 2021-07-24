@@ -49,31 +49,6 @@ interface Move {
     fun finalize(board: GameBoard)
 }
 
-// Subclasses of LegalMove get counted toward move counts, are written to the undo stack, and are
-// saved when the user closes the level
-interface LegalMove : Move {
-    val axis: Axis
-    val direction: Direction
-    val offset: Int
-
-    // Returns a move that undoes this one, used for managing undo and redo stacks.
-    fun inverse(): Move
-
-    // Used for saving move history to a file.
-    override fun toString(): String
-
-    // Human readable string of this move
-    fun toUserString(): String {
-        return when (axis) {
-            Axis.HORIZONTAL -> "Row"
-            Axis.VERTICAL -> "Col"
-        } + "$offset" + when (direction) {
-            Direction.FORWARD -> ""
-            Direction.BACKWARD -> "'"
-        }
-    }
-}
-
 // A transition represents the action of a single cell during a Move. Coordinates may be out of
 // range to indicate a cell sliding off screen.
 class Transition(
@@ -83,11 +58,15 @@ class Transition(
     val y1: Int
 )
 
-// A CoordinatesMove is an intermediate subclass of Move that provides shared logic to make further
-// subclasses easier to implement. Rather than Move subclasses implementing the same logic for
-// updating draw positions and updating the underlying grid afterward, this class helps them
-// implement both in terms of a list of Transitions.
-interface CoordinatesMove : LegalMove {
+// Subclasses of LegalMove get counted toward move counts, are written to the undo stack, and are
+// saved when the user closes the level
+// LegalMove also provides shared logic to make further subclasses easier to implement. Rather than
+// Move subclasses implementing the same logic for updating draw positions and updating the
+// underlying grid afterward, this class helps them implement both in terms of a list of Transitions.
+interface  LegalMove : Move {
+    val axis: Axis
+    val direction: Direction
+    val offset: Int
     val transitions: MutableList<Transition>
 
     override fun animateProgress(progress: Double, board: GameBoard) {
@@ -111,11 +90,28 @@ interface CoordinatesMove : LegalMove {
             board.setCell(t.y1, t.x1, cell)
         }
     }
+
+    // Returns a move that undoes this one, used for managing undo and redo stacks.
+    fun inverse(): Move
+
+    // Used for saving move history to a file.
+    override fun toString(): String
+
+    // Human readable string of this move
+    fun toUserString(): String {
+        return when (axis) {
+            Axis.HORIZONTAL -> "Row"
+            Axis.VERTICAL -> "Col"
+        } + "$offset" + when (direction) {
+            Direction.FORWARD -> ""
+            Direction.BACKWARD -> "'"
+        }
+    }
 }
 
 // Yet another helper for implementing shared logic and make other moves easier to implement.
 // Helpers are provided for basic looping moves on rows and columns.
-interface RowColMove : CoordinatesMove {
+interface RowColMove : LegalMove {
     fun addHorizontal(direction: Direction, offset: Int, numCols: Int) {
         val delta = if (direction == Direction.FORWARD) 1 else -1
         for (col in 0 until numCols) {

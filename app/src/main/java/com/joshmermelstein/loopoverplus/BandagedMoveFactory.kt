@@ -2,15 +2,40 @@ package com.joshmermelstein.loopoverplus
 
 // Bandaged moves are like basic moves but they can expand to move additional
 // rows/columns depending on the positions of bonds.
-class BandagedMoveFactory : MoveFactory {
+
+
+class BandagedMoveEffect(private val axis: Axis) : MoveEffect {
     override fun makeMove(
-        axis: Axis,
         direction: Direction,
         offset: Int,
         board: GameBoard
-    ): Move {
+    ): LegalMove {
         val params = applyToBoard(axis, offset, board)
         return WideMove(axis, direction, params.first, board.numRows, board.numCols, params.second)
+    }
+
+    override fun makeHighlights(
+        direction: Direction,
+        offset: Int,
+        board: GameBoard
+    ): Array<Highlight> {
+        val params = applyToBoard(axis, offset, board)
+
+        // It's fine if offset goes out of range, it'll get modulus'd into range before being drawn
+        return Array(params.second) { idx: Int ->
+            Highlight(
+                axis,
+                direction,
+                idx + params.first
+            )
+        }
+    }
+
+    override fun helpText(): String {
+        return when (axis) {
+            Axis.HORIZONTAL -> "Horizontal moves are bandaged moves"
+            Axis.VERTICAL -> "Vertical moves are bandaged moves"
+        }
     }
 
     // Logic for figuring out which columns move when a particular offset is
@@ -61,35 +86,19 @@ class BandagedMoveFactory : MoveFactory {
         return Pair(retOffset, depth)
     }
 
-    override fun makeHighlights(
-        axis: Axis,
-        direction: Direction,
-        offset: Int,
-        board: GameBoard
-    ): Array<Highlight> {
-        val params = applyToBoard(axis, offset, board)
-
-        // It's fine if offset goes out of range, it'll get modulus'd into range before being drawn
-        return Array(params.second) { idx: Int ->
-            Highlight(
-                axis,
-                direction,
-                idx + params.first
-            )
-        }
-    }
-
-    // unused
-    override fun verticalHelpText(): String {
-        return "Vertical moves are bandaged moves"
-    }
-
-    // unused
-    override fun horizontalHelpText(): String {
-        return "Horizontal moves are bandaged moves"
-    }
-
-    override fun helpText(): String {
+    override fun helpTextWhenSame(): String {
         return "Blocks connected by a bond always move together and will cause extra rows/columns to be dragged"
     }
+
+    // Equality is only used for checking that vertical and horizontal are "the same" so help text
+    // can be specialized. As such, we don't look at |axis| in this method.
+    override fun equals(other: Any?): Boolean {
+        return  (javaClass == other?.javaClass)
+    }
 }
+
+class BandagedMoveFactory : MoveFactory(
+    BandagedMoveEffect(Axis.HORIZONTAL),
+    BandagedMoveEffect(Axis.VERTICAL),
+    MoveValidator()
+)

@@ -2,18 +2,16 @@ package com.joshmermelstein.loopoverplus
 
 // Returns basic moves
 // Basic moves are ones where row moves affect 1 row and column moves affect 1 column.
-open class BasicMoveFactory : MoveFactory {
+class BasicMoveEffect(private val axis: Axis) : MoveEffect {
     override fun makeMove(
-        axis: Axis,
         direction: Direction,
         offset: Int,
         board: GameBoard
-    ): Move {
+    ): LegalMove {
         return BasicMove(axis, direction, offset, board.numRows, board.numCols)
     }
 
     override fun makeHighlights(
-        axis: Axis,
         direction: Direction,
         offset: Int,
         board: GameBoard
@@ -21,15 +19,27 @@ open class BasicMoveFactory : MoveFactory {
         return arrayOf(Highlight(axis, direction, offset))
     }
 
-    override fun verticalHelpText(): String {
-        return "Vertical moves affect a single column"
-    }
-
-    override fun horizontalHelpText(): String {
-        return "Horizontal moves affect a single row"
-    }
-
     override fun helpText(): String {
+        return when (axis) {
+            Axis.HORIZONTAL -> "Horizontal moves affect a single row"
+            Axis.VERTICAL -> "Vertical moves affect a single column"
+        }
+    }
+
+    override fun helpTextWhenSame(): String {
         return "Horizontal and vertical moves affect a single row/col"
     }
+
+    // Equality is only used for checking that vertical and horizontal are "the same" so help text
+    // can be specialized. As such, we don't look at |axis| in this method.
+    override fun equals(other: Any?): Boolean {
+        return  (javaClass == other?.javaClass)
+    }
 }
+
+class BasicMoveFactory :
+    MoveFactory(
+        BasicMoveEffect(Axis.HORIZONTAL),
+        BasicMoveEffect(Axis.VERTICAL),
+        MoveValidator()
+    )

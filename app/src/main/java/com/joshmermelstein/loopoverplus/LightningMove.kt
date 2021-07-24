@@ -6,7 +6,7 @@ class LightningMove(
     override val offset: Int,
     private val numRows: Int,
     private val numCols: Int
-) : CoordinatesMove {
+) : LegalMove {
     override val transitions = mutableListOf<Transition>()
 
     init {

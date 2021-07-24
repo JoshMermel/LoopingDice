@@ -1,18 +1,16 @@
 package com.joshmermelstein.loopoverplus
 
 // Returns gear moves.
-class GearMoveFactory : MoveFactory {
+class GearMoveEffect(private val axis: Axis) : MoveEffect {
     override fun makeMove(
-        axis: Axis,
         direction: Direction,
         offset: Int,
         board: GameBoard
-    ): Move {
+    ): LegalMove {
         return GearMove(axis, direction, offset, board.numRows, board.numCols)
     }
 
     override fun makeHighlights(
-        axis: Axis,
         direction: Direction,
         offset: Int,
         board: GameBoard
@@ -23,15 +21,26 @@ class GearMoveFactory : MoveFactory {
         )
     }
 
-    override fun verticalHelpText(): String {
-        return "Vertical moves are gear moves"
-    }
-
-    override fun horizontalHelpText(): String {
-        return "Horizontal moves are gear moves"
-    }
-
     override fun helpText(): String {
+        return when (axis) {
+            Axis.HORIZONTAL -> "Horizontal moves are gear moves"
+            Axis.VERTICAL -> "Vertical moves are gear moves"
+        }
+    }
+
+    override fun helpTextWhenSame(): String {
         return "Horizontal and vertical moves are gear moves"
     }
+
+    // Equality is only used for checking that vertical and horizontal are "the same" so help text
+    // can be specialized. As such, we don't look at |axis| in this method.
+    override fun equals(other: Any?): Boolean {
+        return  (javaClass == other?.javaClass)
+    }
 }
+
+class GearMoveFactory : MoveFactory(
+    GearMoveEffect(Axis.HORIZONTAL),
+    GearMoveEffect(Axis.VERTICAL),
+    MoveValidator()
+)

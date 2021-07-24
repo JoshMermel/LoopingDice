@@ -6,37 +6,7 @@ package com.joshmermelstein.loopoverplus
 // a level where enabler cells are required for horizontal moves but not
 // vertical ones. For best results, I recommend only combining {wide, carousel,
 // gear} with one another.
-class CombinedMoveFactory(private val horizontal: MoveFactory, private val vertical: MoveFactory) :
-    MoveFactory {
-    override fun makeMove(
-        axis: Axis,
-        direction: Direction,
-        offset: Int,
-        board: GameBoard
-    ): Move {
-        return when (axis) {
-            Axis.HORIZONTAL -> horizontal.makeMove(axis, direction, offset, board)
-            Axis.VERTICAL -> vertical.makeMove(axis, direction, offset, board)
-        }
-    }
-
-    override fun makeHighlights(
-        axis: Axis,
-        direction: Direction,
-        offset: Int,
-        board: GameBoard
-    ): Array<Highlight> {
-        return when (axis) {
-            Axis.HORIZONTAL -> horizontal.makeHighlights(axis, direction, offset, board)
-            Axis.VERTICAL -> vertical.makeHighlights(axis, direction, offset, board)
-        }
-    }
-
-    override fun verticalHelpText(): String {
-        return vertical.verticalHelpText()
-    }
-
-    override fun horizontalHelpText(): String {
-        return horizontal.horizontalHelpText()
-    }
-}
+// TODO(jmerm): replace all users of this with MoveFactory's new interface. This is a sorta big
+//  goal since I think it'll require changing the file format for levels
+class CombinedMoveFactory(horizontal: MoveFactory, vertical: MoveFactory) :
+    MoveFactory(horizontal.rowEffect, vertical.colEffect, MoveValidator())

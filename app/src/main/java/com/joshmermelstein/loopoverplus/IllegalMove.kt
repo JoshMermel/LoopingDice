@@ -16,6 +16,10 @@ class IllegalMove(private val cords: List<Pair<Int, Int>>) : Move {
         }
     }
 
+    override fun toString(): String {
+        return cords.joinToString(",")
+    }
+
     override fun equals(other: Any?): Boolean {
         if (javaClass != other?.javaClass) {
             return false

@@ -1,48 +1,49 @@
 package com.joshmermelstein.loopoverplus
 
-// Returns wide moves according to |rowDepth| and |colDepth|.
-open class WideMoveFactory(open val rowDepth: Int, open val colDepth: Int) :
-    MoveFactory {
+class WideMoveEffect(private val axis: Axis, private val depth: Int) : MoveEffect {
     override fun makeMove(
-        axis: Axis,
         direction: Direction,
         offset: Int,
         board: GameBoard
-    ): Move {
-        return WideMove(axis, direction, offset, board.numRows, board.numCols, depth(axis))
+    ): LegalMove {
+        return WideMove(axis, direction, offset, board.numRows, board.numCols, depth)
     }
 
     override fun makeHighlights(
-        axis: Axis,
         direction: Direction,
         offset: Int,
         board: GameBoard
     ): Array<Highlight> {
-        return Array(depth(axis)) {
+        return Array(depth) {
             Highlight(axis, direction, it + offset)
         }
     }
 
-    private fun depth(axis: Axis): Int {
-        return when (axis) {
-            Axis.HORIZONTAL -> rowDepth
-            Axis.VERTICAL -> colDepth
-        }
-    }
-
-    override fun verticalHelpText(): String {
-        return "Vertical moves affect $colDepth " + pluralizedCols(colDepth)
-    }
-
-    override fun horizontalHelpText(): String {
-        return "Horizontal moves affect $rowDepth " + pluralizedRows(rowDepth)
-    }
-
     override fun helpText(): String {
-        return if (colDepth == rowDepth) {
-            "Vertical and horizontal moves have depth $rowDepth"
-        } else {
-            super.helpText()
+        return when (axis) {
+            Axis.HORIZONTAL -> "Horizontal moves affect $depth " + pluralizedCols(depth)
+            Axis.VERTICAL -> "Vertical moves affect $depth " + pluralizedCols(depth)
         }
+    }
+
+    override fun helpTextWhenSame(): String {
+        return "Vertical and horizontal moves have depth $depth"
+    }
+
+    // Equality is only used for checking that vertical and horizontal are "the same" so help text
+    // can be specialized. As such, we don't look at |axis| in this method.
+    override fun equals(other: Any?): Boolean {
+        if (javaClass != other?.javaClass) {
+            return false
+        }
+        other as WideMoveEffect
+        return other.depth == this.depth
     }
 }
+
+// Returns wide moves according to |rowDepth| and |colDepth|.
+class WideMoveFactory(private val rowDepth: Int, private val colDepth: Int) : MoveFactory(
+    WideMoveEffect(Axis.HORIZONTAL, rowDepth),
+    WideMoveEffect(Axis.VERTICAL, colDepth),
+    MoveValidator()
+)

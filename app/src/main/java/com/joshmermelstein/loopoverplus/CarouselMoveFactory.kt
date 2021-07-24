@@ -3,18 +3,16 @@ package com.joshmermelstein.loopoverplus
 // Returns a carousel move.
 // Carousel moves are always legal so this factory doesn't need do any
 // validation.
-class CarouselMoveFactory : MoveFactory {
+class CarouselMoveEffect(private val axis: Axis) : MoveEffect {
     override fun makeMove(
-        axis: Axis,
         direction: Direction,
         offset: Int,
         board: GameBoard
-    ): Move {
+    ): LegalMove {
         return CarouselMove(axis, direction, offset, board.numRows, board.numCols)
     }
 
     override fun makeHighlights(
-        axis: Axis,
         direction: Direction,
         offset: Int,
         board: GameBoard
@@ -25,15 +23,26 @@ class CarouselMoveFactory : MoveFactory {
         )
     }
 
-    override fun verticalHelpText(): String {
-        return "Vertical moves are carousel moves"
-    }
-
-    override fun horizontalHelpText(): String {
-        return "Horizontal moves are carousel moves"
-    }
-
     override fun helpText(): String {
+        return when (axis) {
+            Axis.HORIZONTAL -> "Horizontal moves are carousel moves"
+            Axis.VERTICAL -> "Vertical moves are carousel moves"
+        }
+    }
+
+    override fun helpTextWhenSame(): String {
         return "Horizontal and vertical moves are carousel moves"
     }
+
+    // Equality is only used for checking that vertical and horizontal are "the same" so help text
+    // can be specialized. As such, we don't look at |axis| in this method.
+    override fun equals(other: Any?): Boolean {
+        return  (javaClass == other?.javaClass)
+    }
 }
+
+class CarouselMoveFactory : MoveFactory(
+    CarouselMoveEffect(Axis.HORIZONTAL),
+    CarouselMoveEffect(Axis.VERTICAL),
+    MoveValidator()
+)

@@ -1,12 +1,11 @@
 package com.joshmermelstein.loopoverplus
 
-class LightningMoveFactory : MoveFactory {
+class LightningMoveEffect(private val axis: Axis) : MoveEffect {
     override fun makeMove(
-        axis: Axis,
         direction: Direction,
         offset: Int,
         board: GameBoard
-    ): Move {
+    ): LegalMove {
         return if ((axis == Axis.HORIZONTAL && board.rowContainsLightning(offset)) ||
             (axis == Axis.VERTICAL && board.colContainsLightning(offset))
         ) {
@@ -17,7 +16,6 @@ class LightningMoveFactory : MoveFactory {
     }
 
     override fun makeHighlights(
-        axis: Axis,
         direction: Direction,
         offset: Int,
         board: GameBoard
@@ -25,15 +23,26 @@ class LightningMoveFactory : MoveFactory {
         return arrayOf(Highlight(axis, direction, offset))
     }
 
-    override fun verticalHelpText(): String {
-        return "Vertical moves affect a single column"
-    }
-
-    override fun horizontalHelpText(): String {
-        return "Horizontal moves affect a single row"
-    }
-
     override fun helpText(): String {
-        return "Horizontal and vertical moves affect a single row/col"
+        return when (axis) {
+            Axis.HORIZONTAL -> "Vertical moves which include a lightning bolt travel twice as far"
+            Axis.VERTICAL -> "Horizontal moves which include a lightning bolt travel twice as far"
+        }
+    }
+
+    override fun helpTextWhenSame(): String {
+        return "Horizontal and vertical moves which include a lightning bolt travel twice as far"
+    }
+
+    // Equality is only used for checking that vertical and horizontal are "the same" so help text
+    // can be specialized. As such, we don't look at |axis| in this method.
+    override fun equals(other: Any?): Boolean {
+        return  (javaClass == other?.javaClass)
     }
 }
+
+class LightningMoveFactory : MoveFactory(
+    LightningMoveEffect(Axis.HORIZONTAL),
+    LightningMoveEffect(Axis.VERTICAL),
+    MoveValidator()
+)

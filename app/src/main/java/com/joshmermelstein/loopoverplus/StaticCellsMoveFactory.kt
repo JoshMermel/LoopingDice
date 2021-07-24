@@ -2,30 +2,28 @@ package com.joshmermelstein.loopoverplus
 
 // Returns wide moves unless those wide moves would slide a fixed cell. In that case returns an
 // illegal moves that flashes a lock on the fixed cell(s).
-class StaticCellsMoveFactory(override val rowDepth: Int, override val colDepth: Int) :
-    WideMoveFactory(rowDepth, colDepth) {
-    override fun makeMove(
-        axis: Axis,
-        direction: Direction,
-        offset: Int,
-        board: GameBoard
-    ): Move {
-        // Check if any bandaged cells would be moved.
-        val staticCellsEncountered: List<Pair<Int, Int>> = when (axis) {
-            Axis.HORIZONTAL -> board.findBlockingCells(0, board.numCols, offset, offset + rowDepth)
-            Axis.VERTICAL -> board.findBlockingCells(offset, offset + colDepth, 0, board.numRows)
+class StaticCellsValidator : MoveValidator() {
+    override fun validate(move: LegalMove, board: GameBoard): Move {
+        for (transition in move.transitions) {
+            if (board.getCell(transition.y0, transition.x0).family == CellFamily.FIXED) {
+                return IllegalMove(move.transitions.map { t -> Pair(t.y0, t.x0) }
+                    .filter { board.getCell(it.first, it.second).family == CellFamily.FIXED })
+            }
         }
-
-        // If any were found, the move is illegal.
-        if (staticCellsEncountered.isNotEmpty()) {
-            return IllegalMove(staticCellsEncountered)
-        }
-
-        // If not, return a Wide move matching the input.
-        return super.makeMove(axis, direction, offset, board)
+        return move
     }
 
-    override fun helpText(): String {
-        return super.helpText() + "\nNeither is allowed to move a black square"
+    // TODO(jmerm): "black" is true in day mode but not in night mode.
+    override fun helpText() : String {
+        return "black squares prevent moves"
     }
 }
+
+class StaticCellsMoveFactory(private val rowDepth: Int, private val colDepth: Int) : MoveFactory(
+    WideMoveEffect(Axis.HORIZONTAL, rowDepth),
+    WideMoveEffect(Axis.VERTICAL, colDepth),
+    StaticCellsValidator()
+)
+
+
+//
