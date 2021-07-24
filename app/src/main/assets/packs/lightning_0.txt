@@ -3,4 +3,5 @@ L1 l_swap_dominoes 4 6 8
 L2 l_rotate_corners 4 7 10
 L3 l_floating_square 5 8 11
 L4 l_ring 5 7 9
-L5 l_shift_square 6 8 10
+L5 l_parallel_universe 8 10 12
+L6 l_shift_square 6 8 10

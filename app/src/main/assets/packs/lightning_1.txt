@@ -1,8 +1,10 @@
 Lightning (Intermediate)
-L6 l_quad_stripe 8 10 12
-L7 l_stripes 6 9 12
-L8 l_toggle_diagonal 4 7 10
-L9 l_stratego 9 12 15
-L10 l_dominoes 7 9 11
-L11 l_flip_4 11 13 15
-L12 l_swap_stairs 7 10 13
+L7 l_quad_stripe 8 10 12
+L8 l_preserve_belt 10 12 15
+L9 l_stripes 6 9 12
+L10 l_stratego 9 12 15
+L11 l_not_equals 8 13 18
+L12 l_toggle_diagonal 4 7 10
+L13 l_dominoes 7 9 11
+L14 l_chimera 10 22 30
+L15 l_flip_4 11 13 15
