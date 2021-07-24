@@ -386,7 +386,7 @@ TEST(Board, DynamicColMoveIllegal) {
 }
 
 
-TEST(Board, LightiningRowMoveFast) {
+TEST(Board, LightningRowMoveFast) {
   Board<2,3> b = {{
     {{0,1|UP,2}},
     {{3,4,5}},
