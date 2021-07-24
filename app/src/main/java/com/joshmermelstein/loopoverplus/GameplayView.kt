@@ -25,6 +25,7 @@ class GameplayView : View {
     )
 
     // cache of boundaries for drawing the board. Null indicates that they haven't been computed yet.
+    // TODO(jmerm): see if this can be replace with a `by lazy{}`
     private var boundsBoard = Bounds(-1.0, -1.0, -1.0, -1.0)
 
     private fun placeBoard(canvas: Canvas) {
@@ -58,6 +59,7 @@ class GameplayView : View {
     }
 
     // cache of boundaries for drawing the board. Null indicates that they haven't been computed yet.
+    // TODO(jmerm): see if this can be replace with a `by lazy{}`
     private var boundsLegend = Bounds(-1.0, -1.0, -1.0, -1.0)
     private var legendCirclePaint = Paint()
 
