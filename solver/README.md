@@ -184,6 +184,27 @@ Mode col_mode = Mode::STATIC_2;
 ```
 
 Lightning mode reused the masks from bandaged mode. `UP` indicates a lightning
-cell.
+cell. Example:
 
-TODO(jmerm): example here.
+```
+constexpr size_t num_rows = 5;
+constexpr size_t num_cols = 5;
+constexpr Board<num_rows, num_cols> initial = {{
+        {{2,2,0,0,0}},
+        {{2,2|UP,2,0|UP,0}},
+        {{0,2,2|UP,2,0}},
+        {{0,0|UP,2,2|UP,2}},
+        {{0,0,0,2,2}},
+}};
+constexpr Board<num_rows, num_cols> win = {{
+        {{0,0,2,2,2}},
+        {{0,0|UP,0,2|UP,2}},
+        {{2,0,2|UP,0,2}},
+        {{2,2|UP,0,0|UP,0}},
+        {{2,2,2,0,0}},
+}};
+Mode row_mode = Mode::LIGHTNING;
+Mode col_mode = Mode::LIGHTNING;
+```
+
+
