@@ -8,8 +8,8 @@ package com.joshmermelstein.loopoverplus
 // kinds of move effects and validation schemes (as well as all combination of them), this class
 // mostly delegates to MoveEffects and MoveValidators.
 open class MoveFactory(
-     val rowEffect: MoveEffect,
-     val colEffect: MoveEffect,
+    val rowEffect: MoveEffect,
+    val colEffect: MoveEffect,
     private val validator: MoveValidator
 ) {
     fun makeMove(
@@ -40,6 +40,8 @@ open class MoveFactory(
         return validator.validate(colEffect.makeMove(direction, offset, board), board)
     }
 
+    // Creates an array of highlights showing which rows/cols would move if the move was executed
+    // and is legal.
     fun makeHighlights(
         axis: Axis,
         direction: Direction,
@@ -59,7 +61,11 @@ open class MoveFactory(
             rowEffect.helpText() + "\n" + colEffect.helpText()
         }
         val validationRules = validator.helpText().let {
-            if (it.isNotEmpty()) { "\n" + it } else { it }
+            if (it.isNotEmpty()) {
+                "\n" + it
+            } else {
+                it
+            }
         }
 
         return moveEffects + validationRules
@@ -68,43 +74,12 @@ open class MoveFactory(
 
 // This is a move factory factory lol
 fun makeMoveFactory(id: String): MoveFactory {
-    when {
-        id.contains("|") -> {
-            val args = id.split("|")
-            return CombinedMoveFactory(makeMoveFactory(args[0]), makeMoveFactory(args[1]))
-        }
-        id == "BASIC" -> {
-            return BasicMoveFactory()
-        }
-        id == "GEAR" -> {
-            return GearMoveFactory()
-        }
-        id == "CAROUSEL" -> {
-            return CarouselMoveFactory()
-        }
-        id == "ENABLER" -> {
-            return EnablerMoveFactory()
-        }
-        id == "BANDAGED" -> {
-            return BandagedMoveFactory()
-        }
-        id == "DYNAMIC" -> {
-            return DynamicBandagingMoveFactory()
-        }
-        id == "ARROWS" -> {
-            return ArrowsMoveFactory()
-        }
-        id == "LIGHTNING" -> {
-            return LightningMoveFactory()
-        }
-        id.startsWith("WIDE") -> {
-            val args = id.split(" ")
-            return WideMoveFactory(args[1].toInt(), args[2].toInt())
-        }
-        id.startsWith("STATIC") -> {
-            val args = id.split(" ")
-            return StaticCellsMoveFactory(args[1].toInt(), args[2].toInt())
-        }
-        else -> return BasicMoveFactory()
+    return id.split("|").let {
+        // TODO(jmerm): handle case of fewer then 3 parts.
+        MoveFactory(
+            makeMoveEffect(it[0], Axis.HORIZONTAL),
+            makeMoveEffect(it[1], Axis.VERTICAL),
+            makeMoveValidator(it[2])
+        )
     }
 }

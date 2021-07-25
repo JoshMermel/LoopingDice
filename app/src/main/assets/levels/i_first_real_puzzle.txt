@@ -1,6 +1,6 @@
 3
 2
-BASIC
+BASIC|BASIC|NONE
 0,0,0,1,0,1
 1,1,0,0,0,0
 Mix vertical and horizontal moves to match the goal

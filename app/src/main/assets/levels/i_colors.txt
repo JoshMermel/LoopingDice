@@ -1,6 +1,6 @@
 2
 2
-BASIC
+BASIC|BASIC|NONE
 0,1,2,3
 3,0,1,2
 Puzzles come in many shapes and colors

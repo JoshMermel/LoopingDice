@@ -1,7 +1,7 @@
 4
 2
-ARROWS
+BASIC|BASIC|ARROWS
 0,0,0,V 2,0,0,V 2,0
 0,0,V 2,0,0,0,0,V 2
-In "Arrows" mode, some cells are limited to moving in certain directions
+In "ARROWS" mode, some cells are limited to moving in certain directions
 # C1,C1,C0',C0' (4)

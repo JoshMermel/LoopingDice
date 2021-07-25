@@ -1,6 +1,6 @@
 4
 1
-DYNAMIC
+BASIC|BASIC|DYNAMIC
 0,1,2,F 1
 F 1,0,1,2
 In "Dynamic Bandaging" mode, black squares cannot wrap around the edge of the board

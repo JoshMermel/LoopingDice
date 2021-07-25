@@ -11,3 +11,16 @@ open class MoveValidator {
     // Prints a description of the validation criteria, suitable for showing to a user.
     open fun helpText() : String = ""
 }
+
+// Factory for move validators
+fun makeMoveValidator(id: String): MoveValidator {
+    // arrows, dynamic, enabler, static, null
+    return when (id) {
+        "ARROWS" -> ArrowsValidator()
+        "DYNAMIC" -> DynamicBandagingValidator()
+        "ENABLER" -> EnablerValidator()
+        "NONE" -> MoveValidator()
+        "STATIC" -> StaticCellsValidator()
+        else -> MoveValidator()
+    }
+}

@@ -1,6 +1,6 @@
 3
 3
-GEAR
+GEAR|GEAR|NONE
 1,3,3,3,3,3,2,3,3
 3,3,1,3,3,3,3,3,2
 The extra move is always to the right for columns, and always below for rows

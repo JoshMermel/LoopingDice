@@ -26,3 +26,21 @@ interface MoveEffect {
     // same. This makes the grammar slightly better.
     fun helpTextWhenSame() : String
 }
+
+// Factory for move effects
+fun makeMoveEffect(id: String, axis: Axis): MoveEffect {
+    // Wide effects require extra parsing to split out depth
+    if (id.startsWith("WIDE")) {
+        val args = id.split(" ")
+        return WideMoveEffect(axis, args[1].toInt())
+    }
+
+    return when (id) {
+        "BANDAGED" -> BandagedMoveEffect(axis)
+        "BASIC" -> BasicMoveEffect(axis)
+        "CAROUSEL" -> CarouselMoveEffect(axis)
+        "GEAR" -> GearMoveEffect(axis)
+        "LIGHTNING" -> LightningMoveEffect(axis)
+        else -> BasicMoveEffect(axis)
+    }
+}

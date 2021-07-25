@@ -21,8 +21,8 @@ android {
         applicationId 'com.joshmermelstein.loopingdice'
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 59
-        versionName "0.69"
+        versionCode 61
+        versionName "0.71"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.test_signing_config
