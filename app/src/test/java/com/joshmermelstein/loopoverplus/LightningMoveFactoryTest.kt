@@ -12,7 +12,12 @@ class LightningMoveFactoryTest : TestCase() {
         "7", "8", "9"
     )
     private val board = GameBoard(numRows, numCols, arr, data)
-    private val factory = LightningMoveFactory()
+    // TODO(jmerm): maybe test with other validators and rename file to LightningMoveEffectTest
+    private val factory = MoveFactory(
+        LightningMoveEffect(Axis.HORIZONTAL),
+        LightningMoveEffect(Axis.VERTICAL),
+        MoveValidator()
+    )
 
     fun testMakeMoveHorizontalFast() {
         val move = factory.makeMove(Axis.HORIZONTAL, Direction.BACKWARD, 1, board)

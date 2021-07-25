@@ -9,7 +9,12 @@ class ArrowsMoveFactoryTest : TestCase() {
     private val numCols = 3
     private val arr = arrayOf("V 1", "H 2", "V 3", "4", "H 5", "6")
     private val board = GameBoard(numRows, numCols, arr, data)
-    private val factory = ArrowsMoveFactory()
+    // TODO(jmerm): maybe test with more than basic move effects and rename file to ArrowsValidatorTest
+    private val factory = MoveFactory(
+        BasicMoveEffect(Axis.HORIZONTAL),
+        BasicMoveEffect(Axis.VERTICAL),
+        ArrowsValidator()
+    )
 
     fun testMakeMoveHorizontal() {
         val move = factory.makeMove(Axis.HORIZONTAL, Direction.BACKWARD, 1, board)

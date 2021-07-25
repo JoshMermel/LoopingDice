@@ -16,10 +16,3 @@ class EnablerValidator : MoveValidator() {
         return "Moves must contain a gold square"
     }
 }
-
-class EnablerMoveFactory :
-    MoveFactory(
-        BasicMoveEffect(Axis.HORIZONTAL),
-        BasicMoveEffect(Axis.VERTICAL),
-        EnablerValidator()
-    )

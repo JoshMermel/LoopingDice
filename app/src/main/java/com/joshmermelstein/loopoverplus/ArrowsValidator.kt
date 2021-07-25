@@ -22,10 +22,3 @@ class ArrowsValidator : MoveValidator() {
         return "Cells containing arrows can only move in some directions."
     }
 }
-
-class ArrowsMoveFactory :
-    MoveFactory(
-        BasicMoveEffect(Axis.HORIZONTAL),
-        BasicMoveEffect(Axis.VERTICAL),
-        ArrowsValidator()
-    )

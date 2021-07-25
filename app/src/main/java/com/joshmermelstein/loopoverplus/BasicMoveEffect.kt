@@ -1,13 +1,14 @@
 package com.joshmermelstein.loopoverplus
 
-// Returns gear moves.
-class GearMoveEffect(private val axis: Axis) : MoveEffect {
+// Returns basic moves
+// Basic moves are ones where row moves affect 1 row and column moves affect 1 column.
+class BasicMoveEffect(private val axis: Axis) : MoveEffect {
     override fun makeMove(
         direction: Direction,
         offset: Int,
         board: GameBoard
     ): LegalMove {
-        return GearMove(axis, direction, offset, board.numRows, board.numCols)
+        return BasicMove(axis, direction, offset, board.numRows, board.numCols)
     }
 
     override fun makeHighlights(
@@ -15,21 +16,18 @@ class GearMoveEffect(private val axis: Axis) : MoveEffect {
         offset: Int,
         board: GameBoard
     ): Array<Highlight> {
-        return arrayOf(
-            Highlight(axis, direction, offset),
-            Highlight(axis, opposite(direction), offset + 1)
-        )
+        return arrayOf(Highlight(axis, direction, offset))
     }
 
     override fun helpText(): String {
         return when (axis) {
-            Axis.HORIZONTAL -> "Horizontal moves are gear moves"
-            Axis.VERTICAL -> "Vertical moves are gear moves"
+            Axis.HORIZONTAL -> "Horizontal moves affect a single row"
+            Axis.VERTICAL -> "Vertical moves affect a single column"
         }
     }
 
     override fun helpTextWhenSame(): String {
-        return "Horizontal and vertical moves are gear moves"
+        return "Horizontal and vertical moves affect a single row/col"
     }
 
     // Equality is only used for checking that vertical and horizontal are "the same" so help text
@@ -38,9 +36,3 @@ class GearMoveEffect(private val axis: Axis) : MoveEffect {
         return  (javaClass == other?.javaClass)
     }
 }
-
-class GearMoveFactory : MoveFactory(
-    GearMoveEffect(Axis.HORIZONTAL),
-    GearMoveEffect(Axis.VERTICAL),
-    MoveValidator()
-)

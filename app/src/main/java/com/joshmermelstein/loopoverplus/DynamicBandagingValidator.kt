@@ -1,6 +1,8 @@
 package com.joshmermelstein.loopoverplus
 
 // TODO(jmerm): I don't love the name, "Dynamic Bandaging" because of similarity to "Bandaging" mode. Maybe rename?
+// Returns basic moves unless the move would slide a fixed cell off the edge of the board.
+// In that case returns an illegal moves that flashes a lock on the fixed cell.
 class DynamicBandagingValidator : MoveValidator() {
     override fun validate(move: LegalMove, board: GameBoard): Move {
         val illegalTransitions = move.transitions.filter {
@@ -21,12 +23,3 @@ class DynamicBandagingValidator : MoveValidator() {
         return "Moves cannot push a black square off the edge of the board"
     }
 }
-
-// Returns basic moves unless the move would slide a fixed cell off the edge of the board.
-// In that case returns an illegal moves that flashes a lock on the fixed cell.
-class DynamicBandagingMoveFactory :
-    MoveFactory(
-        BasicMoveEffect(Axis.HORIZONTAL),
-        BasicMoveEffect(Axis.VERTICAL),
-        DynamicBandagingValidator()
-    )

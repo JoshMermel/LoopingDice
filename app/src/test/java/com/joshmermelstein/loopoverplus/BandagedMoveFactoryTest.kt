@@ -4,7 +4,12 @@ import junit.framework.TestCase
 
 class BandagedMoveFactoryTest : TestCase() {
     private val data = fakeGameCellMetadata()
-    private val factory = BandagedMoveFactory()
+    // TODO(jmerm): maybe test with other validators and rename file to BandagedMoveEffectTest
+    private val factory = MoveFactory(
+        BandagedMoveEffect(Axis.HORIZONTAL),
+        BandagedMoveEffect(Axis.VERTICAL),
+        MoveValidator()
+    )
 
     // Tests transitive bonds pushing each other
     fun testMakeMoveHorizontal() {

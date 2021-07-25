@@ -40,10 +40,3 @@ class WideMoveEffect(private val axis: Axis, private val depth: Int) : MoveEffec
         return other.depth == this.depth
     }
 }
-
-// Returns wide moves according to |rowDepth| and |colDepth|.
-class WideMoveFactory(private val rowDepth: Int, private val colDepth: Int) : MoveFactory(
-    WideMoveEffect(Axis.HORIZONTAL, rowDepth),
-    WideMoveEffect(Axis.VERTICAL, colDepth),
-    MoveValidator()
-)

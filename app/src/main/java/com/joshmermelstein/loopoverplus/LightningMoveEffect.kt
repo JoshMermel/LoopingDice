@@ -1,14 +1,18 @@
 package com.joshmermelstein.loopoverplus
 
-// Returns basic moves
-// Basic moves are ones where row moves affect 1 row and column moves affect 1 column.
-class BasicMoveEffect(private val axis: Axis) : MoveEffect {
+class LightningMoveEffect(private val axis: Axis) : MoveEffect {
     override fun makeMove(
         direction: Direction,
         offset: Int,
         board: GameBoard
     ): LegalMove {
-        return BasicMove(axis, direction, offset, board.numRows, board.numCols)
+        return if ((axis == Axis.HORIZONTAL && board.rowContainsLightning(offset)) ||
+            (axis == Axis.VERTICAL && board.colContainsLightning(offset))
+        ) {
+            LightningMove(axis, direction, offset, board.numRows, board.numCols)
+        } else {
+            BasicMove(axis, direction, offset, board.numRows, board.numCols)
+        }
     }
 
     override fun makeHighlights(
@@ -21,13 +25,13 @@ class BasicMoveEffect(private val axis: Axis) : MoveEffect {
 
     override fun helpText(): String {
         return when (axis) {
-            Axis.HORIZONTAL -> "Horizontal moves affect a single row"
-            Axis.VERTICAL -> "Vertical moves affect a single column"
+            Axis.HORIZONTAL -> "Vertical moves which include a lightning bolt travel twice as far"
+            Axis.VERTICAL -> "Horizontal moves which include a lightning bolt travel twice as far"
         }
     }
 
     override fun helpTextWhenSame(): String {
-        return "Horizontal and vertical moves affect a single row/col"
+        return "Horizontal and vertical moves which include a lightning bolt travel twice as far"
     }
 
     // Equality is only used for checking that vertical and horizontal are "the same" so help text
@@ -36,10 +40,3 @@ class BasicMoveEffect(private val axis: Axis) : MoveEffect {
         return  (javaClass == other?.javaClass)
     }
 }
-
-class BasicMoveFactory :
-    MoveFactory(
-        BasicMoveEffect(Axis.HORIZONTAL),
-        BasicMoveEffect(Axis.VERTICAL),
-        MoveValidator()
-    )

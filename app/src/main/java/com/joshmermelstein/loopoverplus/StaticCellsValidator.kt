@@ -18,12 +18,3 @@ class StaticCellsValidator : MoveValidator() {
         return "black squares prevent moves"
     }
 }
-
-class StaticCellsMoveFactory(private val rowDepth: Int, private val colDepth: Int) : MoveFactory(
-    WideMoveEffect(Axis.HORIZONTAL, rowDepth),
-    WideMoveEffect(Axis.VERTICAL, colDepth),
-    StaticCellsValidator()
-)
-
-
-//

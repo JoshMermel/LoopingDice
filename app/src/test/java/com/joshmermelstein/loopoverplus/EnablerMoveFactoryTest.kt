@@ -8,7 +8,12 @@ class EnablerMoveFactoryTest : TestCase() {
     private val numCols = 3
     private val arr = arrayOf("E", "2", "E", "4", "5", "6")
     private val board = GameBoard(numRows, numCols, arr, data)
-    private val factory = EnablerMoveFactory()
+    // TODO(jmerm): maybe test with more than basic move effects and rename file to EnablerValidatorTest
+    private val factory = MoveFactory(
+        BasicMoveEffect(Axis.HORIZONTAL),
+        BasicMoveEffect(Axis.VERTICAL),
+        EnablerValidator()
+    )
 
     fun testMakeMoveHorizontal() {
         val move = factory.makeMove(Axis.HORIZONTAL, Direction.BACKWARD, 0, board)
