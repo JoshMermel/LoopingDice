@@ -15,7 +15,7 @@ class StaticCellsMoveFactoryTest : TestCase() {
     private val board = GameBoard(numRows, numCols, arr, data)
 
     // TODO(jmerm): maybe test with more move effects and rename file to StaticCellsValidatorTest
-    class StaticCellsMoveFactory(private val rowDepth: Int, private val colDepth: Int) :
+    class StaticCellsMoveFactory(rowDepth: Int, colDepth: Int) :
         MoveFactory(
             WideMoveEffect(Axis.HORIZONTAL, rowDepth),
             WideMoveEffect(Axis.VERTICAL, colDepth),

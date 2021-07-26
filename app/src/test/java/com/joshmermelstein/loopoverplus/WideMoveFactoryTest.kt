@@ -10,7 +10,7 @@ class WideMoveFactoryTest : TestCase() {
     private val arr = arrayOf("1", "2", "3", "4", "5", "6")
     private val board = GameBoard(numRows, numCols, arr, data)
 
-    class WideMoveFactory(private val rowDepth: Int, private val colDepth: Int) : MoveFactory(
+    class WideMoveFactory(rowDepth: Int, colDepth: Int) : MoveFactory(
         WideMoveEffect(Axis.HORIZONTAL, rowDepth),
         WideMoveEffect(Axis.VERTICAL, colDepth),
         StaticCellsValidator()

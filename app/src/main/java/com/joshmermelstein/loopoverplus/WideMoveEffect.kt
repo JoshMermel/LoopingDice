@@ -21,7 +21,7 @@ class WideMoveEffect(private val axis: Axis, private val depth: Int) : MoveEffec
 
     override fun helpText(): String {
         return when (axis) {
-            Axis.HORIZONTAL -> "Horizontal moves affect $depth " + pluralizedCols(depth)
+            Axis.HORIZONTAL -> "Horizontal moves affect $depth " + pluralizedRows(depth)
             Axis.VERTICAL -> "Vertical moves affect $depth " + pluralizedCols(depth)
         }
     }
