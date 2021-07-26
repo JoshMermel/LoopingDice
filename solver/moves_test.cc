@@ -401,7 +401,7 @@ TEST(Board, LightningRowMoveFast) {
   EXPECT_EQ(moved, expected);
 }
 
-TEST(Board, LightiningRowMoveSlow) {
+TEST(Board, LightningRowMoveSlow) {
   Board<2,3> b = {{
     {{0,1|UP,2}},
     {{3,4,5}},

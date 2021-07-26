@@ -39,4 +39,8 @@ class LightningMoveEffect(private val axis: Axis) : MoveEffect {
     override fun equals(other: Any?): Boolean {
         return (javaClass == other?.javaClass)
     }
+
+    override fun hashCode(): Int {
+        return javaClass.hashCode()
+    }
 }

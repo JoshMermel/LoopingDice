@@ -39,4 +39,8 @@ class WideMoveEffect(private val axis: Axis, private val depth: Int) : MoveEffec
         other as WideMoveEffect
         return other.depth == this.depth
     }
+
+    override fun hashCode(): Int {
+        return depth
+    }
 }
