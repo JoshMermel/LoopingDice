@@ -92,6 +92,7 @@ interface LegalMove : Move {
     }
 
     // Returns a move that undoes this one, used for managing undo and redo stacks.
+    // TODO(jmerm): could this be defined here in terms of |transitions|? Might mess with saving undo/redo stack.
     fun inverse(): Move
 
     // Used for saving move history to a file.
