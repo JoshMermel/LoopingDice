@@ -15,7 +15,7 @@ class Highlight(
 ) {
     fun drawSelf(
         canvas: Canvas,
-        bounds : Bounds,
+        bounds: Bounds,
         context: Context,
         numRows: Int,
         numCols: Int

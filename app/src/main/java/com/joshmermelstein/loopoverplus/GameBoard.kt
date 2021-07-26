@@ -93,7 +93,7 @@ class GameBoard(private val board: Array<Array<GameCell>>) {
     }
 
     // Returns with a coordinate is inside the board
-    fun isOutOfBounds(row : Int, col : Int) : Boolean {
+    fun isOutOfBounds(row: Int, col: Int): Boolean {
         return row !in (0 until numRows) || col !in (0 until numCols)
     }
 

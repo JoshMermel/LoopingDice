@@ -79,7 +79,7 @@ class GameplayView : View {
 
         boundsLegend = Bounds(1.0, 1.0, right.toDouble(), bottom.toDouble())
 
-        with (legendCirclePaint) {
+        with(legendCirclePaint) {
             color = ContextCompat.getColor(context, R.color.legend_background)
             style = Paint.Style.FILL
             isAntiAlias = true

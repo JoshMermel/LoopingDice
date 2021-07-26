@@ -18,7 +18,7 @@ class ArrowsValidator : MoveValidator() {
         }
     }
 
-    override fun helpText() : String {
+    override fun helpText(): String {
         return "Cells containing arrows can only move in some directions."
     }
 }

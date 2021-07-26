@@ -24,7 +24,7 @@ interface MoveEffect {
 
     // Displays a description of this move and the move on the other axis for use when they are the
     // same. This makes the grammar slightly better.
-    fun helpTextWhenSame() : String
+    fun helpTextWhenSame(): String
 }
 
 // Factory for move effects

@@ -8,11 +8,13 @@ class CarouselMoveFactoryTest : TestCase() {
     private val numCols = 3
     private val arr = arrayOf("1", "2", "3", "4", "5", "6")
     private val board = GameBoard(numRows, numCols, arr, data)
+
     // TODO(jmerm): maybe test with other validators and rename file to CarouselMoveEffectTest
     private val factory = MoveFactory(
         CarouselMoveEffect(Axis.HORIZONTAL),
         CarouselMoveEffect(Axis.VERTICAL),
-        MoveValidator())
+        MoveValidator()
+    )
 
     fun testMakeMoveHorizontal() {
         val move = factory.makeMove(Axis.HORIZONTAL, Direction.BACKWARD, 1, board)

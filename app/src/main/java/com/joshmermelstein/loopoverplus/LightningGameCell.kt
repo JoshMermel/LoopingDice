@@ -34,7 +34,13 @@ class LightningGameCell(
         drawLightning(left, top, right, bottom, canvas)
     }
 
-    private fun drawLightning(left: Double, top: Double, right: Double, bottom: Double, canvas: Canvas) {
+    private fun drawLightning(
+        left: Double,
+        top: Double,
+        right: Double,
+        bottom: Double,
+        canvas: Canvas
+    ) {
         drawIcon(data.lightning, left, top, right, bottom, canvas)
     }
 

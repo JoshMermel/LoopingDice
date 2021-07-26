@@ -5,12 +5,12 @@ import junit.framework.TestCase
 class UtilTest : TestCase() {
 
     fun testBoundsWidth() {
-        val bounds = Bounds(0.0,0.0,50.0,100.0)
+        val bounds = Bounds(0.0, 0.0, 50.0, 100.0)
         assertEquals(bounds.width(), 50.0)
     }
 
     fun testBoundsHeight() {
-        val bounds = Bounds(0.0,0.0,50.0,100.0)
+        val bounds = Bounds(0.0, 0.0, 50.0, 100.0)
         assertEquals(bounds.height(), 100.0)
     }
 

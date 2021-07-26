@@ -8,6 +8,7 @@ class GearMoveFactoryTest : TestCase() {
     private val numCols = 3
     private val arr = arrayOf("1", "2", "3", "4", "5", "6")
     private val board = GameBoard(numRows, numCols, arr, data)
+
     // TODO(jmerm): maybe test with other validators and rename file to GearMoveEffectTest
     private val factory = MoveFactory(
         GearMoveEffect(Axis.HORIZONTAL),

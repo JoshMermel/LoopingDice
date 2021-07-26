@@ -13,12 +13,14 @@ class StaticCellsMoveFactoryTest : TestCase() {
         "10", "11", "F 12"
     )
     private val board = GameBoard(numRows, numCols, arr, data)
+
     // TODO(jmerm): maybe test with more move effects and rename file to StaticCellsValidatorTest
-    class StaticCellsMoveFactory(private val rowDepth: Int, private val colDepth: Int) : MoveFactory(
-        WideMoveEffect(Axis.HORIZONTAL, rowDepth),
-        WideMoveEffect(Axis.VERTICAL, colDepth),
-        StaticCellsValidator()
-    )
+    class StaticCellsMoveFactory(private val rowDepth: Int, private val colDepth: Int) :
+        MoveFactory(
+            WideMoveEffect(Axis.HORIZONTAL, rowDepth),
+            WideMoveEffect(Axis.VERTICAL, colDepth),
+            StaticCellsValidator()
+        )
 
     fun testMakeMoveHorizontal() {
         val factory = StaticCellsMoveFactory(2, 1)

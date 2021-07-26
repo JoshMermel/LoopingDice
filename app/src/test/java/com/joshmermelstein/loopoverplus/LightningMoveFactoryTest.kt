@@ -12,6 +12,7 @@ class LightningMoveFactoryTest : TestCase() {
         "7", "8", "9"
     )
     private val board = GameBoard(numRows, numCols, arr, data)
+
     // TODO(jmerm): maybe test with other validators and rename file to LightningMoveEffectTest
     private val factory = MoveFactory(
         LightningMoveEffect(Axis.HORIZONTAL),

@@ -6,10 +6,10 @@ package com.joshmermelstein.loopoverplus
 open class MoveValidator {
     // Returns either the move or an illegal move.
     // The default impl assumes moves are valid since this is a frequent need.
-    open fun validate(move: LegalMove, board: GameBoard) : Move = move
+    open fun validate(move: LegalMove, board: GameBoard): Move = move
 
     // Prints a description of the validation criteria, suitable for showing to a user.
-    open fun helpText() : String = ""
+    open fun helpText(): String = ""
 }
 
 // Factory for move validators

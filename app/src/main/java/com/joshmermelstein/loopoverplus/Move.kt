@@ -63,7 +63,7 @@ class Transition(
 // LegalMove also provides shared logic to make further subclasses easier to implement. Rather than
 // Move subclasses implementing the same logic for updating draw positions and updating the
 // underlying grid afterward, this class helps them implement both in terms of a list of Transitions.
-interface  LegalMove : Move {
+interface LegalMove : Move {
     val axis: Axis
     val direction: Direction
     val offset: Int

@@ -153,7 +153,8 @@ class RandomLevelTest : TestCase() {
                         generateArrowsGoal(numRows, numCols, "Unique", numArrows)
                     // Arrows cells should have IDs <= 5 so they compare with each other correctly
                     val lightningIds =
-                        board.filter { it.startsWith("H") || it.startsWith("V") }.map { it.split(" ")[1].toInt() }
+                        board.filter { it.startsWith("H") || it.startsWith("V") }
+                            .map { it.split(" ")[1].toInt() }
                     lightningIds.forEach { assertTrue(it <= 5) }
                 }
             }

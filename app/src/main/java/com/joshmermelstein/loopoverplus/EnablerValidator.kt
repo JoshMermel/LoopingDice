@@ -12,7 +12,7 @@ class EnablerValidator : MoveValidator() {
         return IllegalMove(board.findEnablers())
     }
 
-    override fun helpText() : String {
+    override fun helpText(): String {
         return "Moves must contain a gold square"
     }
 }

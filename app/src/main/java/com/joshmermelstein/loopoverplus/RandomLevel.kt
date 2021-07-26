@@ -19,7 +19,7 @@ fun fromRandomMoveEffect(name: String, depth: Int?, axis: Axis): MoveEffect {
     }
 }
 
-fun fromRandomValidator(name : String) : MoveValidator {
+fun fromRandomValidator(name: String): MoveValidator {
     return when (name) {
         "Gear" -> MoveValidator()
         "Carousel" -> MoveValidator()

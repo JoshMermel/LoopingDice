@@ -8,8 +8,8 @@ package com.joshmermelstein.loopoverplus
 // kinds of move effects and validation schemes (as well as all combination of them), this class
 // mostly delegates to MoveEffects and MoveValidators.
 open class MoveFactory(
-    val rowEffect: MoveEffect,
-    val colEffect: MoveEffect,
+    private val rowEffect: MoveEffect,
+    private val colEffect: MoveEffect,
     private val validator: MoveValidator
 ) {
     fun makeMove(

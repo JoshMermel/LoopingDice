@@ -14,7 +14,7 @@ class StaticCellsValidator : MoveValidator() {
     }
 
     // TODO(jmerm): "black" is true in day mode but not in night mode.
-    override fun helpText() : String {
+    override fun helpText(): String {
         return "black squares prevent moves"
     }
 }
