@@ -52,7 +52,7 @@ The move effects are specified with one of the following strings:
 
 | spec | effect | 
 | --- | --- |
-| BASIC | A basic move factory |
+| BASIC | Moves affect one row or col |
 | BANDAGED | Bandaged mode (a wide move factory that figures out depth based on bonds)|
 | CAROUSEL | Carousel mode |
 | GEAR | Gear mode |
@@ -67,6 +67,7 @@ The move validator is specified with one of the following strings:
 | ARROWS | Arrows cells cannot move perpendicular to the arrow they display |
 | ENABLER | Moves must contain an enabler gamecell |
 | STATIC | Fixed cells cannot move at all |
+| NONE | No validation |
 
 The entries in the comma separated lists are strings to tell a gamecell what
 type it is. The current possibilities are:
