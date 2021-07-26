@@ -92,11 +92,6 @@ class GameBoard(private val board: Array<Array<GameCell>>) {
         return false
     }
 
-    // Returns with a coordinate is inside the board
-    fun isOutOfBounds(row: Int, col: Int): Boolean {
-        return row !in (0 until numRows) || col !in (0 until numCols)
-    }
-
     override fun toString(): String {
         return board.joinToString(",") { row -> row.joinToString(",") }
     }

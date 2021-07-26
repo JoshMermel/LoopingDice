@@ -90,23 +90,6 @@ class GameBoardTest : TestCase() {
         assertFalse(board.colContainsLightning(0))
     }
 
-    fun testIsOutOfBounds() {
-        assertFalse(board.isOutOfBounds(0, 0))
-        assertFalse(board.isOutOfBounds(numRows - 1, numCols - 1))
-
-        // Out of bounds in one dimension
-        assertTrue(board.isOutOfBounds(-1, 0))
-        assertTrue(board.isOutOfBounds(numRows, 0))
-        assertTrue(board.isOutOfBounds(0, -1))
-        assertTrue(board.isOutOfBounds(0, numCols))
-
-        // Out of bounds in both directions
-        assertTrue(board.isOutOfBounds(-1, -1))
-        assertTrue(board.isOutOfBounds(numRows, -1))
-        assertTrue(board.isOutOfBounds(-1, numCols))
-        assertTrue(board.isOutOfBounds(numRows, numCols))
-    }
-
     fun testToString() {
         assertEquals(board.toString(), "1,E,F 0,L 3,B 1 R,V 1,H 2,314159")
     }
