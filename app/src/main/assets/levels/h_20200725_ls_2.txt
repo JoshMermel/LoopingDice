@@ -1,0 +1,7 @@
+4
+4
+LIGHTNING|LIGHTNING|STATIC
+0,L 0,L 0,2,0,0,2,0,0,2,0,0,2,F 0,F 0,0
+2,L 0,L 0,0,0,2,0,0,0,0,2,0,0,F 0,F 0,2
+
+s_seesaw

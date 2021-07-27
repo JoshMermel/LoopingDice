@@ -1,0 +1,7 @@
+3
+3
+BANDAGED|BANDAGED|DYNAMIC
+B 3 D R,B 3 D L,F 1,B 3 U R,B 3 U L,1,F 1,1,2
+2,1,F 1,1,B 3 D R,B 3 D L,F 1,B 3 U R,B 3 U L
+
+b_rotate_180.txt

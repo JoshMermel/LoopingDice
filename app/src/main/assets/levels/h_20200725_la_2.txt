@@ -1,0 +1,7 @@
+3
+3
+LIGHTNING|LIGHTNING|ARROWS
+3,2,H 3,2,L 2,2,V 3,2,3
+3,H 3,2,V 3,3,2,2,2,L 2
+
+a_plus

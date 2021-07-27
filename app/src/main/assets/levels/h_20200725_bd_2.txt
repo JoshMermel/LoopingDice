@@ -1,0 +1,7 @@
+4
+4
+BANDAGED|BANDAGED|DYNAMIC
+0,0,0,0,F 1,B 0 D R,B 0 D L,F 1,F 1,B 0 U R,B 0 U L,F 1,F 1,0,0,F 1
+F 1,F 1,F 1,0,F 1,F 1,0,0,F 1,0,B 0 D R,B 0 D L,0,0,B 0 U R,B 0 U L
+
+d_make_triangle

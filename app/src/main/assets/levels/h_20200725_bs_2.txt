@@ -1,0 +1,7 @@
+5
+3
+BANDAGED|BANDAGED|STATIC
+B 2 D,0,2,B 2 U,0,2,0,F 0,3,2,3,B 2 D,2,3,B 2 U
+B 2 D,3,2,B 2 U,3,2,3,F 0,0,2,0,B 2 D,2,0,B 2 U
+
+s_thin_pinwheel

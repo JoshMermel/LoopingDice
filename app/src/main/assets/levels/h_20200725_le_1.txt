@@ -1,0 +1,7 @@
+5
+3
+LIGHTNING|LIGHTNING|ENABLER
+E,1,1,1,1,1,1,1,1,1,1,1,1,1,L 0
+E,1,1,1,1,1,1,L 0,1,1,1,1,1,1,1
+
+e_intro

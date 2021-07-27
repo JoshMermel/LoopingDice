@@ -1,0 +1,7 @@
+5
+3
+BASIC|BASIC|ENABLER
+E,B 2 U,E,2,2,2,E,2,E,2,2,2,E,B 2 D,E
+2,B 2 U,2,E,E,E,2,2,2,E,E,E,2,B 2 D,2
+
+# R0,C0,C1,C1,C2',R0,C1 (7)

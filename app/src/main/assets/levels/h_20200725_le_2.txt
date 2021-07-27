@@ -1,0 +1,7 @@
+4
+3
+LIGHTNING|LIGHTNING|ENABLER
+E,L 2,E,2,2,2,2,2,2,1,1,1
+2,E,2,2,1,2,1,L 2,1,2,E,2
+
+e_two_moons

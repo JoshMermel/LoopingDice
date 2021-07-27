@@ -1,0 +1,7 @@
+4
+4
+BANDAGED|BANDAGED|STATIC
+3,3,3,3,0,0,F 0,3,B 1 D R,B 1 D L,0,3,B 1 U R,B 1 U L,0,3
+0,0,0,0,3,3,F 0,3,B 1 D R,B 1 D L,3,3,B 1 U R,B 1 U L,3,3
+
+b_unwrap
