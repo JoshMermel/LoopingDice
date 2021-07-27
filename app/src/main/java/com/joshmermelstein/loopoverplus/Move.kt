@@ -56,7 +56,11 @@ class Transition(
     val y0: Int,
     val x1: Int,
     val y1: Int
-)
+) {
+    override fun toString(): String {
+        return "($y0, $x0)->($y1, $x1)"
+    }
+}
 
 // Subclasses of LegalMove get counted toward move counts, are written to the undo stack, and are
 // saved when the user closes the level
