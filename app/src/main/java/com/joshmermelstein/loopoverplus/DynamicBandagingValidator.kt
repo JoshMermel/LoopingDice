@@ -21,9 +21,11 @@ class DynamicBandagingValidator : MoveValidator() {
     // Returns whether a transition took a cell out of bounds.
     // This is trickier than just checking whether any destination coordinates are out of bounds
     // because e.g. a wide move on the bottom row might act on a row index that is out of bounds.
-    private fun movesOutOfBounds(transition : Transition, numRows : Int, numCols : Int) : Boolean {
-        return (transition.y0 == transition.y1 && transition.x1 !in (0 until numCols)) ||
-         (transition.x0 == transition.x1 && transition.y1 !in (0 until numRows))
+    // The easiest way I've found for this is checking whether the changed x/y coordinate has any \
+    // out of bound component.
+    private fun movesOutOfBounds(transition: Transition, numRows: Int, numCols: Int): Boolean {
+        return (transition.y0 == transition.y1 && (transition.x0 !in (0 until numCols) || transition.x1 !in (0 until numCols))) ||
+                (transition.x0 == transition.x1 && (transition.y0 !in (0 until numRows) || transition.y1 !in (0 until numRows)))
     }
 
     // TODO(jmerm): "black" is true in day mode but not in night mode.
