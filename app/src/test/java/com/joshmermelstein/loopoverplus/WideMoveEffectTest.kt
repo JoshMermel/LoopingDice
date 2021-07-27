@@ -2,8 +2,7 @@ package com.joshmermelstein.loopoverplus
 
 import junit.framework.TestCase
 
-// TODO(jmerm): maybe test with other validators and rename file to WideMoveEffectTest
-class WideMoveFactoryTest : TestCase() {
+class WideMoveEffectTest : TestCase() {
     private val data = fakeGameCellMetadata()
     private val numRows = 2
     private val numCols = 3
