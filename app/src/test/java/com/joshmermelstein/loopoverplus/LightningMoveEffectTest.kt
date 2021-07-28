@@ -2,7 +2,7 @@ package com.joshmermelstein.loopoverplus
 
 import junit.framework.TestCase
 
-class LightningMoveFactoryTest : TestCase() {
+class LightningMoveEffectTest : TestCase() {
     private val data = fakeGameCellMetadata()
     private val numRows = 2
     private val numCols = 3
@@ -13,7 +13,6 @@ class LightningMoveFactoryTest : TestCase() {
     )
     private val board = GameBoard(numRows, numCols, arr, data)
 
-    // TODO(jmerm): maybe test with other validators and rename file to LightningMoveEffectTest
     private val factory = MoveFactory(
         LightningMoveEffect(Axis.HORIZONTAL),
         LightningMoveEffect(Axis.VERTICAL),

@@ -2,10 +2,9 @@ package com.joshmermelstein.loopoverplus
 
 import junit.framework.TestCase
 
-class BandagedMoveFactoryTest : TestCase() {
+class BandagedMoveEffectTest : TestCase() {
     private val data = fakeGameCellMetadata()
 
-    // TODO(jmerm): maybe test with other validators and rename file to BandagedMoveEffectTest
     private val factory = MoveFactory(
         BandagedMoveEffect(Axis.HORIZONTAL),
         BandagedMoveEffect(Axis.VERTICAL),

@@ -68,4 +68,6 @@ class EnablerMoveValidatorTest : TestCase() {
         val expectedMid =  IllegalMove(listOf(Pair(0, 0)))
         assertEquals(midMove, expectedMid)
     }
+
+    // TODO(jmerm): C+E test, W>1+E test, B+E test, L+E test
 }

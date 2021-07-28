@@ -83,4 +83,6 @@ class DynamicBandagingMoveValidatorTest : TestCase() {
         val expected = IllegalMove(listOf(Pair(0, 1)))
         assertEquals(move, expected)
     }
+
+    // TODO(jmerm): W>1+D test, G+D test, B+D test
 }

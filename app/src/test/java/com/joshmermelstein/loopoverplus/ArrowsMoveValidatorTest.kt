@@ -67,4 +67,6 @@ class ArrowsMoveValidatorTest : TestCase() {
         val expected = IllegalMove(listOf(Pair(0, 0)))
         assertEquals(move, expected)
     }
+
+    // TODO(jmerm): W>1+A test, G+A test, B+A test, L+A test
 }
