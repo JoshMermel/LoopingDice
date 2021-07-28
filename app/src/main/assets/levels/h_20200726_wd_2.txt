@@ -1,0 +1,7 @@
+3
+3
+WIDE 1|WIDE 2|DYNAMIC
+F 1,F 1,F 1,1,1,1,3,3,3
+F 1,1,3,F 1,1,3,F 1,1,3
+
+d_stripes + w_triple_stripe
