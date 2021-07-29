@@ -22,6 +22,30 @@ class ArrowsMoveValidatorTest : TestCase() {
         ArrowsValidator()
     )
 
+    private val wideFactory = MoveFactory(
+        WideMoveEffect(Axis.HORIZONTAL, 1),
+        WideMoveEffect(Axis.VERTICAL, 2),
+        ArrowsValidator()
+    )
+
+    private val gearFactory = MoveFactory(
+        GearMoveEffect(Axis.HORIZONTAL),
+        GearMoveEffect(Axis.VERTICAL),
+        ArrowsValidator()
+    )
+
+    private val bandagedFactory = MoveFactory(
+        BandagedMoveEffect(Axis.HORIZONTAL),
+        BandagedMoveEffect(Axis.VERTICAL),
+        ArrowsValidator()
+    )
+
+    private val lightningFactory = MoveFactory(
+        LightningMoveEffect(Axis.HORIZONTAL),
+        LightningMoveEffect(Axis.VERTICAL),
+        ArrowsValidator()
+    )
+
     fun testMakeMoveHorizontal() {
         val move = basicFactory.makeMove(Axis.HORIZONTAL, Direction.BACKWARD, 1, board)
         val expected = BasicMove(Axis.HORIZONTAL, Direction.BACKWARD, 1, numRows, numCols)
@@ -68,5 +92,66 @@ class ArrowsMoveValidatorTest : TestCase() {
         assertEquals(move, expected)
     }
 
-    // TODO(jmerm): W>1+A test, G+A test, B+A test, L+A test
+    fun testMakeWideMove() {
+        val move = wideFactory.makeMove(Axis.VERTICAL, Direction.BACKWARD, 2, board)
+        val expected = WideMove(Axis.VERTICAL, Direction.BACKWARD, 2, numRows, numCols, 2)
+        assertEquals(move, expected)
+    }
+
+    fun testMakeWideMoveIllegal() {
+        val move = wideFactory.makeMove(Axis.VERTICAL, Direction.BACKWARD, 1, board)
+        val expected = IllegalMove(listOf(Pair(0, 1), Pair(1, 1)))
+        assertEquals(move, expected)
+    }
+
+    fun testMakeGearMove() {
+        val move = gearFactory.makeMove(Axis.VERTICAL, Direction.BACKWARD, 2, board)
+        val expected = GearMove(Axis.VERTICAL, Direction.BACKWARD, 2, numRows, numCols)
+        assertEquals(move, expected)
+    }
+
+    fun testMakeGearMoveIllegal() {
+        val move = gearFactory.makeMove(Axis.HORIZONTAL, Direction.BACKWARD, 0, board)
+        val expected = IllegalMove(listOf(Pair(0, 0), Pair(0, 2)))
+        assertEquals(move, expected)
+    }
+
+    fun testMakeBandagedMove() {
+        val board = GameBoard(
+            3, 3, arrayOf(
+                "B 0 D R", "B 1 D L", "H 3",
+                "B 4 U R", "B 5 U L", "6",
+                "7", "H 8", "8"
+            ), data
+        )
+        val move = bandagedFactory.makeMove(Axis.HORIZONTAL, Direction.FORWARD, 1, board)
+        val expected = WideMove(Axis.HORIZONTAL, Direction.FORWARD, 0, 2, 2, 2)
+    }
+
+    fun testMakeBandageMoveIllegal() {
+        val board = GameBoard(
+            3, 3, arrayOf(
+                "B 0 D R", "B 1 D L", "H 3",
+                "B 4 U R", "B 5 U L", "6",
+                "7", "H 8", "8"
+            ), data
+        )
+        val move = bandagedFactory.makeMove(Axis.VERTICAL, Direction.BACKWARD, 0, board)
+        val expected = IllegalMove(listOf(Pair(2, 1)))
+        assertEquals(move, expected)
+    }
+
+    fun testMakeLightningMove() {
+        val board = GameBoard(2, 2, arrayOf("L 0", "H 1", "H 2", "3"), data)
+        val move = lightningFactory.makeMove(Axis.HORIZONTAL, Direction.FORWARD, 0, board)
+        val expected = LightningMove(Axis.HORIZONTAL, Direction.FORWARD, 0, 2, 2)
+        assertEquals(move, expected)
+    }
+
+    fun testMakeLightningMoveIllegal() {
+        val board = GameBoard(2, 2, arrayOf("L 0", "H 1", "H 2", "3"), data)
+        val move = lightningFactory.makeMove(Axis.VERTICAL, Direction.FORWARD, 0, board)
+        val expected = IllegalMove(listOf(Pair(1, 0)))
+        assertEquals(move, expected)
+    }
 }
