@@ -1,0 +1,7 @@
+5
+3
+BANDAGED|BANDAGED|ARROWS
+B 0 D,H 3,2,B 0 U,H 3,2,0,H 3,2,0,H 3,B 2 D,0,H 3,B 2 U
+B 2 D,H 3,0,B 2 U,H 3,0,2,H 3,0,2,H 3,B 0 D,2,H 3,B 0 U
+
+a_stratego

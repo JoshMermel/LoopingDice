@@ -3,3 +3,5 @@
 WIDE 1|WIDE 2|ENABLER
 0,2,E,1,1,1,1,1,1
 1,1,E,1,0,1,2,1,1
+
+human solution: Row0 Col2' Row2 Col1 Row0

@@ -1,0 +1,7 @@
+4
+4
+CAROUSEL|CAROUSEL|ENABLER
+3,3,3,3,3,E,2,3,3,2,E,3,3,3,3,3
+3,3,3,3,3,2,E,3,3,E,2,3,3,3,3,3
+
+c_rotate_center

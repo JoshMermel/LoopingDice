@@ -1,7 +1,0 @@
-3
-3
-LIGHTNING|LIGHTNING|ARROWS
-L 1,V 2,1,2,2,2,1,V 2,L 1
-1,V 2,L 1,2,2,2,L 1,V 2,1
-
-l_rotate_corners

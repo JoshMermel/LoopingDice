@@ -1,0 +1,8 @@
+5
+2
+LIGHTNING|LIGHTNING|DYNAMIC
+2,2,F 1,F 1,1,1,F 1,F 1,2,L 2
+2,L 2,2,1,2,F 1,1,F 1,F 1,F 1
+
+d_dominoes
+human solution: Col0' Row1' Row3' Col1' Row4 Col1' Row1 Row2 Row4' Col0 Row4 Col0 Col0 Row3 Row1' Col0 Row1 Col0 Col0 Row1'

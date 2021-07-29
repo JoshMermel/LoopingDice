@@ -1,7 +1,0 @@
-4
-4
-LIGHTNING|LIGHTNING|DYNAMIC
-0,0,0,F 1,2,L 2,2,F 1,0,0,0,F 1,F 1,F 1,F 1,F 1
-0,0,2,F 1,0,L 2,0,F 1,2,0,0,F 1,F 1,F 1,F 1,F 1
-
-d_padded_stripe
