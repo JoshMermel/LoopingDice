@@ -4,4 +4,5 @@ WIDE 1|WIDE 2|ENABLER
 0,2,E,1,1,1,1,1,1
 1,1,E,1,0,1,2,1,1
 
-human solution: Row0 Col2' Row2 Col1 Row0
+# R0,C2',R2,C1,R0 (5)
+I somehow found the optimal here but it was nontrival

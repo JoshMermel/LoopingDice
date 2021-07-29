@@ -3,3 +3,6 @@
 GEAR|GEAR|ENABLER
 1,1,0,0,1,1,0,0,0,0,E,E,0,0,E,E
 E,E,0,0,E,E,0,0,0,0,1,1,0,0,1,1
+
+# C2',R0,R0,C2',C2',R0' (6)
+I found the optimal for this one but I still like it.
