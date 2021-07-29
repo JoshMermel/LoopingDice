@@ -4,4 +4,5 @@ CAROUSEL|CAROUSEL|STATIC
 F 0,1,1,0,2,2,0,2,2
 F 0,0,0,1,2,2,1,2,2
 
-human solution: Col1' Row1 Col1' Row1 Col1' Row1
+# C1',R1,C1',R1,C1',R1 (6)
+verdict - not too hard, I found the same optimal as the computer with some fiddling
