@@ -5,3 +5,5 @@ BASIC|WIDE 2|DYNAMIC
 F 1,F 1,F 1,0,F 1,F 1,0,0,F 1,0,0,0,0,0,0,0
 
 d_make_triangle
+# C2',R0',C1,C2',R0',C3',C0,R0',C3' (9)
+nontrival, got 13

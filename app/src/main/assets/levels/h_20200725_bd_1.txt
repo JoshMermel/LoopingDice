@@ -5,3 +5,5 @@ B 3 D R,B 3 D L,F 1,B 3 U R,B 3 U L,1,F 1,1,2
 2,1,F 1,1,B 3 D R,B 3 D L,F 1,B 3 U R,B 3 U L
 
 b_rotate_180.txt
+# R0',R0',C1,R0,C0',R0,C0 (7)
+not too hard but not easy to optimal either.
