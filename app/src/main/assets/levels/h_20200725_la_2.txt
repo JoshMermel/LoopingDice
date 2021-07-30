@@ -5,3 +5,5 @@ LIGHTNING|LIGHTNING|ARROWS
 3,H 3,2,V 3,3,2,2,2,L 2
 
 a_plus
+# C0',R2,C1',R2',C1,R0' (6)
+not too hard though I only got 7
