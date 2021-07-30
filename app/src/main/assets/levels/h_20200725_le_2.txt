@@ -6,5 +6,4 @@ E,L 2,E,2,2,2,2,2,2,1,1,1
 
 e_two_moons
 # R0,C1',R0',R3,C0',C2',R2',C1',R3 (9)
-human solution: Col0' Col0' Row2 Col1' Row0' Col0 Row0 Col2' Row3' Row3' Col0' Row0 Col0 Row3
-a little hard to beat. Very hard to optimal
+human solution: Col2' Row3' Col0 Col0 Row2 Col1' Row1 Row0 Col2' Row0' Row3'

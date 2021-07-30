@@ -6,4 +6,4 @@ GEAR|GEAR|ARROWS
 
 g_preserve_column
 # C2',R1,C2,R1',C2',R1,C2,R1' (8)
-interesting but not impossible. I managed optimal :)
+human solution: Row1 Col2' Row1' Col2 Row1 Col2' Row1' Col2

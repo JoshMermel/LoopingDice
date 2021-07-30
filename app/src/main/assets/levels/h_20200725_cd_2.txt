@@ -5,4 +5,4 @@ F 1,F 1,F 1,1,1,1,2,2,2
 F 1,1,2,F 1,1,2,F 1,1,2
 
 # C0,C1,R1',R0' (4)
-hard to say how hard this is. Easy to get stuck but once you see it you see it.
+human solution: Col0' Col1 Col0' Row0 Col0' Col1 Col1 Col1
