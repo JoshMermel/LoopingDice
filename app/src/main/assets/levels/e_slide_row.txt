@@ -1,6 +1,6 @@
 2
 3
-ENABLER
+BASIC|BASIC|ENABLER
 E,E,E,0,1,2
 E,E,E,1,2,0
 Some levels will have more enabler cells than others

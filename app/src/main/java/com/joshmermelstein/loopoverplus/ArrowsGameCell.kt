@@ -13,10 +13,10 @@ abstract class ArrowsGameCell(
     override val numRows: Int,
     override val numCols: Int,
     colorId: String,
-    final override val data : GameCellMetadata
+    final override val data: GameCellMetadata
 ) : NormalGameCellBase(x, y, numRows, numCols, colorId) {
     final override val color: Int
-    final override val drawColor : Int
+    final override val drawColor: Int
 
     override val pips = 1
     abstract val arrows: Drawable
@@ -76,7 +76,7 @@ class HorizontalGameCell(
     override val numRows: Int,
     override val numCols: Int,
     colorId: String,
-    data : GameCellMetadata
+    data: GameCellMetadata
 ) : ArrowsGameCell(x, y, numRows, numCols, colorId, data) {
     override val family = CellFamily.HORIZONTAL
     override val arrows = super.data.hArrow
@@ -89,7 +89,7 @@ class VerticalGameCell(
     override val numRows: Int,
     override val numCols: Int,
     colorId: String,
-    data : GameCellMetadata
+    data: GameCellMetadata
 ) : ArrowsGameCell(x, y, numRows, numCols, colorId, data) {
     override val family = CellFamily.VERTICAL
     override val arrows = super.data.vArrow

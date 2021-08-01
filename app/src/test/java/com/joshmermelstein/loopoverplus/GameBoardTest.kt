@@ -62,17 +62,6 @@ class GameBoardTest : TestCase() {
         assertEquals(board.getCell(0, 0), board.getCell(1, 2))
     }
 
-    fun testFindBlockingCells() {
-        // Searching the whole board finds the one blocking cell.
-        val blocking = board.findBlockingCells(0, 3, 0, 2)
-        assertEquals(blocking.size, 1)
-        assertEquals(blocking[0], Pair(0, 2))
-
-        // Searching the bottom row finds no blocking cells.
-        val bottomRowBlocking = board.findBlockingCells(0, 3, 1, 2)
-        assert(bottomRowBlocking.isEmpty())
-    }
-
     fun testFindEnablers() {
         val enablers = board.findEnablers()
         assertEquals(enablers.size, 1)
@@ -91,16 +80,6 @@ class GameBoardTest : TestCase() {
         assertFalse(board.colContainsBond(1, Bond.RIGHT))
     }
 
-    fun testRowContainsEnabler() {
-        assertTrue(board.rowContainsEnabler(0))
-        assertFalse(board.rowContainsEnabler(1))
-    }
-
-    fun testColContainsEnabler() {
-        assertTrue(board.colContainsEnabler(1))
-        assertFalse(board.colContainsEnabler(2))
-    }
-
     fun testRowContainsLightning() {
         assertTrue(board.rowContainsLightning(0))
         assertFalse(board.rowContainsLightning(1))
@@ -111,36 +90,18 @@ class GameBoardTest : TestCase() {
         assertFalse(board.colContainsLightning(0))
     }
 
-    fun testFindColLockedCell() {
-        val row0 = board.findColLockedCell(0)
-        assertEquals(row0.size, 0)
-
-        val row1 = board.findColLockedCell(1)
-        assertEquals(row1.size, 1)
-        assertEquals(row1[0], Pair(1,1))
-    }
-
-    fun testFindRowLockedCell() {
-        val col1 = board.findRowLockedCell(1)
-        assertEquals(col1.size, 0)
-
-        val col2 = board.findRowLockedCell(2)
-        assertEquals(col2.size, 1)
-        assertEquals(col2[0], Pair(1,2))
-    }
-
-    fun testTestToString() {
+    fun testToString() {
         assertEquals(board.toString(), "1,E,F 0,L 3,B 1 R,V 1,H 2,314159")
     }
 
-    fun testTestEquals() {
+    fun testEquals() {
         val anotherArr = arrayOf("1", "E", "F 0", "L 3", "B 1 R", "V 1", "H 2", "314159")
         val sameBoard = GameBoard(numRows, numCols, anotherArr, data)
 
         assertEquals(board, sameBoard)
     }
 
-    fun testTestNotEquals() {
+    fun testNotEquals() {
         val arr = arrayOf("2", "E", "F 0", "B 1 R", "5", "6", "L 3", "314159")
         val sameBoard = GameBoard(numRows, numCols, arr, data)
 

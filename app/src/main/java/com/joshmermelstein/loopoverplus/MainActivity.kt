@@ -265,7 +265,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun addOnclickEffect(v : View) {
+    private fun addOnclickEffect(v: View) {
         val attrs = intArrayOf(android.R.attr.selectableItemBackground)
         val typedArray: TypedArray = obtainStyledAttributes(attrs)
         val backgroundResource = typedArray.getResourceId(0, 0)

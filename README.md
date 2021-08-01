@@ -21,8 +21,17 @@ permuting GameCells on the board. Moves are stored in a MoveQueue that ensures
 that only one move is executing a time. Each subclass of Move permutes the board
 in its own way.
 
-`MoveFactory`: Move factories produce moves, like you might expect. Subclasses
-return different kinds of moves and also handle validating moves.
+`MoveEffect`: A MoveEffect represents a puzzle's logic for what sort of move
+should be created when a player swipes. Some, like `GearMoveEffect` simply wrap
+a type of move. Others, like `BandagedMoveEffect` or `LightningMoveEffect`
+pick among different kinds of moves.
+
+`MoveValidator`: A MoveValidator decided whether a candidate move is legal can
+produce an `IllegalMove` to flash appropriate cells.
+
+`MoveFactory`: A MoveFactory composes a `MoveEffect` for rows, a `MoveEffect`
+for columns, and a`MoveValidator` that applies to both. This lets each puzzle
+have fine grained control of what happens when the user swipes.
 
 ## Data format for levels
 
@@ -33,27 +42,32 @@ factory to make. These are implement in text files in
 ```
 num_rows
 num_cols
-move factory
+vertical move effect|horizontal move effect|move validator
 initial state (as comma separated list)
 goal state (as comma separated list)
 help text (can be blank)
 ```
 
-The move factories are specified with one of the following strings:
-
+The move effects are specified with one of the following strings:
 
 | spec | effect | 
 | --- | --- |
-| BASIC | A basic move factory |
-| WIDE \d \d | Numbers after wide are row depth and col depth |
-| DYNAMIC | Dynamic bandaging (basic but with extra validation) |
-| CAROUSEL | Carousel mode |
+| BASIC | Moves affect one row or col |
 | BANDAGED | Bandaged mode (a wide move factory that figures out depth based on bonds)|
+| CAROUSEL | Carousel mode |
 | GEAR | Gear mode |
-| AXIS | Arrows mode (basic but with extra validation) |
-| ENABLER | Enabler mode (basic but with extra validation) |
-| STATIC | Static bandaging (wide but with extra validation) |
-| Foo \| Bar | A combined factory with Foo's logic for rows and Bar's logic for columns |
+| LIGHTNING | Lightning mode |
+| WIDE \d | Wide moves whose depth is determined by the nubmer |
+
+The move validator is specified with one of the following strings:
+
+| spec | effect |
+| --- | --- |
+| DYNAMIC | Fixed cells cannot move off the bounds of the board |
+| ARROWS | Arrows cells cannot move perpendicular to the arrow they display |
+| ENABLER | Moves must contain an enabler gamecell |
+| STATIC | Fixed cells cannot move at all |
+| NONE | No validation |
 
 The entries in the comma separated lists are strings to tell a gamecell what
 type it is. The current possibilities are:
@@ -66,6 +80,7 @@ type it is. The current possibilities are:
 |F \d | a fixed cell (for static + dynamic modes) with a number of pips determined by the number |
 |E | An enabler cell|
 |B \d U D L R | a bandaged cell with color determined by the number and bonds determined by which of the {U, D, L, R} follow the number. Order does not matter.|
+|L \d| A lightning cell with color determined by the number |
 
 Everything after the help text is ignored. In most level files, I've used this as a space for notes such as the optimal solution or my personal best solution.
 

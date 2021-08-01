@@ -1,0 +1,9 @@
+4
+2
+BANDAGED|BANDAGED|ENABLER
+E,B 1 D,2,B 1 U,2,1,2,1
+1,E,1,2,B 1 D,2,B 1 U,2
+
+e_two_columns
+# R0,C1',R3,C0',R2,C1',R1',C0',R0' (9)
+tricky to win. I got 17 and knew it was suboptimal.

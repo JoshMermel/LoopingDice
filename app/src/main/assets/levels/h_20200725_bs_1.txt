@@ -1,0 +1,9 @@
+4
+4
+BANDAGED|BANDAGED|STATIC
+3,3,3,3,0,0,F 0,3,B 1 D R,B 1 D L,0,3,B 1 U R,B 1 U L,0,3
+0,0,0,0,3,3,F 0,3,B 1 D R,B 1 D L,3,3,B 1 U R,B 1 U L,3,3
+
+b_unwrap
+# C0',R0,R0,R3',C0',R2',C0',C0' (8)
+verdict - not too bad, I got optimal

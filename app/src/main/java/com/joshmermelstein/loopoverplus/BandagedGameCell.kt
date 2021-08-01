@@ -12,11 +12,11 @@ class BandagedGameCell(
     override val numRows: Int,
     override val numCols: Int,
     colorId: String,
-    override val data : GameCellMetadata
+    override val data: GameCellMetadata
 ) : NormalGameCellBase(x, y, numRows, numCols, colorId) {
     override val color: Int
     override val pips: Int
-    override val drawColor : Int
+    override val drawColor: Int
     override val family = CellFamily.BANDAGED
 
     // (Possibly empty) set of which directions this cell has bonds

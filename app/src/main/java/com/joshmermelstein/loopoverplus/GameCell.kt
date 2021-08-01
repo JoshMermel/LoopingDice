@@ -40,6 +40,8 @@ enum class CellFamily {
 }
 
 // Base class for shared logic among game cell types
+// TODO(jmerm): consider whether this inheritance could be replaced by composition to allow for
+//  more complex cell types like "Lightning+Enabler" or "Fixed+Bonds"
 abstract class GameCell(
     open var x: Double,
     open var y: Double,

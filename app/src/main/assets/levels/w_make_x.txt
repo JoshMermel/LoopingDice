@@ -1,6 +1,6 @@
 3
 3
-WIDE 1 2
+WIDE 1|WIDE 2|NONE
 1,2,1,2,1,2,1,2,1
 2,1,2,1,1,1,2,1,2
 You can also look at the edge of the board before releasing a swipe to see which rows/cols will move

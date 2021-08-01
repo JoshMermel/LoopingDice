@@ -323,6 +323,9 @@ class GameManager(
             }
         }
 
+        // TODO(jmerm): this line results in some logs about "Activity
+        //  com.joshmermelstein.loopoverplus.GameplayActivity has leaked window". Seems bad,
+        //  maybe look into that.
         dialog.show()
     }
 }

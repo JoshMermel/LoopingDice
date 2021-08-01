@@ -35,24 +35,6 @@ class GameBoard(private val board: Array<Array<GameCell>>) {
         board[mod(row, numRows)][mod(col, numCols)] = cell
     }
 
-    // Returns coordinates of fixed cells in the rectangle define by [left,right)[top,bottom)
-    fun findBlockingCells(
-        left: Int,
-        right: Int,
-        top: Int,
-        bottom: Int,
-    ): List<Pair<Int, Int>> {
-        val ret: MutableList<Pair<Int, Int>> = mutableListOf()
-        for (col in left until right) {
-            for (row in top until bottom) {
-                if (getCell(row, col).family == CellFamily.FIXED) {
-                    ret.add(Pair(row, col))
-                }
-            }
-        }
-        return ret
-    }
-
     // Returns a list of the coordinates of all enablers on the board
     fun findEnablers(): List<Pair<Int, Int>> {
         val ret: MutableList<Pair<Int, Int>> = mutableListOf()
@@ -90,48 +72,6 @@ class GameBoard(private val board: Array<Array<GameCell>>) {
         return false
     }
 
-    // Returns whether any cell in row |offset| is an enabler cell
-    fun rowContainsEnabler(offset: Int): Boolean {
-        for (col in 0 until numCols) {
-            if (getCell(offset, col).family == CellFamily.ENABLER) {
-                return true
-            }
-        }
-        return false
-    }
-
-    // Returns whether any cell in col |offset| is an enabler cell
-    fun colContainsEnabler(offset: Int): Boolean {
-        for (row in 0 until numRows) {
-            if (getCell(row, offset).family == CellFamily.ENABLER) {
-                return true
-            }
-        }
-        return false
-    }
-
-    // Returns whether any cell in |row| is locked to its column
-    fun findColLockedCell(row: Int): List<Pair<Int, Int>> {
-        val ret: MutableList<Pair<Int, Int>> = mutableListOf()
-        for (col in 0 until numCols) {
-            if (getCell(row, col).family == CellFamily.VERTICAL) {
-                ret.add(Pair(row, col))
-            }
-        }
-        return ret
-    }
-
-    // Returns whether any cell in |col| is locked to its row
-    fun findRowLockedCell(col: Int): List<Pair<Int, Int>> {
-        val ret: MutableList<Pair<Int, Int>> = mutableListOf()
-        for (row in 0 until numRows) {
-            if (getCell(row, col).family == CellFamily.HORIZONTAL) {
-                ret.add(Pair(row, col))
-            }
-        }
-        return ret
-    }
-
     // Returns whether any cell in row |offset| is a lightning cell
     fun rowContainsLightning(offset: Int): Boolean {
         for (col in 0 until numCols) {
@@ -151,6 +91,7 @@ class GameBoard(private val board: Array<Array<GameCell>>) {
         }
         return false
     }
+
     override fun toString(): String {
         return board.joinToString(",") { row -> row.joinToString(",") }
     }

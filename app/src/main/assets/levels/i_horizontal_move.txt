@@ -1,6 +1,6 @@
 1
 3
-BASIC
+BASIC|BASIC|NONE
 2,8,14
 8,14,2
 Swipe horizontally to rearrange a row

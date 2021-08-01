@@ -1,0 +1,9 @@
+5
+5
+LIGHTNING|LIGHTNING|DYNAMIC
+1,1,F 1,1,1,1,L 1,1,L 1,1,F 1,1,1,1,F 1,1,L 1,1,L 1,1,1,1,F 1,1,1
+1,1,1,1,1,1,L 1,F 1,L 1,1,1,F 1,1,F 1,1,1,L 1,F 1,L 1,1,1,1,1,1,1
+
+d_crosshairs
+# R0,R4',C0',C3,R2',C2,R1,R0',C1' (9)
+TODO(jmerm): replace this with a better level

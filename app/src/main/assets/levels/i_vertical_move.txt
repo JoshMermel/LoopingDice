@@ -1,6 +1,6 @@
 3
 1
-BASIC
+BASIC|BASIC|NONE
 0,0,1
 1,0,0
 Swipe vertically match the pattern in the top left

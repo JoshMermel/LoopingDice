@@ -1,6 +1,6 @@
 5
 5
-CAROUSEL
+CAROUSEL|CAROUSEL|NONE
 3,3,3,3,3,3,0,3,3,3,3,3,3,3,3,3,3,3,0,3,3,3,3,3,3
 3,3,3,3,3,3,3,3,0,3,3,3,3,3,3,3,0,3,3,3,3,3,3,3,3
 C levels use move pairs of rows/columns in a carousel

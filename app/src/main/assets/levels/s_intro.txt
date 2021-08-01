@@ -1,6 +1,6 @@
 4
 2
-STATIC 1 1
+WIDE 1|WIDE 1|STATIC
 F 0,0,1,0,F 0,0,2,0
 F 0,0,2,0,F 0,0,1,0
 In "Static Cells" mode, some cells cannot move.

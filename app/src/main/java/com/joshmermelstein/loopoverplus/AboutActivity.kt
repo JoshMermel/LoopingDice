@@ -37,7 +37,8 @@ class AboutActivity : AppCompatActivity() {
             getString(R.string.openSourceLibrariesText).toSpannable().apply {
                 this[0..10] = object : ClickableSpan() {
                     override fun onClick(view: View) {
-                        startActivity(Intent(
+                        startActivity(
+                            Intent(
                                 this@AboutActivity,
                                 OssLicensesMenuActivity::class.java
                             )

@@ -1,0 +1,8 @@
+5
+4
+LIGHTNING|LIGHTNING|NONE
+L 2,L 2,3,3,L 2,L 2,3,3,L 2,L 2,3,3,3,3,3,3,3,3,3,3
+3,3,3,3,3,L 2,L 2,3,3,L 2,L 2,3,3,L 2,L 2,3,3,3,3,3
+
+# R0,C0,C3',R4',C2,R3' (6)
+human solution: Col1 Row1 Row2 Col1' Col3' Col3' Col0' Row3'

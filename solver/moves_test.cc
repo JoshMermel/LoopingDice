@@ -684,10 +684,17 @@ TEST(Board, LightningRowMoveFast) {
   EXPECT_EQ(moved, expected);
 }
 
+<<<<<<< HEAD
 TEST(Board, LightiningRowMoveSlow) {
   const Board<2, 3> b = {{
       {{0, 1 | LIGHTNING, 2}},
       {{3, 4, 5}},
+=======
+TEST(Board, LightningRowMoveSlow) {
+  Board<2,3> b = {{
+    {{0,1|UP,2}},
+    {{3,4,5}},
+>>>>>>> 48b9c71e9d196ff9a63c20f33b651434d73a774e
   }};
   const Board<2, 3> expected = {{
       {{0, 1 | LIGHTNING, 2}},

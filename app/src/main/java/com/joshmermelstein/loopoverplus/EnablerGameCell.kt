@@ -13,7 +13,7 @@ class EnablerGameCell(
     override val numRows: Int,
     override val numCols: Int,
     colorId: String,
-    private val data : GameCellMetadata
+    private val data: GameCellMetadata
 ) : GameCell(x, y, numRows, numCols, colorId) {
     override val color = 5
     override val pips = 1

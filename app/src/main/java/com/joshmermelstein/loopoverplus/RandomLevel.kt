@@ -4,18 +4,33 @@ import kotlin.math.floor
 import kotlin.math.sqrt
 import kotlin.random.Random
 
-fun fromRandomFactory(name: String, rowDepth: Int?, colDepth: Int?): MoveFactory {
+fun fromRandomMoveEffect(name: String, depth: Int?, axis: Axis): MoveEffect {
     return when (name) {
-        "Gear" -> GearMoveFactory()
-        "Carousel" -> CarouselMoveFactory()
-        "Wide" -> WideMoveFactory(rowDepth!!, colDepth!!)
-        "Enabler" -> EnablerMoveFactory()
-        "Dynamic Bandaging" -> DynamicBandagingMoveFactory()
-        "Static Cells" -> StaticCellsMoveFactory(rowDepth!!, colDepth!!)
-        "Arrows" -> ArrowsMoveFactory()
-        "Lightning" -> LightningMoveFactory()
-        "Bandaged" -> BandagedMoveFactory()
-        else -> BasicMoveFactory()
+        "Gear" -> GearMoveEffect(axis)
+        "Carousel" -> CarouselMoveEffect(axis)
+        "Wide" -> WideMoveEffect(axis, depth!!)
+        "Lightning" -> LightningMoveEffect(axis)
+        "Bandaged" -> BandagedMoveEffect(axis)
+        "Enabler" -> BasicMoveEffect(axis)
+        "Arrows" -> BasicMoveEffect(axis)
+        "Dynamic Bandaging" -> BasicMoveEffect(axis)
+        "Static Cells" -> WideMoveEffect(axis, depth!!)
+        else -> BasicMoveEffect(axis)
+    }
+}
+
+fun fromRandomValidator(name: String): MoveValidator {
+    return when (name) {
+        "Gear" -> MoveValidator()
+        "Carousel" -> MoveValidator()
+        "Wide" -> MoveValidator()
+        "Lightning" -> MoveValidator()
+        "Bandaged" -> MoveValidator()
+        "Enabler" -> EnablerValidator()
+        "Arrows" -> ArrowsValidator()
+        "Dynamic Bandaging" -> DynamicBandagingValidator()
+        "Static Cells" -> StaticCellsValidator()
+        else -> MoveValidator()
     }
 }
 
@@ -297,15 +312,11 @@ fun generateRandomLevel(
     initial: Array<String>?,
     goal: Array<String>?
 ): GameplayParams {
-    val factory: MoveFactory =
-        if (options.rowMode == options.colMode || options.colMode == null) {
-            fromRandomFactory(options.rowMode, options.rowDepth, options.colDepth)
-        } else {
-            CombinedMoveFactory(
-                fromRandomFactory(options.rowMode, options.rowDepth, options.rowDepth),
-                fromRandomFactory(options.colMode, options.colDepth, options.colDepth)
-            )
-        }
+    val rowEffect = fromRandomMoveEffect(options.rowMode, options.rowDepth, Axis.HORIZONTAL)
+    val colEffect =
+        fromRandomMoveEffect(options.colMode ?: options.rowMode, options.colDepth, Axis.VERTICAL)
+    val validator = fromRandomValidator(options.rowMode)
+    val factory = MoveFactory(rowEffect, colEffect, validator)
 
     if (initial != null && goal != null) {
         return GameplayParams(
