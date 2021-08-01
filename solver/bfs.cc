@@ -5,16 +5,19 @@
 #include "enums.h"
 #include "moves.h"
 
-constexpr size_t num_rows = 3;
-constexpr size_t num_cols = 3;
+constexpr size_t num_rows = 5;
+constexpr size_t num_cols = 2;
 constexpr Board<num_rows, num_cols> initial = {{
-	{{1,2,3}},
-	{{0,0,0}},
-	{{0,0,0}},
+	{{2,2}},
+	{{FIXED, FIXED}},
+	{{1,1}},
+	{{FIXED, FIXED}},
+	{{2,2|LIGHTNING}},
 }};
 
-Mode row_mode = Mode::GEAR;
-Mode col_mode = Mode::GEAR;
+Mode row_mode = Mode::LIGHTNING;
+Mode col_mode = Mode::LIGHTNING;
+Validation validation = Validation::DYNAMIC;
 
 template<std::size_t num_rows, std::size_t num_cols>
 struct Node {
@@ -29,13 +32,13 @@ void exploreNeighbors(const Board<num_rows, num_cols>& board,
                       std::unordered_set<Board<num_rows, num_cols>>& seen,
                       const std::string& path) {
     for (size_t row = 0; row < num_rows; ++row) {
-      Board<num_rows, num_cols> forward = rowMove(board, row, true, row_mode);
+      Board<num_rows, num_cols> forward = rowMove(board, row, true, row_mode, validation);
       if (seen.find(forward) == seen.end()) {
         seen.insert(forward);
         q.push(Node<num_rows, num_cols>(forward, path + ",R" + std::to_string(row)));
       }
 
-      Board<num_rows, num_cols> backward = rowMove(board, row, false, row_mode);
+      Board<num_rows, num_cols> backward = rowMove(board, row, false, row_mode, validation);
       if (seen.find(backward) == seen.end()) {
         seen.insert(backward);
         q.push(Node<num_rows, num_cols>(backward, path + ",R" + std::to_string(row) + "'"));
@@ -43,13 +46,13 @@ void exploreNeighbors(const Board<num_rows, num_cols>& board,
     }
 
     for (size_t col = 0; col < num_cols; ++col) {
-      Board<num_rows, num_cols> forward = colMove(board, col, true, col_mode);
+      Board<num_rows, num_cols> forward = colMove(board, col, true, col_mode, validation);
       if (seen.find(forward) == seen.end()) {
         seen.insert(forward);
         q.push(Node<num_rows, num_cols>(forward, path + ",C" + std::to_string(col)));
       }
 
-      Board<num_rows, num_cols> backward = colMove(board, col, false, col_mode);
+      Board<num_rows, num_cols> backward = colMove(board, col, false, col_mode, validation);
       if (seen.find(backward) == seen.end()) {
         seen.insert(backward);
         q.push(Node<num_rows, num_cols>(backward, path + ",C" + std::to_string(col) + "'"));

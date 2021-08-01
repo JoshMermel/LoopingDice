@@ -8,22 +8,21 @@
 #include "moves.h"
 
 // Global settings
-constexpr size_t num_rows = 4;
-constexpr size_t num_cols = 4;
+constexpr size_t num_rows = 3;
+constexpr size_t num_cols = 2;
 constexpr Board<num_rows, num_cols> initial = {{
-	{{0|UP,3,3,3}},
-	{{2,0|UP,3,3}},
-	{{2,2,0|UP,3}},
-	{{2,2,2,0|UP}},
+	{{2|LIGHTNING,1}},
+	{{0,1}},
+	{{0,2|LIGHTNING}}
 }};
 constexpr Board<num_rows, num_cols> win = {{
-	{{0|UP,2,2,2}},
-	{{3,0|UP,2,2}},
-	{{3,3,0|UP,2}},
-	{{3,3,3,0|UP}},
+	{{2|LIGHTNING,0}},
+	{{1,0}},
+	{{1,2|LIGHTNING}}
 }};
-Mode row_mode = Mode::LIGHTNING;
-Mode col_mode = Mode::LIGHTNING;
+constexpr Mode row_mode = Mode::LIGHTNING;
+constexpr Mode col_mode = Mode::LIGHTNING;
+constexpr Validation validation = Validation::NONE;
 
 template<std::size_t num_rows, std::size_t num_cols>
 struct Node {
@@ -47,21 +46,21 @@ std::vector<Node<num_rows, num_cols>> exploreNeighbors(
   std::vector<Node<num_rows, num_cols>> ret;
 
   for (size_t row = 0; row < num_rows; ++row) {
-    Board<num_rows, num_cols> forward = rowMove(board, row, true, row_mode);
+    Board<num_rows, num_cols> forward = rowMove(board, row, true, row_mode, validation);
     ret.push_back(Node<num_rows, num_cols>(
           forward, make_path(path,"R" + std::to_string(row))));
 
-    Board<num_rows, num_cols> backward = rowMove(board, row, false, row_mode);
+    Board<num_rows, num_cols> backward = rowMove(board, row, false, row_mode, validation);
     ret.push_back(
         Node<num_rows, num_cols>(backward, make_path(path, "R" + std::to_string(row) + "'")));
   }
 
   for (size_t col = 0; col < num_cols; ++col) {
-    Board<num_rows, num_cols> forward = colMove(board, col, true, col_mode);
+    Board<num_rows, num_cols> forward = colMove(board, col, true, col_mode, validation);
     ret.push_back(
         Node<num_rows, num_cols>(forward, make_path(path, "C" + std::to_string(col))));
 
-    Board<num_rows, num_cols> backward = colMove(board, col, false, col_mode);
+    Board<num_rows, num_cols> backward = colMove(board, col, false, col_mode, validation);
     ret.push_back(
         Node<num_rows, num_cols>(backward, make_path(path, "C" + std::to_string(col) + "'")));
   }
@@ -76,21 +75,21 @@ std::vector<Node<num_rows, num_cols>> exploreNeighborsBackward(
   std::vector<Node<num_rows, num_cols>> ret;
 
   for (size_t row = 0; row < num_rows; ++row) {
-    Board<num_rows, num_cols> forward = rowMove(board, row, true, row_mode);
+    Board<num_rows, num_cols> forward = rowMove(board, row, true, row_mode, validation);
     ret.push_back(
         Node<num_rows, num_cols>(forward, make_path(path, "R" + std::to_string(row) + "'")));
 
-    Board<num_rows, num_cols> backward = rowMove(board, row, false, row_mode);
+    Board<num_rows, num_cols> backward = rowMove(board, row, false, row_mode, validation);
     ret.push_back(
         Node<num_rows, num_cols>(backward, make_path(path,"R" + std::to_string(row))));
   }
 
   for (size_t col = 0; col < num_cols; ++col) {
-    Board<num_rows, num_cols> forward = colMove(board, col, true, col_mode);
+    Board<num_rows, num_cols> forward = colMove(board, col, true, col_mode, validation);
     ret.push_back(
         Node<num_rows, num_cols>(forward, make_path(path, "C" + std::to_string(col) + "'")));
 
-    Board<num_rows, num_cols> backward = colMove(board, col, false, col_mode);
+    Board<num_rows, num_cols> backward = colMove(board, col, false, col_mode, validation);
     ret.push_back(
         Node<num_rows, num_cols>(backward, make_path(path, "C" + std::to_string(col))));
   }
@@ -129,7 +128,7 @@ int main () {
 
   std::cout << num_rows << std::endl
     << num_cols << std::endl
-    << modesToString(row_mode, col_mode) << std::endl
+    << modesToString(row_mode, col_mode, validation) << std::endl
     << boardToString(initial, row_mode, ",") << std::endl
     << boardToString(win, row_mode, ",") << std::endl;
 

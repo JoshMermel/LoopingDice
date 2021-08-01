@@ -21,6 +21,7 @@ constexpr Board<num_rows, num_cols> initial = {{
 }};
 Mode row_mode = Mode::BANDAGED;
 Mode col_mode = Mode::BANDAGED;
+Validation validation = Validation::NONE;
 
 template<std::size_t num_rows, std::size_t num_cols>
 Board<num_rows, num_cols> randomMove(Board<num_rows, num_cols> board) {
@@ -28,9 +29,9 @@ Board<num_rows, num_cols> randomMove(Board<num_rows, num_cols> board) {
   bool direction = seed % 2;
   seed /= 2;
   if (seed < num_rows) {
-    return rowMove(board, seed, direction, row_mode);
+    return rowMove(board, seed, direction, row_mode, validation);
   } else {
-    return colMove(board, seed - num_rows, direction, col_mode);
+    return colMove(board, seed - num_rows, direction, col_mode, validation);
   }
 }
 
