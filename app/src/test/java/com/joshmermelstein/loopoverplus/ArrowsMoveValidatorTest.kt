@@ -3,155 +3,267 @@ package com.joshmermelstein.loopoverplus
 import junit.framework.TestCase
 
 class ArrowsMoveValidatorTest : TestCase() {
-
     private val data = fakeGameCellMetadata()
-    private val numRows = 2
-    private val numCols = 3
-    private val arr = arrayOf("V 1", "H 2", "V 3", "4", "H 5", "6")
-    private val board = GameBoard(numRows, numCols, arr, data)
 
-    private val basicFactory = MoveFactory(
-        BasicMoveEffect(Axis.HORIZONTAL),
-        BasicMoveEffect(Axis.VERTICAL),
-        ArrowsValidator()
-    )
-
-    private val carouselFactory = MoveFactory(
-        CarouselMoveEffect(Axis.HORIZONTAL),
-        CarouselMoveEffect(Axis.VERTICAL),
-        ArrowsValidator()
-    )
-
-    private val wideFactory = MoveFactory(
-        WideMoveEffect(Axis.HORIZONTAL, 1),
-        WideMoveEffect(Axis.VERTICAL, 2),
-        ArrowsValidator()
-    )
-
-    private val gearFactory = MoveFactory(
-        GearMoveEffect(Axis.HORIZONTAL),
-        GearMoveEffect(Axis.VERTICAL),
-        ArrowsValidator()
-    )
-
-    private val bandagedFactory = MoveFactory(
-        BandagedMoveEffect(Axis.HORIZONTAL),
-        BandagedMoveEffect(Axis.VERTICAL),
-        ArrowsValidator()
-    )
-
-    private val lightningFactory = MoveFactory(
-        LightningMoveEffect(Axis.HORIZONTAL),
-        LightningMoveEffect(Axis.VERTICAL),
-        ArrowsValidator()
-    )
-
-    fun testMakeMoveHorizontal() {
-        val move = basicFactory.makeMove(Axis.HORIZONTAL, Direction.BACKWARD, 1, board)
-        val expected = BasicMove(Axis.HORIZONTAL, Direction.BACKWARD, 1, numRows, numCols)
-        assertEquals(move, expected)
-    }
-
-    fun testMakeMoveVertical() {
-        val move = basicFactory.makeMove(Axis.VERTICAL, Direction.FORWARD, 0, board)
-        val expected = BasicMove(Axis.VERTICAL, Direction.FORWARD, 0, numRows, numCols)
-        assertEquals(move, expected)
-    }
-
-    fun testMakeMoveHorizontalIllegal() {
-        val move = basicFactory.makeMove(Axis.HORIZONTAL, Direction.BACKWARD, 0, board)
-        val expected = IllegalMove(listOf(Pair(0, 0), Pair(0, 2)))
-        assertEquals(move, expected)
-    }
-
-    fun testMakeMoveVerticalIllegal() {
-        val move = basicFactory.makeMove(Axis.VERTICAL, Direction.FORWARD, 1, board)
-        val expected = IllegalMove(listOf(Pair(0, 1), Pair(1, 1)))
-        assertEquals(move, expected)
-    }
-
-    fun testMakeCarouselMove() {
-        // This board would be deadlocked with basic moves but is fine with Carousel moves
-        val board = GameBoard(
-            2, 2, arrayOf(
-                "V 0", "H 1",
-                "H 2", "V 3"
-            ), data
+    fun testMakeBasicArrowsMove() {
+        val basicFactory = MoveFactory(
+            BasicMoveEffect(Axis.HORIZONTAL),
+            BasicMoveEffect(Axis.VERTICAL),
+            ArrowsValidator()
         )
-        val move = carouselFactory.makeMove(Axis.VERTICAL, Direction.FORWARD, 0, board)
-        val expected = CarouselMove(Axis.VERTICAL, Direction.FORWARD, 0, 2, 2)
-        assertEquals(move, expected)
-    }
-
-    fun testMakeCarouselMoveIllegal() {
-        val board = GameBoard(2, 2, arrayOf("V 0", "1", "2", "3"), data)
-        // A vertical basic move would be fine here but the carousel move wants to shift (0,0)
-        // horizontally so it is illegal
-        val move = carouselFactory.makeMove(Axis.VERTICAL, Direction.BACKWARD, 0, board)
-        val expected = IllegalMove(listOf(Pair(0, 0)))
-        assertEquals(move, expected)
-    }
-
-    fun testMakeWideMove() {
-        val move = wideFactory.makeMove(Axis.VERTICAL, Direction.BACKWARD, 2, board)
-        val expected = WideMove(Axis.VERTICAL, Direction.BACKWARD, 2, numRows, numCols, 2)
-        assertEquals(move, expected)
-    }
-
-    fun testMakeWideMoveIllegal() {
-        val move = wideFactory.makeMove(Axis.VERTICAL, Direction.BACKWARD, 1, board)
-        val expected = IllegalMove(listOf(Pair(0, 1), Pair(1, 1)))
-        assertEquals(move, expected)
-    }
-
-    fun testMakeGearMove() {
-        val move = gearFactory.makeMove(Axis.VERTICAL, Direction.BACKWARD, 2, board)
-        val expected = GearMove(Axis.VERTICAL, Direction.BACKWARD, 2, numRows, numCols)
-        assertEquals(move, expected)
-    }
-
-    fun testMakeGearMoveIllegal() {
-        val move = gearFactory.makeMove(Axis.HORIZONTAL, Direction.BACKWARD, 0, board)
-        val expected = IllegalMove(listOf(Pair(0, 0), Pair(0, 2)))
-        assertEquals(move, expected)
-    }
-
-    fun testMakeBandagedMove() {
-        val board = GameBoard(
-            3, 3, arrayOf(
-                "B 0 D R", "B 1 D L", "H 3",
-                "B 4 U R", "B 5 U L", "6",
-                "7", "H 8", "8"
-            ), data
+        val numRows = 2
+        val numCols = 3
+        val arr = arrayOf(
+            "H 0", "1", "2",
+            "3", "4", "V 5"
         )
-        val move = bandagedFactory.makeMove(Axis.HORIZONTAL, Direction.FORWARD, 1, board)
-        val expected = WideMove(Axis.HORIZONTAL, Direction.FORWARD, 0, 2, 2, 2)
-    }
+        val board = GameBoard(numRows, numCols, arr, data)
 
-    fun testMakeBandageMoveIllegal() {
-        val board = GameBoard(
-            3, 3, arrayOf(
-                "B 0 D R", "B 1 D L", "H 3",
-                "B 4 U R", "B 5 U L", "6",
-                "7", "H 8", "8"
-            ), data
+        // Legal row
+        assertEquals(
+            basicFactory.makeMove(Axis.HORIZONTAL, Direction.FORWARD, 0, board),
+            BasicMove(Axis.HORIZONTAL, Direction.FORWARD, 0, numRows, numCols)
         )
-        val move = bandagedFactory.makeMove(Axis.VERTICAL, Direction.BACKWARD, 0, board)
-        val expected = IllegalMove(listOf(Pair(2, 1)))
-        assertEquals(move, expected)
+        // Illegal row
+        assertEquals(
+            basicFactory.makeMove(Axis.HORIZONTAL, Direction.FORWARD, 1, board),
+            IllegalMove(listOf(Pair(1, 2)))
+        )
+        // Legal col
+        assertEquals(
+            basicFactory.makeMove(Axis.HORIZONTAL, Direction.FORWARD, 0, board),
+            BasicMove(Axis.HORIZONTAL, Direction.FORWARD, 0, numRows, numCols)
+        )
+        // Illegal col
+        assertEquals(
+            basicFactory.makeMove(Axis.VERTICAL, Direction.FORWARD, 0, board),
+            IllegalMove(listOf(Pair(0, 0)))
+        )
     }
 
-    fun testMakeLightningMove() {
-        val board = GameBoard(2, 2, arrayOf("L 0", "H 1", "H 2", "3"), data)
-        val move = lightningFactory.makeMove(Axis.HORIZONTAL, Direction.FORWARD, 0, board)
-        val expected = LightningMove(Axis.HORIZONTAL, Direction.FORWARD, 0, 2, 2)
-        assertEquals(move, expected)
+    fun testMakeBandagedArrowsMove() {
+        val bandagedFactory = MoveFactory(
+            BandagedMoveEffect(Axis.HORIZONTAL),
+            BandagedMoveEffect(Axis.VERTICAL),
+            ArrowsValidator()
+        )
+
+        val numRows = 3
+        val numCols = 4
+        val arr = arrayOf(
+            "B 0 R", "B 1 L", "H 2", "3",
+            "V 4", "5", "B 6 D R", "B 7 D L",
+            "8", "9", "B 10 U R", "B 11 U L"
+        )
+        val board = GameBoard(numRows, numCols, arr, data)
+
+        // Legal row
+        assertEquals(
+            bandagedFactory.makeMove(Axis.HORIZONTAL, Direction.FORWARD, 0, board),
+            WideMove(Axis.HORIZONTAL, Direction.FORWARD, 0, numRows, numCols, 1)
+        )
+        // Illegal row
+        assertEquals(
+            bandagedFactory.makeMove(Axis.HORIZONTAL, Direction.FORWARD, 1, board),
+            IllegalMove(listOf(Pair(1, 0)))
+        )
+        // Legal col
+        assertEquals(
+            bandagedFactory.makeMove(Axis.VERTICAL, Direction.FORWARD, 0, board),
+            WideMove(Axis.VERTICAL, Direction.FORWARD, 0, numRows, numCols, 2)
+        )
+        // Illegal col
+        assertEquals(
+            bandagedFactory.makeMove(Axis.VERTICAL, Direction.FORWARD, 3, board),
+            IllegalMove(listOf(Pair(0, 2)))
+        )
     }
 
-    fun testMakeLightningMoveIllegal() {
-        val board = GameBoard(2, 2, arrayOf("L 0", "H 1", "H 2", "3"), data)
-        val move = lightningFactory.makeMove(Axis.VERTICAL, Direction.FORWARD, 0, board)
-        val expected = IllegalMove(listOf(Pair(1, 0)))
-        assertEquals(move, expected)
+
+    fun testMakeCarouselArrowsMove() {
+        val carouselFactory = MoveFactory(
+            CarouselMoveEffect(Axis.HORIZONTAL),
+            CarouselMoveEffect(Axis.VERTICAL),
+            ArrowsValidator()
+        )
+        val numRows = 3
+        val numCols = 4
+        val arr = arrayOf(
+            "0", "1", "2", "H 3",
+            "V 4", "5", "6", "7",
+            "8", "9", "10", "V 11"
+        )
+        val board = GameBoard(numRows, numCols, arr, data)
+
+        // Legal row
+        assertEquals(
+            carouselFactory.makeMove(Axis.HORIZONTAL, Direction.BACKWARD, 1, board),
+            CarouselMove(Axis.HORIZONTAL, Direction.BACKWARD, 1, numRows, numCols)
+        )
+        assertEquals(
+            carouselFactory.makeMove(Axis.HORIZONTAL, Direction.FORWARD, 2, board),
+            CarouselMove(Axis.HORIZONTAL, Direction.FORWARD, 2, numRows, numCols)
+        )
+        // Illegal row
+        assertEquals(
+            carouselFactory.makeMove(Axis.HORIZONTAL, Direction.FORWARD, 0, board),
+            IllegalMove(listOf(Pair(0, 3)))
+        )
+        assertEquals(
+            carouselFactory.makeMove(Axis.HORIZONTAL, Direction.BACKWARD, 0, board),
+            IllegalMove(listOf(Pair(1, 0)))
+        )
+        // Legal col
+        assertEquals(
+            carouselFactory.makeMove(Axis.VERTICAL, Direction.FORWARD, 2, board),
+            CarouselMove(Axis.VERTICAL, Direction.FORWARD, 2, numRows, numCols)
+        )
+        assertEquals(
+            carouselFactory.makeMove(Axis.VERTICAL, Direction.BACKWARD, 3, board),
+            CarouselMove(Axis.VERTICAL, Direction.BACKWARD, 3, numRows, numCols)
+        )
+        // Illegal col
+        assertEquals(
+            carouselFactory.makeMove(Axis.VERTICAL, Direction.BACKWARD, 2, board),
+            IllegalMove(listOf(Pair(2, 3), Pair(0, 3)))
+        )
+        assertEquals(
+            carouselFactory.makeMove(Axis.VERTICAL, Direction.FORWARD, 3, board),
+            IllegalMove(listOf(Pair(2, 3), Pair(0, 3)))
+        )
+    }
+
+    fun testMakeGearArrowsMove() {
+        val gearFactory = MoveFactory(
+            GearMoveEffect(Axis.HORIZONTAL),
+            GearMoveEffect(Axis.VERTICAL),
+            ArrowsValidator()
+        )
+        val numRows = 3
+        val numCols = 4
+        val arr = arrayOf(
+            "H 0", "1", "2", "3",
+            "4", "5", "6", "7",
+            "8", "9", "V 10", "11"
+        )
+        val board = GameBoard(numRows, numCols, arr, data)
+
+        // Legal row
+        assertEquals(
+            gearFactory.makeMove(Axis.HORIZONTAL, Direction.FORWARD, 0, board),
+            GearMove(Axis.HORIZONTAL, Direction.FORWARD, 0, numRows, numCols)
+        )
+        // Illegal row
+        assertEquals(
+            gearFactory.makeMove(Axis.HORIZONTAL, Direction.FORWARD, 1, board),
+            IllegalMove(listOf(Pair(2, 2)))
+        )
+        assertEquals(
+            gearFactory.makeMove(Axis.HORIZONTAL, Direction.FORWARD, 2, board),
+            IllegalMove(listOf(Pair(2, 2)))
+        )
+        // Legal col
+        assertEquals(
+            gearFactory.makeMove(Axis.VERTICAL, Direction.FORWARD, 1, board),
+            GearMove(Axis.VERTICAL, Direction.FORWARD, 1, numRows, numCols)
+        )
+        assertEquals(
+            gearFactory.makeMove(Axis.VERTICAL, Direction.FORWARD, 2, board),
+            GearMove(Axis.VERTICAL, Direction.FORWARD, 2, numRows, numCols)
+        )
+        // Illegal col
+        assertEquals(
+            gearFactory.makeMove(Axis.VERTICAL, Direction.BACKWARD, 0, board),
+            IllegalMove(listOf(Pair(0, 0)))
+        )
+        assertEquals(
+            gearFactory.makeMove(Axis.VERTICAL, Direction.BACKWARD, 3, board),
+            IllegalMove(listOf(Pair(0, 4)))
+        )
+    }
+
+    fun testMakeLightningArrowsMove() {
+        val lightningFactory = MoveFactory(
+            LightningMoveEffect(Axis.HORIZONTAL),
+            LightningMoveEffect(Axis.VERTICAL),
+            ArrowsValidator()
+        )
+        val numRows = 2
+        val numCols = 3
+        val arr = arrayOf(
+            "L 0", "H 1", "2",
+            "V 3", "4", "5"
+        )
+        val board = GameBoard(numRows, numCols, arr, data)
+
+        // Legal row
+        assertEquals(
+            lightningFactory.makeMove(Axis.HORIZONTAL, Direction.FORWARD, 0, board),
+            LightningMove(Axis.HORIZONTAL, Direction.FORWARD, 0, numRows, numCols)
+        )
+        // Illegal row
+        assertEquals(
+            lightningFactory.makeMove(Axis.HORIZONTAL, Direction.FORWARD, 1, board),
+            IllegalMove(listOf(Pair(1, 0)))
+        )
+        // Legal col
+        assertEquals(
+            lightningFactory.makeMove(Axis.VERTICAL, Direction.FORWARD, 0, board),
+            LightningMove(Axis.VERTICAL, Direction.FORWARD, 0, numRows, numCols)
+        )
+        // Illegal col
+        assertEquals(
+            lightningFactory.makeMove(Axis.VERTICAL, Direction.BACKWARD, 1, board),
+            IllegalMove(listOf(Pair(0, 1)))
+        )
+    }
+
+    fun testMakeWideArrowsMove() {
+        val wideFactory = MoveFactory(
+            WideMoveEffect(Axis.HORIZONTAL, 2),
+            WideMoveEffect(Axis.VERTICAL, 2),
+            ArrowsValidator()
+        )
+        val numRows = 3
+        val numCols = 4
+        val arr = arrayOf(
+            "H 0", "1", "2", "3",
+            "4", "5", "6", "7",
+            "8", "9", "V 10", "11"
+        )
+        val board = GameBoard(numRows, numCols, arr, data)
+
+        // Legal row
+        assertEquals(
+            wideFactory.makeMove(Axis.HORIZONTAL, Direction.FORWARD, 0, board),
+            WideMove(Axis.HORIZONTAL, Direction.FORWARD, 0, numRows, numCols, 2)
+        )
+        // Illegal row
+        assertEquals(
+            wideFactory.makeMove(Axis.HORIZONTAL, Direction.FORWARD, 1, board),
+            IllegalMove(listOf(Pair(2, 2)))
+        )
+        assertEquals(
+            wideFactory.makeMove(Axis.HORIZONTAL, Direction.FORWARD, 2, board),
+            IllegalMove(listOf(Pair(2, 2)))
+        )
+        // Legal col
+        assertEquals(
+            wideFactory.makeMove(Axis.VERTICAL, Direction.FORWARD, 1, board),
+            WideMove(Axis.VERTICAL, Direction.FORWARD, 1, numRows, numCols, 2)
+        )
+        assertEquals(
+            wideFactory.makeMove(Axis.VERTICAL, Direction.FORWARD, 2, board),
+            WideMove(Axis.VERTICAL, Direction.FORWARD, 2, numRows, numCols, 2)
+        )
+        // Illegal col
+        assertEquals(
+            wideFactory.makeMove(Axis.VERTICAL, Direction.BACKWARD, 0, board),
+            IllegalMove(listOf(Pair(0, 0)))
+        )
+        assertEquals(
+            wideFactory.makeMove(Axis.VERTICAL, Direction.BACKWARD, 3, board),
+            IllegalMove(listOf(Pair(0, 4)))
+        )
     }
 }
