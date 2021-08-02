@@ -14,7 +14,7 @@ class WideMoveTest : TestCase() {
     )
     private val board = GameBoard(numRows, numCols, arr, data)
 
-    fun testTestFinalizeRowForward() {
+    fun testFinalizeRowForward() {
         val move = WideMove(Axis.HORIZONTAL, Direction.FORWARD, 2, numRows, numCols, 3)
         move.finalize(board)
 
@@ -29,7 +29,7 @@ class WideMoveTest : TestCase() {
         assertEquals(board, expectedBoard)
     }
 
-    fun testTestFinalizeRowBackward() {
+    fun testFinalizeRowBackward() {
         val move = WideMove(Axis.HORIZONTAL, Direction.BACKWARD, 1, numRows, numCols, 4)
         move.finalize(board)
 
@@ -44,7 +44,7 @@ class WideMoveTest : TestCase() {
         assertEquals(board, expectedBoard)
     }
 
-    fun testTestFinalizeColForward() {
+    fun testFinalizeColForward() {
         val move = WideMove(Axis.VERTICAL, Direction.FORWARD, 0, numRows, numCols, 2)
         move.finalize(board)
 
@@ -59,7 +59,7 @@ class WideMoveTest : TestCase() {
         assertEquals(board, expectedBoard)
     }
 
-    fun testTestFinalizeColBackward() {
+    fun testFinalizeColBackward() {
         val move = WideMove(Axis.VERTICAL, Direction.BACKWARD, 1, numRows, numCols, 2)
         move.finalize(board)
 
