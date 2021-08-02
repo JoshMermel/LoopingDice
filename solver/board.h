@@ -33,149 +33,107 @@ namespace std
     };
 }
 
+template <std::size_t num_rows, std::size_t num_cols>
+void slideRow(Board<num_rows, num_cols> &board, int offset, bool forward) {
+  // num_rows is unsigned so we convert to signed int to avoid errors when
+  // offset is negative.
+  int num_rows_i = num_rows;
+  offset = ((offset % num_rows_i) + num_rows_i) % num_rows_i;
+  if (forward) {
+    int tmp = board[offset][num_cols - 1];
+    for (size_t col = num_cols - 1; col > 0; --col) {
+      board[offset][col] = board[offset][col - 1];
+    }
+    board[offset][0] = tmp;
+  } else {
+    int tmp = board[offset][0];
+    for (size_t col = 0; col < num_cols - 1; ++col) {
+      board[offset][col] = board[offset][col + 1];
+    }
+    board[offset][num_cols - 1] = tmp;
+  }
+}
+
+template <std::size_t num_rows, std::size_t num_cols>
+void slideCol(Board<num_rows, num_cols> &board, int offset, bool forward) {
+  // num_cols is unsigned so we convert to signed int to avoid errors when
+  // offset is negative.
+  int num_cols_i = num_cols;
+  offset = ((offset % num_cols_i) + num_cols_i) % num_cols_i;
+  if (forward) {
+    int tmp = board[num_rows - 1][offset];
+    for (size_t row = num_rows - 1; row > 0; --row) {
+      board[row][offset] = board[row - 1][offset];
+    }
+    board[0][offset] = tmp;
+  } else {
+    int tmp = board[0][offset];
+    for (size_t row = 0; row < num_rows - 1; ++row) {
+      board[row][offset] = board[row + 1][offset];
+    }
+    board[num_rows - 1][offset] = tmp;
+  }
+}
+
+
+// Helper for converting a cell to a string
+// TODO(jmerm): consider expanding to support more complicated gamecell types
+// once I come up with syntax for those.
+std::string cellToString(int i) {
+  int is_bandaged_mask = UP | DOWN | LEFT | RIGHT;
+
+  if ((i & is_bandaged_mask)) {
+    std::string ret = "B " + std::to_string(i & ~is_bandaged_mask);
+    if (i & UP) {
+      ret += " U";
+    }
+    if (i & DOWN) {
+      ret += " D";
+    }
+    if (i & LEFT) {
+      ret += " L";
+    }
+    if (i & RIGHT) {
+      ret += " R";
+    }
+    return ret;
+  } else if (i & ENABLER) {
+    return "E";
+  } else if (i & FIXED) {
+    return "F " + std::to_string(i & ~FIXED);
+  } else if (i & LIGHTNING) {
+    return "L " + std::to_string(i & ~LIGHTNING);
+  } else if (i & HORIZ) {
+    return "H " + std::to_string(i & ~HORIZ);
+  } else if (i & VERT) {
+    return "V " + std::to_string(i & ~VERT);
+  }
+
+  return std::to_string(i);
+}
+
 // Helpers for converting a row to a string.
 template<std::size_t len>
-struct BasicRowFormatter {
+struct rowFormatter {
   void operator()(std::string* out, const std::array<int, len>& arr) const {
     out->append(absl::StrJoin(arr, ",", [](std::string* out, int i) {
-          out->append(std::to_string(i));
+          out->append(cellToString(i));
      }));
   }
 };
-
-template<std::size_t len>
-struct EnablerRowFormatter {
-  void operator()(std::string* out, const std::array<int, len>& arr) const {
-    out->append(absl::StrJoin(arr, ",", [](std::string* out, int i) {
-          if (i == 0) {
-            out->append("E");
-          } else {
-            out->append(std::to_string(i));
-          }
-     }));
-  }
-};
-
-template<std::size_t len>
-struct StaticRowFormatter {
-  void operator()(std::string* out, const std::array<int, len>& arr) const {
-    out->append(absl::StrJoin(arr, ",", [](std::string* out, int i) {
-          if (i == 0) {
-            out->append("F 0");
-          } else {
-            out->append(std::to_string(i));
-          }
-     }));
-  }
-};
-
-template<std::size_t len>
-struct DynamicRowFormatter {
-  void operator()(std::string* out, const std::array<int, len>& arr) const {
-    out->append(absl::StrJoin(arr, ",", [](std::string* out, int i) {
-          if (i < 0) {
-            out->append("F " + std::to_string(-1 * i));
-          } else {
-            out->append(std::to_string(i));
-          }
-     }));
-  }
-};
-
-template<std::size_t len>
-struct AxisRowFormatter {
-  void operator()(std::string* out, const std::array<int, len>& arr) const {
-    out->append(absl::StrJoin(arr, ",", [](std::string* out, int i) {
-          int mask = RIGHT | DOWN;
-          if (i & RIGHT) {
-            out->append("H " + std::to_string(i & ~mask));
-          } else if (i & DOWN) {
-            out->append("V " + std::to_string(i & ~mask));
-          } else {
-            out->append(std::to_string(i));
-          }
-     }));
-  }
-};
-
-template<std::size_t len>
-struct LightningRowFormatter {
-  void operator()(std::string* out, const std::array<int, len>& arr) const {
-    out->append(absl::StrJoin(arr, ",", [](std::string* out, int i) {
-          if (i & UP) {
-            out->append("L " + std::to_string(i & ~UP));
-          } else {
-            out->append(std::to_string(i));
-          }
-     }));
-  }
-};
-
-
-std::string bandagedCellToString(int i) {
-  int mask = UP | DOWN | LEFT | RIGHT;
-  if (!(i & mask)) {
-    return std::to_string(i);
-  }
-  std::string ret = "B " + std::to_string(i & ~mask);
-  if (i & UP) {
-    ret += " U";
-  }
-  if (i & DOWN) {
-    ret += " D";
-  }
-  if (i & LEFT) {
-    ret += " L";
-  }
-  if (i & RIGHT) {
-    ret += " R";
-  }
-  return ret;
-}
-
-template<std::size_t len>
-struct BandagedRowFormatter {
-  void operator()(std::string* out, const std::array<int, len>& arr) const {
-    out->append(absl::StrJoin(arr, ",", [](std::string* out, int i) {
-          out->append(bandagedCellToString(i));
-     }));
-  }
-};
-
-
-template<std::size_t num_cols>
-std::function<void(std::string*, const std::array<int, num_cols>& arr)> getFormatter(const Mode& mode) {
-  switch(mode) {
-    case Mode::ENABLER:
-      return EnablerRowFormatter<num_cols>();
-    case Mode::DYNAMIC:
-      return DynamicRowFormatter<num_cols>();
-    case Mode::BANDAGED:
-      return BandagedRowFormatter<num_cols>();
-    case Mode::STATIC_1:
-    case Mode::STATIC_2:
-    case Mode::STATIC_3:
-      return StaticRowFormatter<num_cols>();
-    case Mode::AXIS:
-      return AxisRowFormatter<num_cols>();
-    case Mode::LIGHTNING:
-      return LightningRowFormatter<num_cols>();
-    default:
-      return BasicRowFormatter<num_cols>();
-  }
-}
 
 // Prints the board
 template<std::size_t num_rows, std::size_t num_cols>
 std::string boardToString(const Board<num_rows, num_cols>& board, const Mode& mode, const std::string& separator) {
-  return absl::StrJoin(board, separator, getFormatter<num_cols>(mode));
+  return absl::StrJoin(board, separator, rowFormatter<num_cols>());
 }
 
 // Checks for enablers in a row/col
 template<std::size_t num_rows, std::size_t num_cols>
 bool row_contains_enabler(const Board<num_rows, num_cols>& board, int offset) {
+  offset = (offset + num_rows) % num_rows;
   for (size_t col = 0; col < num_cols; ++col) {
-    if(board[offset][col] == 0) {
+    if(board[offset][col] & ENABLER) {
       return true;
     }
   }
@@ -183,19 +141,34 @@ bool row_contains_enabler(const Board<num_rows, num_cols>& board, int offset) {
 }
 template<std::size_t num_rows, std::size_t num_cols>
 bool col_contains_enabler(const Board<num_rows, num_cols>& board, int offset) {
+  offset = (offset + num_cols) % num_cols;
   for (size_t row = 0; row < num_rows; ++row) {
-    if(board[row][offset] == 0) {
+    if(board[row][offset] & ENABLER) {
       return true;
     }
   }
   return false;
 }
 
+// Checks if a row/col ends in a fixed cell, when swiped in |forward| direction.
+template<std::size_t num_rows, std::size_t num_cols>
+bool row_ends_in_fixed(const Board<num_rows, num_cols>& board, int offset, bool forward) {
+  size_t end = forward ? num_cols - 1 : 0;
+  offset = (offset + num_rows) % num_rows;
+  return board[offset][end] & FIXED;
+}
+template<std::size_t num_rows, std::size_t num_cols>
+bool col_ends_in_fixed(const Board<num_rows, num_cols>& board, int offset, bool forward) {
+  size_t end = forward ? num_rows - 1 : 0;
+  offset = (offset + num_cols) % num_cols;
+  return board[end][offset] & FIXED;
+}
+
 // Checks for lightning in a row/col
 template<std::size_t num_rows, std::size_t num_cols>
 bool row_contains_lightning(const Board<num_rows, num_cols>& board, int offset) {
   for (size_t col = 0; col < num_cols; ++col) {
-    if(board[offset][col] & UP) {
+    if(board[offset][col] & LIGHTNING) {
       return true;
     }
   }
@@ -204,15 +177,14 @@ bool row_contains_lightning(const Board<num_rows, num_cols>& board, int offset) 
 template<std::size_t num_rows, std::size_t num_cols>
 bool col_contains_lightning(const Board<num_rows, num_cols>& board, int offset) {
   for (size_t row = 0; row < num_rows; ++row) {
-    if(board[row][offset] & UP) {
+    if(board[row][offset] & LIGHTNING) {
       return true;
     }
   }
   return false;
 }
 
-// checks if a row/col contains a bond in a given direction. Allows out of range
-// offsets.
+// checks if a row/col contains a bond in a given direction.
 template<std::size_t num_rows, std::size_t num_cols>
 bool row_contains_bond(const Board<num_rows, num_cols>& board, int offset, int bond) {
   offset = (offset + num_rows) % num_rows;
@@ -235,13 +207,12 @@ bool col_contains_bond(const Board<num_rows, num_cols>& board, int offset, int b
 }
 
 
-// checks if a row/col contains a bond in a given direction. Allows out of range
-// offsets.
+// checks if a row/col contains a fixed cell.
 template<std::size_t num_rows, std::size_t num_cols>
 bool row_contains_fixed_cell(const Board<num_rows, num_cols>& board, int offset) {
   offset = (offset + num_rows) % num_rows;
   for (size_t col = 0; col < num_cols; ++col) {
-    if(board[offset][col] == 0) {
+    if(board[offset][col] & FIXED) {
       return true;
     }
   }
@@ -251,27 +222,29 @@ template<std::size_t num_rows, std::size_t num_cols>
 bool col_contains_fixed_cell(const Board<num_rows, num_cols>& board, int offset) {
   offset = (offset + num_cols) % num_cols;
   for (size_t row = 0; row < num_rows; ++row) {
-    if(board[row][offset] == 0) {
+    if(board[row][offset] & FIXED) {
       return true;
     }
   }
   return false;
 }
 
-// checks if a row/col contains an axis locked cell
+// checks if a row/col contains an arrows cell in the wrong direction
 template<std::size_t num_rows, std::size_t num_cols>
-bool row_contains_axis_locked_cell(const Board<num_rows, num_cols>& board, int offset) {
+bool row_contains_arrows_cell(const Board<num_rows, num_cols>& board, int offset) {
+  offset = (offset + num_rows) % num_rows;
   for (size_t col = 0; col < num_cols; ++col) {
-    if(board[offset][col] & DOWN) {
+    if(board[offset][col] & VERT) {
       return true;
     }
   }
   return false;
 }
 template<std::size_t num_rows, std::size_t num_cols>
-bool col_contains_axis_locked_cell(const Board<num_rows, num_cols>& board, int offset) {
+bool col_contains_arrows_cell(const Board<num_rows, num_cols>& board, int offset) {
+  offset = (offset + num_cols) % num_cols;
   for (size_t row = 0; row < num_rows; ++row) {
-    if(board[row][offset] & RIGHT) {
+    if(board[row][offset] & HORIZ) {
       return true;
     }
   }

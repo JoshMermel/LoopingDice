@@ -12,6 +12,7 @@ Libraries:
 
  - board.h contains helpers for representing, printing, and hashing the board
  - move.h contains helpers for executing moves on a board
+   -  \*_moves.h each contain implementations of particular move types.
  - board_test.cc and move_test.cc contain tests for the corresponding .h files.
  - enums.h contains enums, constants, and some helpers related to them.
 
@@ -28,8 +29,8 @@ Binaries:
 ## Usage
 
 All three binaries are configured by changing global constants, `num_rows`,
-`num_cols`, `row_mode`, `col_mode`, `initial`, (and sometimes `win`). The
-binaries are intended to be run with `bazel run :<name>`
+`num_cols`, `row_mode`, `col_mode`, `validation`, `initial`, (and sometimes
+ `win`). The binaries are intended to be run with `bazel run :<name>`
 
 Note that C++ will warn you if you set `num_row` or `num_cols` to small but will
 not warn you if you set them too large.
@@ -55,8 +56,9 @@ constexpr Board<num_rows, num_cols> win = {{
   {{1,1,2}},
   {{1,1,1}},
 }};
-Mode row_mode = Mode::GEAR;
-Mode col_mode = Mode::WIDE_1;
+constexpr Mode row_mode = Mode::GEAR;
+constexpr Mode col_mode = Mode::WIDE_1;
+constexpr Validation validation = Validation::NONE;
 ```
 
 or
@@ -76,32 +78,36 @@ constexpr Board<num_rows, num_cols> win = {{
   {{3,3,3,3}},
   {{4,4,4,4}},
 }};
-Mode row_mode = Mode::WIDE_3;
-Mode col_mode = Mode::CAROUSEL;
+constexpr Mode row_mode = Mode::WIDE_3;
+constexpr Mode col_mode = Mode::CAROUSEL;
+constexpr Validation validation = Validation::NONE;
 ```
 
-In Dynamic mode, 0's and negative numbers are treated as dynamic cells. Example
+To simulate dynamic mode, set the `FIXED` bitmask to indicate which cells can't
+loop and set the `validation` to `Validation::DYNAMIC`.
+Example:
 
 ```
 constexpr size_t num_rows = 3;
 constexpr size_t num_cols = 3;
 constexpr Board<num_rows, num_cols> initial = {{
-  {{1,1,1}},
-  {{0,1,0}},
-  {{0,1,0}},
+  {{2,       2, 2      }},
+  {{1|FIXED, 2, 1|FIXED}},
+  {{1|FIXED, 2, 1|FIXED}},
 }};
 constexpr Board<num_rows, num_cols> win = {{
-  {{0,0,1}},
-  {{0,0,1}},
-  {{1,1,1}},
+  {{1|FIXED, 1|FIXED,2}},
+  {{1|FIXED, 1|FIXED,2}},
+  {{2,       2,      2}},
 }};
-Mode row_mode = Mode::DYNAMIC;
-Mode col_mode = Mode::DYNAMIC;
+constexpr Mode row_mode = Mode::BASIC;
+constexpr Mode col_mode = Mode::BASIC;
+constexpr Validation validation = Validation::DYNAMIC;
 ```
 
-In Bandaged modes, we use bitmasks to store which bonds each cell has. Note that
-bonds must be specified from *both* cells that share the bond. The constants,
-`LEFT`, `RIGHT`, `UP`, and `DOWN` are defined in utils.h for convenience.
+To simulate bandaged mode use bitmasks `UP`, `DOWN`, `LEFT`, `RIGHT` to indicate
+which direction a cell has bonds. Also set the modes to `BANDAGED`.  Note that
+bonds must be specified from *both* cells that share the bond. 
 Example:
 
 ```
@@ -119,52 +125,59 @@ constexpr Board<num_rows, num_cols> win = {{
   {{1,3|RIGHT,3|LEFT}},
   {{1,3|RIGHT,3|LEFT}},
 }};
-Mode row_mode = Mode::BANDAGED;
-Mode col_mode = Mode::BANDAGED;
-
+constexpr Mode row_mode = Mode::BANDAGED;
+constexpr Mode col_mode = Mode::BANDAGED;
+constexpr Validation validation = Validation::NONE;
 ```
 
-Arrow mode reused the masks from bandaged mode. `DOWN` indicates a vertical cell
-and `RIGHT` indicates a horizontal cell. Example:
+To simulate arrows mode, use the bitmasks, `HORIZ` and `VERT` to indicate which
+cells are horizontal and vertically locked, and set the validaiton to
+`Validation::ARROWS`.
+Example:
 
 ```
 constexpr size_t num_rows = 3;
 constexpr size_t num_cols = 3;
 constexpr Board<num_rows, num_cols> initial = {{
-  {{1     ,2,1|RIGHT}},
+  {{1     ,2,1|HORIZ}},
   {{2     ,2,2}},
-  {{1|DOWN,2,1}},
+  {{1|VERT,2,1}},
 }};
 constexpr Board<num_rows, num_cols> win = {{
-  {{1     ,1|RIGHT,2}},
-  {{1|DOWN,1      ,2}},
+  {{1     ,1|HORIZ,2}},
+  {{1|VERT,1      ,2}},
   {{2     ,2      ,2}},
 }};
-Mode row_mode = Mode::AXIS;
-Mode col_mode = Mode::AXIS;
+constexpr Mode row_mode = Mode::BASIC;
+constexpr Mode col_mode = Mode::BASIC;
+constexpr Validation validation = Validation::ARROWS;
 ```
 
-Enabler mode uses 0's to indicate enablers. Example:
+To simulate enabler mode, use the `ENABLER` bitmask to indicate which cells are
+enabler and set the validation to `Validation::ENABLER`.
+Example:
 
 ```
 constexpr size_t num_rows = 3;
 constexpr size_t num_cols = 3;
 constexpr Board<num_rows, num_cols> initial = {{
-  {{0,1,2}},
-  {{1,1,1}},
-  {{2,1,0}},
+  {{ENABLER,1,2      }},
+  {{1      ,1,1      }},
+  {{2      ,1,ENABLER}},
 }};
 constexpr Board<num_rows, num_cols> win = {{
-  {{2,1,0}},
-  {{1,1,1}},
-  {{0,1,2}},
+  {{2      ,1,ENABLER}},
+  {{1      ,1,1      }},
+  {{ENABLER,1,2      }},
 }};
-Mode row_mode = Mode::ENABLER;
-Mode col_mode = Mode::ENABLER;
+constexpr Mode row_mode = Mode::BASIC;
+constexpr Mode col_mode = Mode::BASIC;
+constexpr Validation validation = Validation::ENABLER;
 ```
 
-Static cells mode uses 0 to indicate a static cell. Like Wide mode, different
-enums exist for different depths of move. Example:
+To simulate static cells mode, use the `FIXED` bitmask to indicate which cells
+are fixed and set the validation to `Validation::STATIC`.
+Example:
 
 ```
 constexpr size_t num_rows = 3;
@@ -172,39 +185,53 @@ constexpr size_t num_cols = 3;
 constexpr Board<num_rows, num_cols> initial = {{
   {{1,1,1}},
   {{2,2,2}},
-  {{3,3,0}},
+  {{3,3,1|FIXED}},
 }};
 constexpr Board<num_rows, num_cols> win = {{
   {{1,2,3}},
   {{1,2,3}},
-  {{1,2,0}},
+  {{1,2,1|FIXED}},
 }};
-Mode row_mode = Mode::STATIC_1;
-Mode col_mode = Mode::STATIC_2;
+constexpr Mode row_mode = Mode::WIDE_1;
+constexpr Mode col_mode = Mode::WIDE_2;
+constexpr Validation validation = Validation::STATIC;
 ```
 
-Lightning mode reused the masks from bandaged mode. `UP` indicates a lightning
-cell. Example:
+To simluate lightning mode, use the bitmask `LIGHTNING` to indicate which cells
+have bolts on them and set the mode to `Mode::LIGHTNING`.
+Example
 
 ```
-constexpr size_t num_rows = 5;
-constexpr size_t num_cols = 5;
+constexpr size_t num_rows = 3;
+constexpr size_t num_cols = 2;
 constexpr Board<num_rows, num_cols> initial = {{
-        {{2,2,0,0,0}},
-        {{2,2|UP,2,0|UP,0}},
-        {{0,2,2|UP,2,0}},
-        {{0,0|UP,2,2|UP,2}},
-        {{0,0,0,2,2}},
+  {{2|LIGHTNING,1}},
+  {{0,1}},
+  {{0,2|LIGHTNING}}
 }};
 constexpr Board<num_rows, num_cols> win = {{
-        {{0,0,2,2,2}},
-        {{0,0|UP,0,2|UP,2}},
-        {{2,0,2|UP,0,2}},
-        {{2,2|UP,0,0|UP,0}},
-        {{2,2,2,0,0}},
+  {{2|LIGHTNING,0}},
+  {{1,0}},
+  {{1,2|LIGHTNING}}
 }};
-Mode row_mode = Mode::LIGHTNING;
-Mode col_mode = Mode::LIGHTNING;
+constexpr Mode row_mode = Mode::LIGHTNING;
+constexpr Mode col_mode = Mode::LIGHTNING;
+constexpr Validation validation = Validation::NONE;
 ```
 
+### Notes on Hybrids.
 
+The app presents the user with the idea of "Hybrid" modes but that's a
+convenient lie. Hybrids are just mixes of row+col modes and validators.
+This solver can simulate those hybrid modes the same way, i.e. 
+
+```
+constexpr Mode row_mode = Mode::LIGHTNING;
+constexpr Mode col_mode = Mode::LIGHTNING;
+constexpr Validation validation = Validation::ARROWS;
+```
+
+This solver actually supports more kinds of hybrid gamecells than the app does.
+For example `1 | ENABLER | UP` can't exist in the app (yet). Perhaps someday
+I'll add app support for such levels. In the meantime, the solver will solve
+correctly with them but may print them in nonsensical ways.

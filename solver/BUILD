@@ -33,7 +33,14 @@ cc_test(
 
 cc_library(
     name = "moves",
-    hdrs = ["moves.h"],
+    hdrs = [
+	    "bandaged_moves.h",
+	    "carousel_moves.h",
+	    "gear_moves.h",
+	    "moves.h",
+	    "lightning_moves.h",
+	    "wide_moves.h",
+	    ],
     deps = [
       ":board",
     ],
