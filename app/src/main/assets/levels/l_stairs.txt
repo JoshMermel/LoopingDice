@@ -5,4 +5,4 @@ LIGHTNING|LIGHTNING|NONE
 0,0,0,0,0,L 3,0,L 3,1,L 3,1,1,1,1,1
 
 # C2',C2',R3',C0',R4',R1,C0' (7)
-human solution: Col2 Row1' Col0' Row3' Col2 Row4' Col0' Col0' Row4' Col0
+human solution: Col2 Row1' Col0' Row3' Col2 Row4' Col0' Col0' Row4' Col0 (10)

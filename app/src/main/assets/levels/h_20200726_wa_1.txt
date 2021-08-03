@@ -5,3 +5,4 @@ BASIC|WIDE 2|ARROWS
 3,H 3,2,V 3,3,2,2,2,2
 
 # R0,C1',R1',R0',C0',R0' (6)
+human solution: Row0' Col2 Row1 Col2 Row0' Col1' Row0 Col2' Row1 Col2 (10)

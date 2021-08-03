@@ -6,4 +6,4 @@ F 1,1,3,F 1,1,3,F 1,1,3
 
 d_stripes + w_triple_stripe
 # C0,R0',R2,C0,C1',R1',R0' (7)
-kinda hard in a good way.
+human solution: Col1 Row1' Col0 Col1' Col1' Row0' Row0 Col1 Row0' Col1' Row0' (11)

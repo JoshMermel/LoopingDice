@@ -6,6 +6,5 @@ LIGHTNING|LIGHTNING|DYNAMIC
 
 d_dominoes
 # C0',R1',R3',C1,R0,C1,R1,C1,R2,R1',C0 (11)
-human solution: Col0' Row1' Row3' Col1' Row4 Col1' Row1 Row2 Row4' Col0 Row4 Col0 Col0 Row3 Row1' Col0 Row1 Col0 Col0 Row1'
-wow, optimal is so interesting. big fan
+human solution: Col0' Row1' Row3' Col1' Row4' Col1' Col1' Row4 Col1 Row2 Col0 Row4 Col0 Col0 Row3
 TODO(jmerm): why does this an d_dominoes have a different color scheme from other dominoes?
