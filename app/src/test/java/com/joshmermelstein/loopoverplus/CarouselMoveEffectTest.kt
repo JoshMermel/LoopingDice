@@ -2,7 +2,7 @@ package com.joshmermelstein.loopoverplus
 
 import junit.framework.TestCase
 
-class CarouselMoveFactoryTest : TestCase() {
+class CarouselMoveEffectTest : TestCase() {
     private val data = fakeGameCellMetadata()
     private val numRows = 2
     private val numCols = 3
