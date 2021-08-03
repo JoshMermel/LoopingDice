@@ -3,8 +3,6 @@ package com.joshmermelstein.loopoverplus
 import junit.framework.TestCase
 
 class ArrowsMoveValidatorTest : TestCase() {
-    private val data = fakeGameCellMetadata()
-
     fun testMakeBasicArrowsMove() {
         val basicFactory = MoveFactory(
             BasicMoveEffect(Axis.HORIZONTAL),
@@ -17,7 +15,7 @@ class ArrowsMoveValidatorTest : TestCase() {
             "H 0", "1", "2",
             "3", "4", "V 5"
         )
-        val board = GameBoard(numRows, numCols, arr, data)
+        val board = GameBoard(numRows, numCols, arr, fakeGameCellMetadata())
 
         // Legal row
         assertEquals(
@@ -31,8 +29,8 @@ class ArrowsMoveValidatorTest : TestCase() {
         )
         // Legal col
         assertEquals(
-            basicFactory.makeMove(Axis.HORIZONTAL, Direction.FORWARD, 0, board),
-            BasicMove(Axis.HORIZONTAL, Direction.FORWARD, 0, numRows, numCols)
+            basicFactory.makeMove(Axis.VERTICAL, Direction.FORWARD, 2, board),
+            BasicMove(Axis.VERTICAL, Direction.FORWARD, 2, numRows, numCols)
         )
         // Illegal col
         assertEquals(
@@ -55,7 +53,7 @@ class ArrowsMoveValidatorTest : TestCase() {
             "V 4", "5", "B 6 D R", "B 7 D L",
             "8", "9", "B 10 U R", "B 11 U L"
         )
-        val board = GameBoard(numRows, numCols, arr, data)
+        val board = GameBoard(numRows, numCols, arr, fakeGameCellMetadata())
 
         // Legal row
         assertEquals(
@@ -79,7 +77,6 @@ class ArrowsMoveValidatorTest : TestCase() {
         )
     }
 
-
     fun testMakeCarouselArrowsMove() {
         val carouselFactory = MoveFactory(
             CarouselMoveEffect(Axis.HORIZONTAL),
@@ -93,7 +90,7 @@ class ArrowsMoveValidatorTest : TestCase() {
             "V 4", "5", "6", "7",
             "8", "9", "10", "V 11"
         )
-        val board = GameBoard(numRows, numCols, arr, data)
+        val board = GameBoard(numRows, numCols, arr, fakeGameCellMetadata())
 
         // Legal row
         assertEquals(
@@ -146,7 +143,7 @@ class ArrowsMoveValidatorTest : TestCase() {
             "4", "5", "6", "7",
             "8", "9", "V 10", "11"
         )
-        val board = GameBoard(numRows, numCols, arr, data)
+        val board = GameBoard(numRows, numCols, arr, fakeGameCellMetadata())
 
         // Legal row
         assertEquals(
@@ -194,7 +191,7 @@ class ArrowsMoveValidatorTest : TestCase() {
             "L 0", "H 1", "2",
             "V 3", "4", "5"
         )
-        val board = GameBoard(numRows, numCols, arr, data)
+        val board = GameBoard(numRows, numCols, arr, fakeGameCellMetadata())
 
         // Legal row
         assertEquals(
@@ -231,7 +228,7 @@ class ArrowsMoveValidatorTest : TestCase() {
             "4", "5", "6", "7",
             "8", "9", "V 10", "11"
         )
-        val board = GameBoard(numRows, numCols, arr, data)
+        val board = GameBoard(numRows, numCols, arr, fakeGameCellMetadata())
 
         // Legal row
         assertEquals(
