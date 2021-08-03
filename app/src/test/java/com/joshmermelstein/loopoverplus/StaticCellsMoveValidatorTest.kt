@@ -154,13 +154,11 @@ class StaticCellsMoveValidatorTest : TestCase() {
             gearFactory.makeMove(Axis.HORIZONTAL, Direction.FORWARD, 2, board),
             IllegalMove(listOf(Pair(3, 0)))
         )
-
         // Legal col
         assertEquals(
             gearFactory.makeMove(Axis.VERTICAL, Direction.FORWARD, 1, board),
             GearMove(Axis.VERTICAL, Direction.FORWARD, 1, numRows, numCols)
         )
-
         // Illegal col
         assertEquals(
             gearFactory.makeMove(Axis.VERTICAL, Direction.BACKWARD, 0, board),
@@ -170,7 +168,6 @@ class StaticCellsMoveValidatorTest : TestCase() {
             gearFactory.makeMove(Axis.VERTICAL, Direction.BACKWARD, 3, board),
             IllegalMove(listOf(Pair(0, 4)))
         )
-
     }
 
     fun testMakeLightningStaticMove() {
