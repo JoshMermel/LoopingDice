@@ -211,10 +211,7 @@ class GameplayActivity : AppCompatActivity() {
 
         val dialog = Dialog(this)
         dialog.setContentView(R.layout.help_popup)
-
-        dialog.findViewById<TextView>(R.id.help_dialog_rules).apply {
-            text = gameManager.helpText()
-        }
+        dialog.findViewById<TextView>(R.id.help_dialog_rules).text = gameManager.helpText()
 
         dialog.findViewById<TextView>(R.id.help_dialog_pb).apply {
             if (highscore != Int.MAX_VALUE) {
