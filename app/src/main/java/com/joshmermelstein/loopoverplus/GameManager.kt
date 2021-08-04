@@ -318,14 +318,12 @@ class GameManager(
             next.setOnClickListener {
                 val intent = Intent(context, GameplayActivity::class.java)
                 intent.putExtra("id", levelData.next)
+                dialog.dismiss()
                 context.startActivity(intent)
                 context.finish()
             }
         }
 
-        // TODO(jmerm): this line results in some logs about "Activity
-        //  com.joshmermelstein.loopoverplus.GameplayActivity has leaked window". Seems bad,
-        //  maybe look into that.
         dialog.show()
     }
 }
