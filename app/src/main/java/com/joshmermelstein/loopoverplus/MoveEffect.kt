@@ -1,5 +1,7 @@
 package com.joshmermelstein.loopoverplus
 
+import android.content.Context
+
 // A MoveEffect is a helper for making moves for either the horizontal or vertical axis of a level.
 // MoveEffects work together with MoveValidators in MoveFactories to build and validate moves on
 // both axes.
@@ -28,13 +30,15 @@ interface MoveEffect {
 }
 
 // Factory for move effects
-fun makeMoveEffect(id: String, axis: Axis): MoveEffect {
+fun makeMoveEffect(id: String, axis: Axis, context: Context): MoveEffect {
     // Wide effects require extra parsing to split out depth
     if (id.startsWith("WIDE")) {
         val args = id.split(" ")
-        return WideMoveEffect(axis, args[1].toInt())
+        val depth = args[1].toInt()
+        return WideMoveEffect(axis, depth)
     }
 
+    // TODO(jmerm): pull help texts out of |context| and pass it to each constructor as a struct?
     return when (id) {
         "BANDAGED" -> BandagedMoveEffect(axis)
         "BASIC" -> BasicMoveEffect(axis)

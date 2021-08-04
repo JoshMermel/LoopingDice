@@ -96,7 +96,7 @@ class GameplayActivity : AppCompatActivity() {
         // overwrite the randomly generated initial/goal. This is necessary so that resetting works
         // properly for random levels loaded from saves.
         val gameplayParams =
-            generateRandomLevel(randomParams, savedLevel?.initial, savedLevel?.goal)
+            generateRandomLevel(randomParams, savedLevel?.initial, savedLevel?.goal, this)
 
         createFromParams(gameplayParams, savedLevel)
     }
@@ -247,7 +247,7 @@ class GameplayActivity : AppCompatActivity() {
 
             val numRows: Int = reader.readLine().toInt()
             val numCols: Int = reader.readLine().toInt()
-            val factory: MoveFactory = makeMoveFactory(reader.readLine())
+            val factory: MoveFactory = makeMoveFactory(reader.readLine(), this)
             val initial: Array<String> = reader.readLine().split(",").toTypedArray()
             val final: Array<String> = reader.readLine().split(",").toTypedArray()
             val tutorialText: String = reader.readLine() ?: ""

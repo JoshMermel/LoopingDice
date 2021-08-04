@@ -57,6 +57,7 @@ class InfinityActivity : AppCompatActivity() {
             "Static Cells",
         )
     private val colModes = arrayOf("Wide", "Carousel", "Gear")
+    // TODO(jmerm): could either of these be made into Enums for safety.
     private val colorSchemes = arrayOf("Bicolor", "Speckled", "Columns", "Unique")
     private val densities = arrayOf("Rare", "Common", "Frequent")
 

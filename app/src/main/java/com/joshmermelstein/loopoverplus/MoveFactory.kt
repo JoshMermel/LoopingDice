@@ -1,5 +1,7 @@
 package com.joshmermelstein.loopoverplus
 
+import android.content.Context
+
 // A move factory translates a swipe into a Move. Each subclass of MoveFactory has different logic
 // for which kinds of moves are produced and what validation is done. This lets us implement many
 // game modes behind one interface.
@@ -73,12 +75,12 @@ open class MoveFactory(
 }
 
 // This is a move factory factory lol
-fun makeMoveFactory(id: String): MoveFactory {
+fun makeMoveFactory(id: String, context: Context): MoveFactory {
     return id.split("|").let {
         // TODO(jmerm): handle case of fewer then 3 parts.
         MoveFactory(
-            makeMoveEffect(it[0], Axis.HORIZONTAL),
-            makeMoveEffect(it[1], Axis.VERTICAL),
+            makeMoveEffect(it[0], Axis.HORIZONTAL, context),
+            makeMoveEffect(it[1], Axis.VERTICAL, context),
             makeMoveValidator(it[2])
         )
     }

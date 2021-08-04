@@ -1,10 +1,13 @@
 package com.joshmermelstein.loopoverplus
 
+import android.content.Context
 import kotlin.math.floor
 import kotlin.math.sqrt
 import kotlin.random.Random
 
-fun fromRandomMoveEffect(name: String, depth: Int?, axis: Axis): MoveEffect {
+
+fun fromRandomMoveEffect(name: String, depth: Int?, axis: Axis, Context: Context): MoveEffect {
+    // TODO(jmerm): pull help texts out of |context| and pass to each move effect.
     return when (name) {
         "Gear" -> GearMoveEffect(axis)
         "Carousel" -> CarouselMoveEffect(axis)
@@ -310,11 +313,18 @@ fun scramble(
 fun generateRandomLevel(
     options: RandomLevelParams,
     initial: Array<String>?,
-    goal: Array<String>?
+    goal: Array<String>?,
+    context: Context
 ): GameplayParams {
-    val rowEffect = fromRandomMoveEffect(options.rowMode, options.rowDepth, Axis.HORIZONTAL)
+    val rowEffect =
+        fromRandomMoveEffect(options.rowMode, options.rowDepth, Axis.HORIZONTAL, context)
     val colEffect =
-        fromRandomMoveEffect(options.colMode ?: options.rowMode, options.colDepth, Axis.VERTICAL)
+        fromRandomMoveEffect(
+            options.colMode ?: options.rowMode,
+            options.colDepth,
+            Axis.VERTICAL,
+            context
+        )
     val validator = fromRandomValidator(options.rowMode)
     val factory = MoveFactory(rowEffect, colEffect, validator)
 
