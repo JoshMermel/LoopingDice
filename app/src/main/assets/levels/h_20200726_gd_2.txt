@@ -1,8 +1,0 @@
-3
-3
-GEAR|GEAR|DYNAMIC
-F 1,1,2,1,1,2,2,2,2
-2,2,2,2,1,1,2,1,F 1
-
-# C2',R0',C0',R1' (4)
-TODO(jmerm): replace this with a better level
