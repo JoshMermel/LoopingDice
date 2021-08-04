@@ -22,7 +22,8 @@ fun fromRandomMoveEffect(name: String, depth: Int?, axis: Axis, Context: Context
     }
 }
 
-fun fromRandomValidator(name: String): MoveValidator {
+fun fromRandomValidator(name: String, context : Context): MoveValidator {
+    // TODO(jmerm): pull help texts out of |context| and pass to each move validator.
     return when (name) {
         "Gear" -> MoveValidator()
         "Carousel" -> MoveValidator()
@@ -325,7 +326,7 @@ fun generateRandomLevel(
             Axis.VERTICAL,
             context
         )
-    val validator = fromRandomValidator(options.rowMode)
+    val validator = fromRandomValidator(options.rowMode, context)
     val factory = MoveFactory(rowEffect, colEffect, validator)
 
     if (initial != null && goal != null) {

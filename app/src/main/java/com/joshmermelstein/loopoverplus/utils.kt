@@ -38,20 +38,20 @@ fun opposite(direction: Direction): Direction {
     }
 }
 
+// TODO(jmerm): replace these function with Quantity Strings:
+// https://developer.android.com/guide/topics/resources/string-resource#Plurals
 fun pluralizedMoves(num: Int): String {
     return when (num) {
         1 -> "move"
         else -> "moves"
     }
 }
-
 fun pluralizedRows(num: Int): String {
     return when (num) {
         1 -> "row"
         else -> "rows"
     }
 }
-
 fun pluralizedCols(num: Int): String {
     return when (num) {
         1 -> "column"

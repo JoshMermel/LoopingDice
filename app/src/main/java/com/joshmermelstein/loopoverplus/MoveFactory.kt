@@ -81,7 +81,7 @@ fun makeMoveFactory(id: String, context: Context): MoveFactory {
         MoveFactory(
             makeMoveEffect(it[0], Axis.HORIZONTAL, context),
             makeMoveEffect(it[1], Axis.VERTICAL, context),
-            makeMoveValidator(it[2])
+            makeMoveValidator(it[2], context)
         )
     }
 }

@@ -1,5 +1,7 @@
 package com.joshmermelstein.loopoverplus
 
+import android.content.Context
+
 // A MoveValidator holds logic for deciding whether a candidate move is valid.
 // They are used inside MoveFactory so the same validation logic can be applied to many kind of
 // candidate move generate.
@@ -13,8 +15,8 @@ open class MoveValidator {
 }
 
 // Factory for move validators
-fun makeMoveValidator(id: String): MoveValidator {
-    // arrows, dynamic, enabler, static, null
+fun makeMoveValidator(id: String, context : Context): MoveValidator {
+    // TODO(jmerm): pull help texts out of |context| and pass it to each constructor as a struct
     return when (id) {
         "ARROWS" -> ArrowsValidator()
         "DYNAMIC" -> DynamicBandagingValidator()

@@ -38,7 +38,7 @@ fun makeMoveEffect(id: String, axis: Axis, context: Context): MoveEffect {
         return WideMoveEffect(axis, depth)
     }
 
-    // TODO(jmerm): pull help texts out of |context| and pass it to each constructor as a struct?
+    // TODO(jmerm): pull help texts out of |context| and pass it to each constructor as a struct
     return when (id) {
         "BANDAGED" -> BandagedMoveEffect(axis)
         "BASIC" -> BasicMoveEffect(axis)
