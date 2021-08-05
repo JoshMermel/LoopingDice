@@ -21,7 +21,7 @@ TEST(Board, BasicRowMove) {
 
   EXPECT_EQ(moved, expected);
 }
-TEST(Board, FasicColMove) {
+TEST(Board, BasicColMove) {
   const Board<2, 3> b = {{
       {{0, 1, 2}},
       {{3, 4, 5}},
@@ -72,7 +72,7 @@ TEST(Board, BasicEnablerMoves) {
   EXPECT_EQ(b, wideColMove(b, 2, true, Validation::ENABLER, 1));
 }
 
-TEST(Board, BasicDynamicowMove) {
+TEST(Board, BasicDynamicMove) {
   const Board<2, 3> b = {{
       {{1 | FIXED, 1, 2}},
       {{3, 4, 2 | FIXED}},

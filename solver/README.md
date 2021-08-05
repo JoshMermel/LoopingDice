@@ -131,7 +131,7 @@ constexpr Validation validation = Validation::NONE;
 ```
 
 To simulate arrows mode, use the bitmasks, `HORIZ` and `VERT` to indicate which
-cells are horizontal and vertically locked, and set the validaiton to
+cells are horizontal and vertically locked, and set the validation to
 `Validation::ARROWS`.
 Example:
 
@@ -197,7 +197,7 @@ constexpr Mode col_mode = Mode::WIDE_2;
 constexpr Validation validation = Validation::STATIC;
 ```
 
-To simluate lightning mode, use the bitmask `LIGHTNING` to indicate which cells
+To simulate lightning mode, use the bitmask `LIGHTNING` to indicate which cells
 have bolts on them and set the mode to `Mode::LIGHTNING`.
 Example
 

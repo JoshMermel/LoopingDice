@@ -57,7 +57,7 @@ The move effects are specified with one of the following strings:
 | CAROUSEL | Carousel mode |
 | GEAR | Gear mode |
 | LIGHTNING | Lightning mode |
-| WIDE \d | Wide moves whose depth is determined by the nubmer |
+| WIDE \d | Wide moves whose depth is determined by the number |
 
 The move validator is specified with one of the following strings:
 
