@@ -5,4 +5,5 @@ WIDE 1|WIDE 1|STATIC
 2,3,2,2,3,2,3,F 0,0,2,0,2,2,0,2
 
 # R0,R1,C2',R1',C2',R4',C0,R3',C2',R0,C0' (11)
+human solution: Row1 Col2 Row3' Row4' Col0' Row0' Col0' Row3' Col0' Row0 Row1 Row3 Row4
 human solution: Col0' Row3 Row4 Row1 Row0 Col2' Row1 Col2' Col2' Row3' Row4' Col0 Row0' Row1'

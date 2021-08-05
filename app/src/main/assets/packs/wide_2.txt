@@ -1,13 +1,13 @@
 Wide (Advanced)
 W23 w_comb 5 7 9
 W24 w_join_edges 6 9 13
-W25 w_smash 9 15 21
+W25 w_smash 9 14 20
 W26 w_narrow_jail 4 7 11
-W27 w_thick_checkerboard 4 7 13
-W28 w_flag 4 9 15
-W29 w_lake 5 7 12
+W27 w_lake 5 7 12
+W28 w_thick_checkerboard 4 7 13
+W29 w_flag 4 9 15
 W30 w_two_fish 6 13 20
 W31 w_padded_stripe 4 7 10
 W32 w_staircase 8 13 20
-W33 w_preserve_belt 8 16 25
+W33 w_preserve_belt 8 12 18
 W34 w_four_squares 9 16 25
