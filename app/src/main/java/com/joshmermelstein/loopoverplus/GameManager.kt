@@ -225,7 +225,8 @@ class GameManager(
 
     // Updates the activity's UI
     private fun updateGameplayMoveCount() {
-        context.findViewById<TextView>(R.id.gameplay_move_count)?.text = "Moves: $numMoves"
+        context.findViewById<TextView>(R.id.gameplay_move_count)?.text =
+            context.getString(R.string.moveCounter, numMoves)
         // This invalidation also refreshes the when the undo and redo buttons are enabled in the UI
         context.invalidateOptionsMenu()
     }

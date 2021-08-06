@@ -244,7 +244,7 @@ class MainActivity : AppCompatActivity() {
         TextView(this).also {
             // create full width text view as a row of the main linear layout in the level select
             // activity in a style that matches other buttons.
-            it.text = "Infinity"
+            it.text = getString(R.string.infinityLabel)
             it.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30F)
             it.setPadding(0, 0, 0, 25)
             it.layoutParams = LinearLayout.LayoutParams(
