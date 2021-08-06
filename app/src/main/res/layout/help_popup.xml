@@ -9,7 +9,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:text="Rules"
         android:textSize="20sp" />
 
     <TextView
@@ -18,7 +17,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="20dp"
-        android:text="pb"
         android:textSize="20sp" />
 
     <TextView
@@ -27,6 +25,5 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="20dp"
-        android:text="stars"
         android:textSize="20sp" />
 </LinearLayout>

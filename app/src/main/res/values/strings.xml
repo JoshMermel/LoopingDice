@@ -36,4 +36,8 @@
     <string name="winDialogTieBest">that ties your personal best</string>
     <string name="winDialogNotBest">your personal best is %1$s</string>
 
+
+    <string name="infinityLabel">Infinity</string>
+    <string name="moveCounter">Moves: %1$d</string>
+
 </resources>
