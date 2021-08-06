@@ -1,6 +1,7 @@
 package com.joshmermelstein.loopoverplus
 
 import android.content.Context
+import android.widget.Toast
 
 // A move factory translates a swipe into a Move. Each subclass of MoveFactory has different logic
 // for which kinds of moves are produced and what validation is done. This lets us implement many
@@ -76,12 +77,18 @@ open class MoveFactory(
 
 // This is a move factory factory lol
 fun makeMoveFactory(id: String, context: Context): MoveFactory {
-    return id.split("|").let {
-        // TODO(jmerm): handle case of fewer then 3 parts.
-        MoveFactory(
-            makeMoveEffect(it[0], Axis.HORIZONTAL, context),
-            makeMoveEffect(it[1], Axis.VERTICAL, context),
-            makeMoveValidator(it[2], context)
-        )
+    val parts = id.split("|")
+    if (parts.size != 3) {
+        Toast.makeText(context, "Unexpected number of parts: $id", Toast.LENGTH_SHORT).show()
     }
+
+    val row = parts.getOrNull(0) ?: "BASIC"
+    val col = parts.getOrNull(1) ?: "BASIC"
+    val valid = parts.getOrNull(2) ?: "NONE"
+
+    return MoveFactory(
+        makeMoveEffect(row, Axis.HORIZONTAL, context),
+        makeMoveEffect(col, Axis.VERTICAL, context),
+        makeMoveValidator(valid, context)
+    )
 }
