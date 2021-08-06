@@ -16,7 +16,6 @@ open class MoveValidator(private val helpText: String) {
 
 // Factory for move validators
 fun makeMoveValidator(id: String, context: Context): MoveValidator {
-    // TODO(jmerm): pull help texts out of |context| and pass it to each constructor
     return when (id) {
         "ARROWS" -> ArrowsValidator(context.getString(R.string.arrowValidatorHelptext))
         "DYNAMIC" -> DynamicBandagingValidator(context.getString(R.string.dynamicValidatorHelptext))
