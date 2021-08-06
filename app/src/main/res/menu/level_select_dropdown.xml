@@ -5,11 +5,11 @@
     <item
         android:id="@+id/about"
         android:icon="@drawable/ic_baseline_info_24"
-        android:title="About"
+        android:title="@string/levelSelectDropdownAbout"
         app:showAsAction="never" />
     <item
         android:id="@+id/resetAll"
         android:icon="@drawable/ic_baseline_settings_backup_restore_24"
-        android:title="Reset all levels"
+        android:title="@string/levelSelectDropdownResetAll"
         app:showAsAction="never" />
 </menu>

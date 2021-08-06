@@ -45,7 +45,7 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:contentDescription="Screenshot of 16 puzzle"
+                android:contentDescription="@string/aboutSixteenPhotoDescription"
                 android:paddingTop="15dp"
                 android:textAlignment="center"
                 app:srcCompat="@drawable/sixteen" />
@@ -62,7 +62,7 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:contentDescription="Photo of gear cube"
+                android:contentDescription="@string/aboutGearPhotoDescription"
                 android:paddingTop="15dp"
                 android:textAlignment="center"
                 app:srcCompat="@drawable/gear" />
@@ -79,7 +79,7 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:contentDescription="Photo of bandaged 3x3x3 cube known as Big Block"
+                android:contentDescription="@string/aboutBigBlockPhotoDescription"
                 android:paddingTop="15dp"
                 android:textAlignment="center"
                 app:srcCompat="@drawable/bandaged" />
@@ -87,7 +87,7 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:contentDescription="Photo of bandaged 4x4x4 cube known as AI cube"
+                android:contentDescription="@string/aboutAiCubePhotoDescription"
                 android:paddingTop="15dp"
                 android:textAlignment="center"
                 app:srcCompat="@drawable/ai_cube" />
@@ -104,7 +104,7 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:contentDescription="Photo of constrained cube"
+                android:contentDescription="@string/aboutConstrainedCubePhotoDescription"
                 android:paddingTop="15dp"
                 android:textAlignment="center"
                 app:srcCompat="@drawable/constrained" />
@@ -112,7 +112,7 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:contentDescription="Photo of joint cube after one move"
+                android:contentDescription="@string/aboutJointCubePhotoDescription"
                 android:paddingTop="15dp"
                 android:textAlignment="center"
                 app:srcCompat="@drawable/joint" />
@@ -129,7 +129,7 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:contentDescription="Screenshot of the squareminx game showing a move in progress"
+                android:contentDescription="@string/aboutSquareminxPhotoDescription"
                 android:paddingTop="15dp"
                 android:textAlignment="center"
                 app:srcCompat="@drawable/squareminx" />
@@ -146,7 +146,7 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:contentDescription="Photo of enabler cube"
+                android:contentDescription="@string/aboutEnablerPhotoDescription"
                 android:paddingTop="15dp"
                 android:textAlignment="center"
                 app:srcCompat="@drawable/enabler" />

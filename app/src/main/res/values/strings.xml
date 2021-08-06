@@ -11,6 +11,14 @@
     <string name="carouselText"><![CDATA[Carousel mode was inspired by the android app, <a href=\'https://play.google.com/store/apps/details?id=com.katas.squareminx&hl=en_US&gl=US\'>squareminx</a> by Katas Studios]]></string>
     <string name="enablerText"><![CDATA[Enabler mode was inspired by <a href=\'https://twistypuzzles.com/cgi-bin/puzzle.cgi?pkey=3678\'>The enabler cube</a> by Oskar van Deventer]]></string>
     <string name="openSourceLibrariesText">Click here for information on open source libraries used by Looping Dice.</string>
+    <string name="aboutSixteenPhotoDescription">Screenshot of 16 puzzle</string>
+    <string name="aboutGearPhotoDescription">Photo of gear cube</string>
+    <string name="aboutBigBlockPhotoDescription">Photo of bandaged 3x3x3 cube known as Big Block</string>
+    <string name="aboutAiCubePhotoDescription">Photo of bandaged 4x4x4 cube known as AI cube</string>
+    <string name="aboutConstrainedCubePhotoDescription">Photo of constrained cube</string>
+    <string name="aboutJointCubePhotoDescription">Photo of joint cube after one move</string>
+    <string name="aboutSquareminxPhotoDescription">Screenshot of the squareminx game showing a move in progress</string>
+    <string name="aboutEnablerPhotoDescription">Photo of enabler cube</string>
 
     <!-- help strings for move validators -->
     <string name="arrowValidatorHelptext">Cells containing arrows can only move in some directions.</string>
@@ -36,8 +44,27 @@
     <string name="winDialogTieBest">that ties your personal best</string>
     <string name="winDialogNotBest">your personal best is %1$s</string>
 
-
+    <!-- Level select -->
     <string name="infinityLabel">Infinity</string>
+    <string name="levelSelectDropdownAbout">About</string>
+    <string name="levelSelectDropdownResetAll">Reset all levels</string>
+
+    <!-- Gameplay -->
     <string name="moveCounter">Moves: %1$d</string>
+    <string name="gameplayDropdownRedo">Redo</string>
+    <string name="gameplayDropdownUndo">Undo</string>
+    <string name="gameplayDropdownAboutLevel">About Level</string>
+    <string name="gameplayDropdownResetLevel">Reset Level</string>
+    <string name="gameplayDropdownCopyMoves">Copy Moves to Clipboard</string>
+
+    <!-- Infinity -->
+    <string name="infinitySpinnerRowModeLabel">Row Mode</string>
+    <string name="infinitySpinnerColModeLabel">Col Mode</string>
+    <string name="infinitySpinnerNumRowsLabel"># Rows</string>
+    <string name="infinitySpinnerNumColsLabel"># Cols</string>
+    <string name="infinitySpinnerColorSchemeLabel">Color Scheme</string>
+    <string name="infinitySpinnerRowDepthLabel">Row Depth</string>
+    <string name="infinitySpinnerColDepthLabel">Col Depth</string>
+    <string name="infinityGenerateLevelButtonLabel">Generate Level</string>
 
 </resources>

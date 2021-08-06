@@ -4,28 +4,28 @@
     <item
         android:id="@+id/copy"
         android:icon="?attr/actionModeCopyDrawable"
-        android:title="Copy Moves to Clipboard"
+        android:title="@string/gameplayDropdownCopyMoves"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/reset"
         android:icon="@drawable/ic_baseline_cached_24"
-        android:title="Reset Level"
+        android:title="@string/gameplayDropdownResetLevel"
         app:showAsAction="never" />
     <item
         android:id="@+id/level_help"
         android:icon="@drawable/ic_baseline_help_24"
-        android:title="About Level"
+        android:title="@string/gameplayDropdownAboutLevel"
         app:showAsAction="never" />
     <item
         android:id="@+id/toolbar_undo"
         android:enabled="true"
         android:icon="@drawable/ic_baseline_undo_24"
-        android:title="Undo"
+        android:title="@string/gameplayDropdownUndo"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/toolbar_redo"
         android:icon="@drawable/ic_baseline_redo_24"
-        android:title="Redo"
+        android:title="@string/gameplayDropdownRedo"
         app:showAsAction="ifRoom" />
 </menu>

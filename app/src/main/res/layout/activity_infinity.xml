@@ -24,7 +24,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Row Mode"
+                    android:text="@string/infinitySpinnerRowModeLabel"
                     android:textSize="30sp" />
 
                 <Spinner
@@ -47,7 +47,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Col Mode"
+                    android:text="@string/infinitySpinnerColModeLabel"
                     android:textSize="30sp" />
 
                 <Spinner
@@ -68,7 +68,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="# Rows"
+                    android:text="@string/infinitySpinnerNumRowsLabel"
                     android:textSize="30sp" />
 
                 <Spinner
@@ -90,7 +90,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="# Cols"
+                    android:text="@string/infinitySpinnerNumColsLabel"
                     android:textSize="30sp" />
 
                 <Spinner
@@ -111,7 +111,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Color Scheme"
+                    android:text="@string/infinitySpinnerColorSchemeLabel"
                     android:textSize="30sp" />
 
                 <Spinner
@@ -134,7 +134,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Row Depth"
+                    android:text="@string/infinitySpinnerRowDepthLabel"
                     android:textSize="30sp" />
 
                 <Spinner
@@ -157,7 +157,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Col Depth"
+                    android:text="@string/infinitySpinnerColDepthLabel"
                     android:textSize="30sp" />
 
                 <Spinner
@@ -195,7 +195,7 @@
                 android:id="@+id/generate_level"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Generate Level" />
+                android:text="@string/infinityGenerateLevelButtonLabel" />
 
         </LinearLayout>
     </ScrollView>
