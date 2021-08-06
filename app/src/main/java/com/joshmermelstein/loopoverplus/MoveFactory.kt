@@ -87,8 +87,8 @@ fun makeMoveFactory(id: String, context: Context): MoveFactory {
     val valid = parts.getOrNull(2) ?: "NONE"
 
     return MoveFactory(
-        makeMoveEffect(row, Axis.HORIZONTAL, context),
-        makeMoveEffect(col, Axis.VERTICAL, context),
+        makeMoveEffect(row, Axis.HORIZONTAL),
+        makeMoveEffect(col, Axis.VERTICAL),
         makeMoveValidator(valid, context)
     )
 }
