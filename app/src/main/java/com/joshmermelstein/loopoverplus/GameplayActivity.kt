@@ -215,9 +215,7 @@ class GameplayActivity : AppCompatActivity() {
 
         dialog.findViewById<TextView>(R.id.help_dialog_pb).apply {
             if (highscore != Int.MAX_VALUE) {
-                text = "Your best score on this level was $highscore " + pluralizedMoves(
-                    highscore
-                )
+                text = getString(R.string.helpDialogBestScore, pluralizedMoves(highscore, context))
             } else {
                 isVisible = false
             }
@@ -225,13 +223,20 @@ class GameplayActivity : AppCompatActivity() {
 
         dialog.findViewById<TextView>(R.id.help_dialog_stars).apply {
             text = when {
-                highscore == Int.MAX_VALUE -> "Win in any number of moves to earn a star"
-                highscore > twoStar -> "Win in $twoStar " + pluralizedMoves(twoStar) + " to earn two stars"
-                highscore > threeStar -> "Win in $threeStar " + pluralizedMoves(threeStar) + " to earn three stars"
-                highscore > fourStar -> "A perfect score is $fourStar " + pluralizedMoves(
-                    fourStar
+                highscore == Int.MAX_VALUE -> getString(R.string.helpDialogWantAnyStar)
+                highscore > twoStar -> getString(
+                    R.string.dialogWantTwoStar,
+                    pluralizedMoves(twoStar, context)
                 )
-                else -> "You've earned all possible stars!"
+                highscore > threeStar -> getString(
+                    R.string.dialogWantThreeStar,
+                    pluralizedMoves(threeStar, context)
+                )
+                highscore > fourStar -> getString(
+                    R.string.dialogWantFourStar,
+                    pluralizedMoves(fourStar, context)
+                )
+                else -> getString(R.string.dialogPerfect)
             }
         }
 

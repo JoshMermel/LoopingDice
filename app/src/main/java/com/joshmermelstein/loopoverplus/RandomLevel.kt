@@ -5,9 +5,7 @@ import kotlin.math.floor
 import kotlin.math.sqrt
 import kotlin.random.Random
 
-
-fun fromRandomMoveEffect(name: String, depth: Int?, axis: Axis, Context: Context): MoveEffect {
-    // TODO(jmerm): pull help texts out of |context| and pass to each move effect.
+fun fromRandomMoveEffect(name: String, depth: Int?, axis: Axis): MoveEffect {
     return when (name) {
         "Gear" -> GearMoveEffect(axis)
         "Carousel" -> CarouselMoveEffect(axis)
@@ -22,7 +20,7 @@ fun fromRandomMoveEffect(name: String, depth: Int?, axis: Axis, Context: Context
     }
 }
 
-fun fromRandomValidator(name: String, context : Context): MoveValidator {
+fun fromRandomValidator(name: String, context: Context): MoveValidator {
     return when (name) {
         "Arrows" -> ArrowsValidator(context.getString(R.string.arrowValidatorHelptext))
         "Dynamic Bandaging" -> DynamicBandagingValidator(context.getString(R.string.dynamicValidatorHelptext))
@@ -312,14 +310,9 @@ fun generateRandomLevel(
     context: Context
 ): GameplayParams {
     val rowEffect =
-        fromRandomMoveEffect(options.rowMode, options.rowDepth, Axis.HORIZONTAL, context)
+        fromRandomMoveEffect(options.rowMode, options.rowDepth, Axis.HORIZONTAL)
     val colEffect =
-        fromRandomMoveEffect(
-            options.colMode ?: options.rowMode,
-            options.colDepth,
-            Axis.VERTICAL,
-            context
-        )
+        fromRandomMoveEffect(options.colMode ?: options.rowMode, options.colDepth, Axis.VERTICAL)
     val validator = fromRandomValidator(options.rowMode, context)
     val factory = MoveFactory(rowEffect, colEffect, validator)
 

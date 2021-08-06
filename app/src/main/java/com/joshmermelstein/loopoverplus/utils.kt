@@ -1,5 +1,7 @@
 package com.joshmermelstein.loopoverplus
 
+import android.content.Context
+
 // Misc utils that are handy but don't fit elsewhere.
 
 class Bounds(
@@ -38,20 +40,19 @@ fun opposite(direction: Direction): Direction {
     }
 }
 
+// Silly wrapper around a quantity string to make it more concise
+fun pluralizedMoves(num: Int, context: Context): String =
+    context.resources.getQuantityString(R.plurals.numberOfMoves, num, num)
+
 // TODO(jmerm): replace these function with Quantity Strings:
 // https://developer.android.com/guide/topics/resources/string-resource#Plurals
-fun pluralizedMoves(num: Int): String {
-    return when (num) {
-        1 -> "move"
-        else -> "moves"
-    }
-}
 fun pluralizedRows(num: Int): String {
     return when (num) {
         1 -> "row"
         else -> "rows"
     }
 }
+
 fun pluralizedCols(num: Int): String {
     return when (num) {
         1 -> "column"

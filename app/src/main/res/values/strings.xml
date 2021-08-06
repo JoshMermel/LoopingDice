@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Looping Dice</string>
+
+    <!-- about game activity -->
     <string name="aboutGameText"><![CDATA[Looping Dice is a game by <a href=\'https://joshmermelstein.com\'>Josh Mermelstein</a>]]></string>
     <string name="githubText"><![CDATA[\"The source code is available on <a href=\'https://github.com/JoshMermel/LoopingDice\'>my Github</a> and is licensed under the GPL v3.0 license \"]]></string>
     <string name="sixteenPuzzleText"><![CDATA[It is inspired by the <a href=\'https://www.chiark.greenend.org.uk/~sgtatham/puzzles/doc/sixteen.html\'>Sixteen Puzzle</a> from Simon Tatham\'s Portable Puzzle Collection]]></string>
@@ -10,8 +12,28 @@
     <string name="enablerText"><![CDATA[Enabler mode was inspired by <a href=\'https://twistypuzzles.com/cgi-bin/puzzle.cgi?pkey=3678\'>The enabler cube</a> by Oskar van Deventer]]></string>
     <string name="openSourceLibrariesText">Click here for information on open source libraries used by Looping Dice.</string>
 
+    <!-- help strings for move validators -->
     <string name="arrowValidatorHelptext">Cells containing arrows can only move in some directions.</string>
     <string name="dynamicValidatorHelptext">Moves cannot push a black square off the edge of the board</string>
     <string name="enablerValidatorHelptext">Moves must contain a gold square</string>
     <string name="staticValidatorHelptext">black squares prevent moves</string>
+
+    <!-- plurals for help texts and popups -->
+    <plurals name="numberOfMoves">
+        <item quantity="one">%d move</item>
+        <item quantity="other">%d moves</item>
+    </plurals>
+
+    <!-- help dialog and win dialog -->
+    <string name="helpDialogBestScore">Your best score on this level was %1$s</string>
+    <string name="helpDialogWantAnyStar">Win in any number of moves to earn a star</string>
+    <string name="dialogWantTwoStar">Win in %1$s to earn two stars</string>
+    <string name="dialogWantThreeStar">Win in %1$s to earn three stars</string>
+    <string name="dialogWantFourStar">Win in %1$s for a perfect score</string>
+    <string name="dialogPerfect">You\'ve earned all possible stars</string>
+    <string name="winDialogWonIn">You won in %1$s -\u0020</string>
+    <string name="winDialogNewBest">a new personal best!</string>
+    <string name="winDialogTieBest">that ties your personal best</string>
+    <string name="winDialogNotBest">your personal best is %1$s</string>
+
 </resources>

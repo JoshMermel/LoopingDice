@@ -269,20 +269,22 @@ class GameManager(
         val dialog = Dialog(context)
         dialog.setContentView(R.layout.win_popup)
 
-        val moveCount = dialog.findViewById<TextView>(R.id.moveCount)
-        moveCount.text = when {
+        dialog.findViewById<TextView>(R.id.moveCount).text = when {
             oldHighscore > numMoves -> {
                 updateHighscores(highscores)
-                "You won in $numMoves " + pluralizedMoves(numMoves) + "- a new personal best!"
+                context.getString(
+                    R.string.winDialogWonIn,
+                    pluralizedMoves(numMoves, context)
+                ) + context.getString(R.string.winDialogNewBest)
             }
-            oldHighscore == numMoves -> {
-                "You won in $numMoves " + pluralizedMoves(numMoves) + "- that ties your personal best"
-            }
-            else -> {
-                "You won in $numMoves " + pluralizedMoves(numMoves) + "- your personal best is $oldHighscore " + pluralizedMoves(
-                    oldHighscore
-                )
-            }
+            oldHighscore == numMoves -> context.getString(
+                R.string.winDialogWonIn,
+                pluralizedMoves(numMoves, context)
+            ) + context.getString(R.string.winDialogTieBest)
+            else -> context.getString(
+                R.string.winDialogWonIn,
+                pluralizedMoves(numMoves, context)
+            ) + context.getString(R.string.winDialogNotBest, pluralizedMoves(oldHighscore, context))
         }
 
         // Award stars based on the score of this attempt
@@ -298,10 +300,19 @@ class GameManager(
         // Print the threshold for more stars based on their best ever
         val newHighscore = min(oldHighscore, numMoves)
         doBetter.text = when {
-            newHighscore <= fourStar -> "You've earned all possible stars"
-            newHighscore <= threeStar -> "Win in $fourStar " + pluralizedMoves(fourStar) + " for a perfect score"
-            newHighscore <= twoStar -> "Win in $threeStar " + pluralizedMoves(threeStar) + " to earn three stars"
-            else -> "Win in $twoStar " + pluralizedMoves(twoStar) + " to earn two stars"
+            newHighscore <= fourStar -> context.getString(R.string.dialogPerfect)
+            newHighscore <= threeStar -> context.getString(
+                R.string.dialogWantFourStar,
+                pluralizedMoves(fourStar, context)
+            )
+            newHighscore <= twoStar -> context.getString(
+                R.string.dialogWantThreeStar,
+                pluralizedMoves(threeStar, context)
+            )
+            else -> context.getString(
+                R.string.dialogWantTwoStar,
+                pluralizedMoves(twoStar, context)
+            )
         }
 
         dialog.findViewById<Button>(R.id.menu).setOnClickListener {
