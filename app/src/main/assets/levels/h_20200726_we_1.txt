@@ -5,4 +5,4 @@ WIDE 1|WIDE 2|ENABLER
 1,1,E,1,0,1,2,1,1
 
 # R0,C2',R2,C1,R0 (5)
-I somehow found the optimal here but it was nontrival
+I somehow found the optimal here but it was nontrivial
