@@ -23,18 +23,12 @@ fun fromRandomMoveEffect(name: String, depth: Int?, axis: Axis, Context: Context
 }
 
 fun fromRandomValidator(name: String, context : Context): MoveValidator {
-    // TODO(jmerm): pull help texts out of |context| and pass to each move validator.
     return when (name) {
-        "Gear" -> MoveValidator()
-        "Carousel" -> MoveValidator()
-        "Wide" -> MoveValidator()
-        "Lightning" -> MoveValidator()
-        "Bandaged" -> MoveValidator()
-        "Enabler" -> EnablerValidator()
-        "Arrows" -> ArrowsValidator()
-        "Dynamic Bandaging" -> DynamicBandagingValidator()
-        "Static Cells" -> StaticCellsValidator()
-        else -> MoveValidator()
+        "Arrows" -> ArrowsValidator(context.getString(R.string.arrowValidatorHelptext))
+        "Dynamic Bandaging" -> DynamicBandagingValidator(context.getString(R.string.dynamicValidatorHelptext))
+        "Enabler" -> EnablerValidator(context.getString(R.string.enablerValidatorHelptext))
+        "Static Cells" -> StaticCellsValidator(context.getString(R.string.staticValidatorHelptext))
+        else -> MoveValidator("")
     }
 }
 

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="dynamicValidatorHelptext">Moves cannot push a white square off the edge of the board</string>
+    <string name="staticValidatorHelptext">white squares prevent moves</string>
+</resources>

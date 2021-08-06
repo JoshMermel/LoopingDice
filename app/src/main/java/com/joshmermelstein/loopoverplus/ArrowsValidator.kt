@@ -5,7 +5,7 @@ package com.joshmermelstein.loopoverplus
 // Valid moves are returned as BasicMoves (1 row or 1 column).
 // Invalid moves are returned as IllegalMoves which list cells whose lock should flash.
 
-class ArrowsValidator : MoveValidator() {
+class ArrowsValidator(helpText: String) : MoveValidator(helpText) {
     override fun validate(move: LegalMove, board: GameBoard): Move {
         val illegalTransitions = move.transitions.filter {
             (board.getCell(it.y0, it.x0).family == CellFamily.HORIZONTAL && it.y0 != it.y1) ||
@@ -16,9 +16,5 @@ class ArrowsValidator : MoveValidator() {
         } else {
             IllegalMove(illegalTransitions)
         }
-    }
-
-    override fun helpText(): String {
-        return "Cells containing arrows can only move in some directions."
     }
 }
