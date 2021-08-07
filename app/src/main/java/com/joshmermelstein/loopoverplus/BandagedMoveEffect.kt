@@ -48,15 +48,12 @@ class BandagedMoveEffect(private val axis: Axis) : MoveEffect {
 
         if (axis == Axis.HORIZONTAL) {
             // Sweep upward and see if those rows should be included.
-            while (board.rowContainsBond(retOffset, Bond.UP) && depth < board.numRows) {
+            while (board.rowContainsBondUp(retOffset) && depth < board.numRows) {
                 retOffset -= 1
                 depth += 1
             }
             // Sweep downward and see if those rows should be included.
-            while (board.rowContainsBond(
-                    retOffset + depth - 1,
-                    Bond.DOWN
-                ) && depth < board.numRows
+            while (board.rowContainsBondDown(retOffset + depth - 1) && depth < board.numRows
             ) {
                 depth += 1
             }
@@ -65,15 +62,12 @@ class BandagedMoveEffect(private val axis: Axis) : MoveEffect {
             retOffset = mod(retOffset, board.numRows)
         } else {
             // Sweep left and see if those columns should be included.
-            while (board.colContainsBond(retOffset, Bond.LEFT) && depth < board.numCols) {
+            while (board.colContainsBondLeft(retOffset) && depth < board.numCols) {
                 retOffset -= 1
                 depth += 1
             }
             // Sweep right and see if those columns should be included.
-            while (board.colContainsBond(
-                    retOffset + depth - 1,
-                    Bond.RIGHT
-                ) && depth < board.numCols
+            while (board.colContainsBondRight(retOffset + depth - 1) && depth < board.numCols
             ) {
                 depth += 1
             }

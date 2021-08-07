@@ -1,9 +1,6 @@
 package com.joshmermelstein.loopoverplus
 
-import android.graphics.Canvas
-import android.graphics.drawable.Drawable
-import androidx.core.graphics.drawable.DrawableCompat
-
+/*
 class LightningGameCell(
     override var x: Double,
     override var y: Double,
@@ -57,3 +54,5 @@ class LightningGameCell(
         icon.draw(canvas)
     }
 }
+
+ */

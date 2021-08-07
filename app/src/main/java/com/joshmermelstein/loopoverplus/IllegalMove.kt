@@ -6,13 +6,13 @@ package com.joshmermelstein.loopoverplus
 class IllegalMove(private val cords: List<Pair<Int, Int>>) : Move {
     override fun animateProgress(progress: Double, board: GameBoard) {
         for (cord in cords) {
-            board.getCell(cord.first, cord.second).shouldDrawIcon = true
+            board.getCell(cord.first, cord.second).shouldDrawSpecialIcon = true
         }
     }
 
     override fun finalize(board: GameBoard) {
         for (cord in cords) {
-            board.getCell(cord.first, cord.second).shouldDrawIcon = false
+            board.getCell(cord.first, cord.second).shouldDrawSpecialIcon = false
         }
     }
 

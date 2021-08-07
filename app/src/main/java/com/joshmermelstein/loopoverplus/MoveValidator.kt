@@ -5,7 +5,7 @@ import android.content.Context
 // A MoveValidator holds logic for deciding whether a candidate move is valid.
 // They are used inside MoveFactory so the same validation logic can be applied to many kind of
 // candidate move generate.
-open class MoveValidator(private val helpText: String) {
+open class MoveValidator(private val helpText: String = "") {
     // Returns either the move or an illegal move.
     // The default impl assumes moves are valid since this is a frequent need.
     open fun validate(move: LegalMove, board: GameBoard): Move = move

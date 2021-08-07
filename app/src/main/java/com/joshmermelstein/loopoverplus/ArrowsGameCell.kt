@@ -1,9 +1,6 @@
 package com.joshmermelstein.loopoverplus
 
-import android.graphics.Canvas
-import android.graphics.drawable.Drawable
-import androidx.core.graphics.drawable.DrawableCompat
-
+/*
 // An Arrows gamecell is limited to either its row or its column. They are used in the Arrows
 // levels. It indicates which one by drawing an arrow icon instead of pips. When it is swiped
 // perpendicular to its axis, it flashes a lock icon instead of of the arrows.
@@ -94,3 +91,5 @@ class VerticalGameCell(
     override val family = CellFamily.VERTICAL
     override val arrows = super.data.vArrow
 }
+
+ */

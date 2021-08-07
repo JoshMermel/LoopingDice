@@ -13,28 +13,28 @@ class IllegalMoveTest : TestCase() {
     fun testTestRunTooSoon() {
         move.run(board, 50, 100, 0)
         // Too early, none fo the cells are modified
-        assertFalse(board.getCell(0, 0).shouldDrawIcon)
-        assertFalse(board.getCell(0, 1).shouldDrawIcon)
-        assertFalse(board.getCell(1, 0).shouldDrawIcon)
-        assertFalse(board.getCell(1, 1).shouldDrawIcon)
+        assertFalse(board.getCell(0, 0).shouldDrawSpecialIcon)
+        assertFalse(board.getCell(0, 1).shouldDrawSpecialIcon)
+        assertFalse(board.getCell(1, 0).shouldDrawSpecialIcon)
+        assertFalse(board.getCell(1, 1).shouldDrawSpecialIcon)
     }
 
     fun testTestRunTooLate() {
         // Move is complete, all cells return to normal
         move.run(board, 50, 100, 150)
-        assertFalse(board.getCell(0, 0).shouldDrawIcon)
-        assertFalse(board.getCell(0, 1).shouldDrawIcon)
-        assertFalse(board.getCell(1, 0).shouldDrawIcon)
-        assertFalse(board.getCell(1, 1).shouldDrawIcon)
+        assertFalse(board.getCell(0, 0).shouldDrawSpecialIcon)
+        assertFalse(board.getCell(0, 1).shouldDrawSpecialIcon)
+        assertFalse(board.getCell(1, 0).shouldDrawSpecialIcon)
+        assertFalse(board.getCell(1, 1).shouldDrawSpecialIcon)
     }
 
     fun testTestRunNormally() {
         // In the middle, listed cells are modified
         move.run(board, 50, 100, 75)
-        assertTrue(board.getCell(0, 0).shouldDrawIcon)
-        assertTrue(board.getCell(0, 1).shouldDrawIcon)
+        assertTrue(board.getCell(0, 0).shouldDrawSpecialIcon)
+        assertTrue(board.getCell(0, 1).shouldDrawSpecialIcon)
 
-        assertFalse(board.getCell(1, 0).shouldDrawIcon)
-        assertFalse(board.getCell(1, 1).shouldDrawIcon)
+        assertFalse(board.getCell(1, 0).shouldDrawSpecialIcon)
+        assertFalse(board.getCell(1, 1).shouldDrawSpecialIcon)
     }
 }

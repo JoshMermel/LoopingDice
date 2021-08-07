@@ -317,6 +317,7 @@ class GameManager(
         }
 
         dialog.findViewById<Button>(R.id.menu).setOnClickListener {
+            dialog.dismiss()
             context.finish()
         }
         dialog.findViewById<Button>(R.id.retry).setOnClickListener {

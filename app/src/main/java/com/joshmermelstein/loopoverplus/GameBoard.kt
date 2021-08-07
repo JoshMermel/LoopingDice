@@ -16,7 +16,7 @@ class GameBoard(private val board: Array<Array<GameCell>>) {
     ) : this(
         Array(numRows) { row ->
             Array(numCols) { col ->
-                makeGameCell(
+                GameCell(
                     col.toDouble(),
                     row.toDouble(),
                     numRows,
@@ -40,7 +40,7 @@ class GameBoard(private val board: Array<Array<GameCell>>) {
         val ret: MutableList<Pair<Int, Int>> = mutableListOf()
         for (row in 0 until numRows) {
             for (col in 0 until numCols) {
-                if (getCell(row, col).family == CellFamily.ENABLER) {
+                if (getCell(row, col).isEnabler()) {
                     ret.add(Pair(row, col))
                 }
             }
@@ -49,11 +49,21 @@ class GameBoard(private val board: Array<Array<GameCell>>) {
     }
 
     // Returns whether any cell in row |offset| has a bond pointing in |bond| direction
-    fun rowContainsBond(offset: Int, bond: Bond): Boolean {
+    fun rowContainsBondDown(offset: Int): Boolean {
         for (col in 0 until numCols) {
             val cell = getCell(offset, col)
-            if (cell.family == CellFamily.BANDAGED && (cell as BandagedGameCell).bonds.contains(bond)
-            ) {
+            if (cell.hasBondDown()) {
+                return true
+            }
+        }
+        return false
+    }
+
+    // Returns whether any cell in row |offset| has a bond pointing in |bond| direction
+    fun rowContainsBondUp(offset: Int): Boolean {
+        for (col in 0 until numCols) {
+            val cell = getCell(offset, col)
+            if (cell.hasBondUp()) {
                 return true
             }
         }
@@ -61,11 +71,20 @@ class GameBoard(private val board: Array<Array<GameCell>>) {
     }
 
     // Returns whether any cell in col |offset| has a bond pointing in |bond| direction
-    fun colContainsBond(offset: Int, bond: Bond): Boolean {
+    fun colContainsBondLeft(offset: Int): Boolean {
         for (row in 0 until numRows) {
             val cell = getCell(row, offset)
-            if (cell.family == CellFamily.BANDAGED && (cell as BandagedGameCell).bonds.contains(bond)
-            ) {
+            if (cell.hasBondLeft()) {
+                return true
+            }
+        }
+        return false
+    }
+
+    fun colContainsBondRight(offset: Int): Boolean {
+        for (row in 0 until numRows) {
+            val cell = getCell(row, offset)
+            if (cell.hasBondRight()) {
                 return true
             }
         }
@@ -75,7 +94,7 @@ class GameBoard(private val board: Array<Array<GameCell>>) {
     // Returns whether any cell in row |offset| is a lightning cell
     fun rowContainsLightning(offset: Int): Boolean {
         for (col in 0 until numCols) {
-            if (getCell(offset, col).family == CellFamily.LIGHTNING) {
+            if (getCell(offset, col).isLighting()) {
                 return true
             }
         }
@@ -85,7 +104,7 @@ class GameBoard(private val board: Array<Array<GameCell>>) {
     // Returns whether any cell in col |offset| is a lightning cell
     fun colContainsLightning(offset: Int): Boolean {
         for (row in 0 until numRows) {
-            if (getCell(row, offset).family == CellFamily.LIGHTNING) {
+            if (getCell(row, offset).isLighting()) {
                 return true
             }
         }

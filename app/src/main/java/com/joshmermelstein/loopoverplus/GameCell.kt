@@ -1,68 +1,49 @@
 package com.joshmermelstein.loopoverplus
 
 import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.drawable.Drawable
+import android.graphics.drawable.ShapeDrawable
+import android.graphics.drawable.shapes.OvalShape
+import android.graphics.drawable.shapes.RectShape
+import android.graphics.drawable.shapes.RoundRectShape
+import androidx.core.graphics.drawable.DrawableCompat
+
 
 // A gameCell object represents a single square on the board. GameCells are relatively dumb and
 // only know how to draw themselves. Movement is handled by the game manager object.
-//
-// There are several subclasses implementing GameCell to represent different kinds of cells.
-
-// A factory method for creating gameCells.
-fun makeGameCell(
-    x: Double,
-    y: Double,
-    numRows: Int,
-    numCols: Int,
-    colorId: String,
-    data: GameCellMetadata
-): GameCell {
-
-    return when {
-        colorId == "E" -> EnablerGameCell(x, y, numRows, numCols, colorId, data)
-        colorId.startsWith("F") -> FixedGameCell(x, y, numRows, numCols, colorId, data)
-        colorId.startsWith("B") -> BandagedGameCell(x, y, numRows, numCols, colorId, data)
-        colorId.startsWith("H") -> HorizontalGameCell(x, y, numRows, numCols, colorId, data)
-        colorId.startsWith("V") -> VerticalGameCell(x, y, numRows, numCols, colorId, data)
-        colorId.startsWith("L") -> LightningGameCell(x, y, numRows, numCols, colorId, data)
-        else -> NormalGameCell(x, y, numRows, numCols, colorId, data)
-    }
-}
-
-// Surely there is a better way to do this. This is a hack so a cell can say what kind of cell it is.
-enum class CellFamily {
-    NORMAL,
-    ENABLER,
-    FIXED,
-    VERTICAL,
-    HORIZONTAL,
-    BANDAGED,
-    LIGHTNING,
-}
-
-// Base class for shared logic among game cell types
-// TODO(jmerm): consider whether this inheritance could be replaced by composition to allow for
-//  more complex cell types like "Lightning+Enabler" or "Fixed+Bonds"
-abstract class GameCell(
-    open var x: Double,
-    open var y: Double,
-    open val numRows: Int,
-    open val numCols: Int,
-    val colorId: String
+class GameCell(
+    private var x: Double,
+    private var y: Double,
+    private val numRows: Int,
+    private val numCols: Int,
+    private val colorId: String,
+    private val data: GameCellMetadata,
 ) {
+    // Parse the colorId to determine what kind of gamecell this is.
+    private val config = makeGamecellConfiguration(colorId)
+
+    // Getters for details of what kind of gamecell this is.
+    fun isVert(): Boolean = config.isVert
+    fun isHoriz(): Boolean = config.isHoriz
+    fun hasBondUp(): Boolean = config.hasBondUp
+    fun hasBondDown(): Boolean = config.hasBondDown
+    fun hasBondLeft(): Boolean = config.hasBondLeft
+    fun hasBondRight(): Boolean = config.hasBondRight
+    fun isLighting(): Boolean = config.isLighting
+    fun isFixed(): Boolean = config.isFixed
+    fun isEnabler(): Boolean = config.isEnabler
+
     // While a cell is in motion, it is useful to know where it was when the move started in
     // addition to where it currently is. |x| and |y| track the initial position and |offsetX| and
     // |offsetY| track the delta from there. Offsets get folded into the base position when a move
     // completes.
     var offsetX: Double = 0.0
     var offsetY: Double = 0.0
-    abstract val color: Int
-    abstract val pips: Int
-    abstract val drawColor: Int
-    abstract val family: CellFamily
 
-    // There's probably a better way to do this but this is an easy way to let the game manager
-    // flash icons on cells without having to worry about which type of cell they are.
-    var shouldDrawIcon: Boolean = false
+    // Some gamecell configurations have an alternate symbol they draw in special circumstances.
+    // This bool controls whether that is drawn instead of their usual pips.
+    var shouldDrawSpecialIcon: Boolean = false
 
     // The bounds arguments to this function tell the cell how large the board is so it knows how
     // to scale its coordinate. x, y, and offsets are scaled so that 1.0 means the width of one
@@ -94,7 +75,7 @@ abstract class GameCell(
     }
 
     // Draws the shape but clamps boundaries that would have gone outside the game board.
-    open fun drawSquareClamped(
+    private fun drawSquareClamped(
         canvas: Canvas, left: Double, top: Double, right: Double, bottom: Double,
         bounds: Bounds, padding: Int
     ) {
@@ -102,8 +83,9 @@ abstract class GameCell(
         val clampedTop = top.coerceAtLeast(bounds.top + padding)
         val clampedRight = right.coerceAtMost(bounds.right - padding)
         val clampedBottom = bottom.coerceAtMost(bounds.bottom - padding)
-        drawSquare(clampedLeft, clampedTop, clampedRight, clampedBottom, canvas)
-        drawPips(left, top, right, bottom, this.pips, canvas)
+        drawCellBackground(clampedLeft, clampedTop, clampedRight, clampedBottom, canvas)
+        drawPips(left, top, right, bottom, canvas)
+        drawBonds(canvas, left, top, right, bottom, bounds, padding)
     }
 
     // Sometimes the boundaries of a cell may go outside the board's boundaries. In that case, we
@@ -149,18 +131,61 @@ abstract class GameCell(
         }
     }
 
-    // Virtual function for drawing a square. Can be overridden to give subclasses distinctive
-    // styles.
-    abstract fun drawSquare(
+    // Draws the background of the cell. The shape depends on the kind of cell this is.
+    private fun drawCellBackground(
         left: Double,
         top: Double,
         right: Double,
         bottom: Double,
         canvas: Canvas
-    )
+    ) {
+        val shapeDrawable = if (config.isEnabler || config.isFixed) {
+            ShapeDrawable(RectShape())
+        } else {
+            val radius = ((bottom - top) / 4).toFloat()
+            ShapeDrawable(RoundRectShape(FloatArray(8) { radius }, null, null))
+        }
 
+        shapeDrawable.setBounds(left.toInt(), top.toInt(), right.toInt(), bottom.toInt())
+        shapeDrawable.paint.color = data.colors[config.color]
+        shapeDrawable.draw(canvas)
+    }
+
+    // Draws symbols on the gamecell. This might be traditional pips but might also be a symbol to
+    // indicate special properties of the cell.
+    private fun drawPips(left: Double, top: Double, right: Double, bottom: Double, canvas: Canvas) {
+        when {
+            shouldDrawSpecialIcon -> drawPipsSpecial(left, top, right, bottom, canvas)
+            config.isLighting -> drawIcon(data.lightning, left, top, right, bottom, canvas)
+            config.isHoriz -> drawIcon(data.hArrow, left, top, right, bottom, canvas)
+            config.isVert -> drawIcon(data.vArrow, left, top, right, bottom, canvas)
+            config.isFixed && config.pips == 0 -> drawSmallLock(left, top, right, bottom, canvas)
+            else -> drawPipsTraditional(left, top, right, bottom, config.pips, canvas)
+        }
+    }
+
+    // Draws special overlay on a die that isn't usually there.
+    // If the type of die doesn't have anything special to draw
+    private fun drawPipsSpecial(
+        left: Double,
+        top: Double,
+        right: Double,
+        bottom: Double,
+        canvas: Canvas
+    ) {
+        val isLockable = config.isHoriz || config.isVert || config.isFixed
+        // TODO(jmerm): is the else case here right? Could a non-basic type of gamecell ever end up
+        //  there and overwrite its normal icon with pips maybe?
+        when {
+            isLockable -> drawIcon(data.lock, left, top, right, bottom, canvas)
+            config.isEnabler -> drawIcon(data.key, left, top, right, bottom, canvas)
+            else -> drawPipsTraditional(left, top, right, bottom, config.pips, canvas)
+        }
+    }
+
+    // TODO(jmerm): factor out helper for finding pip locations to make this more concise?
     // Draws pips in dice style arrangement.
-    open fun drawPips(
+    private fun drawPipsTraditional(
         left: Double,
         top: Double,
         right: Double,
@@ -208,9 +233,204 @@ abstract class GameCell(
         }
     }
 
-    // virtual method for drawing one pip. Can be overridden by subclasses to give their pips a
-    // distinctive style.
-    abstract fun drawPip(centerX: Double, centerY: Double, radius: Double, canvas: Canvas)
+    // Draws a single pip. The shape of this pip depends on the config of this gamecell.
+    private fun drawPip(centerX: Double, centerY: Double, radius: Double, canvas: Canvas) {
+        val shapeDrawable = if (config.isFixed || config.isEnabler) {
+            ShapeDrawable(RectShape())
+        } else {
+            ShapeDrawable(OvalShape())
+        }
+        shapeDrawable.setBounds(
+            (centerX - radius).toInt(),
+            (centerY - radius).toInt(),
+            (centerX + radius).toInt(),
+            (centerY + radius).toInt()
+        )
+        shapeDrawable.paint.color = data.pipColor
+
+        shapeDrawable.draw(canvas)
+    }
+
+    // Draws bonds but clamps lines that would have gone outside the game board.
+    private fun drawBonds(
+        canvas: Canvas,
+        left: Double,
+        top: Double,
+        right: Double,
+        bottom: Double,
+        bounds: Bounds,
+        padding: Int
+    ) {
+        maybeDrawBondUp(canvas, left, top, right, bottom, bounds, padding)
+        maybeDrawBondDown(canvas, left, top, right, bottom, bounds, padding)
+        maybeDrawBondLeft(canvas, left, top, right, bottom, bounds, padding)
+        maybeDrawBondRight(canvas, left, top, right, bottom, bounds, padding)
+    }
+
+    private fun maybeDrawBondUp(
+        canvas: Canvas,
+        left: Double,
+        top: Double,
+        right: Double,
+        bottom: Double,
+        bounds: Bounds,
+        padding: Int
+    ) {
+        if (!config.hasBondUp) return
+        val x = (right + left) / 2
+        val y0 = (bottom + top) / 2
+        val y1 = y0 - (bottom - top + padding)
+        val strokeWidth = (right - left).toFloat() / 6
+        drawLineClamped(canvas, x, y0, x, y1, strokeWidth, bounds)
+    }
+
+    private fun maybeDrawBondDown(
+        canvas: Canvas,
+        left: Double,
+        top: Double,
+        right: Double,
+        bottom: Double,
+        bounds: Bounds,
+        padding: Int
+    ) {
+        if (!config.hasBondDown) return
+        val x = (right + left) / 2
+        val y0 = (bottom + top) / 2
+        val y1 = y0 + (bottom - top + padding)
+        val strokeWidth = (right - left).toFloat() / 6
+        drawLineClamped(canvas, x, y0, x, y1, strokeWidth, bounds)
+    }
+
+    private fun maybeDrawBondLeft(
+        canvas: Canvas,
+        left: Double,
+        top: Double,
+        right: Double,
+        bottom: Double,
+        bounds: Bounds,
+        padding: Int
+    ) {
+        if (!config.hasBondLeft) return
+        val x0 = (right + left) / 2
+        val x1 = x0 - (right - left + padding)
+        val y = (bottom + top) / 2
+        val strokeWidth = (right - left).toFloat() / 6
+        drawLineClamped(canvas, x0, y, x1, y, strokeWidth, bounds)
+    }
+
+    private fun maybeDrawBondRight(
+        canvas: Canvas,
+        left: Double,
+        top: Double,
+        right: Double,
+        bottom: Double,
+        bounds: Bounds,
+        padding: Int
+    ) {
+        if (!config.hasBondRight) return
+        val x0 = (right + left) / 2
+        val x1 = x0 + (right - left + padding)
+        val y = (bottom + top) / 2
+        val strokeWidth = (right - left).toFloat() / 6
+        drawLineClamped(canvas, x0, y, x1, y, strokeWidth, bounds)
+    }
+
+    // Draws a line from (x0,y0) to (x1,y1) but clamped to fit inside of |bounds|
+    private fun drawLineClamped(
+        canvas: Canvas,
+        x0: Double,
+        y0: Double,
+        x1: Double,
+        y1: Double,
+        strokeWidth: Float,
+        bounds: Bounds
+    ) {
+        val paint = Paint()
+        paint.color = data.bondColor
+        paint.strokeWidth = strokeWidth
+        paint.strokeCap = Paint.Cap.ROUND
+
+        // Coerce the endpoints of the line so they fit in the bounding box where the game board is
+        // drawn. This approach only works because lines are guaranteed to be horizontal/vertical;
+        // otherwise this would mess with slope.
+        val boundedX0 = x0.coerceIn(bounds.left, bounds.right)
+        val boundedX1 = x1.coerceIn(bounds.left, bounds.right)
+        val boundedY0 = y0.coerceIn(bounds.top, bounds.bottom)
+        val boundedY1 = y1.coerceIn(bounds.top, bounds.bottom)
+
+        // It's possible that the coercion above left us with a nub of a line that sits on the edge
+        // of the board's bounding box and which shouldn't be drawn. One cheap way to check for this
+        // is to count how much was changed by the coercion.
+        if (countDifferences(x0, y0, x1, y1, boundedX0, boundedY0, boundedX1, boundedY1) < 2) {
+            drawLine(canvas, boundedX0, boundedY0, boundedX1, boundedY1, paint)
+        }
+    }
+
+    private fun countDifferences(
+        x0: Double,
+        y0: Double,
+        x1: Double,
+        y1: Double,
+        boundedX0: Double,
+        boundedY0: Double,
+        boundedX1: Double,
+        boundedY1: Double
+    ): Int {
+        var ret = 0
+        if (x0 != boundedX0) {
+            ret += 1
+        }
+        if (x1 != boundedX1) {
+            ret += 1
+        }
+        if (y0 != boundedY0) {
+            ret += 1
+        }
+        if (y1 != boundedY1) {
+            ret += 1
+        }
+        return ret
+    }
+
+    // Canvas APIs are picky about types which force me to use a lot of toType(). This method hides
+    // that ugliness for drawing lines using Double coordinates.
+    private fun drawLine(
+        canvas: Canvas,
+        x0: Double,
+        y0: Double,
+        x1: Double,
+        y1: Double,
+        paint: Paint
+    ) {
+        canvas.drawLine(x0.toFloat(), y0.toFloat(), x1.toFloat(), y1.toFloat(), paint)
+    }
+
+    private fun drawSmallLock(
+        left: Double,
+        top: Double,
+        right: Double,
+        bottom: Double,
+        canvas: Canvas
+    ) {
+        val x = (left + right) / 2
+        val y = (top + bottom) / 2
+        val radius = (right - left) / 4
+        drawIcon(data.lock, (x - radius), (y - radius), (x + radius), (y + radius), canvas)
+    }
+
+
+    private fun drawIcon(
+        icon: Drawable,
+        left: Double,
+        top: Double,
+        right: Double,
+        bottom: Double,
+        canvas: Canvas
+    ) {
+        icon.setBounds(left.toInt(), top.toInt(), right.toInt(), bottom.toInt())
+        DrawableCompat.setTint(icon.mutate(), data.pipColor)
+        icon.draw(canvas)
+    }
 
     // This is used for saving the game.
     override fun toString(): String {
