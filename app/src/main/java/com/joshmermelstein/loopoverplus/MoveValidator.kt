@@ -16,6 +16,12 @@ open class MoveValidator(private val helpText: String = "") {
 
 // Factory for move validators
 fun makeMoveValidator(id: String, context: Context): MoveValidator {
+    if (id.contains("+")) {
+        val validators = id.split("+").map { makeMoveValidator(it, context) }
+        val helpText = validators.joinToString(" and ") { it.helpText() }
+        return CombinedValidator(validators, helpText)
+    }
+
     return when (id) {
         "ARROWS" -> ArrowsValidator(context.getString(R.string.arrowValidatorHelptext))
         "DYNAMIC" -> DynamicBandagingValidator(context.getString(R.string.dynamicValidatorHelptext))
