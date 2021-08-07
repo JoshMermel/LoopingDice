@@ -159,8 +159,8 @@ class GameCell(
             config.isLighting -> drawIcon(data.lightning, left, top, right, bottom, canvas)
             config.isHoriz -> drawIcon(data.hArrow, left, top, right, bottom, canvas)
             config.isVert -> drawIcon(data.vArrow, left, top, right, bottom, canvas)
-            config.isFixed && config.pips == 0 -> drawSmallLock(left, top, right, bottom, canvas)
-            else -> drawPipsTraditional(left, top, right, bottom, config.pips, canvas)
+            config.isFixed && config.numPips == 0 -> drawSmallLock(left, top, right, bottom, canvas)
+            else -> drawPipsTraditional(left, top, right, bottom, canvas)
         }
     }
 
@@ -179,57 +179,55 @@ class GameCell(
         when {
             isLockable -> drawIcon(data.lock, left, top, right, bottom, canvas)
             config.isEnabler -> drawIcon(data.key, left, top, right, bottom, canvas)
-            else -> drawPipsTraditional(left, top, right, bottom, config.pips, canvas)
+            else -> drawPipsTraditional(left, top, right, bottom, canvas)
         }
     }
 
-    // TODO(jmerm): factor out helper for finding pip locations to make this more concise?
+    // Relative offsets of pips within the gamecell. Not all gamecells configurations need to draw
+    // pips so we don't bother creating this unless it's needed. This is a negligible optimization
+    // but I wanted to use `by lazy` for fun.
+    private val pipOffsets: List<Pair<Double, Double>> by lazy {
+        when (config.numPips) {
+            1 -> listOf(Pair(0.5, 0.5))
+            2 -> listOf(Pair(1.0 / 3, 1.0 / 3), Pair(2.0 / 3, 2.0 / 3))
+            3 -> listOf(Pair(0.25, 0.75), Pair(0.5, 0.5), Pair(0.75, 0.25))
+            4 -> listOf(Pair(0.25, 0.25), Pair(0.25, 0.75), Pair(0.75, 0.25), Pair(0.75, 0.75))
+            5 -> listOf(
+                Pair(0.25, 0.25),
+                Pair(0.25, 0.75),
+                Pair(0.5, 0.5),
+                Pair(0.75, 0.25),
+                Pair(0.75, 0.75)
+            )
+            6 -> listOf(
+                Pair(0.25, 0.25),
+                Pair(0.25, 0.5),
+                Pair(0.25, 0.75),
+                Pair(0.75, 0.25),
+                Pair(0.75, 0.5),
+                Pair(0.75, 0.75)
+            )
+            else -> emptyList()
+        }
+    }
+
     // Draws pips in dice style arrangement.
     private fun drawPipsTraditional(
         left: Double,
         top: Double,
         right: Double,
         bottom: Double,
-        numCircles: Int,
         canvas: Canvas
     ) {
         val width = right - left
         val height = bottom - top
-        val pipsize = (width / 9)
-
-        when (numCircles) {
-            0 -> return
-            1 -> drawPip(left + (width / 2), top + (height / 2), pipsize, canvas)
-            2 -> {
-                drawPip(left + (width / 3), top + (height / 3), pipsize, canvas)
-                drawPip(left + (2 * width / 3), top + (2 * height / 3), pipsize, canvas)
-            }
-            3 -> {
-                drawPip(left + (width / 4), top + (3 * height / 4), pipsize, canvas)
-                drawPip(left + (width / 2), top + (height / 2), pipsize, canvas)
-                drawPip(left + (3 * width / 4), top + (height / 4), pipsize, canvas)
-            }
-            4 -> {
-                drawPip(left + (width / 4), top + (height / 4), pipsize, canvas)
-                drawPip(left + (3 * width / 4), top + (height / 4), pipsize, canvas)
-                drawPip(left + (width / 4), top + (3 * height / 4), pipsize, canvas)
-                drawPip(left + (3 * width / 4), top + (3 * height / 4), pipsize, canvas)
-            }
-            5 -> {
-                drawPip(left + (width / 4), top + (3 * height / 4), pipsize, canvas)
-                drawPip(left + (width / 4), top + (height / 4), pipsize, canvas)
-                drawPip(left + (width / 2), top + (height / 2), pipsize, canvas)
-                drawPip(left + (3 * width / 4), top + (height / 4), pipsize, canvas)
-                drawPip(left + (3 * width / 4), top + (3 * height / 4), pipsize, canvas)
-            }
-            6 -> {
-                drawPip(left + (width / 4), top + (height / 4), pipsize, canvas)
-                drawPip(left + (width / 4), top + (height / 2), pipsize, canvas)
-                drawPip(left + (3 * width / 4), top + (height / 4), pipsize, canvas)
-                drawPip(left + (3 * width / 4), top + (height / 2), pipsize, canvas)
-                drawPip(left + (width / 4), top + (3 * height / 4), pipsize, canvas)
-                drawPip(left + (3 * width / 4), top + (3 * height / 4), pipsize, canvas)
-            }
+        for (offset in pipOffsets) {
+            drawPip(
+                left + (offset.first * width),
+                top + (offset.second * height),
+                width / 9,
+                canvas
+            )
         }
     }
 
