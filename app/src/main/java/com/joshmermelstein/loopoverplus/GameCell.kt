@@ -84,7 +84,7 @@ class GameCell(
         val clampedRight = right.coerceAtMost(bounds.right - padding)
         val clampedBottom = bottom.coerceAtMost(bounds.bottom - padding)
         drawCellBackground(clampedLeft, clampedTop, clampedRight, clampedBottom, canvas)
-        drawPips(left, top, right, bottom, canvas)
+        drawCellSymbols(left, top, right, bottom, canvas)
         drawBonds(canvas, left, top, right, bottom, bounds, padding)
     }
 
@@ -153,7 +153,13 @@ class GameCell(
 
     // Draws symbols on the gamecell. This might be traditional pips but might also be a symbol to
     // indicate special properties of the cell.
-    private fun drawPips(left: Double, top: Double, right: Double, bottom: Double, canvas: Canvas) {
+    private fun drawCellSymbols(
+        left: Double,
+        top: Double,
+        right: Double,
+        bottom: Double,
+        canvas: Canvas
+    ) {
         when {
             shouldDrawSpecialIcon -> drawPipsSpecial(left, top, right, bottom, canvas)
             config.isLighting -> drawIcon(data.lightning, left, top, right, bottom, canvas)
@@ -259,78 +265,23 @@ class GameCell(
         bounds: Bounds,
         padding: Int
     ) {
-        maybeDrawBondUp(canvas, left, top, right, bottom, bounds, padding)
-        maybeDrawBondDown(canvas, left, top, right, bottom, bounds, padding)
-        maybeDrawBondLeft(canvas, left, top, right, bottom, bounds, padding)
-        maybeDrawBondRight(canvas, left, top, right, bottom, bounds, padding)
-    }
+        val pipX = (right + left) / 2
+        val pipY = (bottom + top) / 2
+        val bondLen = bottom - top + padding
+        val stroke = (right - left).toFloat() / 6
 
-    private fun maybeDrawBondUp(
-        canvas: Canvas,
-        left: Double,
-        top: Double,
-        right: Double,
-        bottom: Double,
-        bounds: Bounds,
-        padding: Int
-    ) {
-        if (!config.hasBondUp) return
-        val x = (right + left) / 2
-        val y0 = (bottom + top) / 2
-        val y1 = y0 - (bottom - top + padding)
-        val strokeWidth = (right - left).toFloat() / 6
-        drawLineClamped(canvas, x, y0, x, y1, strokeWidth, bounds)
-    }
-
-    private fun maybeDrawBondDown(
-        canvas: Canvas,
-        left: Double,
-        top: Double,
-        right: Double,
-        bottom: Double,
-        bounds: Bounds,
-        padding: Int
-    ) {
-        if (!config.hasBondDown) return
-        val x = (right + left) / 2
-        val y0 = (bottom + top) / 2
-        val y1 = y0 + (bottom - top + padding)
-        val strokeWidth = (right - left).toFloat() / 6
-        drawLineClamped(canvas, x, y0, x, y1, strokeWidth, bounds)
-    }
-
-    private fun maybeDrawBondLeft(
-        canvas: Canvas,
-        left: Double,
-        top: Double,
-        right: Double,
-        bottom: Double,
-        bounds: Bounds,
-        padding: Int
-    ) {
-        if (!config.hasBondLeft) return
-        val x0 = (right + left) / 2
-        val x1 = x0 - (right - left + padding)
-        val y = (bottom + top) / 2
-        val strokeWidth = (right - left).toFloat() / 6
-        drawLineClamped(canvas, x0, y, x1, y, strokeWidth, bounds)
-    }
-
-    private fun maybeDrawBondRight(
-        canvas: Canvas,
-        left: Double,
-        top: Double,
-        right: Double,
-        bottom: Double,
-        bounds: Bounds,
-        padding: Int
-    ) {
-        if (!config.hasBondRight) return
-        val x0 = (right + left) / 2
-        val x1 = x0 + (right - left + padding)
-        val y = (bottom + top) / 2
-        val strokeWidth = (right - left).toFloat() / 6
-        drawLineClamped(canvas, x0, y, x1, y, strokeWidth, bounds)
+        if (config.hasBondUp) {
+            drawLineClamped(canvas, pipX, pipY, pipX, pipY - bondLen, stroke, bounds)
+        }
+        if (config.hasBondDown) {
+            drawLineClamped(canvas, pipX, pipY, pipX, pipY + bondLen, stroke, bounds)
+        }
+        if (config.hasBondLeft) {
+            drawLineClamped(canvas, pipX, pipY, pipX - bondLen, pipY, stroke, bounds)
+        }
+        if (config.hasBondRight) {
+            drawLineClamped(canvas, pipX, pipY, pipX + bondLen, pipY, stroke, bounds)
+        }
     }
 
     // Draws a line from (x0,y0) to (x1,y1) but clamped to fit inside of |bounds|
