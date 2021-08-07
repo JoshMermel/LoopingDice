@@ -193,7 +193,11 @@ class GameCell(
     // pips so we don't bother creating this unless it's needed. This is a negligible optimization
     // but I wanted to use `by lazy` for fun.
     private val pipOffsets: List<Pair<Double, Double>> by lazy {
-        when (config.numPips) {
+        traditionalPipOffsets(config.numPips)
+    }
+
+    private fun traditionalPipOffsets(numPips: Int): List<Pair<Double, Double>> {
+        return when (numPips) {
             1 -> listOf(Pair(0.5, 0.5))
             2 -> listOf(Pair(1.0 / 3, 1.0 / 3), Pair(2.0 / 3, 2.0 / 3))
             3 -> listOf(Pair(0.25, 0.75), Pair(0.5, 0.5), Pair(0.75, 0.25))
