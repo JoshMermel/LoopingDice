@@ -1,4 +1,5 @@
 Wide (Advanced)
+W22 w_simon 6 11 16
 W23 w_comb 5 7 9
 W24 w_join_edges 6 9 13
 W25 w_smash 9 14 20
