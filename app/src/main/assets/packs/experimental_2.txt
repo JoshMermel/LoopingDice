@@ -1,6 +1,0 @@
-Hybrids (More Experimental)
-BE3 h_20210806_be_3 7 10 17
-BE4 h_20210807_be_4 9 20 30
-BE5 h_20210807_be_5 9 20 30
-
-DE1 h_20210807_de_1 14 28 42

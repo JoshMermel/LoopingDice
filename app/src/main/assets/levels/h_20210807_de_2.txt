@@ -1,0 +1,8 @@
+4
+4
+WIDE 1|WIDE 1|DYNAMIC+ENABLER
+E,3,3,3,3,F 1,F 1,F 1,3,F 1,F 1,F 1,3,F 1,F 1,F 1
+F 1,F 1,F 1,3,F 1,F 1,F 1,3,F 1,F 1,F 1,3,3,3,3,E
+
+# C0',R3',C3',R2',C2',R1',C1',R0',C0',R3' (10)
+black lake
