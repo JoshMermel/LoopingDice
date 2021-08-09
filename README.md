@@ -70,19 +70,42 @@ The move validator is specified with one of the following strings:
 | NONE | No validation |
 
 The entries in the comma separated lists are strings to tell a gamecell what
-type it is. The current possibilities are:
+attributes it has. Gamecells are written a space-separated lists of
+attributes followed by an integer. The order of attributes does not matter
+except that the integer must come last. The possible attributes are:
 
 | spec | effect | 
 | --- | --- |
-|0-35 | normal game cells with various colors and numbers of pips|
-|V \d | a vertical gamecell whose color is determined by the number|
-|H \d | a horizontal  gamecell whose color is determined by the number|
-|F \d | a fixed cell (for static + dynamic modes) with a number of pips determined by the number |
+|V | a vertical gamecell whose color is determined by the number|
+|H | a horizontal  gamecell whose color is determined by the number|
+|F | a fixed cell (for static + dynamic modes) with a number of pips determined by the number |
 |E | An enabler cell|
-|B \d U D L R | a bandaged cell with color determined by the number and bonds determined by which of the {U, D, L, R} follow the number. Order does not matter.|
-|L \d| A lightning cell with color determined by the number |
+|U D L R | a bandaged cell with color determined by the number and bonds determined by which of the {U, D, L, R} follow the number. Order does not matter.|
+|B | A lightning bolt cell with color determined by the number |
 
-Everything after the help text is ignored. In most level files, I've used this as a space for notes such as the optimal solution or my personal best solution.
+The integer must be in the range 0 to 35 and determines what color the
+cell is as well as how many pips it has (if applicable). If the
+integer is omitted, it's inferred to be 0.
+
+Some examples gamecells:
+
+| Cell | effect | 
+| --- | --- |
+| 4 | A normal game cell |
+| V 1 | A vertical gamecell with color 1 |
+| H 2 | A horizontal gamecell with color 2 |
+| F 2 | a fixed cell with two pips |
+| E | An enabler cell|
+| D R 3 | a bandaged cell with color with bonds down and right and color 3 |
+| B 3 | A lightning bolt cell color 3 |
+| E U D | An enabler cell with bonds up and down |
+| H E | An enabler cell that's also horizontal |
+| F B | A fixed cell that's also a lightning cell |
+
+Everything after the help text is ignored. In most level files, I've used this
+as a space for notes such as the optimal solution or my personal best solution.
+Note that not all combinations will render nicely, i.e. a cell that's both V
+and B won't know what symbol to draw.
 
 ### Packs
 

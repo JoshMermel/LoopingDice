@@ -294,8 +294,8 @@ class DynamicBandagingValidatorTest : TestCase() {
         val numCols = 5
         val arr = arrayOf(
             "0", "F 1", "2", "3", "4",
-            "F 5", "L 6", "7", "8", "F 9",
-            "10", "11", "12", "L 13", "14",
+            "F 5", "B 6", "7", "8", "F 9",
+            "10", "11", "12", "B 13", "14",
             "15", "F 16", "17", "18", "19",
         )
         val board = GameBoard(numRows, numCols, arr, fakeGameCellMetadata())

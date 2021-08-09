@@ -29,20 +29,18 @@ fun makeGamecellConfiguration(id: String): GameCellConfiguration {
         )
     }
 
-    // TODO(jmerm): change Lightning to stop conflicting with bondLeft
-    // TODO(jmerm): make this whole situation more consistent and rewrite all levels :-/
     val isVert = id.contains("V")
     val isHoriz = id.contains("H")
-    val isLightning = id.startsWith("L")
-    val hasBondUp = id.startsWith("B") && id.contains("U")
-    val hasBondDown = id.startsWith("B") && id.contains("D")
-    val hasBondLeft = id.startsWith("B") && id.contains("L")
-    val hasBondRight = id.startsWith("B") && id.contains("R")
+    val isLightning = id.contains("B")
+    val hasBondUp =  id.contains("U")
+    val hasBondDown =  id.contains("D")
+    val hasBondLeft = id.contains("L")
+    val hasBondRight = id.contains("R")
     val isFixed = id.contains("F")
     val isEnabler = id.contains("E")
 
     val parts = id.split(" ")
-    val number = parts.getOrNull(1)?.toIntOrNull() ?: 0
+    val number = parts.last().toIntOrNull() ?: 0
 
     val numPips = when {
         isFixed -> number

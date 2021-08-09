@@ -180,8 +180,8 @@ class StaticCellsMoveValidatorTest : TestCase() {
         val numRows = 2
         val numCols = 3
         val arr = arrayOf(
-            "L 0", "1", "F 2",
-            "3", "4", "L 5"
+            "B 0", "1", "F 2",
+            "3", "4", "B 5"
         )
         val board = GameBoard(numRows, numCols, arr, fakeGameCellMetadata())
 

@@ -9,7 +9,7 @@ class GameBoardTest : TestCase() {
     val numCols = 4
 
     init {
-        val arr = arrayOf("1", "E", "F 0", "L 3", "B 1 R", "V 1", "H 2", "314159")
+        val arr = arrayOf("1", "E", "F 0", "B 3", "R 1", "V 1", "H 2", "314159")
         board = GameBoard(numRows, numCols, arr, data)
     }
 
@@ -92,18 +92,18 @@ class GameBoardTest : TestCase() {
     }
 
     fun testToString() {
-        assertEquals(board.toString(), "1,E,F 0,L 3,B 1 R,V 1,H 2,314159")
+        assertEquals(board.toString(), "1,E,F 0,B 3,R 1,V 1,H 2,314159")
     }
 
     fun testEquals() {
-        val anotherArr = arrayOf("1", "E", "F 0", "L 3", "B 1 R", "V 1", "H 2", "314159")
+        val anotherArr = arrayOf("1", "E", "F 0", "B 3", "R 1", "V 1", "H 2", "314159")
         val sameBoard = GameBoard(numRows, numCols, anotherArr, data)
 
         assertEquals(board, sameBoard)
     }
 
     fun testNotEquals() {
-        val arr = arrayOf("2", "E", "F 0", "B 1 R", "5", "6", "L 3", "314159")
+        val arr = arrayOf("2", "E", "F 0", "R 1", "5", "6", "L 3", "314159")
         val sameBoard = GameBoard(numRows, numCols, arr, data)
 
         assertNotSame(board, sameBoard)

@@ -8,7 +8,7 @@ class LightningMoveEffectTest : TestCase() {
     private val numCols = 3
     private val arr = arrayOf(
         "1", "2", "3",
-        "4", "L 5", "6",
+        "4", "B 5", "6",
         "7", "8", "9"
     )
     private val board = GameBoard(numRows, numCols, arr, data)

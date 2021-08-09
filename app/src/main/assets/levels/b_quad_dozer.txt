@@ -1,7 +1,7 @@
 5
 5
 BANDAGED|BANDAGED|NONE
-3,B 3 R,B 3 L R,B 3 L,3,B 3 D,2,2,2,B 3 D,B 3 U D,1,1,1,B 3 U D,B 3 U,2,2,2,B 3 U,3,B 3 R,B 3 L R,B 3 L,3
-3,B 3 R,B 3 L R,B 3 L,3,B 3 D,2,2,1,B 3 D,B 3 U D,2,1,2,B 3 U D,B 3 U,1,2,2,B 3 U,3,B 3 R,B 3 L R,B 3 L,3
+3,R 3,L R 3,L 3,3,D 3,2,2,2,D 3,U D 3,1,1,1,U D 3,U 3,2,2,2,U 3,3,R 3,L R 3,L 3,3
+3,R 3,L R 3,L 3,3,D 3,2,2,1,D 3,U D 3,2,1,2,U D 3,U 3,1,2,2,U 3,3,R 3,L R 3,L 3,3
 
 # C1',R0',C1,R1',C0,R1',R1',C0',R1',R1' (10)

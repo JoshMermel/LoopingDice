@@ -16,7 +16,7 @@ class BandagedMoveEffectTest : TestCase() {
         val board = GameBoard(
             4,
             2,
-            arrayOf("B 1 D", "2", "B 3 U", "B 4 D", "B 5 D", "B 6 U", "B 7 U", "8"),
+            arrayOf("D 1", "2", "U 3", "D 4", "D 5", "U 6", "U 7", "8"),
             data
         )
 
@@ -29,7 +29,7 @@ class BandagedMoveEffectTest : TestCase() {
         val board = GameBoard(
             2,
             4,
-            arrayOf("B 1 R", "B 2 L", "B 3 R", "B 4 L", "5", "B 6 R", "B 7 L", "8"),
+            arrayOf("R 1", "L 2", "R 3", "L 4", "5", "R 6", "L 7", "8"),
             data
         )
 
@@ -43,7 +43,7 @@ class BandagedMoveEffectTest : TestCase() {
         val board = GameBoard(
             3,
             2,
-            arrayOf("B 1 U D", "2", "B 3 U D", "4", "B 5 U D", "6"),
+            arrayOf("U D 1", "2", "U D 3", "4", "U D 5", "6"),
             data
         )
 
@@ -56,7 +56,7 @@ class BandagedMoveEffectTest : TestCase() {
         val board = GameBoard(
             2,
             3,
-            arrayOf("B 1 R L", "B 2 R L", "B 3 R L", "4", "5", "6"),
+            arrayOf("R 1 L", "B 2 R L", "R 3 L", "4", "5", "6"),
             data
         )
 
@@ -69,7 +69,7 @@ class BandagedMoveEffectTest : TestCase() {
         val board = GameBoard(
             3,
             2,
-            arrayOf("B 1 D", "2", "B 3 U", "4", "5", "6"),
+            arrayOf("D 1", "2", "U 3", "4", "5", "6"),
             data
         )
         val highlights = factory.makeHighlights(Axis.HORIZONTAL, Direction.BACKWARD, 1, board)
@@ -82,7 +82,7 @@ class BandagedMoveEffectTest : TestCase() {
         val board = GameBoard(
             2,
             3,
-            arrayOf("B 1 R", "B 2 L", "3", "4", "5", "6"),
+            arrayOf("R 1", "L 2", "3", "4", "5", "6"),
             data
         )
 

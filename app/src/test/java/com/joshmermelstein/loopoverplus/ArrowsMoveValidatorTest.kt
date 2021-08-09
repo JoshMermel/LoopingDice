@@ -188,7 +188,7 @@ class ArrowsMoveValidatorTest : TestCase() {
         val numRows = 2
         val numCols = 3
         val arr = arrayOf(
-            "L 0", "H 1", "2",
+            "B 0", "H 1", "2",
             "V 3", "4", "5"
         )
         val board = GameBoard(numRows, numCols, arr, fakeGameCellMetadata())

@@ -1,7 +1,7 @@
 4
 3
 BANDAGED|BANDAGED|NONE
-B 3 R,B 3 L,3,2,B 2 R,B 2 L,0,0,0,1,1,1
-0,0,0,1,1,1,B 3 R,B 3 L,3,2,B 2 R,B 2 L
+R 3,L 3,3,2,R 2,L 2,0,0,0,1,1,1
+0,0,0,1,1,1,R 3,L 3,3,2,R 2,L 2
 Dice that are joined by bonds can never be separated
 # C0',C0' (2)

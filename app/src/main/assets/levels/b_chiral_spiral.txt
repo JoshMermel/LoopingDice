@@ -1,8 +1,8 @@
 6
 6
 BANDAGED|BANDAGED|NONE
-B 3 D,2,2,2,B 3 R,B 3 L,B 3 U,B 3 D,2,B 3 R,B 3 L,2,2,B 3 U,2,2,B 3 D,2,2,2,B 3 R,B 3 L,B 3 U,B 3 D,2,B 3 R,B 3 L,2,2,B 3 U,B 3 R,B 3 L,2,2,2,2
-B 3 R,B 3 L,2,2,2,B 3 D,2,B 3 R,B 3 L,2,B 3 D,B 3 U,2,B 3 D,2,2,B 3 U,2,B 3 D,B 3 U,B 3 R,B 3 L,2,2,B 3 U,2,2,B 3 R,B 3 L,2,2,2,2,2,B 3 R,B 3 L
+D 3,2,2,2,R 3,L 3,U 3,D 3,2,R 3,L 3,2,2,U 3,2,2,D 3,2,2,2,R 3,L 3,U 3,D 3,2,R 3,L 3,2,2,U 3,R 3,L 3,2,2,2,2
+R 3,L 3,2,2,2,D 3,2,R 3,L 3,2,D 3,U 3,2,D 3,2,2,U 3,2,D 3,U 3,R 3,L 3,2,2,U 3,2,2,R 3,L 3,2,2,2,2,2,R 3,L 3
 
 # R0',C0',R0,C0,R4,C0,R0,R1',R1',C4',R4,C0,R1,C0',R0' (15)
 human solution: Row5 Col0 Row0' Col5' Row4 Row5 Col0 Col1 Row0' Row0' Row1' Row1' Col4' Col5' Row4 Row5 Col0 Row0' Col5' Row5

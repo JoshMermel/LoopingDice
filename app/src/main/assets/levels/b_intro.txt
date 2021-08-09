@@ -1,7 +1,7 @@
 2
 3
 BANDAGED|BANDAGED|NONE
-B 0 R,B 0 L,0,0,1,1
-0,1,1,0,B 0 R,B 0 L
+R 0,L 0,0,0,1,1
+0,1,1,0,R 0,L 0
 
 R0,C1' (2)
