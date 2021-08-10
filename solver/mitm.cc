@@ -9,20 +9,20 @@
 
 // Global settings
 constexpr size_t num_rows = 3;
-constexpr size_t num_cols = 2;
+constexpr size_t num_cols = 3;
 constexpr Board<num_rows, num_cols> initial = {{
-	{{2|LIGHTNING,1}},
-	{{0,1}},
-	{{0,2|LIGHTNING}}
+  {{FIXED,ENABLER,ENABLER}},
+  {{2,3,3}},
+  {{2,3,3}},
 }};
 constexpr Board<num_rows, num_cols> win = {{
-	{{2|LIGHTNING,0}},
-	{{1,0}},
-	{{1,2|LIGHTNING}}
+  {{FIXED,2,2}},
+  {{ENABLER,3,3}},
+  {{ENABLER,3,3}},
 }};
-constexpr Mode row_mode = Mode::LIGHTNING;
-constexpr Mode col_mode = Mode::LIGHTNING;
-constexpr Validation validation = Validation::NONE;
+constexpr Mode row_mode = Mode::BASIC;
+constexpr Mode col_mode = Mode::BASIC;
+const  Validation validation = Validation::STATIC|Validation::ENABLER;
 
 template<std::size_t num_rows, std::size_t num_cols>
 struct Node {

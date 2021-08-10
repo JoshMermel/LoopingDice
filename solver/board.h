@@ -80,36 +80,39 @@ void slideCol(Board<num_rows, num_cols> &board, int offset, bool forward) {
 // TODO(jmerm): consider expanding to support more complicated gamecell types
 // once I come up with syntax for those.
 std::string cellToString(int i) {
-  int is_bandaged_mask = UP | DOWN | LEFT | RIGHT;
-
-  if ((i & is_bandaged_mask)) {
-    std::string ret = "B " + std::to_string(i & ~is_bandaged_mask);
-    if (i & UP) {
-      ret += " U";
-    }
-    if (i & DOWN) {
-      ret += " D";
-    }
-    if (i & LEFT) {
-      ret += " L";
-    }
-    if (i & RIGHT) {
-      ret += " R";
-    }
-    return ret;
-  } else if (i & ENABLER) {
-    return "E";
-  } else if (i & FIXED) {
-    return "F " + std::to_string(i & ~FIXED);
-  } else if (i & LIGHTNING) {
-    return "L " + std::to_string(i & ~LIGHTNING);
-  } else if (i & HORIZ) {
-    return "H " + std::to_string(i & ~HORIZ);
-  } else if (i & VERT) {
-    return "V " + std::to_string(i & ~VERT);
+  std::vector<std::string> ret;
+  if (i & UP) {
+    ret.push_back("U");
+  }
+  if (i & DOWN) {
+    ret.push_back("D");
+  }
+  if (i & LEFT) {
+    ret.push_back("L");
+  }
+  if (i & RIGHT) {
+    ret.push_back("R");
+  }
+  if (i & ENABLER) {
+    ret.push_back("E");
+  }
+  if (i & FIXED) {
+    ret.push_back("F");
+  }
+  if (i & LIGHTNING) {
+    ret.push_back("B");
+  }
+  if (i & HORIZ) {
+    ret.push_back("H");
+  }
+  if (i & VERT) {
+    ret.push_back("V");
   }
 
-  return std::to_string(i);
+  int mask = UP | DOWN | LEFT | RIGHT | ENABLER | FIXED | LIGHTNING | HORIZ | VERT;
+  ret.push_back(std::to_string(i & ~mask));
+
+  return absl::StrJoin(ret, " ");
 }
 
 // Helpers for converting a row to a string.

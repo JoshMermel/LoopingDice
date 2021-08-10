@@ -20,6 +20,9 @@ cc_test(
 cc_library(
     name = "enums",
     hdrs = ["enums.h"],
+    deps = [
+        "@com_google_absl//absl/strings",
+    ],
 )
 
 cc_test(
