@@ -9,15 +9,12 @@ template <std::size_t num_rows, std::size_t num_cols>
 bool validateLightningRowMove(const Board<num_rows, num_cols> &board,
                               int offset, bool forward,
                               const Validation &validation) {
-  if (validation == Validation::STATIC) {
+  if ((validation & Validation::STATIC) != Validation::NONE) {
     if (row_contains_fixed_cell(board, offset)) {
       return false;
     }
-  } else if (validation == Validation::ENABLER) {
-    if (!row_contains_enabler(board, offset)) {
-      return false;
-    }
-  } else if (validation == Validation::DYNAMIC) {
+  }
+  if ((validation & Validation::DYNAMIC) != Validation::NONE) {
     size_t end = forward ? num_cols - 1 : 0;
     size_t pre_end = forward ? num_cols - 2 : 1;
     if ((board[offset][end] & FIXED) ||
@@ -25,8 +22,14 @@ bool validateLightningRowMove(const Board<num_rows, num_cols> &board,
          board[offset][pre_end] & FIXED)) {
       return false;
     }
-  } else if (validation == Validation::ARROWS) {
+  }
+  if ((validation & Validation::ARROWS) != Validation::NONE) {
     if (row_contains_arrows_cell(board, offset)) {
+      return false;
+    }
+  }
+  if ((validation & Validation::ENABLER) != Validation::NONE) {
+    if (!row_contains_enabler(board, offset)) {
       return false;
     }
   }
@@ -53,15 +56,12 @@ template <std::size_t num_rows, std::size_t num_cols>
 bool validateLightningColMove(const Board<num_rows, num_cols> &board,
                               int offset, bool forward,
                               const Validation &validation) {
-  if (validation == Validation::STATIC) {
+  if ((validation & Validation::STATIC) != Validation::NONE) {
     if (col_contains_fixed_cell(board, offset)) {
       return false;
     }
-  } else if (validation == Validation::ENABLER) {
-    if (!col_contains_enabler(board, offset)) {
-      return false;
-    }
-  } else if (validation == Validation::DYNAMIC) {
+  }
+  if ((validation & Validation::DYNAMIC) != Validation::NONE) {
     size_t end = forward ? num_rows - 1 : 0;
     size_t pre_end = forward ? num_rows - 2 : 1;
     if ((board[end][offset] & FIXED) ||
@@ -69,8 +69,14 @@ bool validateLightningColMove(const Board<num_rows, num_cols> &board,
          board[pre_end][offset] & FIXED)) {
       return false;
     }
-  } else if (validation == Validation::ARROWS) {
+  }
+  if ((validation & Validation::ARROWS) != Validation::NONE) {
     if (col_contains_arrows_cell(board, offset)) {
+      return false;
+    }
+  }
+  if ((validation & Validation::ENABLER) != Validation::NONE) {
+    if (!col_contains_enabler(board, offset)) {
       return false;
     }
   }

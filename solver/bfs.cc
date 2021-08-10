@@ -5,25 +5,24 @@
 #include "enums.h"
 #include "moves.h"
 
-constexpr size_t num_rows = 5;
-constexpr size_t num_cols = 2;
+constexpr size_t num_rows = 4;
+constexpr size_t num_cols = 4;
 constexpr Board<num_rows, num_cols> initial = {{
-	{{2,2}},
-	{{FIXED, FIXED}},
-	{{1,1}},
-	{{FIXED, FIXED}},
-	{{2,2|LIGHTNING}},
+  {{ENABLER,3,3,3}},
+  {{3,1|FIXED,1|FIXED,1|FIXED}},
+  {{3,1|FIXED,1|FIXED,1|FIXED}},
+  {{3,1|FIXED,1|FIXED,1|FIXED}},
 }};
 
-Mode row_mode = Mode::LIGHTNING;
-Mode col_mode = Mode::LIGHTNING;
-Validation validation = Validation::DYNAMIC;
+Mode row_mode = Mode::BASIC;
+Mode col_mode = Mode::BASIC;
+Validation validation = Validation::DYNAMIC | Validation::ENABLER;
 
-template<std::size_t num_rows, std::size_t num_cols>
-struct Node {
+template <std::size_t num_rows, std::size_t num_cols> struct Node {
   Board<num_rows, num_cols> board;
   std::string path;
-  Node(const Board<num_rows, num_cols>& b, const std::string& p) : board(b), path(p) {}
+  Node(const Board<num_rows, num_cols> &b, const std::string &p)
+      : board(b), path(p) {}
 };
 
 template<std::size_t num_rows, std::size_t num_cols>
@@ -94,6 +93,7 @@ int main () {
   while (!q.empty()) {
     Node<num_rows, num_cols> next = q.front();
     exploreNeighbors<num_rows, num_cols>(next.board, q, seen, next.path);
+    if (shouldPrint(next.board))
     std::cout << boardToString(next.board, row_mode, "\n") 
 	    << std::endl << next.path << std::endl << std::endl;
     q.pop();

@@ -8,17 +8,13 @@
 template <std::size_t num_rows, std::size_t num_cols>
 bool validateCarouselRowMove(const Board<num_rows, num_cols> &board, int offset,
                          bool forward, const Validation &validation) {
-  if (validation == Validation::STATIC) {
+  if ((validation & Validation::STATIC) != Validation::NONE) {
     if (row_contains_fixed_cell(board, offset) ||
         (row_contains_fixed_cell(board, offset + 1))) {
       return false;
     }
-  } else if (validation == Validation::ENABLER) {
-    if (!row_contains_enabler(board, offset) &&
-        !row_contains_enabler(board, offset + 1)) {
-      return false;
-    }
-  } else if (validation == Validation::DYNAMIC) {
+  }
+  if ((validation & Validation::DYNAMIC) != Validation::NONE) {
     if (offset == num_rows - 1) {
       if ((forward && board[0][0] & FIXED) ||
           (forward && board[num_rows - 1][num_cols - 1] & FIXED) ||
@@ -27,7 +23,8 @@ bool validateCarouselRowMove(const Board<num_rows, num_cols> &board, int offset,
         return false;
       }
     }
-  } else if (validation == Validation::ARROWS) {
+  }
+  if ((validation & Validation::ARROWS) != Validation::NONE) {
     int right_idx = offset;
     int left_idx = offset;
 
@@ -51,6 +48,12 @@ bool validateCarouselRowMove(const Board<num_rows, num_cols> &board, int offset,
       if (board[left_idx][col] & VERT) {
         return false;
       }
+    }
+  }
+  if ((validation & Validation::ENABLER) != Validation::NONE) {
+    if (!row_contains_enabler(board, offset) &&
+        !row_contains_enabler(board, offset + 1)) {
+      return false;
     }
   }
 
@@ -95,17 +98,13 @@ Board<num_rows, num_cols> carouselRowMove(Board<num_rows, num_cols> board,
 template <std::size_t num_rows, std::size_t num_cols>
 bool validateCarouselColMove(const Board<num_rows, num_cols> &board, int offset,
                          bool forward, const Validation &validation) {
-  if (validation == Validation::STATIC) {
+  if ((validation & Validation::STATIC) != Validation::NONE) {
     if (col_contains_fixed_cell(board, offset) ||
         (col_contains_fixed_cell(board, offset + 1))) {
       return false;
     }
-  } else if (validation == Validation::ENABLER) {
-    if (!col_contains_enabler(board, offset) &&
-        !col_contains_enabler(board, offset + 1)) {
-      return false;
-    }
-  } else if (validation == Validation::DYNAMIC) {
+  }
+  if ((validation & Validation::DYNAMIC) != Validation::NONE) {
     if (offset == num_cols - 1) {
       if ((forward && board[0][0] & FIXED) ||
           (forward && board[num_rows - 1][num_cols - 1] & FIXED) ||
@@ -114,7 +113,8 @@ bool validateCarouselColMove(const Board<num_rows, num_cols> &board, int offset,
         return false;
       }
     }
-  } else if (validation == Validation::ARROWS) {
+  }
+  if ((validation & Validation::ARROWS) != Validation::NONE) {
     int down_idx = offset;
     int up_idx = offset;
 
@@ -139,6 +139,12 @@ bool validateCarouselColMove(const Board<num_rows, num_cols> &board, int offset,
       if (board[row][up_idx] & HORIZ) {
         return false;
       }
+    }
+  }
+  if ((validation & Validation::ENABLER) != Validation::NONE) {
+    if (!col_contains_enabler(board, offset) &&
+        !col_contains_enabler(board, offset + 1)) {
+      return false;
     }
   }
 

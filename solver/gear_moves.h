@@ -8,24 +8,27 @@
 template <std::size_t num_rows, std::size_t num_cols>
 bool validateGearRowMove(const Board<num_rows, num_cols> &board, int offset,
                          bool forward, const Validation &validation) {
-  if (validation == Validation::STATIC) {
+  if ((validation & Validation::STATIC) != Validation::NONE) {
     if (row_contains_fixed_cell(board, offset) ||
         (row_contains_fixed_cell(board, offset + 1))) {
       return false;
     }
-  } else if (validation == Validation::ENABLER) {
-    if (!row_contains_enabler(board, offset) &&
-        !row_contains_enabler(board, offset + 1)) {
-      return false;
-    }
-  } else if (validation == Validation::DYNAMIC) {
+  }
+  if ((validation & Validation::DYNAMIC) != Validation::NONE) {
     if (row_ends_in_fixed(board, offset, forward) ||
         row_ends_in_fixed(board, offset + 1, !forward)) {
       return false;
     }
-  } else if (validation == Validation::ARROWS) {
+  }
+  if ((validation & Validation::ARROWS) != Validation::NONE) {
     if (row_contains_arrows_cell(board, offset) ||
         row_contains_arrows_cell(board, offset + 1)) {
+      return false;
+    }
+  }
+  if ((validation & Validation::ENABLER) != Validation::NONE) {
+    if (!row_contains_enabler(board, offset) &&
+        !row_contains_enabler(board, offset + 1)) {
       return false;
     }
   }
@@ -49,24 +52,27 @@ Board<num_rows, num_cols> gearRowMove(Board<num_rows, num_cols> board,
 template <std::size_t num_rows, std::size_t num_cols>
 bool validateGearColMove(const Board<num_rows, num_cols> &board, int offset,
                          bool forward, const Validation &validation) {
-  if (validation == Validation::STATIC) {
+  if ((validation & Validation::STATIC) != Validation::NONE) {
     if (col_contains_fixed_cell(board, offset) ||
         (col_contains_fixed_cell(board, offset + 1))) {
       return false;
     }
-  } else if (validation == Validation::ENABLER) {
-    if (!col_contains_enabler(board, offset) &&
-        !col_contains_enabler(board, offset + 1)) {
-      return false;
-    }
-  } else if (validation == Validation::DYNAMIC) {
+  }
+  if ((validation & Validation::DYNAMIC) != Validation::NONE) {
     if (col_ends_in_fixed(board, offset, forward) ||
         col_ends_in_fixed(board, offset + 1, !forward)) {
       return false;
     }
-  } else if (validation == Validation::ARROWS) {
+  }
+  if ((validation & Validation::ARROWS) != Validation::NONE) {
     if (col_contains_arrows_cell(board, offset) ||
         col_contains_arrows_cell(board, offset + 1)) {
+      return false;
+    }
+  }
+  if ((validation & Validation::ENABLER) != Validation::NONE) {
+    if (!col_contains_enabler(board, offset) &&
+        !col_contains_enabler(board, offset + 1)) {
       return false;
     }
   }

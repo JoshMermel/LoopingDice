@@ -38,7 +38,7 @@ TEST(Board, BandagedToString) {
   }};
 
   EXPECT_EQ(boardToString(b, Mode::BANDAGED, ","),
-            "B 0 U,B 1 D R,B 2 D L,B 3 D,B 4 U R,B 5 U L");
+            "U 0,D R 1,D L 2,D 3,U R 4,U L 5");
 }
 
 TEST(Board, OthersToString) {
@@ -47,7 +47,7 @@ TEST(Board, OthersToString) {
       {{3 | LIGHTNING, 4 | ENABLER, 5}},
   }};
 
-  EXPECT_EQ(boardToString(b, Mode::LIGHTNING, ","), "H 0,V 1,F 2,L 3,E,5");
+  EXPECT_EQ(boardToString(b, Mode::LIGHTNING, ","), "H 0,V 1,F 2,B 3,E 4,5");
 }
 
 TEST(Board, RowContainsEnabler) {

@@ -6,6 +6,8 @@
 #include <string>
 #include <unordered_map>
 
+#include "absl/strings/str_join.h"
+
 // Defines the kinds of moves that are possible
 enum class Mode {
   BASIC = 1,
@@ -19,13 +21,24 @@ enum class Mode {
   LIGHTNING = 8,
 };
 
-enum class Validation {
-  NONE = 1,
-  ARROWS = 2,
-  DYNAMIC = 3,
+enum class Validation : int32_t {
+  NONE = 0,
+  ARROWS = 1,
+  DYNAMIC = 2,
   ENABLER = 4,
-  STATIC = 5
+  STATIC = 8
 };
+
+Validation operator|(Validation lhs, Validation rhs) {
+  return static_cast<Validation>(static_cast<char>(lhs) |
+                                 static_cast<char>(rhs));
+}
+Validation operator&(Validation lhs, Validation rhs) {
+  return static_cast<Validation>(static_cast<char>(lhs) &
+                                 static_cast<char>(rhs));
+}
+
+
 
 std::string modeToString(const Mode &mode) {
   switch (mode) {
@@ -49,20 +62,28 @@ std::string modeToString(const Mode &mode) {
   return "ERROR";
 }
 
+// TODO(jmerm): update to work with combined validations
 std::string validationToString(const Validation &validation) {
-  switch (validation) {
-  case Validation::NONE:
-    return "NONE";
-  case Validation::ARROWS:
-    return "ARROWS";
-  case Validation::DYNAMIC:
-    return "DYNAMIC";
-  case Validation::ENABLER:
-    return "ENABLER";
-  case Validation::STATIC:
-    return "STATIC";
+  std::vector<std::string> ret;
+
+  if ((validation & Validation::ARROWS) != Validation::NONE) {
+    ret.push_back("ARROWS");
   }
-  return "ERROR";
+  if ((validation & Validation::DYNAMIC) != Validation::NONE) {
+    ret.push_back("DYNAMIC");
+  }
+  if ((validation & Validation::ENABLER) != Validation::NONE) {
+    ret.push_back("ENABLER");
+  }
+  if ((validation & Validation::STATIC) != Validation::NONE) {
+    ret.push_back("STATIC");
+  }
+
+  if (ret.empty()) {
+    return "NONE";
+  } else {
+    return absl::StrJoin(ret, "+");
+  }
 }
 
 bool isCompatible(const Mode &horizontal, const Mode &vertical) {
