@@ -5,3 +5,4 @@ E D R,E D L,0,E U R,E U L,0,2,2,1
 E D R,E D L,2,E U R,E U L,2,0,0,1
 
 # R0,C1,R1,C0',R0',C1',R0,C0,R0 (9)
+human solution: Col0' Row2 Col1 Row0 Col2' Row2' Col1 Row0' Col0' Row2' Col2' Row1' Col1' Row0' (14)
