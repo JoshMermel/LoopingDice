@@ -1,7 +1,5 @@
 package com.joshmermelstein.loopoverplus
 
-// TODO(jmerm): when I write those tests, also write MoveEffect/MoveValidator tests to show that new hybrids behave right.
-
 // Gamecells need a lot of attributes to know how to draw themselves and how to behave in response
 // to moves. This struct exists to encapsulate that in an attempt to pull some complexity our of
 // GameCell.kt.
