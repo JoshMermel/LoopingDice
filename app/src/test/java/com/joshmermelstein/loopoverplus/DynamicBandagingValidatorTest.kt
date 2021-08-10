@@ -30,11 +30,11 @@ class DynamicBandagingValidatorTest : TestCase() {
         // Illegal row
         assertEquals(
             basicFactory.makeMove(Axis.HORIZONTAL, Direction.BACKWARD, 0, board),
-            IllegalMove(listOf(Pair(0, 0)))
+            IllegalMove(lockCords = listOf(Pair(0, 0)))
         )
         assertEquals(
             basicFactory.makeMove(Axis.HORIZONTAL, Direction.FORWARD, 1, board),
-            IllegalMove(listOf(Pair(1, 2)))
+            IllegalMove(lockCords = listOf(Pair(1, 2)))
         )
         // Legal col
         assertEquals(
@@ -48,11 +48,11 @@ class DynamicBandagingValidatorTest : TestCase() {
         // Illegal col
         assertEquals(
             basicFactory.makeMove(Axis.VERTICAL, Direction.BACKWARD, 0, board),
-            IllegalMove(listOf(Pair(0, 0)))
+            IllegalMove(lockCords = listOf(Pair(0, 0)))
         )
         assertEquals(
             basicFactory.makeMove(Axis.VERTICAL, Direction.FORWARD, 2, board),
-            IllegalMove(listOf(Pair(1, 2)))
+            IllegalMove(lockCords = listOf(Pair(1, 2)))
         )
     }
 
@@ -80,7 +80,7 @@ class DynamicBandagingValidatorTest : TestCase() {
         // Illegal row
         assertEquals(
             bandagedFactory.makeMove(Axis.HORIZONTAL, Direction.BACKWARD, 1, board),
-            IllegalMove(listOf(Pair(2, 0)))
+            IllegalMove(lockCords = listOf(Pair(2, 0)))
         )
         // Legal col
         assertEquals(
@@ -94,7 +94,7 @@ class DynamicBandagingValidatorTest : TestCase() {
         // Illegal col
         assertEquals(
             bandagedFactory.makeMove(Axis.VERTICAL, Direction.BACKWARD, 2, board),
-            IllegalMove(listOf(Pair(0, 3)))
+            IllegalMove(lockCords = listOf(Pair(0, 3)))
         )
     }
 
@@ -124,9 +124,9 @@ class DynamicBandagingValidatorTest : TestCase() {
 
         val expectedIllegals =
             listOf(
-                IllegalMove(listOf(Pair(3, 0))),
-                IllegalMove(listOf(Pair(2, 3))),
-                IllegalMove(listOf(Pair(0, 4))),
+                IllegalMove(lockCords = listOf(Pair(3, 0))),
+                IllegalMove(lockCords = listOf(Pair(2, 3))),
+                IllegalMove(lockCords = listOf(Pair(0, 4))),
             )
 
         for (board in listOf(board1, board2)) {
@@ -195,10 +195,10 @@ class DynamicBandagingValidatorTest : TestCase() {
 
         val expectedIllegals =
             listOf(
-                IllegalMove(listOf(Pair(2, 0))),
-                IllegalMove(listOf(Pair(2, 4))),
-                IllegalMove(listOf(Pair(0, 3))),
-                IllegalMove(listOf(Pair(3, 3))),
+                IllegalMove(lockCords = listOf(Pair(2, 0))),
+                IllegalMove(lockCords = listOf(Pair(2, 4))),
+                IllegalMove(lockCords = listOf(Pair(0, 3))),
+                IllegalMove(lockCords = listOf(Pair(3, 3))),
             )
 
         for (board in listOf(board1, board2)) {
@@ -257,11 +257,11 @@ class DynamicBandagingValidatorTest : TestCase() {
         // Illegal row
         assertEquals(
             gearFactory.makeMove(Axis.HORIZONTAL, Direction.BACKWARD, 0, board),
-            IllegalMove(listOf(Pair(0, 0)))
+            IllegalMove(lockCords = listOf(Pair(0, 0)))
         )
         assertEquals(
             gearFactory.makeMove(Axis.HORIZONTAL, Direction.FORWARD, 2, board),
-            IllegalMove(listOf(Pair(3, 0)))
+            IllegalMove(lockCords = listOf(Pair(3, 0)))
         )
         // Legal col
         assertEquals(
@@ -275,11 +275,11 @@ class DynamicBandagingValidatorTest : TestCase() {
         // Illegal col
         assertEquals(
             gearFactory.makeMove(Axis.VERTICAL, Direction.BACKWARD, 0, board),
-            IllegalMove(listOf(Pair(0, 0)))
+            IllegalMove(lockCords = listOf(Pair(0, 0)))
         )
         assertEquals(
             gearFactory.makeMove(Axis.VERTICAL, Direction.FORWARD, 2, board),
-            IllegalMove(listOf(Pair(2, 2)))
+            IllegalMove(lockCords = listOf(Pair(2, 2)))
         )
     }
 
@@ -312,11 +312,11 @@ class DynamicBandagingValidatorTest : TestCase() {
         // Illegal row
         assertEquals(
             lightningFactory.makeMove(Axis.HORIZONTAL, Direction.FORWARD, 1, board),
-            IllegalMove(listOf(Pair(1, 4)))
+            IllegalMove(lockCords = listOf(Pair(1, 4)))
         )
         assertEquals(
             lightningFactory.makeMove(Axis.HORIZONTAL, Direction.BACKWARD, 1, board),
-            IllegalMove(listOf(Pair(1, 0)))
+            IllegalMove(lockCords = listOf(Pair(1, 0)))
         )
         // Legal col
         assertEquals(
@@ -330,11 +330,11 @@ class DynamicBandagingValidatorTest : TestCase() {
         // Illegal col
         assertEquals(
             lightningFactory.makeMove(Axis.VERTICAL, Direction.FORWARD, 1, board),
-            IllegalMove(listOf(Pair(3, 1)))
+            IllegalMove(lockCords = listOf(Pair(3, 1)))
         )
         assertEquals(
             lightningFactory.makeMove(Axis.VERTICAL, Direction.BACKWARD, 1, board),
-            IllegalMove(listOf(Pair(0, 1)))
+            IllegalMove(lockCords = listOf(Pair(0, 1)))
         )
     }
 
@@ -362,7 +362,7 @@ class DynamicBandagingValidatorTest : TestCase() {
         // Illegal row
         assertEquals(
             wideFactory.makeMove(Axis.HORIZONTAL, Direction.BACKWARD, 0, board),
-            IllegalMove(listOf(Pair(0, 0)))
+            IllegalMove(lockCords = listOf(Pair(0, 0)))
         )
         // Legal col
         assertEquals(
@@ -372,7 +372,7 @@ class DynamicBandagingValidatorTest : TestCase() {
         // Illegal col
         assertEquals(
             wideFactory.makeMove(Axis.VERTICAL, Direction.BACKWARD, 0, board),
-            IllegalMove(listOf(Pair(0, 0)))
+            IllegalMove(lockCords = listOf(Pair(0, 0)))
         )
     }
 }

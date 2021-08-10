@@ -32,11 +32,11 @@ class CombinedValidatorTest : TestCase() {
         // Illegal row
         assertEquals(
             factory.makeMove(Axis.HORIZONTAL, Direction.BACKWARD, 0, board),
-            IllegalMove(listOf(Pair(0, 0)))
+            IllegalMove(lockCords = listOf(Pair(0, 0)))
         )
         assertEquals(
             factory.makeMove(Axis.HORIZONTAL, Direction.FORWARD, 2, board),
-            IllegalMove(listOf(Pair(2, 2)))
+            IllegalMove(lockCords = listOf(Pair(2, 2)))
         )
         // Legal col
         assertEquals(
@@ -46,7 +46,7 @@ class CombinedValidatorTest : TestCase() {
         // Illegal col
         assertEquals(
             factory.makeMove(Axis.VERTICAL, Direction.BACKWARD, 0, board),
-            IllegalMove(listOf(Pair(0, 0)))
+            IllegalMove(lockCords = listOf(Pair(0, 0)))
         )
     }
 
@@ -75,15 +75,15 @@ class CombinedValidatorTest : TestCase() {
         // Illegal row
         assertEquals(
             factory.makeMove(Axis.HORIZONTAL, Direction.FORWARD, 0, board),
-            IllegalMove(listOf(Pair(0, 0)))
+            IllegalMove(lockCords = listOf(Pair(0, 0)))
         )
         assertEquals(
             factory.makeMove(Axis.HORIZONTAL, Direction.FORWARD, 1, board),
-            IllegalMove(listOf(Pair(1, 2)))
+            IllegalMove(lockCords = listOf(Pair(1, 2)))
         )
         assertEquals(
             factory.makeMove(Axis.HORIZONTAL, Direction.FORWARD, 3, board),
-            IllegalMove(listOf(Pair(0, 1), Pair(1,2), Pair(2,1)))
+            IllegalMove(keyCords = listOf(Pair(0, 1), Pair(1,2), Pair(2,1)))
         )
         // Legal col
         assertEquals(
@@ -93,11 +93,11 @@ class CombinedValidatorTest : TestCase() {
         // Illegal col
         assertEquals(
             factory.makeMove(Axis.VERTICAL, Direction.BACKWARD, 0, board),
-            IllegalMove(listOf(Pair(0, 1), Pair(1,2), Pair(2,1)))
+            IllegalMove(keyCords = listOf(Pair(0, 1), Pair(1,2), Pair(2,1)))
         )
         assertEquals(
             factory.makeMove(Axis.VERTICAL, Direction.BACKWARD, 1, board),
-            IllegalMove(listOf(Pair(2, 1)))
+            IllegalMove(lockCords = listOf(Pair(2, 1)))
         )
     }
 
@@ -125,11 +125,11 @@ class CombinedValidatorTest : TestCase() {
         // Illegal row
         assertEquals(
             factory.makeMove(Axis.HORIZONTAL, Direction.FORWARD, 0, board),
-            IllegalMove(listOf(Pair(0, 0)))
+            IllegalMove(lockCords = listOf(Pair(0, 0)))
         )
         assertEquals(
             factory.makeMove(Axis.HORIZONTAL, Direction.FORWARD, 1, board),
-            IllegalMove(listOf(Pair(1, 0)))
+            IllegalMove(lockCords = listOf(Pair(1, 0)))
         )
         // Legal col
         assertEquals(
@@ -139,11 +139,11 @@ class CombinedValidatorTest : TestCase() {
         // Illegal col
         assertEquals(
             factory.makeMove(Axis.VERTICAL, Direction.BACKWARD, 0, board),
-            IllegalMove(listOf(Pair(3, 0),Pair(0, 0)))
+            IllegalMove(lockCords = listOf(Pair(3, 0),Pair(0, 0)))
         )
         assertEquals(
             factory.makeMove(Axis.VERTICAL, Direction.BACKWARD, 1, board),
-            IllegalMove(listOf(Pair(0, 1)))
+            IllegalMove(lockCords = listOf(Pair(0, 1)))
         )
     }
 
@@ -173,15 +173,15 @@ class CombinedValidatorTest : TestCase() {
         // Illegal row
         assertEquals(
             factory.makeMove(Axis.HORIZONTAL, Direction.BACKWARD, 2, board),
-            IllegalMove(listOf(Pair(2, 0)))
+            IllegalMove(lockCords = listOf(Pair(2, 0)))
         )
         assertEquals(
             factory.makeMove(Axis.HORIZONTAL, Direction.BACKWARD, 1, board),
-            IllegalMove(listOf(Pair(0, 0),Pair(2, 0)))
+            IllegalMove(keyCords = listOf(Pair(0, 0),Pair(2, 0)))
         )
         assertEquals(
             factory.makeMove(Axis.HORIZONTAL, Direction.BACKWARD, 0, board),
-            IllegalMove(listOf(Pair(0, 0)))
+            IllegalMove(lockCords = listOf(Pair(0, 0)))
         )
         // Legal col
         assertEquals(
@@ -191,7 +191,7 @@ class CombinedValidatorTest : TestCase() {
         // Illegal col
         assertEquals(
             factory.makeMove(Axis.VERTICAL, Direction.BACKWARD, 0, board),
-            IllegalMove(listOf(Pair(0, 0)))
+            IllegalMove(lockCords = listOf(Pair(0, 0)))
         )
     }
 
@@ -222,11 +222,11 @@ class CombinedValidatorTest : TestCase() {
         // Illegal row
         assertEquals(
             factory.makeMove(Axis.HORIZONTAL, Direction.BACKWARD, 0, board),
-            IllegalMove(listOf(Pair(0, 0)))
+            IllegalMove(lockCords = listOf(Pair(0, 0)))
         )
         assertEquals(
             factory.makeMove(Axis.HORIZONTAL, Direction.BACKWARD, 2, board),
-            IllegalMove(listOf(Pair(0, 1),Pair(1, 0)))
+            IllegalMove(keyCords = listOf(Pair(0, 1),Pair(1, 0)))
         )
         // Legal col
         assertEquals(
@@ -236,11 +236,11 @@ class CombinedValidatorTest : TestCase() {
         // Illegal col
         assertEquals(
             factory.makeMove(Axis.VERTICAL, Direction.BACKWARD, 0, board),
-            IllegalMove(listOf(Pair(0, 0)))
+            IllegalMove(lockCords = listOf(Pair(0, 0)))
         )
         assertEquals(
             factory.makeMove(Axis.VERTICAL, Direction.BACKWARD, 2, board),
-            IllegalMove(listOf(Pair(0, 1),Pair(1, 0)))
+            IllegalMove(keyCords = listOf(Pair(0, 1),Pair(1, 0)))
         )
     }
 

@@ -42,8 +42,9 @@ class GameCell(
     var offsetY: Double = 0.0
 
     // Some gamecell configurations have an alternate symbol they draw in special circumstances.
-    // This bool controls whether that is drawn instead of their usual pips.
-    var shouldDrawSpecialIcon: Boolean = false
+    // These booleans control whether an alternate symbol is drawn instead of their usual pips.
+    var shouldDrawKey: Boolean = false
+    var shouldDrawLock: Boolean = false
 
     // The bounds arguments to this function tell the cell how large the board is so it knows how
     // to scale its coordinate. x, y, and offsets are scaled so that 1.0 means the width of one
@@ -161,30 +162,12 @@ class GameCell(
         canvas: Canvas
     ) {
         when {
-            shouldDrawSpecialIcon -> drawPipsSpecial(left, top, right, bottom, canvas)
+            shouldDrawKey -> drawIcon(data.key, left, top, right, bottom, canvas)
+            shouldDrawLock -> drawIcon(data.lock, left, top, right, bottom, canvas)
             config.isLighting -> drawIcon(data.lightning, left, top, right, bottom, canvas)
             config.isHoriz -> drawIcon(data.hArrow, left, top, right, bottom, canvas)
             config.isVert -> drawIcon(data.vArrow, left, top, right, bottom, canvas)
             config.isFixed && config.numPips == 0 -> drawSmallLock(left, top, right, bottom, canvas)
-            else -> drawPipsTraditional(left, top, right, bottom, canvas)
-        }
-    }
-
-    // Draws special overlay on a die that isn't usually there.
-    // If the type of die doesn't have anything special to draw
-    private fun drawPipsSpecial(
-        left: Double,
-        top: Double,
-        right: Double,
-        bottom: Double,
-        canvas: Canvas
-    ) {
-        val isLockable = config.isHoriz || config.isVert || config.isFixed
-        // TODO(jmerm): is the else case here right? Could a non-basic type of gamecell ever end up
-        //  there and overwrite its normal icon with pips maybe?
-        when {
-            isLockable -> drawIcon(data.lock, left, top, right, bottom, canvas)
-            config.isEnabler -> drawIcon(data.key, left, top, right, bottom, canvas)
             else -> drawPipsTraditional(left, top, right, bottom, canvas)
         }
     }

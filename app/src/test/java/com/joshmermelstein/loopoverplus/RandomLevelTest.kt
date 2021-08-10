@@ -87,13 +87,13 @@ class RandomLevelTest : TestCase() {
 
                     // Other than bandaged cells, all cells must be unique in Bandaged mode.
                     val unbandagedFrequencies =
-                        board.filter { !it.startsWith("B") }.groupingBy { it }
+                        board.filter { !it.contains("[UDLR]".toRegex()) }.groupingBy { it }
                             .eachCount().values.toSet()
                     assertTrue(unbandagedFrequencies.size <= 1)
 
                     // Bandaged cells should have IDs <= 5 so they compare with each other correctly
                     val bandagedIds =
-                        board.filter { it.startsWith("B") }.map { it.split(" ")[1].toInt() }
+                        board.filter { it.contains("[UDLR]".toRegex()) }.map { it.takeLast(1).toInt() }
                     bandagedIds.forEach { assertTrue(it <= 5) }
                 }
             }
@@ -122,8 +122,10 @@ class RandomLevelTest : TestCase() {
                 for (numBandaged in arrayOf("Rare", "Common", "Frequent")) {
                     val board =
                         generateBandagedGoal(numRows, numCols, "Speckled", numBandaged)
-                    val keys = board.filter { it.startsWith("B") }.map { it[3] }.groupingBy { it }
-                        .eachCount().keys.toSet()
+                    val keys =
+                        board.filter { it.contains("[UDLR]".toRegex()) }.map { it.takeLast(1) }
+                            .groupingBy { it }
+                            .eachCount().keys.toSet()
                     assertEquals(keys.size, 1)
                 }
             }
@@ -152,10 +154,10 @@ class RandomLevelTest : TestCase() {
                     val board =
                         generateArrowsGoal(numRows, numCols, "Unique", numArrows)
                     // Arrows cells should have IDs <= 5 so they compare with each other correctly
-                    val lightningIds =
+                    val arrowIds =
                         board.filter { it.startsWith("H") || it.startsWith("V") }
                             .map { it.split(" ")[1].toInt() }
-                    lightningIds.forEach { assertTrue(it <= 5) }
+                    arrowIds.forEach { assertTrue(it <= 5) }
                 }
             }
         }
@@ -169,7 +171,7 @@ class RandomLevelTest : TestCase() {
                         generateLightningGoal(numRows, numCols, "Unique", numBolts)
                     // Lightning cells should have IDs <= 5 so they compare with each other correctly
                     val lightningIds =
-                        board.filter { it.startsWith("L") }.map { it.split(" ")[1].toInt() }
+                        board.filter { it.startsWith("B") }.map { it.split(" ")[1].toInt() }
                     lightningIds.forEach { assertTrue(it <= 5) }
                 }
             }
