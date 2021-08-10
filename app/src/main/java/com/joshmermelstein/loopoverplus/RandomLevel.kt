@@ -192,7 +192,7 @@ fun generateArrowsGoal(
 fun addBolts(board: Array<Int>, indices: List<Int>): Array<String> {
     return board.mapIndexed { idx, i ->
         (if (idx in indices) {
-            "L " + (i % 6).toString()
+            "B " + (i % 6).toString()
         } else {
             i.toString()
         })
