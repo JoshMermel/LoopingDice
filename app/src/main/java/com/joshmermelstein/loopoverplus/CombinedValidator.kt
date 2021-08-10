@@ -12,15 +12,10 @@ class CombinedValidator(private val validators: List<MoveValidator>, helpText: S
         return if (illegalMoves.isEmpty()) {
             move
         } else {
-            // TODO(jmerm): this is a silly way to combine illegal moves. Do better.
-            illegalMoves.fold(
-                IllegalMove(),
-                { accumulator, element ->
-                    IllegalMove(
-                        (accumulator.lockCords + element.lockCords).distinct(),
-                        (accumulator.keyCords + element.keyCords).distinct()
-                    )
-                })
+            IllegalMove(
+                illegalMoves.map { it.lockCords }.flatten().distinct(),
+                illegalMoves.map { it.keyCords }.flatten().distinct(),
+            )
         }
     }
 }
