@@ -62,7 +62,6 @@ std::string modeToString(const Mode &mode) {
   return "ERROR";
 }
 
-// TODO(jmerm): update to work with combined validations
 std::string validationToString(const Validation &validation) {
   std::vector<std::string> ret;
 

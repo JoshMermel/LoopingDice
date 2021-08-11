@@ -77,8 +77,6 @@ void slideCol(Board<num_rows, num_cols> &board, int offset, bool forward) {
 
 
 // Helper for converting a cell to a string
-// TODO(jmerm): consider expanding to support more complicated gamecell types
-// once I come up with syntax for those.
 std::string cellToString(int i) {
   std::vector<std::string> ret;
   if (i & UP) {
