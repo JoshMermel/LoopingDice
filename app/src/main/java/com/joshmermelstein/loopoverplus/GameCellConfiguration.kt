@@ -17,7 +17,6 @@ data class GameCellConfiguration(
     val numPips: Int = 0,
 )
 
-// TODO(jmerm): validate that the combination is sensible (and then return what?)
 // Factory for making `GameCellConfiguration`s from cell IDs in levels
 fun makeGamecellConfiguration(id: String): GameCellConfiguration {
     if (isNumeric(id)) {
@@ -30,8 +29,8 @@ fun makeGamecellConfiguration(id: String): GameCellConfiguration {
     val isVert = id.contains("V")
     val isHoriz = id.contains("H")
     val isLightning = id.contains("B")
-    val hasBondUp =  id.contains("U")
-    val hasBondDown =  id.contains("D")
+    val hasBondUp = id.contains("U")
+    val hasBondDown = id.contains("D")
     val hasBondLeft = id.contains("L")
     val hasBondRight = id.contains("R")
     val isFixed = id.contains("F")
@@ -39,6 +38,7 @@ fun makeGamecellConfiguration(id: String): GameCellConfiguration {
 
     val parts = id.split(" ")
     val number = parts.last().toIntOrNull() ?: 0
+
 
     val numPips = when {
         isFixed -> number
