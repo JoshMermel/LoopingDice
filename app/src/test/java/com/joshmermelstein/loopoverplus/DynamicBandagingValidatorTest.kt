@@ -66,9 +66,9 @@ class DynamicBandagingValidatorTest : TestCase() {
         val numRows = 3
         val numCols = 4
         val arr = arrayOf(
-            "B 0 R", "B 1 L", "2", "F 3",
-            "4", "5", "B 6 D R", "B 7 D L",
-            "F 8", "9", "B 10 U R", "B 11 U L"
+            "R ", "L 1", "2", "F 3",
+            "4", "5", "D R 6", "D L 7",
+            "F 8", "9", "U R 10", "U L 11"
         )
         val board = GameBoard(numRows, numCols, arr, fakeGameCellMetadata())
 
@@ -295,7 +295,7 @@ class DynamicBandagingValidatorTest : TestCase() {
         val arr = arrayOf(
             "0", "F 1", "2", "3", "4",
             "F 5", "B 6", "7", "8", "F 9",
-            "10", "11", "12", "B 13", "14",
+            "10", "11", "12", "B F 13", "14",
             "15", "F 16", "17", "18", "19",
         )
         val board = GameBoard(numRows, numCols, arr, fakeGameCellMetadata())
@@ -306,8 +306,8 @@ class DynamicBandagingValidatorTest : TestCase() {
             BasicMove(Axis.HORIZONTAL, Direction.FORWARD, 0, numRows, numCols)
         )
         assertEquals(
-            lightningFactory.makeMove(Axis.HORIZONTAL, Direction.FORWARD, 2, board),
-            LightningMove(Axis.HORIZONTAL, Direction.FORWARD, 2, numRows, numCols)
+            lightningFactory.makeMove(Axis.HORIZONTAL, Direction.BACKWARD, 2, board),
+            LightningMove(Axis.HORIZONTAL, Direction.BACKWARD, 2, numRows, numCols)
         )
         // Illegal row
         assertEquals(
@@ -318,14 +318,18 @@ class DynamicBandagingValidatorTest : TestCase() {
             lightningFactory.makeMove(Axis.HORIZONTAL, Direction.BACKWARD, 1, board),
             IllegalMove(lockCords = listOf(Pair(1, 0)))
         )
+        assertEquals(
+            lightningFactory.makeMove(Axis.HORIZONTAL, Direction.FORWARD, 2, board),
+            IllegalMove(lockCords = listOf(Pair(2, 3)))
+        )
         // Legal col
         assertEquals(
             lightningFactory.makeMove(Axis.VERTICAL, Direction.FORWARD, 0, board),
             BasicMove(Axis.VERTICAL, Direction.FORWARD, 0, numRows, numCols)
         )
         assertEquals(
-            lightningFactory.makeMove(Axis.VERTICAL, Direction.FORWARD, 3, board),
-            LightningMove(Axis.VERTICAL, Direction.FORWARD, 3, numRows, numCols)
+            lightningFactory.makeMove(Axis.VERTICAL, Direction.BACKWARD, 3, board),
+            LightningMove(Axis.VERTICAL, Direction.BACKWARD, 3, numRows, numCols)
         )
         // Illegal col
         assertEquals(
@@ -335,6 +339,10 @@ class DynamicBandagingValidatorTest : TestCase() {
         assertEquals(
             lightningFactory.makeMove(Axis.VERTICAL, Direction.BACKWARD, 1, board),
             IllegalMove(lockCords = listOf(Pair(0, 1)))
+        )
+        assertEquals(
+            lightningFactory.makeMove(Axis.VERTICAL, Direction.FORWARD, 3, board),
+            IllegalMove(lockCords = listOf(Pair(2, 3)))
         )
     }
 

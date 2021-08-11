@@ -83,7 +83,7 @@ class CombinedValidatorTest : TestCase() {
         )
         assertEquals(
             factory.makeMove(Axis.HORIZONTAL, Direction.FORWARD, 3, board),
-            IllegalMove(keyCords = listOf(Pair(0, 1), Pair(1,2), Pair(2,1)))
+            IllegalMove(keyCords = listOf(Pair(0, 1), Pair(1, 2), Pair(2, 1)))
         )
         // Legal col
         assertEquals(
@@ -93,7 +93,7 @@ class CombinedValidatorTest : TestCase() {
         // Illegal col
         assertEquals(
             factory.makeMove(Axis.VERTICAL, Direction.BACKWARD, 0, board),
-            IllegalMove(keyCords = listOf(Pair(0, 1), Pair(1,2), Pair(2,1)))
+            IllegalMove(keyCords = listOf(Pair(0, 1), Pair(1, 2), Pair(2, 1)))
         )
         assertEquals(
             factory.makeMove(Axis.VERTICAL, Direction.BACKWARD, 1, board),
@@ -139,7 +139,7 @@ class CombinedValidatorTest : TestCase() {
         // Illegal col
         assertEquals(
             factory.makeMove(Axis.VERTICAL, Direction.BACKWARD, 0, board),
-            IllegalMove(lockCords = listOf(Pair(3, 0),Pair(0, 0)))
+            IllegalMove(lockCords = listOf(Pair(3, 0), Pair(0, 0)))
         )
         assertEquals(
             factory.makeMove(Axis.VERTICAL, Direction.BACKWARD, 1, board),
@@ -177,7 +177,7 @@ class CombinedValidatorTest : TestCase() {
         )
         assertEquals(
             factory.makeMove(Axis.HORIZONTAL, Direction.BACKWARD, 1, board),
-            IllegalMove(keyCords = listOf(Pair(0, 0),Pair(2, 0)))
+            IllegalMove(keyCords = listOf(Pair(0, 0), Pair(2, 0)))
         )
         assertEquals(
             factory.makeMove(Axis.HORIZONTAL, Direction.BACKWARD, 0, board),
@@ -194,8 +194,6 @@ class CombinedValidatorTest : TestCase() {
             IllegalMove(lockCords = listOf(Pair(0, 0)))
         )
     }
-
-    // No test for Dynamic + Static because that combo doesn't make sense
 
     fun testEnablerStatic() {
         val factory = MoveFactory(
@@ -226,7 +224,7 @@ class CombinedValidatorTest : TestCase() {
         )
         assertEquals(
             factory.makeMove(Axis.HORIZONTAL, Direction.BACKWARD, 2, board),
-            IllegalMove(keyCords = listOf(Pair(0, 1),Pair(1, 0)))
+            IllegalMove(keyCords = listOf(Pair(0, 1), Pair(1, 0)))
         )
         // Legal col
         assertEquals(
@@ -240,13 +238,9 @@ class CombinedValidatorTest : TestCase() {
         )
         assertEquals(
             factory.makeMove(Axis.VERTICAL, Direction.BACKWARD, 2, board),
-            IllegalMove(keyCords = listOf(Pair(0, 1),Pair(1, 0)))
+            IllegalMove(keyCords = listOf(Pair(0, 1), Pair(1, 0)))
         )
     }
 
-    // TODO(jmerm): are there other hybrid gamecells it would convenient to test here?
-    //  - E + Bonds?
-    //  - E + Fixed in dynamic mode
-    //  - LightningBolt + stuff?
     // TODO(jmerm): triple validation hybrids? (A+E+S, A+E+D)
 }
