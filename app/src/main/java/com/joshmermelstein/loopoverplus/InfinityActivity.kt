@@ -237,10 +237,10 @@ class InfinityActivity : AppCompatActivity() {
             val colDepthSpinner = findViewById<Spinner>(R.id.colDepthSpinner)
 
             val oldDepth = getColDepth()
-            val maxDepth = if (rowMode == "Wide") {
-                getNumCols()
-            } else {
+            val maxDepth = if (colMode == "Static Cells") {
                 getNumCols() - 1
+            } else {
+                getNumCols()
             }
 
             val options = (1..maxDepth).map { num -> num.toString() }
