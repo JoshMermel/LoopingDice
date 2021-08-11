@@ -76,12 +76,15 @@ except that the integer must come last. The possible attributes are:
 
 | spec | effect | 
 | --- | --- |
-|V | a vertical gamecell whose color is determined by the number|
-|H | a horizontal  gamecell whose color is determined by the number|
-|F | a fixed cell (for static + dynamic modes) with a number of pips determined by the number |
-|E | An enabler cell|
-|U D L R | a bandaged cell with color determined by the number and bonds determined by which of the {U, D, L, R} follow the number. Order does not matter.|
-|B | A lightning bolt cell with color determined by the number |
+| V | a vertical gamecell whose color is determined by the number|
+| H | a horizontal  gamecell whose color is determined by the number|
+| F | a fixed cell (for static + dynamic modes) with a number of pips determined by the number |
+| E | a cell with enabler properties |
+| U | a bond up |
+| D | a bond down |
+| L | a bond left |
+| R | a bond right |
+| B | A lightning bolt cell with color determined by the number |
 
 The integer must be in the range 0 to 35 and determines what color the
 cell is as well as how many pips it has (if applicable). If the
@@ -102,10 +105,11 @@ Some examples gamecells:
 | H E | An enabler cell that's also horizontal |
 | F B | A fixed cell that's also a lightning cell |
 
-Everything after the help text is ignored. In most level files, I've used this
-as a space for notes such as the optimal solution or my personal best solution.
 Note that not all combinations will render nicely, i.e. a cell that's both V
 and B won't know what symbol to draw.
+
+Everything after the help text is ignored. In most level files, I've used this
+as a space for notes such as the optimal solution or my personal best solution.
 
 ### Packs
 

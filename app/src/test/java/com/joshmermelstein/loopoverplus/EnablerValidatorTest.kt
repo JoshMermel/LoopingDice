@@ -26,7 +26,7 @@ class EnablerValidatorTest : TestCase() {
         // Illegal row
         assertEquals(
             basicFactory.makeMove(Axis.HORIZONTAL, Direction.FORWARD, 1, board),
-            IllegalMove(listOf(Pair(0, 0)))
+            IllegalMove(keyCords = listOf(Pair(0, 0)))
         )
         // Legal col
         assertEquals(
@@ -36,7 +36,7 @@ class EnablerValidatorTest : TestCase() {
         // Illegal col
         assertEquals(
             basicFactory.makeMove(Axis.VERTICAL, Direction.FORWARD, 1, board),
-            IllegalMove(listOf(Pair(0, 0)))
+            IllegalMove(keyCords = listOf(Pair(0, 0)))
         )
     }
 
@@ -50,31 +50,39 @@ class EnablerValidatorTest : TestCase() {
         val numRows = 3
         val numCols = 4
         val arr = arrayOf(
-            "B 0 R", "B 1 L", "2", "E",
-            "4", "5", "B 6 D R", "B 7 D L",
-            "8", "9", "B 10 U R", "B 11 U L"
+            "R E", "L E", "D R 2", "D L 3",
+            "V 4", "5", "U R 6", "U L 7",
+            "8", "9", "10", "11"
         )
         val board = GameBoard(numRows, numCols, arr, fakeGameCellMetadata())
 
         // Legal row
         assertEquals(
             bandagedFactory.makeMove(Axis.HORIZONTAL, Direction.FORWARD, 0, board),
-            WideMove(Axis.HORIZONTAL, Direction.FORWARD, 0, numRows, numCols, 1)
+            WideMove(Axis.HORIZONTAL, Direction.FORWARD, 0, numRows, numCols, 2)
+        )
+        assertEquals(
+            bandagedFactory.makeMove(Axis.HORIZONTAL, Direction.FORWARD, 1, board),
+            WideMove(Axis.HORIZONTAL, Direction.FORWARD, 0, numRows, numCols, 2)
         )
         // Illegal row
         assertEquals(
-            bandagedFactory.makeMove(Axis.HORIZONTAL, Direction.FORWARD, 1, board),
-            IllegalMove(listOf(Pair(0, 3)))
+            bandagedFactory.makeMove(Axis.HORIZONTAL, Direction.FORWARD, 2, board),
+            IllegalMove(keyCords = listOf(Pair(0, 0), Pair(0,1)))
         )
         // Legal col
         assertEquals(
-            bandagedFactory.makeMove(Axis.VERTICAL, Direction.FORWARD, 2, board),
-            WideMove(Axis.VERTICAL, Direction.FORWARD, 2, numRows, numCols, 2)
+            bandagedFactory.makeMove(Axis.VERTICAL, Direction.FORWARD, 0, board),
+            WideMove(Axis.VERTICAL, Direction.FORWARD, 0, numRows, numCols, 2)
+        )
+        assertEquals(
+            bandagedFactory.makeMove(Axis.VERTICAL, Direction.FORWARD, 1, board),
+            WideMove(Axis.VERTICAL, Direction.FORWARD, 0, numRows, numCols, 2)
         )
         // Illegal col
         assertEquals(
-            bandagedFactory.makeMove(Axis.VERTICAL, Direction.FORWARD, 1, board),
-            IllegalMove(listOf(Pair(0, 3)))
+            bandagedFactory.makeMove(Axis.VERTICAL, Direction.FORWARD, 2, board),
+            IllegalMove(keyCords = listOf(Pair(0, 0), Pair(0,1)))
         )
     }
 
@@ -106,7 +114,7 @@ class EnablerValidatorTest : TestCase() {
         // Illegal row
         assertEquals(
             carouselFactory.makeMove(Axis.HORIZONTAL, Direction.FORWARD, 1, board),
-            IllegalMove(listOf(Pair(0, 0)))
+            IllegalMove(keyCords = listOf(Pair(0, 0)))
         )
         // Legal col
         assertEquals(
@@ -120,11 +128,11 @@ class EnablerValidatorTest : TestCase() {
         // Illegal col
         assertEquals(
             carouselFactory.makeMove(Axis.VERTICAL, Direction.BACKWARD, 1, board),
-            IllegalMove(listOf(Pair(0, 0)))
+            IllegalMove(keyCords = listOf(Pair(0, 0)))
         )
         assertEquals(
             carouselFactory.makeMove(Axis.VERTICAL, Direction.BACKWARD, 2, board),
-            IllegalMove(listOf(Pair(0, 0)))
+            IllegalMove(keyCords = listOf(Pair(0, 0)))
         )
     }
 
@@ -156,7 +164,7 @@ class EnablerValidatorTest : TestCase() {
         // Illegal row
         assertEquals(
             gearFactory.makeMove(Axis.HORIZONTAL, Direction.FORWARD, 1, board),
-            IllegalMove(listOf(Pair(0, 0)))
+            IllegalMove(keyCords = listOf(Pair(0, 0)))
         )
         // Legal col
         assertEquals(
@@ -170,11 +178,11 @@ class EnablerValidatorTest : TestCase() {
         // Illegal col
         assertEquals(
             gearFactory.makeMove(Axis.VERTICAL, Direction.BACKWARD, 1, board),
-            IllegalMove(listOf(Pair(0, 0)))
+            IllegalMove(keyCords = listOf(Pair(0, 0)))
         )
         assertEquals(
             gearFactory.makeMove(Axis.VERTICAL, Direction.BACKWARD, 2, board),
-            IllegalMove(listOf(Pair(0, 0)))
+            IllegalMove(keyCords = listOf(Pair(0, 0)))
         )
     }
 
@@ -201,7 +209,7 @@ class EnablerValidatorTest : TestCase() {
         // Illegal row
         assertEquals(
             lightningFactory.makeMove(Axis.HORIZONTAL, Direction.FORWARD, 1, board),
-            IllegalMove(listOf(Pair(0, 2)))
+            IllegalMove(keyCords = listOf(Pair(0, 2)))
         )
         // Legal col
         assertEquals(
@@ -211,11 +219,11 @@ class EnablerValidatorTest : TestCase() {
         // Illegal col
         assertEquals(
             lightningFactory.makeMove(Axis.VERTICAL, Direction.BACKWARD, 0, board),
-            IllegalMove(listOf(Pair(0, 2)))
+            IllegalMove(keyCords = listOf(Pair(0, 2)))
         )
         assertEquals(
             lightningFactory.makeMove(Axis.VERTICAL, Direction.BACKWARD, 1, board),
-            IllegalMove(listOf(Pair(0, 2)))
+            IllegalMove(keyCords = listOf(Pair(0, 2)))
         )
     }
 
@@ -247,7 +255,7 @@ class EnablerValidatorTest : TestCase() {
         // Illegal row
         assertEquals(
             wideFactory.makeMove(Axis.HORIZONTAL, Direction.FORWARD, 1, board),
-            IllegalMove(listOf(Pair(0, 0)))
+            IllegalMove(keyCords = listOf(Pair(0, 0)))
         )
         // Legal col
         assertEquals(
@@ -261,11 +269,11 @@ class EnablerValidatorTest : TestCase() {
         // Illegal col
         assertEquals(
             wideFactory.makeMove(Axis.VERTICAL, Direction.BACKWARD, 1, board),
-            IllegalMove(listOf(Pair(0, 0)))
+            IllegalMove(keyCords = listOf(Pair(0, 0)))
         )
         assertEquals(
             wideFactory.makeMove(Axis.VERTICAL, Direction.BACKWARD, 2, board),
-            IllegalMove(listOf(Pair(0, 0)))
+            IllegalMove(keyCords = listOf(Pair(0, 0)))
         )
     }
 }

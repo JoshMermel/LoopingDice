@@ -26,7 +26,7 @@ class StaticCellsMoveValidatorTest : TestCase() {
         // Illegal row
         assertEquals(
             basicFactory.makeMove(Axis.HORIZONTAL, Direction.FORWARD, 0, board),
-            IllegalMove(listOf(Pair(0, 0)))
+            IllegalMove(lockCords = listOf(Pair(0, 0)))
         )
         // Legal col
         assertEquals(
@@ -36,7 +36,7 @@ class StaticCellsMoveValidatorTest : TestCase() {
         // Illegal col
         assertEquals(
             basicFactory.makeMove(Axis.VERTICAL, Direction.FORWARD, 0, board),
-            IllegalMove(listOf(Pair(0, 0)))
+            IllegalMove(lockCords = listOf(Pair(0, 0)))
         )
     }
 
@@ -50,9 +50,9 @@ class StaticCellsMoveValidatorTest : TestCase() {
         val numRows = 3
         val numCols = 4
         val arr = arrayOf(
-            "B 0 R", "B 1 L", "2", "F 3",
-            "4", "5", "B 6 D R", "B 7 D L",
-            "8", "9", "B 10 U R", "B 11 U L"
+            "R 0", "L 1", "2", "F 3",
+            "4", "5", "D R 6", "D L 7",
+            "8", "9", "U R 10", "U L 11"
         )
         val board = GameBoard(numRows, numCols, arr, fakeGameCellMetadata())
 
@@ -64,7 +64,7 @@ class StaticCellsMoveValidatorTest : TestCase() {
         // Illegal row
         assertEquals(
             bandagedFactory.makeMove(Axis.HORIZONTAL, Direction.FORWARD, 0, board),
-            IllegalMove(listOf(Pair(0, 3)))
+            IllegalMove(lockCords = listOf(Pair(0, 3)))
         )
         // Legal col
         assertEquals(
@@ -74,7 +74,7 @@ class StaticCellsMoveValidatorTest : TestCase() {
         // Illegal col
         assertEquals(
             bandagedFactory.makeMove(Axis.VERTICAL, Direction.FORWARD, 3, board),
-            IllegalMove(listOf(Pair(0, 3)))
+            IllegalMove(lockCords = listOf(Pair(0, 3)))
         )
     }
 
@@ -102,11 +102,11 @@ class StaticCellsMoveValidatorTest : TestCase() {
         // Illegal row
         assertEquals(
             carouselFactory.makeMove(Axis.HORIZONTAL, Direction.FORWARD, 0, board),
-            IllegalMove(listOf(Pair(0, 0)))
+            IllegalMove(lockCords = listOf(Pair(0, 0)))
         )
         assertEquals(
             carouselFactory.makeMove(Axis.HORIZONTAL, Direction.FORWARD, 2, board),
-            IllegalMove(listOf(Pair(3, 0)))
+            IllegalMove(lockCords = listOf(Pair(3, 0)))
         )
         // Legal col
         assertEquals(
@@ -116,11 +116,11 @@ class StaticCellsMoveValidatorTest : TestCase() {
         // Illegal col
         assertEquals(
             carouselFactory.makeMove(Axis.VERTICAL, Direction.BACKWARD, 0, board),
-            IllegalMove(listOf(Pair(0, 0)))
+            IllegalMove(lockCords = listOf(Pair(0, 0)))
         )
         assertEquals(
             carouselFactory.makeMove(Axis.VERTICAL, Direction.BACKWARD, 3, board),
-            IllegalMove(listOf(Pair(0, 4)))
+            IllegalMove(lockCords = listOf(Pair(0, 4)))
         )
     }
 
@@ -148,11 +148,11 @@ class StaticCellsMoveValidatorTest : TestCase() {
         // Illegal row
         assertEquals(
             gearFactory.makeMove(Axis.HORIZONTAL, Direction.FORWARD, 0, board),
-            IllegalMove(listOf(Pair(0, 0)))
+            IllegalMove(lockCords = listOf(Pair(0, 0)))
         )
         assertEquals(
             gearFactory.makeMove(Axis.HORIZONTAL, Direction.FORWARD, 2, board),
-            IllegalMove(listOf(Pair(3, 0)))
+            IllegalMove(lockCords = listOf(Pair(3, 0)))
         )
         // Legal col
         assertEquals(
@@ -162,11 +162,11 @@ class StaticCellsMoveValidatorTest : TestCase() {
         // Illegal col
         assertEquals(
             gearFactory.makeMove(Axis.VERTICAL, Direction.BACKWARD, 0, board),
-            IllegalMove(listOf(Pair(0, 0)))
+            IllegalMove(lockCords = listOf(Pair(0, 0)))
         )
         assertEquals(
             gearFactory.makeMove(Axis.VERTICAL, Direction.BACKWARD, 3, board),
-            IllegalMove(listOf(Pair(0, 4)))
+            IllegalMove(lockCords = listOf(Pair(0, 4)))
         )
     }
 
@@ -193,7 +193,7 @@ class StaticCellsMoveValidatorTest : TestCase() {
         // Illegal row
         assertEquals(
             lightningFactory.makeMove(Axis.HORIZONTAL, Direction.FORWARD, 0, board),
-            IllegalMove(listOf(Pair(0, 2)))
+            IllegalMove(lockCords = listOf(Pair(0, 2)))
         )
         // Legal col
         assertEquals(
@@ -203,7 +203,7 @@ class StaticCellsMoveValidatorTest : TestCase() {
         // Illegal col
         assertEquals(
             lightningFactory.makeMove(Axis.VERTICAL, Direction.BACKWARD, 2, board),
-            IllegalMove(listOf(Pair(0, 2)))
+            IllegalMove(lockCords = listOf(Pair(0, 2)))
         )
     }
 
@@ -231,11 +231,11 @@ class StaticCellsMoveValidatorTest : TestCase() {
         // Illegal row
         assertEquals(
             wideFactory.makeMove(Axis.HORIZONTAL, Direction.FORWARD, 0, board),
-            IllegalMove(listOf(Pair(0, 0)))
+            IllegalMove(lockCords = listOf(Pair(0, 0)))
         )
         assertEquals(
             wideFactory.makeMove(Axis.HORIZONTAL, Direction.FORWARD, 2, board),
-            IllegalMove(listOf(Pair(3, 0)))
+            IllegalMove(lockCords = listOf(Pair(3, 0)))
         )
         // Legal col
         assertEquals(
@@ -249,11 +249,11 @@ class StaticCellsMoveValidatorTest : TestCase() {
         // Illegal col
         assertEquals(
             wideFactory.makeMove(Axis.VERTICAL, Direction.BACKWARD, 0, board),
-            IllegalMove(listOf(Pair(0, 0)))
+            IllegalMove(lockCords = listOf(Pair(0, 0)))
         )
         assertEquals(
             wideFactory.makeMove(Axis.VERTICAL, Direction.BACKWARD, 3, board),
-            IllegalMove(listOf(Pair(0, 4)))
+            IllegalMove(lockCords = listOf(Pair(0, 4)))
         )
     }
 }

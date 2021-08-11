@@ -272,7 +272,7 @@ fun addBonds(numRows: Int, numCols: Int, board: List<Int>, numBlocks: String): L
         if (it.second.isEmpty()) {
             it.first.toString()
         } else {
-            "B ${it.first % 6} ${it.second}"
+            "${it.second} ${it.first % 6}"
         }
     }
 }

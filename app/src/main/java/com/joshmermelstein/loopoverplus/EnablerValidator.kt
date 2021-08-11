@@ -9,6 +9,6 @@ class EnablerValidator(helpText: String = "") : MoveValidator(helpText) {
                 return move
             }
         }
-        return IllegalMove(board.findEnablers())
+        return IllegalMove(keyCords = board.findEnablers())
     }
 }

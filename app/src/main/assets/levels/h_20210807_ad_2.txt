@@ -1,0 +1,7 @@
+3
+3
+WIDE 1|WIDE 1|ARROWS+DYNAMIC
+0,H 1,F 1,0,H 1,F 1,0,H 1,F 1
+F 1,H 1,0,F 1,H 1,0,F 1,H 1,0
+
+# R0',R0',C0,R0',R2',C2,R2',C0',R2' (9)

@@ -14,7 +14,7 @@ class DynamicBandagingValidator(helpText: String = "") : MoveValidator(helpText)
         return if (illegalTransitions.isEmpty()) {
             move
         } else {
-            IllegalMove(illegalTransitions)
+            IllegalMove(lockCords = illegalTransitions)
         }
     }
 

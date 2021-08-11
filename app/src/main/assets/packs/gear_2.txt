@@ -1,6 +1,6 @@
 Gear (Advanced)
 G20 g_tall_bicolor 5 7 12
-G21 g_just_middle 4 7 10
+G21 g_just_middle 4 8 13
 G22 g_pop_out 3 5 8
 G23 g_big_triangle 8 12 20
 G24 g_tall_stripe 5 8 12

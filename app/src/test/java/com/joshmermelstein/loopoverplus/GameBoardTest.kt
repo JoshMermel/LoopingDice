@@ -9,7 +9,7 @@ class GameBoardTest : TestCase() {
     val numCols = 4
 
     init {
-        val arr = arrayOf("1", "E", "F 0", "B 3", "R 1", "V 1", "H 2", "314159")
+        val arr = arrayOf("1", "E", "F 0", "B 3", "R 1", "V 1", "H 2", "D 8")
         board = GameBoard(numRows, numCols, arr, data)
     }
 
@@ -69,10 +69,9 @@ class GameBoardTest : TestCase() {
     }
 
     fun testRowContainsBond() {
-        // TODO(jmerm): update this test
-        // assertTrue(board.rowContainsBond(1, Bond.RIGHT))
-        // assertFalse(board.rowContainsBond(1, Bond.LEFT))
-        // assertFalse(board.rowContainsBond(0, Bond.RIGHT))
+        assertTrue(board.rowContainsBondDown(1))
+        assertFalse(board.rowContainsBondUp(1))
+        assertFalse(board.rowContainsBondDown(0))
     }
 
     fun testColContainsBond() {
@@ -92,18 +91,18 @@ class GameBoardTest : TestCase() {
     }
 
     fun testToString() {
-        assertEquals(board.toString(), "1,E,F 0,B 3,R 1,V 1,H 2,314159")
+        assertEquals(board.toString(), "1,E,F 0,B 3,R 1,V 1,H 2,D 8")
     }
 
     fun testEquals() {
-        val anotherArr = arrayOf("1", "E", "F 0", "B 3", "R 1", "V 1", "H 2", "314159")
+        val anotherArr = arrayOf("1", "E", "F 0", "B 3", "R 1", "V 1", "H 2", "D 8")
         val sameBoard = GameBoard(numRows, numCols, anotherArr, data)
 
         assertEquals(board, sameBoard)
     }
 
     fun testNotEquals() {
-        val arr = arrayOf("2", "E", "F 0", "R 1", "5", "6", "L 3", "314159")
+        val arr = arrayOf("2", "E", "F 0", "R 1", "5", "6", "L 3", "D 8")
         val sameBoard = GameBoard(numRows, numCols, arr, data)
 
         assertNotSame(board, sameBoard)

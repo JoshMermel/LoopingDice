@@ -192,7 +192,7 @@ fun generateArrowsGoal(
 fun addBolts(board: Array<Int>, indices: List<Int>): Array<String> {
     return board.mapIndexed { idx, i ->
         (if (idx in indices) {
-            "L " + (i % 6).toString()
+            "B " + (i % 6).toString()
         } else {
             i.toString()
         })
@@ -253,7 +253,8 @@ fun generateBandagedGoal(
 
         // Compute which locations shouldn't get a speckle
         val bondedIndices: Set<Int> =
-            board.mapIndexed { idx, s -> if (s.startsWith("B")) idx else null }.filterNotNull()
+            board.mapIndexed { idx, s -> if (s.contains("[UDLR]".toRegex())) idx else null }
+                .filterNotNull()
                 .toSet()
 
         // Add speckles to other places
@@ -281,7 +282,7 @@ fun randomMove(board: GameBoard, factory: MoveFactory): Move {
         },
     ).flatten().toSet().filter { move -> move !is IllegalMove }.run {
         if (this.isEmpty()) {
-            IllegalMove(emptyList())
+            IllegalMove()
         } else {
             this.random()
         }
