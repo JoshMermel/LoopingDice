@@ -1,8 +1,0 @@
-4
-4
-LIGHTNING|LIGHTNING|STATIC
-B 3,B 3,2,2,B 3,B 3,2,2,2,2,2,2,2,2,2,F 0
-2,2,2,2,2,B 3,B 3,2,2,B 3,B 3,2,2,2,2,F 0
-
-l_shift_square
-# C0,R1,R2,C1',C0',R1' (6)

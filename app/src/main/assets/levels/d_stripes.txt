@@ -5,3 +5,4 @@ F 1,F 1,F 1,1,1,1,3,3,3
 F 1,1,3,F 1,1,3,F 1,1,3
 
 # C0,C0,C1,R1',R0',R0' (6)
+// TODO(jmerm): why isn't this called d_triple_stripe?

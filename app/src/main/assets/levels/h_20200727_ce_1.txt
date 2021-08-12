@@ -1,9 +1,0 @@
-4
-4
-CAROUSEL|CAROUSEL|ENABLER
-3,3,3,3,3,E,2,3,3,2,E,3,3,3,3,3
-3,3,3,3,3,2,E,3,3,E,2,3,3,3,3,3
-
-c_rotate_center
-# R2',C1',C0',R0' (4)
-obvious in retrospect but I got 6

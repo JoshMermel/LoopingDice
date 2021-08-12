@@ -1,6 +1,0 @@
-Wide + Gear (Beginner)
-WG1 wg_plus 3 4 6
-WG2 wg_checkerboard 3 4 6
-WG3 wg_tall_stripe 6 7 12
-WG4 wg_ring2 3 4 7
-WG5 wg_ring1 4 5 8

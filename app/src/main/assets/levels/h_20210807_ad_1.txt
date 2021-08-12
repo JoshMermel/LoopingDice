@@ -1,8 +1,0 @@
-4
-4
-WIDE 1|WIDE 1|ARROWS+DYNAMIC
-0,F H 0,2,0,2,0,0,F H 0,F H 0,0,0,2,0,2,F H 0,0
-0,2,F H 0,0,F H 0,0,0,2,2,0,0,F H 0,0,F H 0,2,0
-
-# R2,R2,R2,R2',C2,C0',R1',R1',R1',R0 (10)
-human solution: Row1' Row1' Row2 Row3' Col0' Col0' Col2 Col2 Row2 Row2 Row1' Row0

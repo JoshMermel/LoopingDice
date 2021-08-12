@@ -1,8 +1,0 @@
-4
-2
-BANDAGED|BANDAGED|ENABLER
-E,D 1,2,U 1,2,1,2,1
-1,E,1,2,D 1,2,U 1,2
-
-e_two_columns
-# R0,C1',R3,C0',R2,C1',R1',C0',R0' (9)

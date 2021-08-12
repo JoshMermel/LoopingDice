@@ -1,5 +1,0 @@
-Wide + Carousel (Beginner)
-WC1 wc_swap_stairs 5 6 8
-WC2 wc_rotate_strip 4 5 11
-WC3 wc_diag 4 6 9
-WC4 wc_tower 4 5 8

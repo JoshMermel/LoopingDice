@@ -1,8 +1,0 @@
-4
-3
-CAROUSEL|WIDE 2|NONE
-1,1,1,1,1,2,1,2,2,2,2,2
-2,2,2,2,2,1,2,1,1,1,1,1
-
-# R0,C0,R1,R1,C1 (5)
-human solution: Row1 Col0 Col1 Col2 Row1'

@@ -1,0 +1,25 @@
+Hybrids (Intermediate)
+AB2 h_ab_stratego 10 12 17
+AC1 h_ac_hourglass 6 8 10
+AD1 h_ad_columns_ring 10 12 16
+AD2 h_ad_swap_rows_easier 9 11 14
+AE1 h_ae_simple_columns 11 12 16
+AG1 h_ag_preserve_belt 8 9 13
+AS1 h_as_congregate 9 11 14
+AW1 h_aw_abelian 3 5 8
+BE1 h_be_rotate_180 5 6 9
+BS1 h_bs_unwrap 8 9 11
+CD1 h_cd_mirror_small 3 6 9 *
+CS1 h_cs_transpose 6 8 10
+CW1 h_cw_tall_bicolor 6 7 12
+CW2 h_cw_pop_out 4 6 12
+CW3 h_cw_defrag 7 9 13
+DL1 h_dl_big_hourglass 8 12 15
+EL2 h_el_chimera 12 18 24
+ES1 h_es_transpose 8 12 16
+EW1 h_ew_stack_up 5 9 13
+GS1 h_gs_compaction 4 5 8
+GS2 h_gs_rotate_strip 6 7 10 *
+GW1 h_gw_magnets 5 7 9
+LS1 h_ls_shift_square 6 8 10 *
+LS2 h_ls_upside_down_burger 10 12 16

@@ -1,0 +1,5 @@
+hybrid (grandmaster)
+AD3 h_ad_swap_rows_harder 28 40 60
+AL2 h_al_shoelaces 23 30 42
+CS2 h_cs_swap_sides 9 18 27
+DE2 h_de_dublin 40 60 80
