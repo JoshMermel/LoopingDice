@@ -38,7 +38,7 @@ class IllegalMoveTest : TestCase() {
         assertFalse(board.getCell(1, 0).shouldDrawLock)
         assertFalse(board.getCell(1, 1).shouldDrawKey)
 
-        // Listed cells are onyl modified in the expected way
+        // Listed cells are only modified in the expected way
         assertFalse(board.getCell(0, 0).shouldDrawKey)
         assertFalse(board.getCell(0, 1).shouldDrawLock)
     }
