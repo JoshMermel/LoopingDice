@@ -64,7 +64,7 @@ class GameCell(
         drawSelf(canvas, left, top, right, bottom, bounds, padding)
     }
 
-    fun copy() : GameCell {
+    fun copy(): GameCell {
         return GameCell(this.x, this.y, numRows, numCols, colorId, data)
     }
 
@@ -90,8 +90,11 @@ class GameCell(
         val clampedBottom = bottom.coerceAtMost(bounds.bottom - padding)
 
         // Reduces jank from moves bouncing back and flashing colors on the opposite edge
+        // Also preview moves animate to 10% so this means wraparound from previews isn't drawn.
         val eccentricity = (clampedBottom - clampedTop) / (clampedRight - clampedLeft)
-        if (eccentricity > 10 || eccentricity < 0.1)  { return }
+        if (eccentricity > 10 || eccentricity < 0.1) {
+            return
+        }
 
         drawCellBackground(clampedLeft, clampedTop, clampedRight, clampedBottom, canvas)
         drawCellSymbols(left, top, right, bottom, canvas)

@@ -211,7 +211,7 @@ class GameManager(
         if (this.preview != null) {
             params.moveFactory.makeMoveUnvalidated(axis, direction, offset, this.preview!!)
                 .animateProgress(
-                    0.15,
+                    0.1,
                     this.preview!!
                 )
         }
