@@ -166,12 +166,8 @@ class GameplayView : View {
 
     private fun getOffset(startX: Float, startY: Float, axis: Axis): Int {
         return when (axis) {
-            Axis.HORIZONTAL -> {
-                floor(gameManager.board.numRows * (startY - boundsBoard.top) / (boundsBoard.bottom - boundsBoard.top)).toInt()
-            }
-            Axis.VERTICAL -> {
-                floor(gameManager.board.numCols * (startX - boundsBoard.left) / (boundsBoard.right - boundsBoard.left)).toInt()
-            }
+            Axis.HORIZONTAL -> floor(gameManager.board.numRows * (startY - boundsBoard.top) / (boundsBoard.bottom - boundsBoard.top)).toInt()
+            Axis.VERTICAL -> floor(gameManager.board.numCols * (startX - boundsBoard.left) / (boundsBoard.right - boundsBoard.left)).toInt()
         }
     }
 
