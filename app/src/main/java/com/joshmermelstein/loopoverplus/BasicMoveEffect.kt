@@ -11,14 +11,6 @@ class BasicMoveEffect(private val axis: Axis) : MoveEffect {
         return BasicMove(axis, direction, offset, board.numRows, board.numCols)
     }
 
-    override fun makeHighlights(
-        direction: Direction,
-        offset: Int,
-        board: GameBoard
-    ): Array<Highlight> {
-        return arrayOf(Highlight(axis, direction, offset))
-    }
-
     override fun helpText(): String {
         return when (axis) {
             Axis.HORIZONTAL -> "Horizontal moves affect a single row"

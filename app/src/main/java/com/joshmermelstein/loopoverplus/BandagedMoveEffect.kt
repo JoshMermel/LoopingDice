@@ -12,23 +12,6 @@ class BandagedMoveEffect(private val axis: Axis) : MoveEffect {
         return WideMove(axis, direction, params.first, board.numRows, board.numCols, params.second)
     }
 
-    override fun makeHighlights(
-        direction: Direction,
-        offset: Int,
-        board: GameBoard
-    ): Array<Highlight> {
-        val params = applyToBoard(axis, offset, board)
-
-        // It's fine if offset goes out of range, it'll get modulus'd into range before being drawn
-        return Array(params.second) { idx: Int ->
-            Highlight(
-                axis,
-                direction,
-                idx + params.first
-            )
-        }
-    }
-
     override fun helpText(): String {
         return when (axis) {
             Axis.HORIZONTAL -> "Horizontal moves are bandaged moves"

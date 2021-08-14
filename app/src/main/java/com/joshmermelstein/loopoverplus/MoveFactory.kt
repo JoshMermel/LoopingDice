@@ -21,39 +21,18 @@ open class MoveFactory(
         offset: Int,
         board: GameBoard
     ): Move {
-        return when (axis) {
-            Axis.HORIZONTAL -> rowMove(direction, offset, board)
-            Axis.VERTICAL -> colMove(direction, offset, board)
-        }
+        return validator.validate(makeMoveUnvalidated(axis, direction, offset, board), board)
     }
 
-    private fun rowMove(
-        direction: Direction,
-        offset: Int,
-        board: GameBoard
-    ): Move {
-        return validator.validate(rowEffect.makeMove(direction, offset, board), board)
-    }
-
-    private fun colMove(
-        direction: Direction,
-        offset: Int,
-        board: GameBoard
-    ): Move {
-        return validator.validate(colEffect.makeMove(direction, offset, board), board)
-    }
-
-    // Creates an array of highlights showing which rows/cols would move if the move was executed
-    // and is legal.
-    fun makeHighlights(
+    fun makeMoveUnvalidated(
         axis: Axis,
         direction: Direction,
         offset: Int,
         board: GameBoard
-    ): Array<Highlight> {
+    ): LegalMove {
         return when (axis) {
-            Axis.HORIZONTAL -> rowEffect.makeHighlights(direction, offset, board)
-            Axis.VERTICAL -> colEffect.makeHighlights(direction, offset, board)
+            Axis.HORIZONTAL -> rowEffect.makeMove(direction, offset, board)
+            Axis.VERTICAL -> colEffect.makeMove(direction, offset, board)
         }
     }
 

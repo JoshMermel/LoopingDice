@@ -64,6 +64,10 @@ class GameCell(
         drawSelf(canvas, left, top, right, bottom, bounds, padding)
     }
 
+    fun copy() : GameCell {
+        return GameCell(this.x, this.y, numRows, numCols, colorId, data)
+    }
+
     // Resets the "base" position of the cell once a move has ended.
     fun finalize(numRows: Int, numCols: Int) {
         // The extra adding and modding is to keep cells in a range where they are easy to draw
@@ -84,6 +88,11 @@ class GameCell(
         val clampedTop = top.coerceAtLeast(bounds.top + padding)
         val clampedRight = right.coerceAtMost(bounds.right - padding)
         val clampedBottom = bottom.coerceAtMost(bounds.bottom - padding)
+
+        // Reduces jank from moves bouncing back and flashing colors on the opposite edge
+        val eccentricity = (clampedBottom - clampedTop) / (clampedRight - clampedLeft)
+        if (eccentricity > 10 || eccentricity < 0.1)  { return }
+
         drawCellBackground(clampedLeft, clampedTop, clampedRight, clampedBottom, canvas)
         drawCellSymbols(left, top, right, bottom, canvas)
         drawBonds(canvas, left, top, right, bottom, bounds, padding)
@@ -365,6 +374,7 @@ class GameCell(
     ) {
         icon.setBounds(left.toInt(), top.toInt(), right.toInt(), bottom.toInt())
         DrawableCompat.setTint(icon.mutate(), data.pipColor)
+
         icon.draw(canvas)
     }
 

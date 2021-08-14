@@ -15,14 +15,6 @@ class LightningMoveEffect(private val axis: Axis) : MoveEffect {
         }
     }
 
-    override fun makeHighlights(
-        direction: Direction,
-        offset: Int,
-        board: GameBoard
-    ): Array<Highlight> {
-        return arrayOf(Highlight(axis, direction, offset))
-    }
-
     override fun helpText(): String {
         return when (axis) {
             Axis.HORIZONTAL -> "Vertical moves which include a lightning bolt travel twice as far"

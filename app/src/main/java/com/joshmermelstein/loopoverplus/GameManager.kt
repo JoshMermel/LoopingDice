@@ -49,14 +49,14 @@ class GameManager(
     private var future = GameBoard(params.numRows, params.numCols, params.initial, data)
     private var goal = GameBoard(params.numRows, params.numCols, params.goal, data)
 
+    private var preview: GameBoard? = null
+
     private var moveQueue: MoveQueue = MoveQueue()
     private var undoStack = Stack<LegalMove>()
     private var redoStack = Stack<LegalMove>()
 
     private var numMoves: Int = 0
     private var complete = false
-
-    private var highlights: Array<Highlight> = emptyArray()
 
     init {
         buttonState.undoButtonEnabled = false
@@ -123,23 +123,15 @@ class GameManager(
     }
 
     fun drawBoard(canvas: Canvas, boundsBoard: Bounds) {
-        drawGrid(canvas, boundsBoard, board, 5)
+        if (moveQueue.isEmpty() && preview != null) {
+            drawGrid(canvas, boundsBoard, preview!!, 5)
+        } else {
+            drawGrid(canvas, boundsBoard, board, 5)
+        }
     }
 
     fun drawGoal(canvas: Canvas, boundsGoal: Bounds) {
         drawGrid(canvas, boundsGoal, goal, 2)
-    }
-
-    fun drawHighlights(canvas: Canvas, boundsBoard: Bounds) {
-        for (highlight in this.highlights) {
-            highlight.drawSelf(
-                canvas,
-                boundsBoard,
-                context,
-                params.numRows,
-                params.numCols
-            )
-        }
     }
 
     private fun isSolved(): Boolean {
@@ -157,6 +149,7 @@ class GameManager(
         // But only legal moves get added to the undo stack and counted toward the user's numMoves
         if (move is LegalMove) {
             val wasSolved = isSolved()
+            move.animateProgress(1.0, future)
             move.finalize(future)
             undoStack.push(move)
             redoStack.clear()
@@ -176,6 +169,7 @@ class GameManager(
         }
         val wasSolved = isSolved()
         val lastMove = undoStack.peek().inverse()
+        lastMove.animateProgress(1.0, future)
         lastMove.finalize(future)
         moveQueue.addMove(lastMove)
         redoStack.push(undoStack.pop())
@@ -196,6 +190,7 @@ class GameManager(
         }
         val wasSolved = isSolved()
         val redoneMove = redoStack.pop()
+        redoneMove.animateProgress(1.0, future)
         redoneMove.finalize(future)
         moveQueue.addMove(redoneMove)
         undoStack.push(redoneMove)
@@ -210,12 +205,20 @@ class GameManager(
         }
     }
 
-    fun addHighlights(axis: Axis, direction: Direction, offset: Int) {
-        this.highlights = params.moveFactory.makeHighlights(axis, direction, offset, board)
+    fun setPreview(axis: Axis, direction: Direction, offset: Int) {
+        this.preview = this.future.copy()
+
+        if (this.preview != null) {
+            params.moveFactory.makeMoveUnvalidated(axis, direction, offset, this.preview!!)
+                .animateProgress(
+                    0.15,
+                    this.preview!!
+                )
+        }
     }
 
-    fun resetHighlights() {
-        this.highlights = emptyArray()
+    fun resetPreview() {
+        this.preview = null
     }
 
     // Generates a human readable string explaining the rules of the level

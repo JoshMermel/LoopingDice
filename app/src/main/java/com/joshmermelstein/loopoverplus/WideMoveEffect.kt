@@ -9,16 +9,6 @@ class WideMoveEffect(private val axis: Axis, private val depth: Int) : MoveEffec
         return WideMove(axis, direction, offset, board.numRows, board.numCols, depth)
     }
 
-    override fun makeHighlights(
-        direction: Direction,
-        offset: Int,
-        board: GameBoard
-    ): Array<Highlight> {
-        return Array(depth) {
-            Highlight(axis, direction, it + offset)
-        }
-    }
-
     override fun helpText(): String {
         return when (axis) {
             Axis.HORIZONTAL -> "Horizontal moves affect $depth " + pluralizedRows(depth)

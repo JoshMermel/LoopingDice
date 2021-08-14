@@ -42,30 +42,4 @@ class LightningMoveEffectTest : TestCase() {
         val expected = BasicMove(Axis.VERTICAL, Direction.FORWARD, 0, numRows, numCols)
         assertEquals(move, expected)
     }
-
-    // Highlights don't care about single vs double moves.
-    fun testMakeHighlightsHorizontal() {
-        // single move
-        val highlightsSlow = factory.makeHighlights(Axis.HORIZONTAL, Direction.BACKWARD, 0, board)
-        assertEquals(highlightsSlow.size, 1)
-        assertEquals(highlightsSlow[0], Highlight(Axis.HORIZONTAL, Direction.BACKWARD, 0))
-
-        // double move
-        val highlightsFast = factory.makeHighlights(Axis.HORIZONTAL, Direction.BACKWARD, 1, board)
-        assertEquals(highlightsFast.size, 1)
-        assertEquals(highlightsFast[0], Highlight(Axis.HORIZONTAL, Direction.BACKWARD, 1))
-    }
-
-    // Highlights don't care about single vs double moves.
-    fun testMakeHighlightsVertical() {
-        // single move
-        val highlightsSlow = factory.makeHighlights(Axis.VERTICAL, Direction.FORWARD, 0, board)
-        assertEquals(highlightsSlow.size, 1)
-        assertEquals(highlightsSlow[0], Highlight(Axis.VERTICAL, Direction.FORWARD, 0))
-
-        // double move
-        val highlightsFast = factory.makeHighlights(Axis.VERTICAL, Direction.FORWARD, 1, board)
-        assertEquals(highlightsFast.size, 1)
-        assertEquals(highlightsFast[0], Highlight(Axis.VERTICAL, Direction.FORWARD, 1))
-    }
 }

@@ -26,16 +26,4 @@ class BasicMoveEffectTest : TestCase() {
         val expected = BasicMove(Axis.VERTICAL, Direction.FORWARD, 0, numRows, numCols)
         assertEquals(move, expected)
     }
-
-    fun testMakeHighlightsHorizontal() {
-        val highlights = factory.makeHighlights(Axis.HORIZONTAL, Direction.BACKWARD, 1, board)
-        assertEquals(highlights.size, 1)
-        assertEquals(highlights[0], Highlight(Axis.HORIZONTAL, Direction.BACKWARD, 1))
-    }
-
-    fun testMakeHighlightsVertical() {
-        val highlights = factory.makeHighlights(Axis.VERTICAL, Direction.FORWARD, 0, board)
-        assertEquals(highlights.size, 1)
-        assertEquals(highlights[0], Highlight(Axis.VERTICAL, Direction.FORWARD, 0))
-    }
 }

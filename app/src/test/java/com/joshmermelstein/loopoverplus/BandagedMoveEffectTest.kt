@@ -64,32 +64,4 @@ class BandagedMoveEffectTest : TestCase() {
         val expected = WideMove(Axis.VERTICAL, Direction.FORWARD, 2, 2, 3, 3)
         assertEquals(move, expected)
     }
-
-    fun testMakeHighlightsHorizontal() {
-        val board = GameBoard(
-            3,
-            2,
-            arrayOf("D 1", "2", "U 3", "4", "5", "6"),
-            data
-        )
-        val highlights = factory.makeHighlights(Axis.HORIZONTAL, Direction.BACKWARD, 1, board)
-        assertEquals(highlights.size, 2)
-        assertEquals(highlights[0], Highlight(Axis.HORIZONTAL, Direction.BACKWARD, 0))
-        assertEquals(highlights[1], Highlight(Axis.HORIZONTAL, Direction.BACKWARD, 1))
-    }
-
-    fun testMakeHighlightsVertical() {
-        val board = GameBoard(
-            2,
-            3,
-            arrayOf("R 1", "L 2", "3", "4", "5", "6"),
-            data
-        )
-
-        val highlights = factory.makeHighlights(Axis.VERTICAL, Direction.FORWARD, 1, board)
-        assertEquals(highlights.size, 2)
-        assertEquals(highlights[0], Highlight(Axis.VERTICAL, Direction.FORWARD, 0))
-        assertEquals(highlights[1], Highlight(Axis.VERTICAL, Direction.FORWARD, 1))
-
-    }
 }

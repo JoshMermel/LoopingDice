@@ -26,18 +26,4 @@ class GearMoveEffectTest : TestCase() {
         val expected = GearMove(Axis.VERTICAL, Direction.FORWARD, 0, numRows, numCols)
         assertEquals(move, expected)
     }
-
-    fun testMakeHighlightsHorizontal() {
-        val highlights = factory.makeHighlights(Axis.HORIZONTAL, Direction.BACKWARD, 1, board)
-        assertEquals(highlights.size, 2)
-        assertEquals(highlights[0], Highlight(Axis.HORIZONTAL, Direction.BACKWARD, 1))
-        assertEquals(highlights[1], Highlight(Axis.HORIZONTAL, Direction.FORWARD, 2))
-    }
-
-    fun testMakeHighlightsVertical() {
-        val highlights = factory.makeHighlights(Axis.VERTICAL, Direction.FORWARD, 0, board)
-        assertEquals(highlights.size, 2)
-        assertEquals(highlights[0], Highlight(Axis.VERTICAL, Direction.FORWARD, 0))
-        assertEquals(highlights[1], Highlight(Axis.VERTICAL, Direction.BACKWARD, 1))
-    }
 }

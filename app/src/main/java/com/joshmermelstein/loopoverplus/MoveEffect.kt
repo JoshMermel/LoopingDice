@@ -11,14 +11,6 @@ interface MoveEffect {
         board: GameBoard
     ): LegalMove
 
-    // Creates an array of highlights showing which rows/cols would move if the move was executed
-    // and is legal.
-    fun makeHighlights(
-        direction: Direction,
-        offset: Int,
-        board: GameBoard
-    ): Array<Highlight>
-
     // Returns a description of the effect of this move, suitable for displaying to the user.
     fun helpText(): String
 

@@ -91,7 +91,7 @@ class GameplayView : View {
         super.onDraw(canvas)
         gameManager.update()
         if (boundsBoard.left >= 0.0) {
-            gameManager.drawHighlights(canvas, boundsBoard)
+            // gameManager.drawHighlights(canvas, boundsBoard)
             gameManager.drawBoard(canvas, boundsBoard)
         } else {
             placeBoard(canvas)
@@ -120,12 +120,12 @@ class GameplayView : View {
             }
             MotionEvent.ACTION_UP -> {
                 maybeEnqueueMove(eventStartX, eventStartY, event.x, event.y)
-                gameManager.resetHighlights()
+                gameManager.resetPreview()
                 true
             }
             MotionEvent.ACTION_MOVE -> {
-                gameManager.resetHighlights()
-                maybeHighlightEdge(eventStartX, eventStartY, event.x, event.y)
+                gameManager.resetPreview()
+                maybeSetPreview(eventStartX, eventStartY, event.x, event.y)
                 true
             }
             else -> super.onTouchEvent(event)
@@ -197,8 +197,8 @@ class GameplayView : View {
         gameManager.enqueueMove(axis, direction, offset)
     }
 
-
-    private fun maybeHighlightEdge(startX: Float, startY: Float, endX: Float, endY: Float) {
+    // TODO(jmerm): Unify this more with `maybeEnqueueMove`
+    private fun maybeSetPreview(startX: Float, startY: Float, endX: Float, endY: Float) {
         // ignore events that start outside the grid
         if (!isInsideGrid(startX, startY)) {
             return
@@ -218,6 +218,6 @@ class GameplayView : View {
         val direction = getDirection(hDist, vDist, axis)
         val offset = getOffset(startX, startY, axis)
 
-        gameManager.addHighlights(axis, direction, offset)
+        gameManager.setPreview(axis, direction, offset)
     }
 }

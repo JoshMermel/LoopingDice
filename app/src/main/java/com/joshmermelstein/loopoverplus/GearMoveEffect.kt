@@ -10,17 +10,6 @@ class GearMoveEffect(private val axis: Axis) : MoveEffect {
         return GearMove(axis, direction, offset, board.numRows, board.numCols)
     }
 
-    override fun makeHighlights(
-        direction: Direction,
-        offset: Int,
-        board: GameBoard
-    ): Array<Highlight> {
-        return arrayOf(
-            Highlight(axis, direction, offset),
-            Highlight(axis, opposite(direction), offset + 1)
-        )
-    }
-
     override fun helpText(): String {
         return when (axis) {
             Axis.HORIZONTAL -> "Horizontal moves are gear moves"
