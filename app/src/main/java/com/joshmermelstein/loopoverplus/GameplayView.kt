@@ -175,16 +175,22 @@ class GameplayView : View {
         }
     }
 
+    // Glorified tuple for returning the result of a swipe
+    data class SwipeResult(
+        val axis: Axis,
+        val direction: Direction,
+        val offset: Int
+    )
+
     // Translates the start/end coordinates of a swipe into a triple of Axis, Direction, Offset,
     // suitable for turning into a Move.
     // Returns Null if the swipe isn't a valid input to make a move.
-    // TODO(jmerm) this should really return a data class
     private fun interpretSwipe(
         startX: Float,
         startY: Float,
         endX: Float,
         endY: Float
-    ): Triple<Axis, Direction, Int>? {
+    ): SwipeResult? {
         // ignore events that start outside the grid.
         if (!isInsideGrid(startX, startY)) {
             return null
@@ -203,20 +209,17 @@ class GameplayView : View {
         val direction = getDirection(hDist, vDist, axis)
         val offset = getOffset(startX, startY, axis)
 
-        return Triple(axis, direction, offset)
+        return SwipeResult(axis, direction, offset)
     }
 
     private fun maybeEnqueueMove(startX: Float, startY: Float, endX: Float, endY: Float) {
-        val swipe = interpretSwipe(startX, startY, endX, endY)
-        if (swipe != null) {
-            gameManager.enqueueMove(swipe.first, swipe.second, swipe.third)
-        }
+        val (axis, offset, direction) = interpretSwipe(startX, startY, endX, endY) ?: return
+        gameManager.enqueueMove(axis, offset, direction)
+
     }
 
     private fun maybeSetPreview(startX: Float, startY: Float, endX: Float, endY: Float) {
-        val swipe = interpretSwipe(startX, startY, endX, endY)
-        if (swipe != null) {
-            gameManager.setPreview(swipe.first, swipe.second, swipe.third)
-        }
+        val (axis, offset, direction) = interpretSwipe(startX, startY, endX, endY) ?: return
+        gameManager.setPreview(axis, offset, direction)
     }
 }
