@@ -133,7 +133,7 @@ class GameplayView : View {
     }
 
     private fun closeTo(f: Float, target: Double): Boolean {
-        return f > target - 0.3 && f < target + 0.3
+        return f > target - allowedAngleError && f < target + allowedAngleError
     }
 
     private fun isInsideGrid(x: Float, y: Float): Boolean {
@@ -178,6 +178,7 @@ class GameplayView : View {
     // Translates the start/end coordinates of a swipe into a triple of Axis, Direction, Offset,
     // suitable for turning into a Move.
     // Returns Null if the swipe isn't a valid input to make a move.
+    // TODO(jmerm) this should really return a data class
     private fun interpretSwipe(
         startX: Float,
         startY: Float,
@@ -192,7 +193,7 @@ class GameplayView : View {
         // Compute swipe angle and distance. Ignore very short swipes.
         val hDist = (startX - endX)
         val vDist = (startY - endY)
-        if ((hDist * hDist) + (vDist * vDist) < 1500) {
+        if ((hDist * hDist) + (vDist * vDist) < minSwipeDistance) {
             return null
         }
         val theta = atan(vDist / hDist)

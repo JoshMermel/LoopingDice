@@ -124,14 +124,14 @@ class GameManager(
 
     fun drawBoard(canvas: Canvas, boundsBoard: Bounds) {
         if (moveQueue.isEmpty() && preview != null) {
-            drawGrid(canvas, boundsBoard, preview!!, 5)
+            drawGrid(canvas, boundsBoard, preview!!, mainGridPadding)
         } else {
-            drawGrid(canvas, boundsBoard, board, 5)
+            drawGrid(canvas, boundsBoard, board, mainGridPadding)
         }
     }
 
     fun drawGoal(canvas: Canvas, boundsGoal: Bounds) {
-        drawGrid(canvas, boundsGoal, goal, 2)
+        drawGrid(canvas, boundsGoal, goal, goalGridPadding)
     }
 
     private fun isSolved(): Boolean {
@@ -208,10 +208,12 @@ class GameManager(
     fun setPreview(axis: Axis, direction: Direction, offset: Int) {
         this.preview = this.future.copy()
 
+        // We run the move until exactly eccentricityThreshold so that it goes as far as possible
+        // before we'd start drawing wraparound gamecells.
         if (this.preview != null) {
             params.moveFactory.makeMoveUnvalidated(axis, direction, offset, this.preview!!)
                 .animateProgress(
-                    0.1,
+                    eccentricityThreshold,
                     this.preview!!
                 )
         }

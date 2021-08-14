@@ -90,9 +90,8 @@ class GameCell(
         val clampedBottom = bottom.coerceAtMost(bounds.bottom - padding)
 
         // Reduces jank from moves bouncing back and flashing colors on the opposite edge
-        // Also preview moves animate to 10% so this means wraparound from previews isn't drawn.
         val eccentricity = (clampedBottom - clampedTop) / (clampedRight - clampedLeft)
-        if (eccentricity > 10 || eccentricity < 0.1) {
+        if (eccentricity > (1 / eccentricityThreshold) || eccentricity < eccentricityThreshold) {
             return
         }
 
