@@ -76,6 +76,12 @@
     <string name="infinitySpinnerNumBlockedRows"># Static Rows</string>
     <string name="infinitySpinnerNumBlockedCols"># Static Cols</string>
     <string name="infinityGenerateLevelButtonLabel">Generate Level</string>
+    <string name="infinityNumBandaged"># Bandaged</string>
+    <string name="infinityNumEnablers"># Enablers</string>
+    <string name="infinityNumArrows"># Arrows</string>
+    <string name="infinityNumBlocks"># Blocks</string>
+    <string name="infinityNumBolts"># Bolts</string>
+    <string name="infinityDensity">Density</string>
 
     <!-- Help text for move effects -->
     <string name="bandagedRowEffectHelpText">Horizontal moves are bandaged moves</string>
@@ -96,5 +102,12 @@
     <string name="wideRowEffectHelpText">Horizontal moves affect %1$s</string>
     <string name="wideColEffectHelpText">Vertical moves affect %1$s</string>
     <string name="wideBothEffectHelpText">Vertical and horizontal moves have depth %1$d</string>
+
+    <!-- Star counts for win dialog and level buttons -->
+    <string name="fourStars">✯✯✯</string>
+    <string name="threeStars">★★★</string>
+    <string name="twoStars">★★☆</string>
+    <string name="oneStar">★☆☆</string>
+    <string name="noStars">☆☆☆</string>
 
 </resources>

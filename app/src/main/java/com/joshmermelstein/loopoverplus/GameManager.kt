@@ -297,10 +297,10 @@ class GameManager(
         val doBetter = dialog.findViewById<TextView>(R.id.doBetter)
         val earnedStars = dialog.findViewById<TextView>(R.id.earnedStars)
         earnedStars.text = when {
-            numMoves <= fourStar -> "✯✯✯"
-            numMoves <= threeStar -> "★★★"
-            numMoves <= twoStar -> "★★☆"
-            else -> "★☆☆"
+            numMoves <= fourStar -> context.getString(R.string.fourStars)
+            numMoves <= threeStar -> context.getString(R.string.threeStars)
+            numMoves <= twoStar -> context.getString(R.string.twoStars)
+            else -> context.getString(R.string.oneStar)
         }
 
         // Print the threshold for more stars based on their best ever

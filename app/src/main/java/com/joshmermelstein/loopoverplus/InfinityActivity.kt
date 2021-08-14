@@ -278,14 +278,13 @@ class InfinityActivity : AppCompatActivity() {
             val adapter = ArrayAdapter(this, R.layout.spinner_item, densities)
             adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
             numBandagedSpinner.adapter = adapter
-            // TODO(jmerm): this isn't very translation friendly
             findViewById<TextView>(R.id.densityLabel)?.text = when (rowMode) {
-                "Dynamic Bandaging" -> "# Bandaged"
-                "Enabler" -> "# Enablers"
-                "Arrows" -> "# Arrows"
-                "Bandaged" -> "# Blocks"
-                "Lightning" -> "# Bolts"
-                else -> "Density"  // should never happen.
+                "Dynamic Bandaging" -> getString(R.string.infinityNumBandaged)
+                "Enabler" -> getString(R.string.infinityNumEnablers)
+                "Arrows" -> getString(R.string.infinityNumArrows)
+                "Bandaged" -> getString(R.string.infinityNumBlocks)
+                "Lightning" -> getString(R.string.infinityNumBolts)
+                else -> getString(R.string.infinityDensity)  // should never happen.
             }
         } else {
             container?.visibility = View.GONE

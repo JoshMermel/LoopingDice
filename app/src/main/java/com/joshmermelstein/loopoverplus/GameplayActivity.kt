@@ -124,9 +124,7 @@ class GameplayActivity : AppCompatActivity() {
             )
         }
 
-        findViewById<GameplayView>(R.id.gameplayView).apply {
-            gameManager = this@GameplayActivity.gameManager
-        }
+        findViewById<GameplayView>(R.id.gameplayView).gameManager = this.gameManager
         findViewById<Toolbar>(R.id.gameplay_toolbar).also {
             setSupportActionBar(it)
         }
