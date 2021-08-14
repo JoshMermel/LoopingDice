@@ -30,7 +30,7 @@ class MoveQueue {
         this.lastMoveTime = endTime
     }
 
-    fun isEmpty() : Boolean = moves.isEmpty()
+    fun isEmpty(): Boolean = moves.isEmpty()
 
     // Clears the queue.
     fun reset() {
