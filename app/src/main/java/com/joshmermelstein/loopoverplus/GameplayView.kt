@@ -175,49 +175,47 @@ class GameplayView : View {
         }
     }
 
-    private fun maybeEnqueueMove(startX: Float, startY: Float, endX: Float, endY: Float) {
+    // Translates the start/end coordinates of a swipe into a triple of Axis, Direction, Offset,
+    // suitable for turning into a Move.
+    // Returns Null if the swipe isn't a valid input to make a move.
+    private fun interpretSwipe(
+        startX: Float,
+        startY: Float,
+        endX: Float,
+        endY: Float
+    ): Triple<Axis, Direction, Int>? {
         // ignore events that start outside the grid.
         if (!isInsideGrid(startX, startY)) {
-            return
+            return null
         }
 
         // Compute swipe angle and distance. Ignore very short swipes.
         val hDist = (startX - endX)
         val vDist = (startY - endY)
         if ((hDist * hDist) + (vDist * vDist) < 1500) {
-            return
+            return null
         }
         val theta = atan(vDist / hDist)
 
         // Compute Axis and Direction of swipe
-        val axis = angleToAxis(theta) ?: return
+        val axis = angleToAxis(theta) ?: return null
         val direction = getDirection(hDist, vDist, axis)
         val offset = getOffset(startX, startY, axis)
 
-        gameManager.enqueueMove(axis, direction, offset)
+        return Triple(axis, direction, offset)
     }
 
-    // TODO(jmerm): Unify this more with `maybeEnqueueMove`
+    private fun maybeEnqueueMove(startX: Float, startY: Float, endX: Float, endY: Float) {
+        val swipe = interpretSwipe(startX, startY, endX, endY)
+        if (swipe != null) {
+            gameManager.enqueueMove(swipe.first, swipe.second, swipe.third)
+        }
+    }
+
     private fun maybeSetPreview(startX: Float, startY: Float, endX: Float, endY: Float) {
-        // ignore events that start outside the grid
-        if (!isInsideGrid(startX, startY)) {
-            return
+        val swipe = interpretSwipe(startX, startY, endX, endY)
+        if (swipe != null) {
+            gameManager.setPreview(swipe.first, swipe.second, swipe.third)
         }
-
-        // Compute swipe angle and direction
-        val hDist = (startX - endX)
-        val vDist = (startY - endY)
-        if ((hDist * hDist) + (vDist * vDist) < 3000) {
-            // Ignore extremely short swipes
-            return
-        }
-        val theta = atan(vDist / hDist)
-
-        // Figure out which axis was swiped and in what direction
-        val axis = angleToAxis(theta) ?: return
-        val direction = getDirection(hDist, vDist, axis)
-        val offset = getOffset(startX, startY, axis)
-
-        gameManager.setPreview(axis, direction, offset)
     }
 }
