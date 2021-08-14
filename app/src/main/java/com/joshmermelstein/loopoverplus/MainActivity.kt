@@ -5,6 +5,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.res.ColorStateList
 import android.content.res.TypedArray
 import android.graphics.Color
 import android.os.Bundle
@@ -16,8 +17,8 @@ import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import java.io.File
-
 
 // The main activity for the app.
 // Shows the user all of the packs of levels and lets them pick which one they want to play.
@@ -86,7 +87,7 @@ class MainActivity : AppCompatActivity() {
 
 
         val header = makeHeader(packId)
-        val levelsContainer = makeLevelButtons(packId, levels, 4)
+        val levelsContainer = makeLevelButtons(packId, levels)
 
         // Configure onclick listener to move to Level Select activity for this pack ID.
         header.setOnClickListener {
@@ -148,7 +149,8 @@ class MainActivity : AppCompatActivity() {
         return header
     }
 
-    private fun makeLevelButtons(packId: String, levels: List<String>, numCols: Int): LinearLayout {
+    private fun makeLevelButtons(packId: String, levels: List<String>): LinearLayout {
+        val numCols = mainScreenNumCols
         val buttonContainer = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
         }
@@ -169,7 +171,9 @@ class MainActivity : AppCompatActivity() {
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 1.0f
             )
-            btnTag.text = buttonText(levelData)
+            val numStars = numStars(levelData)
+            btnTag.text = buttonText(levelData.displayId, numStars)
+            btnTag.backgroundTintList = ColorStateList.valueOf(buttonColor(numStars))
             btnTag.setOnClickListener {
                 val intent = Intent(this, GameplayActivity::class.java)
                 intent.putExtra("id", id)
@@ -211,19 +215,36 @@ class MainActivity : AppCompatActivity() {
         return buttonContainer
     }
 
-    // Figures out what text to write to a button based on looking up the user's highscore and
-    // comparing it to par.
-    private fun buttonText(levelData: LevelMetadata): String {
+    private fun numStars(levelData: LevelMetadata): Int {
         val highscores: SharedPreferences = getSharedPreferences("highscores", Context.MODE_PRIVATE)
         val highscore = highscores.getInt(levelData.canonicalId, Int.MAX_VALUE)
-        val id = levelData.displayId
 
         return when {
-            highscore <= levelData.fourStar -> "$id\n✯✯✯"
-            highscore <= levelData.threeStar -> "$id\n★★★"
-            highscore <= levelData.twoStar -> "$id\n★★☆"
-            highscore < Int.MAX_VALUE -> "$id\n★☆☆"
+            highscore <= levelData.fourStar -> 4
+            highscore <= levelData.threeStar -> 3
+            highscore <= levelData.twoStar -> 2
+            highscore < Int.MAX_VALUE -> 1
+            else -> 0
+        }
+    }
+
+    // Figures out what text to write to a button based on looking up the user's highscore and
+    // comparing it to par.
+    private fun buttonText(id: String, numStars: Int): String {
+        return when (numStars) {
+            4 -> "$id\n✯✯✯"
+            3 -> "$id\n★★★"
+            2 -> "$id\n★★☆"
+            1 -> "$id\n★☆☆"
             else -> "$id\n☆☆☆"
+        }
+    }
+
+    private fun buttonColor(numStars: Int): Int {
+        return if (numStars > 0) {
+            ContextCompat.getColor(this, R.color.completed_level)
+        } else {
+            ContextCompat.getColor(this, R.color.incomplete_level)
         }
     }
 
