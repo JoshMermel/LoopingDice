@@ -21,6 +21,4 @@
     <color name="enabler_cell">#E8F086</color>
 
     <color name="popup_background">@color/white</color>
-
-    <color name="highlight">#ECF542</color>
 </resources>
