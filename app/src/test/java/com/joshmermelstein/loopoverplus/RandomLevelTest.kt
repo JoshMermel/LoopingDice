@@ -47,7 +47,7 @@ class RandomLevelTest : TestCase() {
                         "Columns",
                         frequency
                     ),
-                    generateStaticCellGoal(numRows, numCols, "Columns"),
+                    generateStaticCellGoal(numRows, numCols, "Columns", 1, 1),
                     generateBandagedGoal(numRows, numCols, "Columns", frequency)
                 )) {
                     val keys = board.groupingBy { it }.eachCount().keys
@@ -93,7 +93,8 @@ class RandomLevelTest : TestCase() {
 
                     // Bandaged cells should have IDs <= 5 so they compare with each other correctly
                     val bandagedIds =
-                        board.filter { it.contains("[UDLR]".toRegex()) }.map { it.takeLast(1).toInt() }
+                        board.filter { it.contains("[UDLR]".toRegex()) }
+                            .map { it.takeLast(1).toInt() }
                     bandagedIds.forEach { assertTrue(it <= 5) }
                 }
             }
@@ -178,4 +179,16 @@ class RandomLevelTest : TestCase() {
         }
     }
 
+    fun testStatic() {
+        val numRows = 6
+        val numCols = 5
+        for (blockedRows in (1..numRows)) {
+            for (blockedCols in (1..numCols)) {
+                val board =
+                    generateStaticCellGoal(numRows, numCols, "Columns", blockedRows, blockedCols)
+                val counts = board.groupingBy { it }.eachCount().toMap()
+                assertEquals(counts["F 0"], blockedRows * blockedCols)
+            }
+        }
+    }
 }

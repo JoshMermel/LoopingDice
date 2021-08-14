@@ -73,6 +73,8 @@
     <string name="infinitySpinnerColorSchemeLabel">Color Scheme</string>
     <string name="infinitySpinnerRowDepthLabel">Row Depth</string>
     <string name="infinitySpinnerColDepthLabel">Col Depth</string>
+    <string name="infinitySpinnerNumBlockedRows"># Static Rows</string>
+    <string name="infinitySpinnerNumBlockedCols"># Static Cols</string>
     <string name="infinityGenerateLevelButtonLabel">Generate Level</string>
 
     <!-- Help text for move effects -->

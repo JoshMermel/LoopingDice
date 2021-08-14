@@ -191,6 +191,52 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/blocked_rows_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/blockedRowsLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/infinitySpinnerNumBlockedRows"
+                    android:textSize="30sp" />
+
+                <Spinner
+                    android:id="@+id/blockedRowsSpinner"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/blocked_cols_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/blockedColsLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/infinitySpinnerNumBlockedCols"
+                    android:textSize="30sp" />
+
+                <Spinner
+                    android:id="@+id/blockedColsSpinner"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end" />
+            </LinearLayout>
+
             <Button
                 android:id="@+id/generate_level"
                 android:layout_width="match_parent"

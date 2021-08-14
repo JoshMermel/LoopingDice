@@ -1,7 +1,10 @@
 package com.joshmermelstein.loopoverplus
 
-class WideMoveEffect(private val axis: Axis, private val depth: Int, metadata: MoveEffectMetadata) :
-    MoveEffect(metadata) {
+class WideMoveEffect(
+    private val axis: Axis,
+    private val depth: Int,
+    metadata: MoveEffectMetadata = MoveEffectMetadata()
+) : MoveEffect(metadata) {
     override fun makeMove(
         direction: Direction,
         offset: Int,

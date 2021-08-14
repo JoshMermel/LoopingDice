@@ -2,8 +2,10 @@ package com.joshmermelstein.loopoverplus
 
 // Bandaged moves are like basic moves but they can expand to move additional
 // rows/columns depending on the positions of bonds.
-class BandagedMoveEffect(private val axis: Axis, metadata: MoveEffectMetadata) :
-    MoveEffect(metadata) {
+class BandagedMoveEffect(
+    private val axis: Axis,
+    metadata: MoveEffectMetadata = MoveEffectMetadata()
+) : MoveEffect(metadata) {
     override fun makeMove(
         direction: Direction,
         offset: Int,

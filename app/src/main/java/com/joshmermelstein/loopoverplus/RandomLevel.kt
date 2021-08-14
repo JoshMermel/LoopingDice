@@ -219,15 +219,26 @@ fun generateLightningGoal(
     )
 }
 
-fun generateStaticCellGoal(numRows: Int, numCols: Int, colorScheme: String): Array<String> {
+fun generateStaticCellGoal(
+    numRows: Int,
+    numCols: Int,
+    colorScheme: String,
+    blockedRows: Int,
+    blockedCols: Int
+): Array<String> {
+    val blocked = (0..35).filter { (it < blockedRows * numCols) && (it % numCols < blockedCols) }
+        .toTypedArray()
+
     // Speckled Static is special because we want to avoid putting a speckle where we've
     // put the fixed cell.
     val ret = when (colorScheme) {
-        "Speckled" -> generateSpeckledGoal(numRows, numCols, setOf(0))
+        "Speckled" -> generateSpeckledGoal(numRows, numCols, blocked.toSet())
         else -> generateBasicGoal(numRows, numCols, colorScheme).map { blackToGold(it) }
     }.map { it.toString() }.toTypedArray()
 
-    ret[0] = "F 0"
+    for (idx in blocked) {
+        ret[idx] = "F 0"
+    }
     return ret
 }
 
@@ -350,7 +361,9 @@ fun generateRandomLevel(
         "Static Cells" -> generateStaticCellGoal(
             options.numRows,
             options.numCols,
-            options.colorScheme
+            options.colorScheme,
+            options.blockedRows!!,
+            options.blockedCols!!
         )
         "Arrows" -> generateArrowsGoal(
             options.numRows,

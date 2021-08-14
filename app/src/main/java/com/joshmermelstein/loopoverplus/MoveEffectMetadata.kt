@@ -5,8 +5,8 @@ import android.content.Context
 // Yet another workaround so I don't have to pass the context around. This class holds the strings
 // that a MoveEffect might want to pull out of a Context when its help text methods are called.
 data class MoveEffectMetadata(
-    val singleAxisHelpText: String,
-    val combinedHelpText: String
+    val singleAxisHelpText: String = "",
+    val combinedHelpText: String = ""
 )
 
 // Factory method for filling in move effect metadata

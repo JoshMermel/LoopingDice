@@ -22,8 +22,6 @@ import kotlin.random.Random
  */
 
 
-// TODO(jmerm): spinner for how many locked cells in Static mode?
-
 @Parcelize
 class RandomLevelParams(
     val numRows: Int,
@@ -34,9 +32,11 @@ class RandomLevelParams(
     val rowDepth: Int?,
     val colDepth: Int?,
     val density: String?,
+    val blockedRows: Int?,
+    val blockedCols: Int?,
 ) : Parcelable {
     override fun toString(): String {
-        return "$numRows,$numCols,$colorScheme,$rowMode,$colMode,$rowDepth,$colDepth,$density"
+        return "$numRows,$numCols,$colorScheme,$rowMode,$colMode,$rowDepth,$colDepth,$density,$blockedRows,$blockedCols"
     }
 }
 
@@ -141,6 +141,20 @@ class InfinityActivity : AppCompatActivity() {
         return findViewById<Spinner>(R.id.densitySpinner).selectedItem?.toString()
     }
 
+    private fun getNumBlockedRows(): Int? {
+        if (findViewById<View>(R.id.blocked_rows_container).visibility == View.VISIBLE) {
+            return findViewById<Spinner>(R.id.blockedRowsSpinner).selectedItem?.toString()?.toInt()
+        }
+        return null
+    }
+
+    private fun getNumBlockedCols(): Int? {
+        if (findViewById<View>(R.id.blocked_cols_container).visibility == View.VISIBLE) {
+            return findViewById<Spinner>(R.id.blockedColsSpinner).selectedItem?.toString()?.toInt()
+        }
+        return null
+    }
+
     // The available col sizes depends on the user's mode. In modes where a color has a special
     // meaning, the number of columns is limited to 5 so no normal game cells of that special color
     // will be used. Arguably this could be increased in the "bicolor" color scheme but I think that
@@ -205,11 +219,7 @@ class InfinityActivity : AppCompatActivity() {
             val rowDepthSpinner = findViewById<Spinner>(R.id.rowDepthSpinner)
 
             val oldDepth = getRowDepth()
-            val maxDepth = if (mode == "Wide") {
-                getNumRows()
-            } else {
-                getNumRows() - 1
-            }
+            val maxDepth = getNumRows()
 
             val options = (1..maxDepth).map { num -> num.toString() }
             val adapter = ArrayAdapter(this, R.layout.spinner_item, options)
@@ -238,13 +248,9 @@ class InfinityActivity : AppCompatActivity() {
             val colDepthSpinner = findViewById<Spinner>(R.id.colDepthSpinner)
 
             val oldDepth = getColDepth()
-            val maxDepth = if (colMode == "Static Cells") {
-                getNumCols() - 1
-            } else {
-                getNumCols()
-            }
+            val maxDepth = getNumCols()
 
-            val options = (1..maxDepth).map { num -> num.toString() }
+            val options = (1..maxDepth).map { it.toString() }
             val adapter = ArrayAdapter(this, R.layout.spinner_item, options)
             adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
             colDepthSpinner.adapter = adapter
@@ -272,6 +278,7 @@ class InfinityActivity : AppCompatActivity() {
             val adapter = ArrayAdapter(this, R.layout.spinner_item, densities)
             adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
             numBandagedSpinner.adapter = adapter
+            // TODO(jmerm): this isn't very translation friendly
             findViewById<TextView>(R.id.densityLabel)?.text = when (rowMode) {
                 "Dynamic Bandaging" -> "# Bandaged"
                 "Enabler" -> "# Enablers"
@@ -280,6 +287,36 @@ class InfinityActivity : AppCompatActivity() {
                 "Lightning" -> "# Bolts"
                 else -> "Density"  // should never happen.
             }
+        } else {
+            container?.visibility = View.GONE
+        }
+    }
+
+    private fun updateNumBlockedRowsPicker() {
+        val container = findViewById<View>(R.id.blocked_rows_container)
+        if (getRowMode() == "Static Cells") {
+            container?.visibility = View.VISIBLE
+            val spinner = findViewById<Spinner>(R.id.blockedRowsSpinner)
+
+            val options = (1..getNumRows()).map { it.toString() }
+            val adapter = ArrayAdapter(this, R.layout.spinner_item, options)
+            adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
+            spinner.adapter = adapter
+        } else {
+            container?.visibility = View.GONE
+        }
+    }
+
+    private fun updateNumBlockedColsPicker() {
+        val container = findViewById<View>(R.id.blocked_cols_container)
+        if (getRowMode() == "Static Cells") {
+            container?.visibility = View.VISIBLE
+            val spinner = findViewById<Spinner>(R.id.blockedColsSpinner)
+
+            val options = (1..getNumCols()).map { it.toString() }
+            val adapter = ArrayAdapter(this, R.layout.spinner_item, options)
+            adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
+            spinner.adapter = adapter
         } else {
             container?.visibility = View.GONE
         }
@@ -295,6 +332,8 @@ class InfinityActivity : AppCompatActivity() {
         updateRowDepthPicker()
         updateColDepthPicker()
         updateDensityPicker()
+        updateNumBlockedRowsPicker()
+        updateNumBlockedColsPicker()
     }
 
     // Callback for when col mode is changed.
@@ -361,6 +400,8 @@ class InfinityActivity : AppCompatActivity() {
             getRowDepth(),
             getColDepth(),
             getDensity(),
+            getNumBlockedRows(),
+            getNumBlockedCols()
         )
     }
 }

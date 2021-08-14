@@ -3,8 +3,10 @@ package com.joshmermelstein.loopoverplus
 // Returns a carousel move.
 // Carousel moves are always legal so this factory doesn't need do any
 // validation.
-class CarouselMoveEffect(private val axis: Axis, metadata: MoveEffectMetadata) :
-    MoveEffect(metadata) {
+class CarouselMoveEffect(
+    private val axis: Axis,
+    metadata: MoveEffectMetadata = MoveEffectMetadata()
+) : MoveEffect(metadata) {
     override fun makeMove(
         direction: Direction,
         offset: Int,

@@ -1,7 +1,8 @@
 package com.joshmermelstein.loopoverplus
 
 // Returns gear moves.
-class GearMoveEffect(private val axis: Axis, metadata: MoveEffectMetadata) : MoveEffect(metadata) {
+class GearMoveEffect(private val axis: Axis, metadata: MoveEffectMetadata = MoveEffectMetadata()) :
+    MoveEffect(metadata) {
     override fun makeMove(
         direction: Direction,
         offset: Int,
