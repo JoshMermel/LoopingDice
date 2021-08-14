@@ -31,6 +31,14 @@
         <item quantity="one">%d move</item>
         <item quantity="other">%d moves</item>
     </plurals>
+    <plurals name="numberOfRows">
+        <item quantity="one">%d row</item>
+        <item quantity="other">%d rows</item>
+    </plurals>
+    <plurals name="numberOfColumns">
+        <item quantity="one">%d col</item>
+        <item quantity="other">%d cols</item>
+    </plurals>
 
     <!-- help dialog and win dialog -->
     <string name="helpDialogBestScore">Your best score on this level was %1$s</string>
@@ -66,5 +74,25 @@
     <string name="infinitySpinnerRowDepthLabel">Row Depth</string>
     <string name="infinitySpinnerColDepthLabel">Col Depth</string>
     <string name="infinityGenerateLevelButtonLabel">Generate Level</string>
+
+    <!-- Help text for move effects -->
+    <string name="bandagedRowEffectHelpText">Horizontal moves are bandaged moves</string>
+    <string name="bandagedColEffectHelpText">Vertical moves are bandaged moves</string>
+    <string name="bandagedBothEffectHelpText">Blocks connected by a bond always move together and will cause extra rows/columns to be dragged</string>
+    <string name="basicRowEffectHelpText">Horizontal moves affect a single row</string>
+    <string name="basicColEffectHelpText">Vertical moves affect a single column</string>
+    <string name="basicBothEffectHelpText">Horizontal and vertical moves affect a single row/col</string>
+    <string name="carouselRowEffectHelpText">Horizontal moves are carousel moves</string>
+    <string name="carouselColEffectHelpText">Vertical moves are carousel moves</string>
+    <string name="carouselBothEffectHelpText">Horizontal and vertical moves are carousel moves</string>
+    <string name="gearRowEffectHelpText">Horizontal moves are gear moves</string>
+    <string name="gearColEffectHelpText">Vertical moves are gear moves</string>
+    <string name="gearBothEffectHelpText">Horizontal and vertical moves are gear moves</string>
+    <string name="lightningRowEffectHelpText">Horizontal moves which include a lightning bolt travel twice as far</string>
+    <string name="lightningColEffectHelpText">Vertical moves which include a lightning bolt travel twice as far</string>
+    <string name="lightningBothEffectHelpText">Horizontal and vertical moves which include a lightning bolt travel twice as far</string>
+    <string name="wideRowEffectHelpText">Horizontal moves affect %1$s</string>
+    <string name="wideColEffectHelpText">Vertical moves affect %1$s</string>
+    <string name="wideBothEffectHelpText">Vertical and horizontal moves have depth %1$d</string>
 
 </resources>

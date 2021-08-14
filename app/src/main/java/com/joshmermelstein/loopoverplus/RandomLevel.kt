@@ -5,18 +5,18 @@ import kotlin.math.floor
 import kotlin.math.sqrt
 import kotlin.random.Random
 
-fun fromRandomMoveEffect(name: String, depth: Int?, axis: Axis): MoveEffect {
+fun fromRandomMoveEffect(name: String, depth: Int?, axis: Axis, context: Context): MoveEffect {
     return when (name) {
-        "Gear" -> GearMoveEffect(axis)
-        "Carousel" -> CarouselMoveEffect(axis)
-        "Wide" -> WideMoveEffect(axis, depth!!)
-        "Lightning" -> LightningMoveEffect(axis)
-        "Bandaged" -> BandagedMoveEffect(axis)
-        "Enabler" -> BasicMoveEffect(axis)
-        "Arrows" -> BasicMoveEffect(axis)
-        "Dynamic Bandaging" -> BasicMoveEffect(axis)
-        "Static Cells" -> WideMoveEffect(axis, depth!!)
-        else -> BasicMoveEffect(axis)
+        "Gear" -> GearMoveEffect(axis, makeMoveEffectMetadata("GEAR", axis, context))
+        "Carousel" -> CarouselMoveEffect(axis, makeMoveEffectMetadata("CAROUSEL", axis, context))
+        "Lightning" -> LightningMoveEffect(axis, makeMoveEffectMetadata("LIGHTNING", axis, context))
+        "Bandaged" -> BandagedMoveEffect(axis, makeMoveEffectMetadata("BANDAGED", axis, context))
+        "Static Cells", "Wide" -> WideMoveEffect(
+            axis,
+            depth!!,
+            makeWideMoveEffectMetadata(depth, axis, context)
+        )
+        else -> BasicMoveEffect(axis, makeMoveEffectMetadata("BASIC", axis, context))
     }
 }
 
@@ -311,9 +311,14 @@ fun generateRandomLevel(
     context: Context
 ): GameplayParams {
     val rowEffect =
-        fromRandomMoveEffect(options.rowMode, options.rowDepth, Axis.HORIZONTAL)
+        fromRandomMoveEffect(options.rowMode, options.rowDepth, Axis.HORIZONTAL, context)
     val colEffect =
-        fromRandomMoveEffect(options.colMode ?: options.rowMode, options.colDepth, Axis.VERTICAL)
+        fromRandomMoveEffect(
+            options.colMode ?: options.rowMode,
+            options.colDepth,
+            Axis.VERTICAL,
+            context
+        )
     val validator = fromRandomValidator(options.rowMode, context)
     val factory = MoveFactory(rowEffect, colEffect, validator)
 

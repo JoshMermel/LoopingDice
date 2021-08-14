@@ -1,23 +1,13 @@
 package com.joshmermelstein.loopoverplus
 
-class WideMoveEffect(private val axis: Axis, private val depth: Int) : MoveEffect {
+class WideMoveEffect(private val axis: Axis, private val depth: Int, metadata: MoveEffectMetadata) :
+    MoveEffect(metadata) {
     override fun makeMove(
         direction: Direction,
         offset: Int,
         board: GameBoard
     ): LegalMove {
         return WideMove(axis, direction, offset, board.numRows, board.numCols, depth)
-    }
-
-    override fun helpText(): String {
-        return when (axis) {
-            Axis.HORIZONTAL -> "Horizontal moves affect $depth " + pluralizedRows(depth)
-            Axis.VERTICAL -> "Vertical moves affect $depth " + pluralizedCols(depth)
-        }
-    }
-
-    override fun helpTextWhenSame(): String {
-        return "Vertical and horizontal moves have depth $depth"
     }
 
     // Equality is only used for checking that vertical and horizontal are "the same" so help text
