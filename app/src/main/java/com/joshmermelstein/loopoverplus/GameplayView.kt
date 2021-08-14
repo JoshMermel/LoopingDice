@@ -209,13 +209,13 @@ class GameplayView : View {
     }
 
     private fun maybeEnqueueMove(startX: Float, startY: Float, endX: Float, endY: Float) {
-        val (axis, offset, direction) = interpretSwipe(startX, startY, endX, endY) ?: return
-        gameManager.enqueueMove(axis, offset, direction)
+        val (axis, direction, offset) = interpretSwipe(startX, startY, endX, endY) ?: return
+        gameManager.enqueueMove(axis, direction, offset)
 
     }
 
     private fun maybeSetPreview(startX: Float, startY: Float, endX: Float, endY: Float) {
-        val (axis, offset, direction) = interpretSwipe(startX, startY, endX, endY) ?: return
-        gameManager.setPreview(axis, offset, direction)
+        val (axis, direction, offset) = interpretSwipe(startX, startY, endX, endY) ?: return
+        gameManager.setPreview(axis, direction, offset)
     }
 }
