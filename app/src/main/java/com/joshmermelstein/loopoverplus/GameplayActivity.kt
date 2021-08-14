@@ -116,6 +116,7 @@ class GameplayActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.tutorialText).apply {
             layoutParams.height = tutorialTextBoxWidth * 7 / 8
             layoutParams.width = tutorialTextBoxHeight * 7 / 8
+            // TODO(jmerm): add some indirection here to support translations.
             text = params.tutorialText
             TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(
                 this, 1, 200, 1,
