@@ -98,9 +98,9 @@ val frequentSignatures: Map<BoardSize, BondSignature> = mapOf(
 
 // Ultimate map for figuring out which BondSignature to apply to a board.
 val allSignaturesMap = mapOf(
-    "Rare" to rareSignatures,
-    "Common" to commonSignatures,
-    "Frequent" to frequentSignatures
+    Density.RARE to rareSignatures,
+    Density.COMMON to commonSignatures,
+    Density.FREQUENT to frequentSignatures,
 )
 
 // Wraps the logic for "where can I place a block in a BondGrid such that it does not overlap with
@@ -232,7 +232,7 @@ class VTriplePlacer : BlockPlacer {
 
 // Adds bonds to a board. The set of bonds added depends on the dimensions of the board and the
 // |numBlocks| option. The exact position of the bonds is random.
-fun addBonds(numRows: Int, numCols: Int, board: List<Int>, numBlocks: String): List<String> {
+fun addBonds(numRows: Int, numCols: Int, board: List<Int>, numBlocks: Density): List<String> {
     val bondGrid = Array(numRows) { Array(numCols) { "" } }
     val signatures = allSignaturesMap.getValue(numBlocks)
 

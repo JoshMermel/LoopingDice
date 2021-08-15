@@ -10,9 +10,14 @@ class RandomLevelTest : TestCase() {
     fun testBicolorDynamic() {
         for (numRows in (2..6)) {
             for (numCols in (2..5)) {
-                for (numBandaged in arrayOf("Rare", "Common", "Frequent")) {
+                for (numBandaged in arrayOf(Density.RARE, Density.COMMON, Density.FREQUENT)) {
                     val board =
-                        generateDynamicBandagingGoal(numRows, numCols, "Bicolor", numBandaged)
+                        generateDynamicBandagingGoal(
+                            numRows,
+                            numCols,
+                            ColorScheme.BICOLOR,
+                            numBandaged
+                        )
                     val keys = board.groupingBy { it }.eachCount().keys
 
                     assertEquals(2, keys.size)
@@ -26,7 +31,7 @@ class RandomLevelTest : TestCase() {
     fun testBicolorNonDynamic() {
         for (numRows in (2..6)) {
             for (numCols in (2..6)) {
-                val board = generateBasicGoal(numRows, numCols, "Bicolor")
+                val board = generateBasicGoal(numRows, numCols, ColorScheme.BICOLOR)
                 val keys = board.groupingBy { it }.eachCount().keys
 
                 assertEquals(2, keys.size)
@@ -39,16 +44,11 @@ class RandomLevelTest : TestCase() {
     fun testColumnsNoBlackSquares() {
         val numCols = 5
         for (numRows in (2..6)) {
-            for (frequency in arrayOf("Rare", "Common", "Frequent")) {
+            for (frequency in arrayOf(Density.RARE, Density.COMMON, Density.FREQUENT)) {
                 for (board in arrayOf(
-                    generateDynamicBandagingGoal(
-                        numRows,
-                        numCols,
-                        "Columns",
-                        frequency
-                    ),
-                    generateStaticCellGoal(numRows, numCols, "Columns", 1, 1),
-                    generateBandagedGoal(numRows, numCols, "Columns", frequency)
+                    generateDynamicBandagingGoal(numRows, numCols, ColorScheme.COLUMNS, frequency),
+                    generateStaticCellGoal(numRows, numCols, ColorScheme.COLUMNS, 1, 1),
+                    generateBandagedGoal(numRows, numCols, ColorScheme.COLUMNS, frequency)
                 )) {
                     val keys = board.groupingBy { it }.eachCount().keys
                     assertFalse(keys.contains("4"))
@@ -60,7 +60,7 @@ class RandomLevelTest : TestCase() {
     // Basic columns boards should have every cell be the same as the one above/below it.
     fun testColumnsBasic() {
         for (numCols in (2..6)) {
-            val board = generateBasicGoal(3, numCols, "Columns")
+            val board = generateBasicGoal(3, numCols, ColorScheme.COLUMNS)
             for (offset in (0 until 3 * numCols)) {
                 assertEquals(board[offset], board[offset % numCols])
             }
@@ -71,7 +71,7 @@ class RandomLevelTest : TestCase() {
     fun testUniqueBasic() {
         for (numRows in (2..6)) {
             for (numCols in (2..6)) {
-                val board = generateBasicGoal(numRows, numCols, "Unique")
+                val board = generateBasicGoal(numRows, numCols, ColorScheme.UNIQUE)
                 val frequencies = board.groupingBy { it }.eachCount().values.toSet()
                 assertEquals(frequencies.size, 1)
             }
@@ -81,9 +81,9 @@ class RandomLevelTest : TestCase() {
     fun testUniqueBandaged() {
         for (numRows in (2..6)) {
             for (numCols in (2..5)) {
-                for (numBandaged in arrayOf("Rare", "Common", "Frequent")) {
+                for (numBandaged in arrayOf(Density.RARE, Density.COMMON, Density.FREQUENT)) {
                     val board =
-                        generateBandagedGoal(numRows, numCols, "Unique", numBandaged)
+                        generateBandagedGoal(numRows, numCols, ColorScheme.UNIQUE, numBandaged)
 
                     // Other than bandaged cells, all cells must be unique in Bandaged mode.
                     val unbandagedFrequencies =
@@ -105,9 +105,9 @@ class RandomLevelTest : TestCase() {
     fun testUniqueDynamic() {
         for (numRows in (2..6)) {
             for (numCols in (2..5)) {
-                for (numBandaged in arrayOf("Rare", "Common", "Frequent")) {
+                for (numBandaged in arrayOf(Density.RARE, Density.COMMON, Density.FREQUENT)) {
                     val board =
-                        generateDynamicBandagingGoal(numRows, numCols, "Unique", numBandaged)
+                        generateDynamicBandagingGoal(numRows, numCols, ColorScheme.UNIQUE, numBandaged)
                     val frequencies = board.filter { !it.startsWith("F") }.groupingBy { it }
                         .eachCount().values.toSet()
                     assertEquals(frequencies.size, 1)
@@ -120,9 +120,9 @@ class RandomLevelTest : TestCase() {
     fun testBandagedSpeckled() {
         for (numRows in (2..6)) {
             for (numCols in (2..5)) {
-                for (numBandaged in arrayOf("Rare", "Common", "Frequent")) {
+                for (numBandaged in arrayOf(Density.RARE, Density.COMMON, Density.FREQUENT)) {
                     val board =
-                        generateBandagedGoal(numRows, numCols, "Speckled", numBandaged)
+                        generateBandagedGoal(numRows, numCols, ColorScheme.SPECKLED, numBandaged)
                     val keys =
                         board.filter { it.contains("[UDLR]".toRegex()) }.map { it.takeLast(1) }
                             .groupingBy { it }
@@ -137,9 +137,9 @@ class RandomLevelTest : TestCase() {
     fun testDynamicSpeckled() {
         for (numRows in (2..6)) {
             for (numCols in (2..5)) {
-                for (numBandaged in arrayOf("Rare", "Common", "Frequent")) {
+                for (numBandaged in arrayOf(Density.RARE, Density.COMMON, Density.FREQUENT)) {
                     val board =
-                        generateDynamicBandagingGoal(numRows, numCols, "Speckled", numBandaged)
+                        generateDynamicBandagingGoal(numRows, numCols, ColorScheme.SPECKLED, numBandaged)
                     val keys = board.filter { !it.startsWith("F") }.map { it }.groupingBy { it }
                         .eachCount().keys.toSet()
                     assertEquals(keys.size, 1)
@@ -151,9 +151,9 @@ class RandomLevelTest : TestCase() {
     fun testArrowsUnique() {
         for (numRows in (2..6)) {
             for (numCols in (2..5)) {
-                for (numArrows in arrayOf("Rare", "Common", "Frequent")) {
+                for (numArrows in arrayOf(Density.RARE, Density.COMMON, Density.FREQUENT)) {
                     val board =
-                        generateArrowsGoal(numRows, numCols, "Unique", numArrows)
+                        generateArrowsGoal(numRows, numCols, ColorScheme.UNIQUE, numArrows)
                     // Arrows cells should have IDs <= 5 so they compare with each other correctly
                     val arrowIds =
                         board.filter { it.startsWith("H") || it.startsWith("V") }
@@ -167,9 +167,9 @@ class RandomLevelTest : TestCase() {
     fun testLightningUnique() {
         for (numRows in (2..6)) {
             for (numCols in (2..5)) {
-                for (numBolts in arrayOf("Rare", "Common", "Frequent")) {
+                for (numBolts in arrayOf(Density.RARE, Density.COMMON, Density.FREQUENT)) {
                     val board =
-                        generateLightningGoal(numRows, numCols, "Unique", numBolts)
+                        generateLightningGoal(numRows, numCols, ColorScheme.UNIQUE, numBolts)
                     // Lightning cells should have IDs <= 5 so they compare with each other correctly
                     val lightningIds =
                         board.filter { it.startsWith("B") }.map { it.split(" ")[1].toInt() }
@@ -185,7 +185,7 @@ class RandomLevelTest : TestCase() {
         for (blockedRows in (1..numRows)) {
             for (blockedCols in (1..numCols)) {
                 val board =
-                    generateStaticCellGoal(numRows, numCols, "Columns", blockedRows, blockedCols)
+                    generateStaticCellGoal(numRows, numCols, ColorScheme.COLUMNS, blockedRows, blockedCols)
                 val counts = board.groupingBy { it }.eachCount().toMap()
                 assertEquals(counts["F 0"], blockedRows * blockedCols)
             }

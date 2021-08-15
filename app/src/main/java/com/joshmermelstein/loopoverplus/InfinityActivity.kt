@@ -23,15 +23,15 @@ import kotlin.random.Random
 
 
 @Parcelize
-class RandomLevelParams(
+data class RandomLevelParams(
     val numRows: Int,
     val numCols: Int,
-    val colorScheme: String,
-    val rowMode: String,
-    val colMode: String?,
+    val colorScheme: ColorScheme,
+    val rowMode: Mode,
+    val colMode: Mode?,
     val rowDepth: Int?,
     val colDepth: Int?,
-    val density: String?,
+    val density: Density?,
     val blockedRows: Int?,
     val blockedCols: Int?,
 ) : Parcelable {
@@ -40,27 +40,39 @@ class RandomLevelParams(
     }
 }
 
+enum class Density(val userString: Int) {
+    RARE(R.string.infinityDensityRare),
+    COMMON(R.string.infinityDensityCommon),
+    FREQUENT(R.string.infinityDensityFrequent), ;
+}
+
+enum class ColorScheme(val userString: Int) {
+    BICOLOR(R.string.infinityColorSchemeBicolor),
+    SPECKLED(R.string.infinityColorSchemeSpeckled),
+    COLUMNS(R.string.infinityColorSchemeColumns),
+    UNIQUE(R.string.infinityColorSchemeUnique),
+}
+
+enum class Mode(val userString: Int) {
+    WIDE(R.string.infinityModeWide),
+    CAROUSEL(R.string.infinityModeCarousel),
+    GEAR(R.string.infinityModeGear),
+    DYNAMIC(R.string.infinityModeDynamic),
+    BANDAGED(R.string.infinityModeBandaged),
+    LIGHTNING(R.string.infinityModeLightning),
+    ARROWS(R.string.infinityModeArrows),
+    ENABLER(R.string.infinityModeEnabler),
+    STATIC(R.string.infinityModeStatic),
+}
+
 // Activity for letting the user build a level
 class InfinityActivity : AppCompatActivity() {
+    // Arrays to go into spinner adaptors.
     private val rowSizes = (2..6).map { num -> num.toString() }
-
-    private val rowModes =
-        arrayOf(
-            "Wide",
-            "Carousel",
-            "Gear",
-            "Dynamic Bandaging",
-            "Bandaged",
-            "Lightning",
-            "Arrows",
-            "Enabler",
-            "Static Cells",
-        )
-    private val colModes = arrayOf("Wide", "Carousel", "Gear")
-
-    // TODO(jmerm): could either of these be made into Enums for safety.
-    private val colorSchemes = arrayOf("Bicolor", "Speckled", "Columns", "Unique")
-    private val densities = arrayOf("Rare", "Common", "Frequent")
+    private val rowModes = Mode.values()
+    private val colModes = arrayOf(Mode.WIDE, Mode.CAROUSEL, Mode.GEAR)
+    private val colorSchemes = ColorScheme.values()
+    private val densities = Density.values()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,7 +97,8 @@ class InfinityActivity : AppCompatActivity() {
     // Configures the row mode spinner. This is always shown.
     private fun configureRowModePicker() {
         val rowModeSpinner = findViewById<Spinner>(R.id.rowModeSpinner)
-        val adapter = ArrayAdapter(this, R.layout.spinner_item, rowModes)
+        val adapter =
+            ArrayAdapter(this, R.layout.spinner_item, rowModes.map { getString(it.userString) })
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
         rowModeSpinner.adapter = adapter
         rowModeSpinner.onItemSelectedListener = SelectionMadeListener(::onUpdateRowMode)
@@ -95,7 +108,8 @@ class InfinityActivity : AppCompatActivity() {
     // Configures the color scheme spinner. This is always shown.
     private fun configureColorSchemePicker() {
         val colorSchemeSpinner = findViewById<Spinner>(R.id.colorSchemeSpinner)
-        val adapter = ArrayAdapter(this, R.layout.spinner_item, colorSchemes)
+        val adapter =
+            ArrayAdapter(this, R.layout.spinner_item, colorSchemes.map { getString(it.userString) })
 
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
         colorSchemeSpinner.adapter = adapter
@@ -110,19 +124,20 @@ class InfinityActivity : AppCompatActivity() {
         return findViewById<Spinner>(R.id.colSizeSpinner).selectedItem.toString().toInt()
     }
 
-    private fun getColorScheme(): String {
-        return findViewById<Spinner>(R.id.colorSchemeSpinner).selectedItem.toString()
+    private fun getColorScheme(): ColorScheme {
+        return colorSchemes[findViewById<Spinner>(R.id.colorSchemeSpinner).selectedItemPosition]
     }
 
-    private fun getRowMode(): String {
-        return findViewById<Spinner>(R.id.rowModeSpinner).selectedItem.toString()
+    private fun getRowMode(): Mode {
+        return rowModes[findViewById<Spinner>(R.id.rowModeSpinner).selectedItemPosition]
     }
 
-    private fun getColMode(): String? {
-        return findViewById<Spinner>(R.id.colModeSpinner).selectedItem?.toString()
+    private fun getColMode(): Mode? {
+        return colModes.getOrNull(findViewById<Spinner>(R.id.colModeSpinner).selectedItemPosition)
     }
 
-    // It's important to null these two out when they aren't used since they are part of the ID used for saving/restoring.
+    // The following getters return null when the container isn't shown because spinner value is
+    // used as part of the ID for saving/restoring
     private fun getRowDepth(): Int? {
         if (findViewById<View>(R.id.row_depth_container).visibility == View.VISIBLE) {
             return findViewById<Spinner>(R.id.rowDepthSpinner).selectedItem?.toString()?.toInt()
@@ -137,8 +152,11 @@ class InfinityActivity : AppCompatActivity() {
         return null
     }
 
-    private fun getDensity(): String? {
-        return findViewById<Spinner>(R.id.densitySpinner).selectedItem?.toString()
+    private fun getDensity(): Density? {
+        if (findViewById<View>(R.id.density_container).visibility == View.VISIBLE) {
+            return densities[findViewById<Spinner>(R.id.densitySpinner).selectedItemPosition]
+        }
+        return null
     }
 
     private fun getNumBlockedRows(): Int? {
@@ -163,11 +181,12 @@ class InfinityActivity : AppCompatActivity() {
         val colSizeSpinner = findViewById<Spinner>(R.id.colSizeSpinner)
         val oldValue: Int? = colSizeSpinner.selectedItem?.toString()?.toInt()
         val rowMode = getRowMode()
-        val maxValue = if (rowMode in colModes || rowMode == "Arrows" || rowMode == "Lightning") {
-            6
-        } else {
-            5
-        }
+        val maxValue =
+            if (rowMode in colModes || rowMode == Mode.ARROWS || rowMode == Mode.LIGHTNING) {
+                6
+            } else {
+                5
+            }
         val colSizes = (2..maxValue).map { num -> num.toString() }
 
         val adapter = ArrayAdapter(this, R.layout.spinner_item, colSizes)
@@ -200,7 +219,8 @@ class InfinityActivity : AppCompatActivity() {
             }
             container.visibility = View.VISIBLE
             val colModeSpinner = findViewById<Spinner>(R.id.colModeSpinner)
-            val colAdapter = ArrayAdapter(this, R.layout.spinner_item, colModes)
+            val colAdapter =
+                ArrayAdapter(this, R.layout.spinner_item, colModes.map { getString(it.userString) })
             colAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
             colModeSpinner.adapter = colAdapter
             colModeSpinner.onItemSelectedListener = SelectionMadeListener(::onUpdateColMode)
@@ -214,7 +234,7 @@ class InfinityActivity : AppCompatActivity() {
     private fun updateRowDepthPicker() {
         val container = findViewById<View>(R.id.row_depth_container)
         val mode = getRowMode()
-        if (mode == "Wide" || mode == "Static Cells") {
+        if (mode == Mode.WIDE || mode == Mode.STATIC) {
             container.visibility = View.VISIBLE
             val rowDepthSpinner = findViewById<Spinner>(R.id.rowDepthSpinner)
 
@@ -243,7 +263,7 @@ class InfinityActivity : AppCompatActivity() {
         val container = findViewById<View>(R.id.col_depth_container)
         val colMode = getColMode()
         val rowMode = getRowMode()
-        if (colMode == "Wide" || rowMode == "Static Cells") {
+        if (colMode == Mode.WIDE || rowMode == Mode.STATIC) {
             container.visibility = View.VISIBLE
             val colDepthSpinner = findViewById<Spinner>(R.id.colDepthSpinner)
 
@@ -272,18 +292,28 @@ class InfinityActivity : AppCompatActivity() {
     private fun updateDensityPicker() {
         val container = findViewById<View>(R.id.density_container)
         val rowMode = getRowMode()
-        if (rowMode in listOf("Dynamic Bandaging", "Enabler", "Arrows", "Bandaged", "Lightning")) {
+        if (rowMode in listOf(
+                Mode.DYNAMIC,
+                Mode.ENABLER,
+                Mode.ARROWS,
+                Mode.BANDAGED,
+                Mode.LIGHTNING
+            )
+        ) {
             container?.visibility = View.VISIBLE
             val numBandagedSpinner = findViewById<Spinner>(R.id.densitySpinner)
-            val adapter = ArrayAdapter(this, R.layout.spinner_item, densities)
+            val adapter = ArrayAdapter(
+                this,
+                R.layout.spinner_item,
+                densities.map { getString(it.userString) })
             adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
             numBandagedSpinner.adapter = adapter
             findViewById<TextView>(R.id.densityLabel)?.text = when (rowMode) {
-                "Dynamic Bandaging" -> getString(R.string.infinityNumBandaged)
-                "Enabler" -> getString(R.string.infinityNumEnablers)
-                "Arrows" -> getString(R.string.infinityNumArrows)
-                "Bandaged" -> getString(R.string.infinityNumBlocks)
-                "Lightning" -> getString(R.string.infinityNumBolts)
+                Mode.DYNAMIC -> getString(R.string.infinityNumBandaged)
+                Mode.ENABLER -> getString(R.string.infinityNumEnablers)
+                Mode.ARROWS -> getString(R.string.infinityNumArrows)
+                Mode.BANDAGED -> getString(R.string.infinityNumBlocks)
+                Mode.LIGHTNING -> getString(R.string.infinityNumBolts)
                 else -> getString(R.string.infinityDensity)  // should never happen.
             }
         } else {
@@ -293,7 +323,7 @@ class InfinityActivity : AppCompatActivity() {
 
     private fun updateNumBlockedRowsPicker() {
         val container = findViewById<View>(R.id.blocked_rows_container)
-        if (getRowMode() == "Static Cells") {
+        if (getRowMode() == Mode.STATIC) {
             container?.visibility = View.VISIBLE
             val spinner = findViewById<Spinner>(R.id.blockedRowsSpinner)
 
@@ -308,7 +338,7 @@ class InfinityActivity : AppCompatActivity() {
 
     private fun updateNumBlockedColsPicker() {
         val container = findViewById<View>(R.id.blocked_cols_container)
-        if (getRowMode() == "Static Cells") {
+        if (getRowMode() == Mode.STATIC) {
             container?.visibility = View.VISIBLE
             val spinner = findViewById<Spinner>(R.id.blockedColsSpinner)
 

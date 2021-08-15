@@ -5,13 +5,16 @@ import kotlin.math.floor
 import kotlin.math.sqrt
 import kotlin.random.Random
 
-fun fromRandomMoveEffect(name: String, depth: Int?, axis: Axis, context: Context): MoveEffect {
-    return when (name) {
-        "Gear" -> GearMoveEffect(axis, makeMoveEffectMetadata("GEAR", axis, context))
-        "Carousel" -> CarouselMoveEffect(axis, makeMoveEffectMetadata("CAROUSEL", axis, context))
-        "Lightning" -> LightningMoveEffect(axis, makeMoveEffectMetadata("LIGHTNING", axis, context))
-        "Bandaged" -> BandagedMoveEffect(axis, makeMoveEffectMetadata("BANDAGED", axis, context))
-        "Static Cells", "Wide" -> WideMoveEffect(
+fun fromRandomMoveEffect(mode: Mode, depth: Int?, axis: Axis, context: Context): MoveEffect {
+    return when (mode) {
+        Mode.GEAR -> GearMoveEffect(axis, makeMoveEffectMetadata("GEAR", axis, context))
+        Mode.CAROUSEL -> CarouselMoveEffect(axis, makeMoveEffectMetadata("CAROUSEL", axis, context))
+        Mode.LIGHTNING -> LightningMoveEffect(
+            axis,
+            makeMoveEffectMetadata("LIGHTNING", axis, context)
+        )
+        Mode.BANDAGED -> BandagedMoveEffect(axis, makeMoveEffectMetadata("BANDAGED", axis, context))
+        Mode.STATIC, Mode.WIDE -> WideMoveEffect(
             axis,
             depth!!,
             makeWideMoveEffectMetadata(depth, axis, context)
@@ -20,12 +23,12 @@ fun fromRandomMoveEffect(name: String, depth: Int?, axis: Axis, context: Context
     }
 }
 
-fun fromRandomValidator(name: String, context: Context): MoveValidator {
-    return when (name) {
-        "Arrows" -> ArrowsValidator(context.getString(R.string.arrowValidatorHelptext))
-        "Dynamic Bandaging" -> DynamicBandagingValidator(context.getString(R.string.dynamicValidatorHelptext))
-        "Enabler" -> EnablerValidator(context.getString(R.string.enablerValidatorHelptext))
-        "Static Cells" -> StaticCellsValidator(context.getString(R.string.staticValidatorHelptext))
+fun fromRandomValidator(mode: Mode, context: Context): MoveValidator {
+    return when (mode) {
+        Mode.ARROWS -> ArrowsValidator(context.getString(R.string.arrowValidatorHelptext))
+        Mode.DYNAMIC -> DynamicBandagingValidator(context.getString(R.string.dynamicValidatorHelptext))
+        Mode.ENABLER -> EnablerValidator(context.getString(R.string.enablerValidatorHelptext))
+        Mode.STATIC -> StaticCellsValidator(context.getString(R.string.staticValidatorHelptext))
         else -> MoveValidator("")
     }
 }
@@ -78,30 +81,30 @@ fun generateColumnsGoal(numRows: Int, numCols: Int): Array<Int> {
 
 // Generates a sensible goal for modes without special cells. Modes with special cells should
 // overwrite those cells into the returned array.
-fun generateBasicGoal(numRows: Int, numCols: Int, colorScheme: String): Array<Int> {
+fun generateBasicGoal(numRows: Int, numCols: Int, colorScheme: ColorScheme): Array<Int> {
     return when (colorScheme) {
-        "Bicolor" -> generateBicolorGoal(numRows, numCols)
-        "Speckled" -> generateSpeckledGoal(numRows, numCols, emptySet()).toTypedArray()
-        "Columns" -> generateColumnsGoal(numRows, numCols)
-        else -> generateUniqueGoal(numRows, numCols)
+        ColorScheme.BICOLOR -> generateBicolorGoal(numRows, numCols)
+        ColorScheme.SPECKLED -> generateSpeckledGoal(numRows, numCols, emptySet()).toTypedArray()
+        ColorScheme.COLUMNS -> generateColumnsGoal(numRows, numCols)
+        ColorScheme.UNIQUE -> generateUniqueGoal(numRows, numCols)
     }
 }
 
 fun generateEnablerGoal(
     numRows: Int,
     numCols: Int,
-    colorScheme: String,
-    numEnablers: String
+    colorScheme: ColorScheme,
+    numEnablers: Density
 ): Array<String> {
     val enablersIndices = when (numEnablers) {
-        "Common" -> (1 until numRows * numCols).shuffled().take(numRows * numCols / 8)
-        "Frequent" -> (1 until numRows * numCols).shuffled().take(numRows * numCols / 4)
-        else -> listOf(0)
+        Density.RARE -> listOf(0)
+        Density.COMMON -> (1 until numRows * numCols).shuffled().take(numRows * numCols / 8)
+        Density.FREQUENT -> (1 until numRows * numCols).shuffled().take(numRows * numCols / 4)
     }.toSet()
 
     // In Speckled + Enabler, we avoid putting speckles in the same places as enabler cells
     val goal = when (colorScheme) {
-        "Speckled" -> generateSpeckledGoal(numRows, numCols, enablersIndices)
+        ColorScheme.SPECKLED -> generateSpeckledGoal(numRows, numCols, enablersIndices)
         else -> generateBasicGoal(numRows, numCols, colorScheme).toList()
     }.map { it.toString() }.toTypedArray()
 
@@ -125,19 +128,18 @@ fun addFixedCells(board: Array<String>, indices: List<Int>, modulus: Int): Array
 fun generateDynamicBandagingGoal(
     numRows: Int,
     numCols: Int,
-    colorScheme: String,
-    numBandaged: String
+    colorScheme: ColorScheme,
+    numBandaged: Density
 ): Array<String> {
     val bandagedCount = when (numBandaged) {
-        "Rare" -> (numRows * numCols / 6) + 1
-        "Common" -> numRows * numCols / 2
-        "Frequent" -> 2 * numRows * numCols / 3
-        else -> 1
+        Density.RARE -> (numRows * numCols / 6) + 1
+        Density.COMMON -> numRows * numCols / 2
+        Density.FREQUENT -> 2 * numRows * numCols / 3
     }
     val fixedIndices = (1 until numRows * numCols).shuffled().take(bandagedCount)
 
     val board = when (colorScheme) {
-        "Bicolor", "Speckled" -> {
+        ColorScheme.BICOLOR, ColorScheme.SPECKLED -> {
             // In both Bicolor and Speckled, non-fixed cells are all one color. We handle that by
             // starting with a monocolor board and overwriting random cells with fixed cells.
             val color = Random.nextInt(0, 4).toString()
@@ -148,7 +150,7 @@ fun generateDynamicBandagingGoal(
 
     // In Speckled and Unique, we want to very the number of pips. In other mode we always want 1 pip.
     val modulus = when (colorScheme) {
-        "Speckled", "Unique" -> 6
+        ColorScheme.SPECKLED, ColorScheme.UNIQUE -> 6
         else -> 1
     }
 
@@ -172,14 +174,13 @@ fun addArrowCells(board: Array<Int>, indices: Set<Int>): Array<String> {
 fun generateArrowsGoal(
     numRows: Int,
     numCols: Int,
-    colorScheme: String,
-    numArrows: String
+    colorScheme: ColorScheme,
+    numArrows: Density
 ): Array<String> {
     val arrowsCount = 1 + when (numArrows) {
-        "Rare" -> numRows * numCols / 6
-        "Common" -> numRows * numCols / 4
-        "Frequent" -> numRows * numCols / 3
-        else -> 0
+        Density.RARE -> numRows * numCols / 6
+        Density.COMMON -> numRows * numCols / 4
+        Density.FREQUENT -> numRows * numCols / 3
     }
     val arrowsIndices = (1 until numRows * numCols).shuffled().take(arrowsCount).toSet()
 
@@ -202,14 +203,13 @@ fun addBolts(board: Array<Int>, indices: List<Int>): Array<String> {
 fun generateLightningGoal(
     numRows: Int,
     numCols: Int,
-    colorScheme: String,
-    numBolts: String
+    colorScheme: ColorScheme,
+    numBolts: Density
 ): Array<String> {
     val boltCount = 1 + when (numBolts) {
-        "Rare" -> 1
-        "Common" -> numRows * numCols / 8
-        "Frequent" -> numRows * numCols / 4
-        else -> 0
+        Density.RARE -> 1
+        Density.COMMON -> numRows * numCols / 8
+        Density.FREQUENT -> numRows * numCols / 4
     }
     val boltIndices = (1 until numRows * numCols).shuffled().take(boltCount)
 
@@ -222,7 +222,7 @@ fun generateLightningGoal(
 fun generateStaticCellGoal(
     numRows: Int,
     numCols: Int,
-    colorScheme: String,
+    colorScheme: ColorScheme,
     blockedRows: Int,
     blockedCols: Int
 ): Array<String> {
@@ -232,7 +232,7 @@ fun generateStaticCellGoal(
     // Speckled Static is special because we want to avoid putting a speckle where we've
     // put the fixed cell.
     val ret = when (colorScheme) {
-        "Speckled" -> generateSpeckledGoal(numRows, numCols, blocked.toSet())
+        ColorScheme.SPECKLED -> generateSpeckledGoal(numRows, numCols, blocked.toSet())
         else -> generateBasicGoal(numRows, numCols, colorScheme).map { blackToGold(it) }
     }.map { it.toString() }.toTypedArray()
 
@@ -245,10 +245,10 @@ fun generateStaticCellGoal(
 fun generateBandagedGoal(
     numRows: Int,
     numCols: Int,
-    colorScheme: String,
-    numBlocks: String
+    colorScheme: ColorScheme,
+    numBlocks: Density
 ): Array<String> {
-    if (colorScheme != "Speckled") {
+    if (colorScheme != ColorScheme.SPECKLED) {
         val goal = generateBasicGoal(numRows, numCols, colorScheme).map { blackToGold(it) }
         return addBonds(numRows, numCols, goal, numBlocks).toTypedArray()
     } else {
@@ -346,38 +346,38 @@ fun generateRandomLevel(
     }
 
     val randomGoal: Array<String> = when (options.rowMode) {
-        "Enabler" -> generateEnablerGoal(
+        Mode.ENABLER -> generateEnablerGoal(
             options.numRows,
             options.numCols,
             options.colorScheme,
             options.density!!
         )
-        "Dynamic Bandaging" -> generateDynamicBandagingGoal(
+        Mode.DYNAMIC -> generateDynamicBandagingGoal(
             options.numRows,
             options.numCols,
             options.colorScheme,
             options.density!!
         )
-        "Static Cells" -> generateStaticCellGoal(
+        Mode.STATIC -> generateStaticCellGoal(
             options.numRows,
             options.numCols,
             options.colorScheme,
             options.blockedRows!!,
             options.blockedCols!!
         )
-        "Arrows" -> generateArrowsGoal(
+        Mode.ARROWS -> generateArrowsGoal(
             options.numRows,
             options.numCols,
             options.colorScheme,
             options.density!!
         )
-        "Lightning" -> generateLightningGoal(
+        Mode.LIGHTNING -> generateLightningGoal(
             options.numRows,
             options.numCols,
             options.colorScheme,
             options.density!!
         )
-        "Bandaged" -> generateBandagedGoal(
+        Mode.BANDAGED -> generateBandagedGoal(
             options.numRows,
             options.numCols,
             options.colorScheme,

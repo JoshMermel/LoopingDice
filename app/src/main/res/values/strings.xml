@@ -66,6 +66,7 @@
     <string name="gameplayDropdownCopyMoves">Copy Moves to Clipboard</string>
 
     <!-- Infinity -->
+    <!-- Spinner labels -->
     <string name="infinitySpinnerRowModeLabel">Row Mode</string>
     <string name="infinitySpinnerColModeLabel">Col Mode</string>
     <string name="infinitySpinnerNumRowsLabel"># Rows</string>
@@ -75,13 +76,31 @@
     <string name="infinitySpinnerColDepthLabel">Col Depth</string>
     <string name="infinitySpinnerNumBlockedRows"># Static Rows</string>
     <string name="infinitySpinnerNumBlockedCols"># Static Cols</string>
-    <string name="infinityGenerateLevelButtonLabel">Generate Level</string>
     <string name="infinityNumBandaged"># Bandaged</string>
     <string name="infinityNumEnablers"># Enablers</string>
     <string name="infinityNumArrows"># Arrows</string>
     <string name="infinityNumBlocks"># Blocks</string>
     <string name="infinityNumBolts"># Bolts</string>
     <string name="infinityDensity">Density</string>
+    <!-- Spinner values -->
+    <string name="infinityDensityRare">Rare</string>
+    <string name="infinityDensityCommon">Common</string>
+    <string name="infinityDensityFrequent">Frequent</string>
+    <string name="infinityColorSchemeBicolor">Bicolor</string>
+    <string name="infinityColorSchemeSpeckled">Speckled</string>
+    <string name="infinityColorSchemeColumns">Columns</string>
+    <string name="infinityColorSchemeUnique">Unique</string>
+    <string name="infinityModeWide">Wide</string>
+    <string name="infinityModeCarousel">Carousel</string>
+    <string name="infinityModeGear">Gear</string>
+    <string name="infinityModeDynamic">Dynamic Bandaging</string>
+    <string name="infinityModeBandaged">Bandaged</string>
+    <string name="infinityModeLightning">Lightning</string>
+    <string name="infinityModeArrows">Arrows</string>
+    <string name="infinityModeEnabler">Enabler</string>
+    <string name="infinityModeStatic">Static Cells</string>
+    <!-- button -->
+    <string name="infinityGenerateLevelButtonLabel">Generate Level</string>
 
     <!-- Help text for move effects -->
     <string name="bandagedRowEffectHelpText">Horizontal moves are bandaged moves</string>
