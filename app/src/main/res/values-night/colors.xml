@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Background colors of UI elements -->
     <color name="legend_background">#0E1717</color>
     <color name="gameplay_notif_bar">#242424</color>
     <color name="gameplay_background">#2e2c27</color>
-    <color name="bandaged_cell">@color/white</color>
     <color name="popup_background">#785905</color>
+
+    <!-- Colors of gamecells -->
+    <color name="bandaged_cell">@color/white</color>
+
+    <!-- Colors of buttons on the main level select screen -->
+    <color name="incomplete_level">#565c58</color>
+    <color name="completed_level">#177331</color>
 </resources>
