@@ -3,5 +3,5 @@
 BASIC|BASIC|NONE
 0,0,0,1,1,1,2,2,2
 0,1,2,0,1,2,0,1,2
-This ends the intro. Check out the "Sampler" section to see all the available game modes :)
+end_intro_helptext
 "# C0,C2',R2,R0' (4)

@@ -3,5 +3,5 @@
 BANDAGED|BANDAGED|NONE
 R 3,L 3,3,2,R 2,L 2,0,0,0,1,1,1
 0,0,0,1,1,1,R 3,L 3,3,2,R 2,L 2
-Dice that are joined by bonds can never be separated
+bandaged_transitive_helptext
 # C0',C0' (2)

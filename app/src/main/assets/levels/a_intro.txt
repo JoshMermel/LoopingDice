@@ -3,5 +3,5 @@
 BASIC|BASIC|ARROWS
 0,0,0,V 2,0,0,V 2,0
 0,0,V 2,0,0,0,0,V 2
-In "ARROWS" mode, some cells are limited to moving in certain directions
+arrows_overview
 # C1,C1,C0',C0' (4)

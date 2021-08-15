@@ -3,5 +3,5 @@
 BASIC|BASIC|NONE
 0,0,0,1,0,1
 1,1,0,0,0,0
-Mix vertical and horizontal moves to match the goal
+mix_horiz_vert_helptext
 # R1,C0',C1 (3)
