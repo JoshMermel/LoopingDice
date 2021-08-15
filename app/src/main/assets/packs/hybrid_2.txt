@@ -13,7 +13,7 @@ BS2 h_bs_thin_pinwheel 9 11 16
 CD2 h_cd_triple_stripe 4 7 12
 CE1 h_ce_rotate_center 4 6 9
 CE2 h_ce_dominoes 5 8 12
-CW4 h_cw_too_wide 5 9 16
+CW4 h_cw_too_wide 5 10 18
 DE1 h_de_swap_corners 14 28 42
 DG1 h_dg_checkerboard_density 6 8 10
 DG2 h_dg_make_triangle 11 12 18

@@ -1,5 +1,5 @@
 Carousel (Advanced)
-C20 c_flip_5 7 11 15
+C20 c_flip_5 7 9 14
 C21 c_make_columns 4 6 10
 C22 c_partial_checkerboard 5 9 20
 C23 c_two_fish 8 14 22
