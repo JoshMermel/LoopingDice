@@ -3,5 +3,5 @@
 LIGHTNING|LIGHTNING|NONE
 B 1,0,0,0,0,2,0,0,0,0,1,0,0,0,0,B 2
 1,0,0,0,0,B 2,0,0,0,0,B 1,0,0,0,0,2
-
+lightning_overview_helptext
 # R0,R1,C2,C3,R3,R1',R0',R0' (8)
