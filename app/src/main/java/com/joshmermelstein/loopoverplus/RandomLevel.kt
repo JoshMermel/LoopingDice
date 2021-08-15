@@ -26,7 +26,7 @@ fun fromRandomMoveEffect(mode: Mode, depth: Int?, axis: Axis, context: Context):
 fun fromRandomValidator(mode: Mode, context: Context): MoveValidator {
     return when (mode) {
         Mode.ARROWS -> ArrowsValidator(context.getString(R.string.arrowValidatorHelptext))
-        Mode.DYNAMIC -> DynamicBandagingValidator(context.getString(R.string.dynamicValidatorHelptext))
+        Mode.DYNAMIC -> DynamicBlockingValidator(context.getString(R.string.dynamicValidatorHelptext))
         Mode.ENABLER -> EnablerValidator(context.getString(R.string.enablerValidatorHelptext))
         Mode.STATIC -> StaticCellsValidator(context.getString(R.string.staticValidatorHelptext))
         else -> MoveValidator("")
@@ -125,7 +125,7 @@ fun addFixedCells(board: Array<String>, indices: List<Int>, modulus: Int): Array
     return board
 }
 
-fun generateDynamicBandagingGoal(
+fun generateDynamicBlockingGoal(
     numRows: Int,
     numCols: Int,
     colorScheme: ColorScheme,
@@ -352,7 +352,7 @@ fun generateRandomLevel(
             options.colorScheme,
             options.density!!
         )
-        Mode.DYNAMIC -> generateDynamicBandagingGoal(
+        Mode.DYNAMIC -> generateDynamicBlockingGoal(
             options.numRows,
             options.numCols,
             options.colorScheme,

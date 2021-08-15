@@ -5,14 +5,14 @@ import junit.framework.TestCase
 // Tests for various utilities around random level generation.
 
 class RandomLevelTest : TestCase() {
-    // In dynamic bandaging mode, bicolor boards should be a mix of one-pip fixed cells and one
+    // In dynamic blocking mode, bicolor boards should be a mix of one-pip fixed cells and one
     // color of normal cell
     fun testBicolorDynamic() {
         for (numRows in (2..6)) {
             for (numCols in (2..5)) {
                 for (numBandaged in arrayOf(Density.RARE, Density.COMMON, Density.FREQUENT)) {
                     val board =
-                        generateDynamicBandagingGoal(
+                        generateDynamicBlockingGoal(
                             numRows,
                             numCols,
                             ColorScheme.BICOLOR,
@@ -46,7 +46,7 @@ class RandomLevelTest : TestCase() {
         for (numRows in (2..6)) {
             for (frequency in arrayOf(Density.RARE, Density.COMMON, Density.FREQUENT)) {
                 for (board in arrayOf(
-                    generateDynamicBandagingGoal(numRows, numCols, ColorScheme.COLUMNS, frequency),
+                    generateDynamicBlockingGoal(numRows, numCols, ColorScheme.COLUMNS, frequency),
                     generateStaticCellGoal(numRows, numCols, ColorScheme.COLUMNS, 1, 1),
                     generateBandagedGoal(numRows, numCols, ColorScheme.COLUMNS, frequency)
                 )) {
@@ -107,7 +107,7 @@ class RandomLevelTest : TestCase() {
             for (numCols in (2..5)) {
                 for (numBandaged in arrayOf(Density.RARE, Density.COMMON, Density.FREQUENT)) {
                     val board =
-                        generateDynamicBandagingGoal(numRows, numCols, ColorScheme.UNIQUE, numBandaged)
+                        generateDynamicBlockingGoal(numRows, numCols, ColorScheme.UNIQUE, numBandaged)
                     val frequencies = board.filter { !it.startsWith("F") }.groupingBy { it }
                         .eachCount().values.toSet()
                     assertEquals(frequencies.size, 1)
@@ -139,7 +139,7 @@ class RandomLevelTest : TestCase() {
             for (numCols in (2..5)) {
                 for (numBandaged in arrayOf(Density.RARE, Density.COMMON, Density.FREQUENT)) {
                     val board =
-                        generateDynamicBandagingGoal(numRows, numCols, ColorScheme.SPECKLED, numBandaged)
+                        generateDynamicBlockingGoal(numRows, numCols, ColorScheme.SPECKLED, numBandaged)
                     val keys = board.filter { !it.startsWith("F") }.map { it }.groupingBy { it }
                         .eachCount().keys.toSet()
                     assertEquals(keys.size, 1)

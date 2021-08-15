@@ -7,7 +7,7 @@
     <string name="sixteenPuzzleText"><![CDATA[It is inspired by the <a href=\'https://www.chiark.greenend.org.uk/~sgtatham/puzzles/doc/sixteen.html\'>Sixteen Puzzle</a> from Simon Tatham\'s Portable Puzzle Collection]]></string>
     <string name="gearCubeText"><![CDATA[Gear mode was inspired by geared puzzles such as <a href=\'https://twistypuzzles.com/cgi-bin/puzzle.cgi?pkey=1501\'> The Gear Cube</a> by Oskar van Deventer]]></string>
     <string name="staticBandagingText"><![CDATA[Static cells and bandaging were inspired by <a href=\'https://joshmermelstein.com/bandaged-cube-explorer-post/\'>different schemes of bandaging other twisty puzzles</a>]]></string>
-    <string name="dynamicBandagingText"><![CDATA[Dynamic bandaging was inspired by <a href=\'http://twistypuzzles.com/cgi-bin/puzzle.cgi?pkey=1691\'>The constrained cube</a> by TomZ and <a href=\'https://www.twistypuzzles.com/cgi-bin/puzzle.cgi?pkey=7227\'>The joint cube</a> by Grigr and Fenz]]></string>
+    <string name="dynamicBlockingText"><![CDATA[Dynamic blocking was inspired by <a href=\'http://twistypuzzles.com/cgi-bin/puzzle.cgi?pkey=1691\'>The constrained cube</a> by TomZ and <a href=\'https://www.twistypuzzles.com/cgi-bin/puzzle.cgi?pkey=7227\'>The joint cube</a> by Grigr and Fenz]]></string>
     <string name="carouselText"><![CDATA[Carousel mode was inspired by the android app, <a href=\'https://play.google.com/store/apps/details?id=com.katas.squareminx&hl=en_US&gl=US\'>squareminx</a> by Katas Studios]]></string>
     <string name="enablerText"><![CDATA[Enabler mode was inspired by <a href=\'https://twistypuzzles.com/cgi-bin/puzzle.cgi?pkey=3678\'>The enabler cube</a> by Oskar van Deventer]]></string>
     <string name="openSourceLibrariesText">Click here for information on open source libraries used by Looping Dice.</string>
@@ -93,7 +93,7 @@
     <string name="infinityModeWide">Wide</string>
     <string name="infinityModeCarousel">Carousel</string>
     <string name="infinityModeGear">Gear</string>
-    <string name="infinityModeDynamic">Dynamic Bandaging</string>
+    <string name="infinityModeDynamic">Dynamic Blocking</string>
     <string name="infinityModeBandaged">Bandaged</string>
     <string name="infinityModeLightning">Lightning</string>
     <string name="infinityModeArrows">Arrows</string>

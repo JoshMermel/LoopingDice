@@ -106,7 +106,7 @@
                 app:srcCompat="@drawable/ai_cube" />
 
             <TextView
-                android:id="@+id/dynamic_bandaging"
+                android:id="@+id/dynamic_blocking"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:linksClickable="true"

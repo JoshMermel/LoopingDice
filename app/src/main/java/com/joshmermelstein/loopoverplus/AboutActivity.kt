@@ -25,7 +25,7 @@ class AboutActivity : AppCompatActivity() {
             R.id.sixteen_puzzle to R.string.sixteenPuzzleText,
             R.id.gears to R.string.gearCubeText,
             R.id.bandaging to R.string.staticBandagingText,
-            R.id.dynamic_bandaging to R.string.dynamicBandagingText,
+            R.id.dynamic_blocking to R.string.dynamicBlockingText,
             R.id.carousel to R.string.carouselText,
             R.id.enabler to R.string.enablerText,
         ).forEach {

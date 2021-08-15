@@ -2,12 +2,12 @@ package com.joshmermelstein.loopoverplus
 
 import junit.framework.TestCase
 
-class DynamicBandagingValidatorTest : TestCase() {
+class DynamicBlockingValidatorTest : TestCase() {
     fun testMakeBasicDynamicMove() {
         val basicFactory = MoveFactory(
             BasicMoveEffect(Axis.HORIZONTAL),
             BasicMoveEffect(Axis.VERTICAL),
-            DynamicBandagingValidator()
+            DynamicBlockingValidator()
         )
 
         val numRows = 2
@@ -60,7 +60,7 @@ class DynamicBandagingValidatorTest : TestCase() {
         val bandagedFactory = MoveFactory(
             BandagedMoveEffect(Axis.HORIZONTAL),
             BandagedMoveEffect(Axis.VERTICAL),
-            DynamicBandagingValidator()
+            DynamicBlockingValidator()
         )
 
         val numRows = 3
@@ -104,7 +104,7 @@ class DynamicBandagingValidatorTest : TestCase() {
         val carouselFactory = MoveFactory(
             CarouselMoveEffect(Axis.HORIZONTAL),
             CarouselMoveEffect(Axis.VERTICAL),
-            DynamicBandagingValidator()
+            DynamicBlockingValidator()
         )
 
         val numRows = 3
@@ -175,7 +175,7 @@ class DynamicBandagingValidatorTest : TestCase() {
         val carouselFactory = MoveFactory(
             CarouselMoveEffect(Axis.HORIZONTAL),
             CarouselMoveEffect(Axis.VERTICAL),
-            DynamicBandagingValidator()
+            DynamicBlockingValidator()
         )
 
         val numRows = 3
@@ -237,7 +237,7 @@ class DynamicBandagingValidatorTest : TestCase() {
         val gearFactory = MoveFactory(
             GearMoveEffect(Axis.HORIZONTAL),
             GearMoveEffect(Axis.VERTICAL),
-            DynamicBandagingValidator()
+            DynamicBlockingValidator()
         )
 
         val numRows = 3
@@ -287,7 +287,7 @@ class DynamicBandagingValidatorTest : TestCase() {
         val lightningFactory = MoveFactory(
             LightningMoveEffect(Axis.HORIZONTAL),
             LightningMoveEffect(Axis.VERTICAL),
-            DynamicBandagingValidator()
+            DynamicBlockingValidator()
         )
 
         val numRows = 4
@@ -350,7 +350,7 @@ class DynamicBandagingValidatorTest : TestCase() {
         val wideFactory = MoveFactory(
             WideMoveEffect(Axis.HORIZONTAL, 2),
             WideMoveEffect(Axis.VERTICAL, 2),
-            DynamicBandagingValidator()
+            DynamicBlockingValidator()
         )
 
         val numRows = 3

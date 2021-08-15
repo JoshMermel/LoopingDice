@@ -1,4 +1,4 @@
-Dynamic Bandaging (Beginner)
+Dynamic Blocking (Beginner)
 D1 d_intro 3 4 5
 D2 d_make_square 6 7 10
 D3 d_easy_corners 8 9 10

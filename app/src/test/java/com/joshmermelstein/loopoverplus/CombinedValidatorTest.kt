@@ -7,7 +7,7 @@ class CombinedValidatorTest : TestCase() {
         val factory = MoveFactory(
             BasicMoveEffect(Axis.HORIZONTAL),
             BasicMoveEffect(Axis.VERTICAL),
-            CombinedValidator(listOf(ArrowsValidator(), DynamicBandagingValidator()))
+            CombinedValidator(listOf(ArrowsValidator(), DynamicBlockingValidator()))
         )
 
         val numRows = 4
@@ -152,7 +152,7 @@ class CombinedValidatorTest : TestCase() {
         val factory = MoveFactory(
             BasicMoveEffect(Axis.HORIZONTAL),
             BasicMoveEffect(Axis.VERTICAL),
-            CombinedValidator(listOf(DynamicBandagingValidator(), EnablerValidator()))
+            CombinedValidator(listOf(DynamicBlockingValidator(), EnablerValidator()))
         )
 
         val numRows = 4
@@ -300,7 +300,7 @@ class CombinedValidatorTest : TestCase() {
         val factory = MoveFactory(
             BasicMoveEffect(Axis.HORIZONTAL),
             BasicMoveEffect(Axis.VERTICAL),
-            CombinedValidator(listOf(ArrowsValidator(), DynamicBandagingValidator(), EnablerValidator()))
+            CombinedValidator(listOf(ArrowsValidator(), DynamicBlockingValidator(), EnablerValidator()))
         )
 
         val numRows = 4

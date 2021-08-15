@@ -1,4 +1,4 @@
-Dynamic Bandaging (Intermediate)
+Dynamic Blocking (Intermediate)
 D12 d_quad_horizontal_stripe 8 9 20
 D13 d_make_columns 7 8 13
 D14 d_stack_up 6 7 10

@@ -24,7 +24,7 @@ fun makeMoveValidator(id: String, context: Context): MoveValidator {
 
     return when (id) {
         "ARROWS" -> ArrowsValidator(context.getString(R.string.arrowValidatorHelptext))
-        "DYNAMIC" -> DynamicBandagingValidator(context.getString(R.string.dynamicValidatorHelptext))
+        "DYNAMIC" -> DynamicBlockingValidator(context.getString(R.string.dynamicValidatorHelptext))
         "ENABLER" -> EnablerValidator(context.getString(R.string.enablerValidatorHelptext))
         "NONE" -> MoveValidator("")
         "STATIC" -> StaticCellsValidator(context.getString(R.string.staticValidatorHelptext))

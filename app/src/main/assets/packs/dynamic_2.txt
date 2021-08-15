@@ -1,4 +1,4 @@
-Dynamic Bandaging (Advanced)
+Dynamic Blocking (Advanced)
 D23 d_heist 7 9 16
 D24 d_narrow_jail 9 11 18
 D25 d_make_columns2 12 16 28
