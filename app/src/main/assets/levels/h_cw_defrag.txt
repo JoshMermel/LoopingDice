@@ -5,3 +5,4 @@ CAROUSEL|WIDE 4|NONE
 3,3,3,3,3,3,3,3,1,1,1,1,1,1,1,1
 
 # R0',R2',R1',R2,R3',R0,R1' (7)
+human solution: Row3 Row2' Row2' Row1 Row0' Row1 Row2' Row1'

@@ -6,5 +6,5 @@ C4 c_centralize 4 5 8
 C5 c_drop_stripe 5 6 9
 C6 c_plus 3 4 7
 C7 c_triple_stripe 2 4 8
-C8 c_pairs 6 8 12
-C9 c_rotate_center 4 5 8
+C8 c_rotate_center 4 5 8
+C9 c_pairs 6 8 12
