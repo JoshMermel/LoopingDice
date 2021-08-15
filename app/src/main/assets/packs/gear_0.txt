@@ -5,6 +5,6 @@ G3 g_stable_center 4 5 8
 G4 g_descending_twins 3 5 8
 G5 g_diag 2 3 5
 G6 g_plus 3 4 7
-G7 g_stripes 2 3 6
+G7 g_triple_stripe 2 3 6
 G8 g_make_square 4 5 8
 G9 g_preserve_column 4 5 7
