@@ -123,7 +123,7 @@
     <string name="wideBothEffectHelpText">Vertical and horizontal moves have depth %1$d</string>
 
     <!-- Star counts for win dialog and level buttons -->
-    <string name="fourStars">✯✯✯</string>
+    <string name="fourStars">🏆🏆🏆</string>
     <string name="threeStars">★★★</string>
     <string name="twoStars">★★☆</string>
     <string name="oneStar">★☆☆</string>

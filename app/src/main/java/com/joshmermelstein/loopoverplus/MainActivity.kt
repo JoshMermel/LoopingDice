@@ -230,7 +230,6 @@ class MainActivity : AppCompatActivity() {
 
     // Figures out what text to write to a button based on looking up the user's highscore and
     // comparing it to par.
-    // TODO(jmerm): consider if something would be clearer for 4-star like the first place emoji or 4 stars
     private fun buttonText(id: String, numStars: Int): String {
         return id + "\n" + when (numStars) {
             4 -> getString(R.string.fourStars)
