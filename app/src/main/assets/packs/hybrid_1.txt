@@ -9,12 +9,14 @@ AS1 h_as_congregate 9 11 14
 AW1 h_aw_abelian 3 5 8
 BE1 h_be_rotate_180 5 6 9
 BS1 h_bs_unwrap 8 9 11
-CD1 h_cd_mirror_small 3 6 9 *
+CD1 h_cd_easy_corners 4 5 7
 CS1 h_cs_transpose 6 8 10
 CW1 h_cw_tall_bicolor 6 7 12
 CW2 h_cw_pop_out 4 6 12
 CW3 h_cw_defrag 7 8 12
 DL1 h_dl_big_hourglass 8 12 15
+DW1 h_dw_drop_three_rows 7 9 14
+EG2 h_eg_swap_diagonal_corners 4 5 7
 EL2 h_el_chimera 12 17 24
 ES1 h_es_transpose 8 12 16
 EW1 h_ew_stack_up 5 7 10
