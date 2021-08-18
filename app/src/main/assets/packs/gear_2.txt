@@ -6,7 +6,7 @@ G23 g_big_triangle 8 12 20
 G24 g_tall_stripe 5 8 12
 G25 g_smash 8 12 17
 G26 g_flag 4 6 10
-G27 g_flip_5 10 14 22
+G27 g_flip_5 10 12 18
 G28 g_quad_horizontal_stripe 6 8 16
 G29 g_too_wide 7 13 21
 G30 g_equator 5 10 16

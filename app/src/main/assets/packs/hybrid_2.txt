@@ -1,13 +1,12 @@
 Hybrids (Advanced)
 AB3 h_ab_diagonal_mirror 10 16 24
 AC2 h_ac_four_corners 3 4 6
+AD3 h_ad_columns_ring 10 12 16
 AE2 h_ae_keep_bottom_stripe 12 15 20
 AG2 h_ag_preserve_column 8 10 14
-AL1 h_al_plus 6 7 10
-AL2 h_al_stairs 8 16 24
-AL3 h_al_columns_ring 12 17 26
-AS2 h_as_inside_out 12 16 22
-AS3 h_as_big_void 18 28 40
+AL2 h_al_plus 6 7 10
+AL3 h_al_stairs 8 16 24
+AS3 h_as_inside_out 12 16 22
 AW2 h_aw_plus 6 9 13
 BD2 h_bd_make_triangle 10 12 16
 BE2 h_be_two_columns 9 12 16
@@ -15,18 +14,18 @@ BE3 h_be_stratego 9 15 21
 BE4 h_be_transpose 9 14 21
 BS2 h_bs_thin_pinwheel 9 11 16
 CD2 h_cd_triple_stripe 4 7 12
-CE1 h_ce_rotate_center 4 6 9
-CE2 h_ce_dominoes 5 8 12
+CE2 h_ce_rotate_center 4 6 9
+CE3 h_ce_dominoes 5 8 12
 CW4 h_cw_too_wide 5 10 18
 DE1 h_de_swap_corners 14 28 42
 DG1 h_dg_checkerboard_density 6 8 10
 DG2 h_dg_make_triangle 11 12 18
 DL2 h_dl_make_columns 6 10 14
 DL3 h_dl_dominoes 11 13 17
-DW2 h_dw_make_triangle 9 10 15 *
-DW3 h_dw_triple_stripe 7 11 16
+DW2 h_dw_triple_stripe 7 11 16
+DW3 h_dw_sparse_but_deep 8 10 16
 EG3 h_eg_boxy 6 8 12
 ES2 h_es_maypole 14 20 26
 EW2 h_ew_diag 5 8 13
 GW2 h_gw_flag 5 15 32
-LS3 h_ls_spaced_rotate_columns 10 15 20
+LS2 h_ls_spaced_rotate_columns 10 15 20
