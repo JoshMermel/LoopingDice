@@ -77,6 +77,11 @@ class InfinityActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_infinity)
+        // TODO(jmerm): consider if there are any useful dropdowns I can have on this toolbar.
+        //  - explanation of infinity's options?
+        //  - more granular resets?
+        //  - expose some stats?
+        setSupportActionBar(findViewById(R.id.infinity_toolbar))
         configureRowSizePicker()
         configureRowModePicker()
         configureColorSchemePicker()
