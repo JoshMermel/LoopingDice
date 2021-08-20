@@ -79,7 +79,7 @@ open class CarouselMove(
         transitions.add(Transition(colUpIdx, 0, colDownIdx, 0))
     }
 
-    override fun inverse(): Move {
+    override fun inverse(): LegalMove {
         return CarouselMove(axis, opposite(direction), offset, numRows, numCols)
     }
 

@@ -28,7 +28,7 @@ class WideMove(
         }
     }
 
-    override fun inverse(): Move {
+    override fun inverse(): LegalMove {
         return WideMove(axis, opposite(direction), offset, numRows, numCols, depth)
     }
 

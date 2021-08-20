@@ -96,7 +96,7 @@ interface LegalMove : Move {
     }
 
     // Returns a move that undoes this one, used for managing undo and redo stacks.
-    fun inverse(): Move
+    fun inverse(): LegalMove
 
     // Used for saving move history to a file.
     override fun toString(): String

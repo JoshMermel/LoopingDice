@@ -31,7 +31,7 @@ class LightningMove(
         }
     }
 
-    override fun inverse(): Move {
+    override fun inverse(): LegalMove {
         return LightningMove(axis, opposite(direction), offset, numRows, numCols)
     }
 
