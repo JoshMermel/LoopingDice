@@ -5,3 +5,4 @@ V 3,H 1,2,2,2,2,V 3,H 1,2,2,2,2,V 3,H 1,2,2,2,2,V 3,H 1,2,2,2,2,V 3
 2,2,2,H 1,V 3,2,2,H 1,V 3,2,2,H 1,V 3,2,2,H 1,V 3,2,2,2,V 3,2,2,2,2
 
 # C0',R0',C1',R1,R1,C1',C2',R2',C3,C3,R3,C1',R2',C2,R1',R1',C3,R0',R0',C4 (20)
+human solution: Col0' Row0' Col1' Col1' Row1' Col2 Col2 Row2' Col3 Row3 Row1 Col1' Row2' Row1' Col2' Col2' Row1 Col3 Col3 Row0' Row0' Col4 (22)

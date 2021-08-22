@@ -1,12 +1,12 @@
 Arrows (Advanced)
 A24 a_keep_bottom_stripe 8 10 15
 A25 a_whirlpool_parity 12 14 20
-A26 a_keep_two_stripes 12 14 21
-A27 a_diagonal_mirror 12 13 20
-A28 a_staircase 8 12 20
-A29 a_swap_sides 14 18 32
+A26 a_keep_two_stripes 12 15 21
+A27 a_staircase 8 12 18
+A28 a_diagonal_mirror 12 13 20
+A29 a_swap_sides 14 18 23
 A30 a_swap_triangles 12 15 24
 A31 a_dense_diagonal 8 10 16
 A32 a_tau 9 10 16
 A33 a_two_fish 15 22 35
-A34 a_peas_in_a_pod 26 29 45
+A34 a_peas_in_a_pod 26 29 40
