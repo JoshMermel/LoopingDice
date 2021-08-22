@@ -169,6 +169,7 @@ class GameManager(
         }
         val wasSolved = isSolved()
         val lastMove = undoStack.peek().inverse()
+        resetPreview()
         lastMove.animateProgress(1.0, future)
         lastMove.finalize(future)
         moveQueue.addMove(lastMove)
@@ -190,6 +191,7 @@ class GameManager(
         }
         val wasSolved = isSolved()
         val redoneMove = redoStack.pop()
+        resetPreview()
         redoneMove.animateProgress(1.0, future)
         redoneMove.finalize(future)
         moveQueue.addMove(redoneMove)
