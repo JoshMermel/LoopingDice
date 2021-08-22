@@ -7,7 +7,6 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.ColorStateList
 import android.content.res.TypedArray
-import android.graphics.Color
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.*
@@ -255,7 +254,7 @@ class MainActivity : AppCompatActivity() {
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 2
             )
-            it.setBackgroundColor(Color.BLACK)
+            it.setBackgroundColor(getColor(R.color.bandaged_cell))
         }
         layout.addView(line)
     }
