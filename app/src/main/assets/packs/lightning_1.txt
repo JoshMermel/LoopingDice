@@ -9,5 +9,3 @@ L14 l_flip_4 11 13 15
 L15 l_toggle_diagonal 4 5 8
 L16 l_dominoes 7 9 11
 L17 l_chimera 10 22 30
-
-

@@ -11,6 +11,7 @@ AS2 h_as_big_void 18 24 30
 AW1 h_aw_abelian 3 5 8
 BE1 h_be_rotate_180 5 6 9
 BS1 h_bs_unwrap 8 9 11
+BS2 h_bs_sideways_dozer 17 19 23
 CD1 h_cd_easy_corners 4 5 7
 CE1 h_ce_big_zag 4 5 8
 CS1 h_cs_transpose 6 8 10
