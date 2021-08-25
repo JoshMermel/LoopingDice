@@ -5,4 +5,5 @@ CAROUSEL|CAROUSEL|NONE
 2,0,1,2,0,1,2,0,1,2,0,1
 
 # C0,C1',C2',C2' (4)
-Col2' Row2' Row2' Row2' Col0 Col0
+human solution: Col2' Row2' Row2' Row2' Col0 Col0 (6)
+human solution: Row1' Row2 Row0' Row2 Col0 Col0 (6)
