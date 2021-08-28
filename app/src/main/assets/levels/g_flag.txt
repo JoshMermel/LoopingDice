@@ -5,5 +5,5 @@ GEAR|GEAR|NONE
 0,3,2,1,0,3,2,1,0
 
 # C0',R2',C0',R0' (4)
-human solution: Col2' Row2 Col2 Row2 Col2 Col2
-human solution: Col2 Row2 Col2 Row2
+human solution: Col2' Row2 Col2 Row2 Col2 Col2 (6)
+human solution: Col2 Row2 Col2 Row2 (4)

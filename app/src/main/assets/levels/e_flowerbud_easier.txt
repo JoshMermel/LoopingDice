@@ -5,4 +5,5 @@ BASIC|BASIC|ENABLER
 2,2,2,2,2,2,0,E,0,2,2,E,E,E,2,2,0,E,0,2,2,2,2,2,2
 
 # R3,C1,R2,C4',R2',R1' (6)
+human solution: Row3 Col1 Row1' Row2 Row1 Col4' Row1' Row2' (8)
 human solution: Col3 Row1 Col1' Col2 Row3 Col2' Row3' Col2 Col2 Row4' Col2' Col2' (12)

@@ -2,10 +2,10 @@ Gear (Intermediate)
 G10 g_rotate_center 4 6 8
 G11 g_tower 4 5 10
 G12 g_concentric 4 5 8
-G13 g_centralize_corners 8 10 14
-G14 g_rotate_strip 6 7 12
-G15 g_ring 4 5 10
-G16 g_flower 4 5 8
-G17 g_checkerboard_density 4 6 8
-G18 g_double_triple 5 7 11
-G19 g_flip_4 5 7 9
+G13 g_ring 4 5 8
+G14 g_flower 4 5 8
+G15 g_centralize_corners 8 10 14
+G16 g_rotate_strip 6 7 10
+G17 g_checkerboard_density 4 6 9
+G18 g_flip_4 5 7 9
+G19 g_double_triple 5 7 11
