@@ -1,6 +1,5 @@
 Arrows (Advanced)
-A25 a_shoelaces 20 22 35
-A26 a_waveform 9 11 14
+A26 a_shoelaces 20 22 35
 A27 a_ai 12 14 18
 A28 a_stratego 11 13 18
 A29 a_keep_bottom_stripe 8 10 15

@@ -1,7 +1,7 @@
 Carousel (Advanced)
-C20 c_flip_5 7 9 14
+C20 c_flip_5 7 9 13
 C21 c_make_columns 4 6 10
 C22 c_partial_checkerboard 5 9 20
 C23 c_two_fish 8 14 20
-C24 c_keep_bottom_stripe 4 9 15
-C25 c_four_stripes 8 15 24
+C24 c_keep_bottom_stripe 4 9 14
+C25 c_four_stripes 8 14 22

@@ -5,4 +5,4 @@ BASIC|BASIC|DYNAMIC
 2,F 1,0,2,F 1,0,2,F 1,0,2,F 1,0,2,F 1,0
 
 # R0,R1',R3,C2,R4',C0',R3,R1',R0 (9)
-human solution: Row1' Row3 Col2' Col0 Row1' Row3 Col2' Col0 Row1' Row3
+human solution: Row1' Row3 Col2' Col0 Row1' Row3 Col2' Col0 Row1' Row3 (10)
