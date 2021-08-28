@@ -5,3 +5,4 @@ BASIC|BASIC|ENABLER
 3,1,0,3,1,0,3,1,0,E,E,E
 
 # C0,R0,C2',R2,C0,R3,R0',C0' (8)
+human solution: Col0 Row0' Row3 Col0 Row0' Row3 Col2 Col1 Col2 Row3 Col2 Row3 Col1 Col1 (14)

@@ -1,11 +1,12 @@
 Enabler (Advanced)
-E23 e_make_columns 6 9 16
-E24 e_swap_triangles_2 9 16 25
-E25 e_lava 7 10 20
-E26 e_180_bottom 9 16 25
+E22 e_swap_triangles_1 11 14 20
+E23 e_make_columns 6 9 15
+E24 e_swap_triangles_2 9 14 20
+E25 e_lava 7 10 16
+E26 e_180_bottom 9 15 21
 E27 e_invert_columns 15 22 32
-E28 e_flowerbud_harder 13 21 30
-E29 e_keep_bottom_stripe 8 16 32
-E30 e_lightswitch 13 21 30
-E31 e_defragment 11 13 25
+E28 e_flowerbud_harder 13 19 25
+E29 e_keep_bottom_stripe 8 14 22
+E30 e_lightswitch 13 19 26
+E31 e_defragment 11 13 20
 E32 e_swap_stripes 10 16 25

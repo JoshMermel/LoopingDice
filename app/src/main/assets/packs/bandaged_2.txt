@@ -1,5 +1,4 @@
 Bandaged (Advanced)
-B20 b_quad_dozer 10 14 20
 B21 b_quadrants 14 18 24
 B22 b_big_corners 9 16 25
 B23 b_half_split_dozer 13 17 21

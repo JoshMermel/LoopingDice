@@ -1,16 +1,15 @@
 Enabler (Intermediate)
 E8 e_volcano 7 8 10
-E9 e_swap_corners 6 9 13
-E10 e_boxy 11 15 18
-E11 e_flower 9 11 16
-E12 e_make_square_2 7 9 18
-E13 e_consolidate 10 12 20
+E9 e_swap_corners 6 9 12
+E10 e_make_square_2 7 9 13
+E11 e_consolidate 10 12 16
+E12 e_boxy 11 13 16
+E13 e_flower 9 11 14
 E14 e_dominoes 8 10 16
 E15 e_two_moons 8 10 16
-E16 e_flowerbud_easier 6 12 18
-E17 e_make_square 5 6 12
-E18 e_two_columns 13 16 25
-E19 e_stratego 9 13 19
-E20 e_swap_triangles_1 11 14 22
-E21 e_raise_stripe 11 14 25
-E22 e_swap_diagonal_corners_harder 10 14 19
+E16 e_flowerbud_easier 6 8 14
+E17 e_make_square 5 6 10
+E18 e_two_columns 13 15 19
+E19 e_stratego 9 13 17
+E20 e_raise_stripe 11 14 20
+E21 e_swap_diagonal_corners_harder 10 14 19
