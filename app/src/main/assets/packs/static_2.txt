@@ -1,14 +1,12 @@
 Static Cells (Advanced)
 S19 s_big_empty 6 8 12
 S20 s_swap_sides 11 16 22
-S21 s_quad_horizontal_stripe 8 10 20
-S22 s_quad_strips 7 9 18
-S23 s_quadrant 7 8 15
-S24 s_defrag 6 10 20
-S25 s_two_squares 8 10 14
-S26 s_rotate_stripes 7 9 13
-S27 s_locked_col 10 12 17
-S28 s_join_edges 6 9 15
-S29 s_wide_middle 8 12 20
-S30 s_compaction 8 16 24
-S31 s_align_stripes 10 20 30
+S21 s_quad_horizontal_stripe 8 10 14
+S22 s_quad_strips 7 9 13
+S23 s_quadrant 7 8 13
+S24 s_defrag 6 10 14
+S25 s_rotate_stripes 7 9 13
+S26 s_locked_col 10 12 17
+S27 s_join_edges 6 9 15
+S28 s_wide_middle 8 12 20
+S29 s_compaction 8 16 24
