@@ -7,5 +7,6 @@ L12 l_flip_4 11 13 16
 L13 l_stratego 9 12 15
 L14 l_not_equals 8 10 14
 L15 l_toggle_diagonal 4 5 7
-L16 l_dominoes 7 8 11
-L17 l_chimera 10 13 17
+L16 l_sparse_plus 8 10 14
+L17 l_dominoes 7 8 11
+L18 l_chimera 10 13 17

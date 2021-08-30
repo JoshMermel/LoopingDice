@@ -1,5 +1,4 @@
 Lightning (Advanced)
-L18 l_sparse_plus 8 10 14
 L19 l_big_corners 6 8 12
 L20 l_swap_stairs 7 9 12
 L21 l_stairs 7 10 14

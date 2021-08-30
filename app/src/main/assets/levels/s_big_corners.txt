@@ -6,3 +6,4 @@ WIDE 1|WIDE 1|STATIC
 
 # C4',R4',R4',C2,C4',R2,C0',C0',R0',R0' (10)
 human solution: Col0 Col4' Row0' Row4 Col0 Col4' Row0' Row4 Col0 Col4' Row4 Row0' Col0 Col4' (14)
+human solution: Col0' Row0 Col4 Row4' Col0' Row0 Col4 Row4' Col0' Col0' Col4 Row4' Row0 (13)

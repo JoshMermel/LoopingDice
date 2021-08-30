@@ -1,5 +1,6 @@
 Static Cells (Advanced)
-S19 s_big_empty 6 8 12
+S18 s_big_empty 6 8 12
+S19 s_upside_down_burger 14 16 20
 S20 s_swap_sides 11 16 22
 S21 s_quad_horizontal_stripe 8 10 14
 S22 s_quad_strips 7 9 13
