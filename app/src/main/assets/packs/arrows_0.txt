@@ -7,5 +7,4 @@ A5 a_plus 6 8 10
 A6 a_magnets 6 7 9
 A7 a_swap_stairs 6 7 9
 A8 a_padded_stripe 5 8 12
-A9 a_guardrails 10 12 16
-A10 a_implied_checkerboard 10 12 16
+A9 a_preserve_belt 6 8 12
