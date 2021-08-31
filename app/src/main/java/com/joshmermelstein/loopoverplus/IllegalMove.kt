@@ -25,14 +25,6 @@ class IllegalMove(
         }
     }
 
-    fun combine(other: IllegalMove): IllegalMove {
-        return IllegalMove(
-            (this.lockCords + other.lockCords).distinct(),
-            (this.keyCords + other.keyCords).distinct()
-        )
-
-    }
-
     override fun toString(): String {
         return lockCords.joinToString(",") + "::" + keyCords.joinToString(",")
     }
