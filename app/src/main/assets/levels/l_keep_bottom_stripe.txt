@@ -1,0 +1,7 @@
+4
+3
+LIGHTNING|LIGHTNING|NONE
+0,0,0,1,1,1,2,2,2,B 3,B 3,B 3
+0,1,2,0,1,2,0,1,2,B 3,B 3,B 3
+# C0,R0',R3',C1,R3,C0',R1' (7)
+keep_bottom_stripe

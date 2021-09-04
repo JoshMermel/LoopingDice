@@ -10,3 +10,4 @@ L15 l_sparse_plus 8 10 14
 L16 l_toggle_diagonal 4 5 7
 L17 l_dominoes 7 8 11
 L18 l_chimera 10 13 17
+L19 l_small_checkerboards 7 9 11

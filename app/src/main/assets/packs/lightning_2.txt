@@ -1,7 +1,8 @@
 Lightning (Advanced)
-L19 l_big_corners 6 8 12
-L20 l_swap_stairs 7 9 12
-L21 l_stairs 7 10 14
-L22 l_swap_triangles 12 18 26
-L23 l_two_fish 11 16 21
-L24 l_ai 13 20 40
+L20 l_big_corners 6 8 12
+L21 l_swap_stairs 7 9 12
+L22 l_stairs 7 10 14
+L23 l_keep_bottom_stripe 7 11 15
+L24 l_swap_triangles 12 18 26
+L25 l_two_fish 11 16 21
+L26 l_ai 13 20 40

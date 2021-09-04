@@ -4,4 +4,6 @@ E2 e_slide_row 4 5 8
 E3 e_easier_four_corners 4 5 8
 E4 e_stack_up 6 8 11
 E5 e_four_corners 4 5 8
-E6 e_swap_diagonal_corners_easier 6 8 11
+E6 e_transpose 5 7 9
+E7 e_swap_diagonal_corners_easier 6 8 11
+E8 e_split_sea 8 10 13
