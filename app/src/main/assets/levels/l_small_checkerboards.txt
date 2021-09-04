@@ -5,3 +5,4 @@ B 3,B 0,1,1,B 0,B 3,1,1,1,1,1,1,1,1,B 3,B 0,1,1,B 0,B 3
 B 3,B 3,1,1,B 3,B 3,1,1,1,1,1,1,1,1,B 0,B 0,1,1,B 0,B 0
 
 # C0,C3',R0,R3,C3',R0',C0' (7)
+human solution: Col1 Row2 Col1 Col2' Col3 Row1' Col2 Col3 Col3 (9)

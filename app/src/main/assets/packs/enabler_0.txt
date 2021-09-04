@@ -2,8 +2,8 @@ Enabler (Beginner)
 E1 e_intro 8 9 10
 E2 e_slide_row 4 5 8
 E3 e_easier_four_corners 4 5 8
-E4 e_stack_up 6 8 11
+E4 e_transpose 5 7 9
 E5 e_four_corners 4 5 8
-E6 e_transpose 5 7 9
+E6 e_stack_up 6 8 11
 E7 e_swap_diagonal_corners_easier 6 8 11
-E8 e_split_sea 8 10 13
+E8 e_flip_5 12 14 17
