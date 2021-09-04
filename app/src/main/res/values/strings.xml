@@ -21,7 +21,7 @@
     <string name="aboutEnablerPhotoDescription">Photo of enabler cube</string>
 
     <!-- help strings for move validators -->
-    <string name="arrowValidatorHelptext">Cells containing arrows can only move in some directions.</string>
+    <string name="arrowValidatorHelptext">Dice containing arrows can only move in some directions.</string>
     <string name="dynamicValidatorHelptext">Moves cannot push a black square off the edge of the board</string>
     <string name="enablerValidatorHelptext">Moves must contain a gold square</string>
     <string name="staticValidatorHelptext">black squares prevent moves</string>
@@ -137,7 +137,7 @@
     <string name="introSizeHelptext">Puzzles come in many shapes and colors</string>
     <string name="MixHorizVertHelptext">Mix vertical and horizontal moves to match the goal</string>
     <string name="EndIntroHelptext">This ends the intro. Check out the "Sampler" section to see all the available game modes :)</string>
-    <string name="ArrowsOverview">In Arrows mode, some cells are limited to moving in certain directions</string>
+    <string name="ArrowsOverview">In Arrows mode, some dice are limited to moving in certain directions</string>
     <string name="BandagedOverviewHelptext">In "Bandaged" mode, dice can be joined together</string>
     <string name="BandagedTransitiveHelptext">Dice that are joined by bonds can never be separated</string>
     <string name="CarouselOverviewHelptext">C levels use move pairs of rows/columns in a carousel</string>
@@ -145,11 +145,11 @@
     <string name="CarouselPreviewHelptext">Start a swipe but do not release it to see where each die will move</string>
     <string name="DynamicOverviewHelptext">In "Dynamic Bandaging" mode, black squares cannot wrap around the edge of the board</string>
     <string name="EnablerOverviewHelptext">In "Enabler" mode, moves must contain the gold square</string>
-    <string name="EnablerMultiplicityHelptext">Some levels will have more enabler cells than others</string>
+    <string name="EnablerMultiplicityHelptext">Some levels will have more enabler dice than others</string>
     <string name="GearOverviewHelptext">In "Gear" mode, the next row/column moves in the opposite direction of your swipe</string>
     <string name="GearDirectionalityHelptext">The extra move is always to the right for columns, and always below for rows</string>
-    <string name="LightningOverviewHelptext">In "Lightning" mode, cells with lightning bolts make moves travel twice as far</string>
-    <string name="StaticOverviewHelptext">In "Static Cells" mode, some cells cannot move</string>
+    <string name="LightningOverviewHelptext">In "Lightning" mode, dice with lightning bolts make moves travel twice as far</string>
+    <string name="StaticOverviewHelptext">In "Static Cells" mode, some dice cannot move</string>
     <string name="StaticDepthHelptext">Some Static Cells levels are like Wide mode, where more than one row/col moves at a time</string>
     <string name="WideOverviewHelptext">In "Wide" mode, you will move several rows/columns at a time</string>
     <string name="WideVarietyHelptext">The number of rows/columns that move varies from level to level</string>
