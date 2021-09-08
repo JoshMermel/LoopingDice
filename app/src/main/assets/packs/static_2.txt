@@ -4,8 +4,8 @@ S19 s_upside_down_burger 14 16 20
 S20 s_swap_sides 11 16 22
 S21 s_quad_horizontal_stripe 8 10 14
 S22 s_quad_strips 7 9 13
-S23 s_quadrant 7 8 13
-S24 s_defrag 6 10 14
+S23 s_defrag 6 10 14
+S24 s_quadrant 7 11 15
 S25 s_rotate_stripes 7 9 13
 S26 s_locked_col 10 12 17
 S27 s_join_edges 6 9 15

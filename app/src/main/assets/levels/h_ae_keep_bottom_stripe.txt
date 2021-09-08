@@ -5,5 +5,6 @@ WIDE 1|WIDE 1|ARROWS+ENABLER
 0,0,0,1,E,1,2,2,2,V E,V E,V E
 
 # C0',R1,C2',R0,C0',C2',C0',R2',C2',R1',C2',C0' (12)
+human solution: Row1' Col1 Row1' Col1' Col1' Row1' Col1 Col2' Col2' Row2' Col2 Col2 Col1 Row2 Col1' (15)
 human solution: Col2 Row1' Col2' Col1 Row1 Col1 Row2 Col1' Row2' Col1' Row1' Col1' Row1' Col1 Row1' (15)
-human solution: Col2 Row1' Col2' Col1 Row1 Col1 Row2 Col1' Col1' Col0 Row2' Col0' Row2' Col1 Row2 Col1'
+human solution: Col2 Row1' Col2' Col1 Row1 Col1 Row2 Col1' Col1' Col0 Row2' Col0' Row2' Col1 Row2 Col1' (16)

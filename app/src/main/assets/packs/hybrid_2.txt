@@ -16,11 +16,11 @@ BS3 h_bs_thin_pinwheel 9 11 16
 CD2 h_cd_triple_stripe 4 7 12
 CE2 h_ce_rotate_center 4 6 9
 CE3 h_ce_dominoes 5 8 12
-CW4 h_cw_too_wide 5 10 18
+CW4 h_cw_too_wide 5 8 12
 DE1 h_de_swap_corners 14 28 42
 DG1 h_dg_checkerboard_density 6 8 10
-DG2 h_dg_make_triangle 11 12 18
-DL2 h_dl_make_columns 6 10 14
+DG2 h_dg_make_triangle 11 13 18
+DL2 h_dl_make_columns 6 9 12
 DL3 h_dl_dominoes 11 13 17
 DW2 h_dw_triple_stripe 7 11 16
 DW3 h_dw_sparse_but_deep 8 10 16

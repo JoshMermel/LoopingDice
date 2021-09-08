@@ -4,6 +4,6 @@ WIDE 1|WIDE 2|DYNAMIC
 F 1,F 1,F 1,2,2,2,3,3,3
 F 1,2,3,F 1,2,3,F 1,2,3
 
-d_stripes + w_triple_stripe
 # C0,R0',R2,C0,C1',R1',R0' (7)
 human solution: Col1 Row1' Col0 Col1' Col1' Row0' Row0 Col1 Row0' Col1' Row0' (11)
+human solution: Col1 Row1' Row2' Col1 Row2' Col1' Row1 Col1 Row1 Col1' Row1' (11)
