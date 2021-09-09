@@ -1,5 +1,37 @@
-Hybrids (Beginner)
-AB1 h_ab_simple_columns 5 6 10
-BD1 h_bd_rotate_180 7 9 12
-EG1 h_eg_pivot 4 5 7
-EL1 h_el_intro 7 8 10
+Hybrids (Intermediate)
+AB1 h_ab_stratego 10 11 17
+AC1 h_ac_hourglass 6 8 10
+AD1 h_ad_pinwheel 10 20 30
+AD2 h_ad_swap_rows_easier 9 11 14
+AE1 h_ae_simple_columns 11 12 16
+AG1 h_ag_preserve_belt 8 9 13
+AL1 h_al_raft 10 12 17
+AS1 h_as_congregate 9 11 14
+AS2 h_as_big_void 18 24 30
+AW1 h_aw_abelian 3 5 8
+BD1 h_bd_hourglass 7 9 11
+BD2 h_bd_caged_flip 8 10 13
+BE1 h_be_rotate_180 5 6 9
+BS1 h_bs_unwrap 8 9 11
+BS2 h_bs_sideways_dozer 17 19 23
+CD1 h_cd_easy_corners 4 5 7
+CG1 h_cg_rotate_plus 3 5 7
+CE1 h_ce_big_zag 4 5 8
+CS1 h_cs_swap_edges 6 8 10
+CW1 h_cw_tall_bicolor 6 7 12
+CW2 h_cw_pop_out 4 6 12
+CW3 h_cw_defrag 7 8 12
+DE1 h_de_quad_horizontal_stripe 9 11 14
+DE2 h_de_swap_diagonal_corners 9 12 15
+DG1 h_dg_rotate_strip 6 7 10
+DL1 h_dl_big_hourglass 8 12 15
+DW1 h_dw_drop_three_rows 7 9 14
+EG1 h_eg_swap_diagonal_corners 4 5 7
+EL1 h_el_chimera 12 17 24
+EL2 h_el_flowerbud 8 11 15
+ES1 h_es_transpose 8 12 16
+EW1 h_ew_stack_up 5 7 10
+GS1 h_gs_compaction 4 5 8
+GS2 h_gs_rotate_strip 6 7 10 *
+GW1 h_gw_magnets 5 7 9
+LS1 h_ls_upside_down_burger 10 12 16

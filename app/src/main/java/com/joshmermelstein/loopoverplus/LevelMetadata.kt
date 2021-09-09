@@ -35,7 +35,6 @@ class MetadataSingleton private constructor(private val context: Context) {
             "gear_0",
             "enabler_0",
             "static_0",
-            "hybrid_0",
             "wide_1",
             "dynamic_1",
             "bandaged_1",
@@ -45,7 +44,7 @@ class MetadataSingleton private constructor(private val context: Context) {
             "gear_1",
             "enabler_1",
             "static_1",
-            "hybrid_1",
+            "hybrid_0",
             "wide_2",
             "dynamic_2",
             "bandaged_2",
@@ -55,8 +54,8 @@ class MetadataSingleton private constructor(private val context: Context) {
             "gear_2",
             "enabler_2",
             "static_2",
+            "hybrid_1",
             "hybrid_2",
-            "hybrid_3",
         )) {
             val reader =
                 BufferedReader(InputStreamReader(context.assets.open("packs/$filename.txt")))
