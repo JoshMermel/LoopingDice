@@ -5,3 +5,4 @@ F 1,0,E 0,0,E 0,0,E 0,0,F 2
 F 2,0,E 0,0,E 0,0,E 0,0,F 1
 
 # R0,C0,C1,R2',R2',C0',C0',R1,C2 (9)
+human solution: Col0 Row1 Col2' Col2' Row1 Row0' Col0 Row0' Col2 Col1 (10)
