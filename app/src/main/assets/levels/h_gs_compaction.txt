@@ -5,3 +5,4 @@ GEAR|GEAR|STATIC
 3,3,3,3,3,2,3,1,F 0
 
 # C0',R0',C0',R0' (4)
+TODO(jmerm): rename, _compaction is in use

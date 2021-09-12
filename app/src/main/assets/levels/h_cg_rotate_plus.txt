@@ -6,3 +6,4 @@ GEAR|CAROUSEL|NONE
 
 # C0,C2',C1 (3)
 human solution: Col0 Col1' Col0 Col1' Row0 (5)
+human solution: Col2' Row1 Col0' Row2' Row0 (5)

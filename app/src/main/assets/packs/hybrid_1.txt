@@ -1,8 +1,11 @@
 Hybrids (Advanced)
-AB2 h_ab_diagonal_mirror 10 16 24
+AB2 h_ab_stratego 10 11 17
+AB3 h_ab_diagonal_mirror 10 16 24
 AC2 h_ac_four_corners 3 4 6
-AD3 h_ad_columns_ring 10 12 16
+AD2 h_ad_aperture 12 14 17
+AD3 h_ad_swap_rows_easier 9 11 14
 AE2 h_ae_keep_bottom_stripe 12 15 20
+AE3 h_ae_waveform 12 15 18
 AG2 h_ag_preserve_column 8 10 14
 AL2 h_al_plus 6 7 10
 AL3 h_al_stairs 8 16 24
@@ -18,8 +21,9 @@ CE2 h_ce_rotate_center 4 6 9
 CE3 h_ce_dominoes 5 8 12
 CG2 h_cg_swap_stairs 5 6 9
 CG3 h_cg_quad_horizontal_stripe 4 7 10
+CS3 h_cs_compaction 7 11 15
 CW4 h_cw_too_wide 5 8 12
-DE3 h_de_swap_corners 14 28 42 *
+DE3 h_de_padded_stripe 9 12 15
 DG2 h_dg_checkerboard_density 6 8 10
 DG3 h_dg_make_triangle 11 13 18
 DL2 h_dl_make_columns 6 9 12

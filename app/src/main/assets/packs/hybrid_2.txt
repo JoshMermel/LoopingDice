@@ -1,6 +1,8 @@
 Grandmaster
-AD4 h_ad_swap_rows_harder 28 40 60
+AB4 h_ab_major_diagonal 16 24 32
+AD4 h_ad_plait 15 25 35
+AD5 h_ad_swap_rows_harder 28 40 60
 AL4 h_al_shoelaces 23 30 42
-CS2 h_cs_swap_sides 9 18 27
+CS4 h_cs_swap_sides 9 18 27
 DE4 h_de_swap_spaced_rows 18 30 50
 DE5 h_de_dublin 40 60 80
