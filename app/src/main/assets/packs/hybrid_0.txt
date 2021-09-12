@@ -3,7 +3,8 @@ AB1 h_ab_rotate_180 6 8 10
 AC1 h_ac_hourglass 6 8 10
 AD1 h_ad_rotate_180 7 8 10
 AE1 h_ae_simple_columns 11 12 16
-AG1 h_ag_preserve_belt 8 9 13 *
+AG1 h_ag_plus 4 6 8
+AG2 h_ag_rain_barrel 5 7 9
 AL1 h_al_raft 10 12 17
 AS1 h_as_congregate 9 11 14
 AS2 h_as_big_void 18 24 30
@@ -34,3 +35,4 @@ EW1 h_ew_stack_up 5 7 10
 GS1 h_gs_compaction 4 5 8
 GW1 h_gw_magnets 5 7 9
 LS1 h_ls_upside_down_burger 10 12 16
+

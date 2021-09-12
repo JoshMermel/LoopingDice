@@ -6,7 +6,7 @@ AD2 h_ad_aperture 12 14 17
 AD3 h_ad_swap_rows_easier 9 11 14
 AE2 h_ae_keep_bottom_stripe 12 15 20
 AE3 h_ae_waveform 12 15 18
-AG2 h_ag_preserve_column 8 10 14
+AG3 h_ag_preserve_column 8 10 14
 AL2 h_al_plus 6 7 10
 AL3 h_al_stairs 8 16 24
 AS3 h_as_inside_out 12 16 22
