@@ -10,7 +10,8 @@ AG3 h_ag_preserve_column 8 10 14
 AL2 h_al_plus 6 7 10
 AL3 h_al_stairs 8 16 24
 AS3 h_as_inside_out 12 16 22
-AW2 h_aw_plus 6 9 13
+AW2 h_aw_staircase 10 13 16
+AW3 h_aw_plus 6 9 13
 BD3 h_bd_make_triangle 10 12 16
 BE2 h_be_two_columns 9 12 16
 BE3 h_be_stratego 9 15 21
