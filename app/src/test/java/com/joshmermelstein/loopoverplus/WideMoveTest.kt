@@ -97,4 +97,14 @@ class WideMoveTest : TestCase() {
         val hMove = WideMove(Axis.HORIZONTAL, Direction.BACKWARD, 1, 2, 3, 2)
         assertEquals(hMove.toString(), "WIDE H B 1 2")
     }
+
+    fun testFromString() {
+        val numRows = 1
+        val numCols = 2
+        val vMove = WideMove(Axis.VERTICAL, Direction.FORWARD, 0, numRows, numCols, 4)
+        assertEquals(stringToMove(vMove.toString(), numRows, numCols), vMove)
+
+        val hMove = WideMove(Axis.HORIZONTAL, Direction.BACKWARD, 1, numRows, numCols, 2)
+        assertEquals(stringToMove(hMove.toString(), numRows, numCols), hMove)
+    }
 }

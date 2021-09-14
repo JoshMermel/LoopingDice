@@ -112,4 +112,15 @@ class CarouselMoveTest : TestCase() {
         val hMove = CarouselMove(Axis.HORIZONTAL, Direction.BACKWARD, 1, 2, 3)
         assertEquals(hMove.toString(), "CAROUSEL H B 1")
     }
+
+    fun testFromString() {
+        val numRows = 1
+        val numCols = 2
+
+        val vMove = CarouselMove(Axis.VERTICAL, Direction.FORWARD, 0, numRows, numCols)
+        assertEquals(stringToMove(vMove.toString(), numRows, numCols), vMove)
+
+        val hMove = CarouselMove(Axis.HORIZONTAL, Direction.BACKWARD, 1, numRows, numCols)
+        assertEquals(stringToMove(hMove.toString(), numRows, numCols), hMove)
+    }
 }

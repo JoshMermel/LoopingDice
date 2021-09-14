@@ -93,4 +93,15 @@ class BasicMoveTest : TestCase() {
         val hMove = BasicMove(Axis.HORIZONTAL, Direction.BACKWARD, 1, 2, 3)
         assertEquals(hMove.toString(), "BASIC H B 1")
     }
+
+    fun testFromString() {
+        val numRows = 1
+        val numCols = 2
+
+        val vMove = BasicMove(Axis.VERTICAL, Direction.FORWARD, 0, numRows, numCols)
+        assertEquals(stringToMove(vMove.toString(), numRows, numCols), vMove)
+
+        val hMove = BasicMove(Axis.HORIZONTAL, Direction.BACKWARD, 1, numRows, numCols)
+        assertEquals(stringToMove(hMove.toString(), numRows, numCols), hMove)
+    }
 }

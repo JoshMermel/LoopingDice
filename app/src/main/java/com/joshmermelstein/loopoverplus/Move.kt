@@ -160,6 +160,7 @@ fun stringToMove(s: String, numRows: Int, numCols: Int): LegalMove? {
         }
         "GEAR" -> GearMove(axis, direction, offset, numRows, numCols)
         "CAROUSEL" -> CarouselMove(axis, direction, offset, numRows, numCols)
+        "LIGHTNING" -> LightningMove(axis, direction, offset, numRows, numCols)
         else -> null
     }
 }
