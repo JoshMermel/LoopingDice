@@ -4,6 +4,7 @@ AD4 h_ad_plait 15 25 35
 AD5 h_ad_swap_rows_harder 28 40 60
 AG4 h_ag_stack_up 11 20 30
 AL4 h_al_shoelaces 23 30 42
+BS4 h_bs_coin_dozer 13 20 38
 CS4 h_cs_swap_sides 9 18 27
 DE4 h_de_swap_spaced_rows 18 30 50
 DE5 h_de_dublin 40 60 80

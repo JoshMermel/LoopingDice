@@ -12,22 +12,24 @@ AW1 h_aw_abelian 3 5 8
 BD1 h_bd_hourglass 7 8 10
 BD2 h_bd_caged_flip 8 10 13
 BE1 h_be_rotate_180 5 6 9
+BE2 h_be_paperclip 8 11 13
 BS1 h_bs_unwrap 8 9 11
-BS2 h_bs_sideways_dozer 17 19 23
-CD1 h_cd_easy_corners 4 5 7 *
+CD1 h_cd_earmark 8 10 12
+CD2 h_cd_tall_checkerboard 5 7 9
 CG1 h_cg_rotate_plus 3 5 7
 CE1 h_ce_big_zag 4 5 8
 CS1 h_cs_swap_edges 6 8 10
 CS2 h_cs_quadrants 7 9 11
 CW1 h_cw_tall_bicolor 6 7 12
 CW2 h_cw_pop_out 4 6 12
-CW3 h_cw_defrag 7 8 12
 DE1 h_de_quad_horizontal_stripe 9 11 14
 DE2 h_de_swap_diagonal_corners 9 11 14
-DG1 h_dg_rotate_strip 6 7 10 *
-DL1 h_dl_big_hourglass 8 12 15
+DG1 h_dg_magnets 4 5 7
+DL1 h_dl_spicy_easy_corners 7 8 9
+DL2 h_dl_big_hourglass 8 12 15
 DW1 h_dw_drop_three_rows 7 9 14
-EG1 h_eg_swap_diagonal_corners 4 5 7
+EG1 h_eg_diag 4 5 7
+EG2 h_eg_boxy 6 8 12
 EL1 h_el_flowerbud 8 11 15
 EL2 h_el_chimera 12 17 24
 ES1 h_es_transpose 8 12 16
@@ -35,4 +37,3 @@ EW1 h_ew_stack_up 5 7 10
 GS1 h_gs_compaction 4 5 8
 GW1 h_gw_magnets 5 7 9
 LS1 h_ls_upside_down_burger 10 12 16
-

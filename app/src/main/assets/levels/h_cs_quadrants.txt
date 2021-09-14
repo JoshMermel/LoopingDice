@@ -5,3 +5,4 @@ CAROUSEL|CAROUSEL|STATIC
 0,0,1,1,0,0,1,1,1,1,F 0,F 0,1,1,F 0,F 0
 
 # R0',R0',C0',C0',R0',C0',R0 (7)
+human solution: Row0' Row0' Col0' Row0' Col0 Col0 Col0 Row0 Col0' Col0' (10)

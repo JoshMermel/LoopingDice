@@ -5,3 +5,4 @@ H 0,3,3,E 0,H 0,3,E 0,E 0,H 0,E 0,H 0,3,H 0,3,3
 3,3,H 0,3,H 0,E 0,H 0,E 0,E 0,3,H 0,E 0,3,3,H 0
 
 # R1,R3',C1',R3',C1',R4',R0',C0,R3',C0,R2,R1' (12)
+human solution: Row2' Col2' Col2' Row1' Row2' Row3' Col2' Row0' Row4' Col1 Col1 Row1' Col1 Row1' Row3 (15)
