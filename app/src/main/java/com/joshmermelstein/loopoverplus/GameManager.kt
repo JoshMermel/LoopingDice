@@ -102,7 +102,7 @@ class GameManager(
     // determine positions so that animation speed doesn't depend on frames per second.
     fun update() {
         moveQueue.runMoves(System.nanoTime(), this)
-        if (!complete && this.isSolved()) {
+        if (!complete && isSolved()) {
             complete = true
             winDialog()
         }
@@ -208,21 +208,22 @@ class GameManager(
     }
 
     fun setPreview(axis: Axis, direction: Direction, offset: Int) {
-        this.preview = this.future.copy()
+        preview = future.copy()
 
-        // We run the move until exactly eccentricityThreshold so that it goes as far as possible
-        // before we'd start drawing wraparound gamecells.
-        if (this.preview != null) {
-            params.moveFactory.makeMoveUnvalidated(axis, direction, offset, this.preview!!)
-                .animateProgress(
-                    eccentricityThreshold,
-                    this.preview!!
-                )
+        val previewMove = params.moveFactory.makeMove(axis, direction, offset, preview!!)
+        val unvalidated = if (previewMove is IllegalMove) {
+            params.moveFactory.makeMoveUnvalidated(axis, direction, offset, preview!!)
+        } else {
+            null
         }
+
+        // Run the previews to twice the eccentricity threshold so the wraparound is more than a sliver.
+        previewMove.animateProgress(2 * eccentricityThreshold, preview!!)
+        unvalidated?.animateProgress(2 * eccentricityThreshold, preview!!)
     }
 
     fun resetPreview() {
-        this.preview = null
+        preview = null
     }
 
     // Generates a human readable string explaining the rules of the level

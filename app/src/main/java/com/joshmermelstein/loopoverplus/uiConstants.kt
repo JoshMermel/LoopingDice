@@ -5,7 +5,7 @@ package com.joshmermelstein.loopoverplus
 
 // Controls how small a sliver of a gamecell is drawn when it wraps around. Setting this >0 reduces
 // some jank from moves snapping back due to easing.
-const val eccentricityThreshold = 0.1
+const val eccentricityThreshold = 0.06
 
 // Controls how far the user has to swipe before a move is registered. This value should be
 // relatively small so users don't have to move too much but also large enough that it's easy to
