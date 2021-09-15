@@ -30,8 +30,7 @@ DL2 h_dl_big_hourglass 8 12 15
 DW1 h_dw_drop_three_rows 7 9 14
 EG1 h_eg_diag 4 5 7
 EG2 h_eg_boxy 6 8 12
-EL1 h_el_flowerbud 8 11 15
-EL2 h_el_chimera 12 17 24
+EL1 h_el_chimera 12 17 24
 ES1 h_es_transpose 8 12 16
 EW1 h_ew_stack_up 5 7 10
 GS1 h_gs_compaction 4 5 8

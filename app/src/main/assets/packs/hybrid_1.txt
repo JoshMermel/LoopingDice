@@ -32,7 +32,8 @@ DL4 h_dl_dominoes 11 13 17
 DW2 h_dw_triple_stripe 7 11 16
 DW3 h_dw_sparse_but_deep 8 10 16
 EG3 h_eg_raise_stripe 9 12 16
-EL3 h_el_split_sea 8 10 14
+EL2 h_el_split_sea 8 10 14
+EL3 h_el_invert_columns 21 28 35
 ES2 h_es_maypole 14 20 26
 EW2 h_ew_diag 5 8 13
 GS2 h_gs_wide_middle 6 10 16
