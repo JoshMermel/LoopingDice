@@ -6,7 +6,7 @@ E27 e_lava 7 10 16
 E28 e_180_bottom 9 15 21
 E29 e_invert_columns 15 22 32
 E30 e_flowerbud_harder 13 19 25
-E31 e_dotted_yellow_line 8 12 18
+E31 e_dotted_yellow_line 8 10 15
 E32 e_keep_bottom_stripe 8 14 22
 E33 e_lightswitch 13 19 26
 E34 e_defragment 11 13 20

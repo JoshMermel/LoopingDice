@@ -15,7 +15,6 @@ AW3 h_aw_plus 6 9 13
 BD3 h_bd_make_triangle 10 12 16
 BE3 h_be_stratego 9 15 21
 BE4 h_be_transpose 9 14 21
-BS2 h_bs_flip_5 9 12 16
 BS3 h_bs_thin_pinwheel 9 11 16
 CD3 h_cd_triple_stripe 4 7 12
 CE2 h_ce_rotate_center 4 6 9

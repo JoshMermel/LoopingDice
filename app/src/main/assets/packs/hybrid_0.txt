@@ -14,6 +14,7 @@ BD2 h_bd_caged_flip 8 10 13
 BE1 h_be_rotate_180 5 6 9
 BE2 h_be_paperclip 8 11 13
 BS1 h_bs_unwrap 8 9 11
+BS2 h_bs_flip_5 9 12 16
 CD1 h_cd_earmark 8 10 12
 CD2 h_cd_tall_checkerboard 5 7 9
 CG1 h_cg_rotate_plus 3 5 7
@@ -25,7 +26,7 @@ CW2 h_cw_pop_out 4 6 12
 DE1 h_de_quad_horizontal_stripe 9 11 14
 DE2 h_de_swap_diagonal_corners 9 11 14
 DG1 h_dg_magnets 4 5 7
-DL1 h_dl_spicy_easy_corners 7 8 9
+DL1 h_dl_spicy_easy_corners 7 7 8
 DL2 h_dl_big_hourglass 8 12 15
 DW1 h_dw_drop_three_rows 7 9 14
 EG1 h_eg_diag 4 5 7
