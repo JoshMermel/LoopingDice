@@ -33,6 +33,7 @@ EG1 h_eg_diag 4 5 7
 EG2 h_eg_boxy 6 8 12
 EL1 h_el_chimera 12 17 24
 ES1 h_es_transpose 8 12 16
+ES2 h_es_flip_5 12 13 16
 EW1 h_ew_stack_up 5 7 10
 GS1 h_gs_compaction 4 5 8
 GW1 h_gw_magnets 5 7 9
