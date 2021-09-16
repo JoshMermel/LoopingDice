@@ -5,5 +5,6 @@ E B 0,E 0,E B 0,1,2,1,2,1,2,E 0,E B 0,E 0
 1,1,1,E 0,E B 0,E 0,E B 0,E 0,E B 0,2,2,2
 
 # C2,R0',C1,R2,C2,R2',C0',R2' (8)
+human solution: Row0 Col0' Col1 Row1 Col2 Row1' Row3' Row2 Col2' Row2 (10)
 human solution: Col0 Row0 Col2' Col1' Row2' Col0' Row1' Col0' Col0' Row1 Row2' (11)
 human solution: Col0 Row2' Col0 Col1 Row1 Col2' Row2 Row1' Col2 Col1' Row2 Col1' Col2' Row2 (14)

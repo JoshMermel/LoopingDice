@@ -5,3 +5,4 @@ F 0,R 3,L R 3,L 3,D 3,2,2,0,U D 3,2,2,0,U 3,0,0,0
 F 0,R 3,L R 3,L 3,D 3,0,0,0,U D 3,0,2,2,U 3,0,2,2
 
 # R1,C1,R1',C3,R1',C2,R1',C1',C1',R3,C1,R1',C1' (13)
+human solution: Bs4: Col1 Row1 Col1 Row1 Col2 Row1 Col3 Row1' Row1' Col1' Col1' Row3 Col1 Row1' Col1' (14)
