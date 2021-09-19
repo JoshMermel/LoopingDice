@@ -6,3 +6,4 @@ GEAR|WIDE 2|NONE
 
 # C0',R3,C3,C1',R0',C0' (6)
 human solution: Row3 Col3 Col1' Col1' Row0' Col0 Row0' Col0 Row2 Col1' Col2 (11)
+human solution: Col2 Row1 Row1 Row2 Col0 Col0 Row2 Col0' (8)

@@ -10,3 +10,4 @@ G27 g_flip_5 10 12 17
 G28 g_quad_horizontal_stripe 6 8 13
 G29 g_too_wide 7 10 15
 G30 g_equator 5 10 16
+G31 g_align_columns 5 10 16

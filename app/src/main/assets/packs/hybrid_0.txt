@@ -3,6 +3,7 @@ AB1 h_ab_rotate_180 6 8 10
 AC1 h_ac_hourglass 6 8 10
 AD1 h_ad_rotate_180 7 8 10
 AE1 h_ae_simple_columns 11 12 16
+AE2 h_ae_broken_whirlpool 7 9 11
 AG1 h_ag_plus 4 6 8
 AG2 h_ag_rain_barrel 5 7 9
 AL1 h_al_raft 10 12 17
@@ -27,7 +28,7 @@ DE1 h_de_quad_horizontal_stripe 9 11 14
 DE2 h_de_swap_diagonal_corners 9 11 14
 DG1 h_dg_magnets 4 5 7
 DL1 h_dl_spicy_easy_corners 7 7 8
-DL2 h_dl_big_hourglass 8 12 15
+DL2 h_dl_big_hourglass 8 11 14
 DW1 h_dw_drop_three_rows 7 9 14
 EG1 h_eg_diag 4 5 7
 EG2 h_eg_boxy 6 8 12
