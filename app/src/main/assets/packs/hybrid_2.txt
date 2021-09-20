@@ -7,7 +7,12 @@ AG4 h_ag_stack_up 11 20 30
 AL4 h_al_shoelaces 23 30 42
 AS4 h_as_red_switch 25 30 35
 AW4 h_ae_heist 11 20 31
+BD4 h_bd_small_renumber 18 30 45
+BD5 h_bd_swap_sides 19 30 45
+BE4 h_be_big_transpose 15 25 35
+BE5 h_be_split_dozer 12 22 35
 BS4 h_bs_coin_dozer 13 18 28
+CG4 h_cg_fault_line 8 25 40
 CS4 h_cs_swap_sides 9 18 27
 DE4 h_de_swap_spaced_rows 18 30 50
 DE5 h_de_dublin 40 60 80

@@ -20,6 +20,7 @@ CD1 h_cd_earmark 8 10 12
 CD2 h_cd_tall_checkerboard 5 7 9
 CG1 h_cg_rotate_plus 3 5 7
 CE1 h_ce_big_zag 4 5 8
+CE2 h_ce_rotate_center 4 6 9
 CS1 h_cs_swap_edges 6 8 10
 CS2 h_cs_quadrants 7 9 11
 CW1 h_cw_tall_bicolor 6 7 12
