@@ -8,3 +8,4 @@ WIDE 1|WIDE 1|ENABLER+STATIC
 human solution: Col0' Row1 Col0' Col2' Row1' Col2 Col0' Row0' Col1 Row0' Col1 Row0' Col1 Col1 (14)
 human solution: Row0' Col2' Col0' Row2 Col0 Col1 Row0 Row0 Row1' Col0' Row1 Col0 (12)
 human solution: Row0' Col2' Row2 Col0 Col0' Col1 Row0 Col0 Row0' Col1' (10)
+human solution: Col0 Row0' Col2' Row2 Col2 Row2' Col2' Row1 Col0 Col0 (10)
