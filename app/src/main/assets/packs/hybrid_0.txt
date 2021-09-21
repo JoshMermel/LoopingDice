@@ -31,6 +31,7 @@ DG1 h_dg_magnets 4 5 7
 DL1 h_dl_spicy_easy_corners 7 7 8
 DL2 h_dl_big_hourglass 8 11 14
 DW1 h_dw_drop_three_rows 7 9 14
+DW2 h_dw_triple_stripe 7 11 16
 EG1 h_eg_diag 4 5 7
 EG2 h_eg_boxy 6 8 12
 EL1 h_el_chimera 12 17 24

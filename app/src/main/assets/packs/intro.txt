@@ -6,4 +6,3 @@ I4 i_colors 3 5 7
 I5 i_checkerboard 4 7 10
 I6 i_not_equals 7 8 14
 I7 i_triple_stripe 4 8 12
-
