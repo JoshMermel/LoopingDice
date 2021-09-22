@@ -1,9 +1,7 @@
 5
 5
 LIGHTNING|LIGHTNING|ENABLER
-3,3,3,B 2,B 2,3,3,3,B 2,B 2,3,3,3,B 2,B 2,B E,B E,B E,3,3,B E,B E,B E,3,3
-3,3,3,B E,B E,3,3,3,B E,B E,3,3,3,B E,B E,B 2,B 2,B 2,3,3,B 2,B 2,B 2,3,3
+3,3,3,B 2,B 2,3,3,3,B 2,B 2,3,3,3,B 2,B 2,E B,E B,E B,3,3,E B,E B,E B,3,3
+B 2,B 2,B 2,3,3,B 2,B 2,B 2,3,3,3,3,3,E B,E B,3,3,3,E B,E B,3,3,3,E B,E B
 
-# C2',R2,C4',R4',C4',R1,C1,R3',C3',R3',C0,R0' (12)
-human solution: Col2' Row1 Row2 Col0 Row0' Col1 Row1' Col2' Row2' Row2' Col2' Col2' Row2 Row2 Col3' Col3' Row0 (17)
-human solution: Row3 Row4 Col3 Col4 Row3' Row4' Col3 Row3' Row3' Col4' Col4' Row3' Row4 Row4 Col3' Row1 Row1 Col4' (18)
+# R4',C1',C2,R1',C4',R3',R3',R2,R0',C0',R3',R2' (12)
