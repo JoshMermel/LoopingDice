@@ -1,0 +1,8 @@
+4
+4
+WIDE 2|WIDE 2|ARROWS
+3,1,1,1,1,V 2,V 2,1,1,V 2,1,H 0,1,1,H 0,H 0
+1,1,1,1,1,V 2,V 2,1,1,V 2,3,H 0,1,1,H 0,H 0
+
+# R3,C1,R0,C1,R1,C1,R2,C2,R2',R2',C0 (11)
+human solution: Row3 Col1 Row0 Col1' Col1' Row2 Col2 Row2 Col3 Col3 Row2' Col2' Row2' Col1 Row3' (15)

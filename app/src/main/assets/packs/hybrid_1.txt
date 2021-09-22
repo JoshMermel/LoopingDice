@@ -26,13 +26,13 @@ CW3 h_cw_too_wide 5 8 12
 DE3 h_de_padded_stripe 9 12 15
 DG2 h_dg_checkerboard_density 6 8 10
 DG3 h_dg_make_triangle 11 13 18
-DL3 h_dl_dominoes 11 13 17
-DL4 h_dl_ring 12 17 22
+DL2 h_dl_dominoes 11 13 17
+DL3 h_dl_ring 12 15 18
 DW3 h_dw_sparse_but_deep 8 10 16
 DW4 h_dw_kite 8 11 15
 EG3 h_eg_raise_stripe 9 12 16
-EL2 h_el_split_sea 8 10 14
-EL3 h_el_invert_columns 21 26 32
+EL3 h_el_split_sea 8 10 14
+EL4 h_el_invert_columns 21 26 32
 ES3 h_es_maypole 14 20 26
 ES4 h_es_double_padded_make_plus 8 10 13
 EW2 h_ew_diag 5 8 13

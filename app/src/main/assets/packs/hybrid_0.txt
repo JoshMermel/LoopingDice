@@ -28,16 +28,17 @@ CW2 h_cw_pop_out 4 6 12
 DE1 h_de_quad_horizontal_stripe 9 11 14
 DE2 h_de_swap_diagonal_corners 9 11 14
 DG1 h_dg_magnets 4 5 7
-DL1 h_dl_spicy_easy_corners 7 7 8
-DL2 h_dl_big_hourglass 8 11 14
+DL1 h_dl_big_hourglass 8 11 14
 DW1 h_dw_drop_three_rows 7 9 14
 DW2 h_dw_triple_stripe 7 11 16
 EG1 h_eg_diag 4 5 7
 EG2 h_eg_boxy 6 8 12
 EL1 h_el_chimera 12 17 24
+EL2 h_el_shift_square 11 14 17
 ES1 h_es_transpose 8 12 16
 ES2 h_es_flip_5 12 13 16
 EW1 h_ew_stack_up 5 7 10
 GS1 h_gs_compaction 4 5 8
 GW1 h_gw_magnets 5 7 9
 LS1 h_ls_upside_down_burger 10 12 16
+
