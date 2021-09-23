@@ -17,6 +17,9 @@ DE4 h_de_swap_spaced_rows 18 30 50
 DE5 h_de_dublin 40 60 80
 DG4 h_dg_lego_hand 18 40 60
 DL4 h_dl_keep_two_stripes 12 20 30
+DW4 h_dw_hippos 17 34 51
+EG4 h_eg_join_edges 8 16 24
+EW3 h_ew_two_fish 11 25 40
 EL5 h_el_swap_triangles 12 25 35
 EL6 h_el_ai 19 38 57
 ES5 h_es_excessive_flower 36 65 80
