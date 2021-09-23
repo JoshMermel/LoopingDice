@@ -29,7 +29,6 @@ DG3 h_dg_make_triangle 11 13 18
 DL2 h_dl_dominoes 11 13 17
 DL3 h_dl_ring 12 15 18
 DW3 h_dw_sparse_but_deep 8 10 16
-DW4 h_dw_kite 8 11 15
 EG3 h_eg_raise_stripe 9 12 16
 EL3 h_el_split_sea 8 10 14
 EL4 h_el_invert_columns 21 26 32

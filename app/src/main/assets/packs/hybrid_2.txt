@@ -9,9 +9,8 @@ AS4 h_as_red_switch 25 30 35
 AW4 h_aw_heist 11 15 30
 BD4 h_bd_small_renumber 18 30 45
 BD5 h_bd_swap_sides 19 30 45
-BE4 h_be_big_transpose 15 25 35
 BE5 h_be_split_dozer 12 22 35
-BS4 h_bs_coin_dozer 13 18 28
+BS4 h_bs_quad_dozer 18 23 28
 CG4 h_cg_fault_line 8 25 40
 CS4 h_cs_swap_sides 9 18 32
 DE4 h_de_swap_spaced_rows 18 30 50

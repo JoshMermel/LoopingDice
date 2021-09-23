@@ -33,8 +33,8 @@ DW1 h_dw_drop_three_rows 7 9 14
 DW2 h_dw_triple_stripe 7 11 16
 EG1 h_eg_diag 4 5 7
 EG2 h_eg_boxy 6 8 12
-EL1 h_el_chimera 12 17 24
-EL2 h_el_shift_square 11 14 17
+EL1 h_el_shift_square 11 13 15
+EL2 h_el_chimera 12 15 19
 ES1 h_es_transpose 8 12 16
 ES2 h_es_flip_5 12 13 16
 EW1 h_ew_stack_up 5 7 10
