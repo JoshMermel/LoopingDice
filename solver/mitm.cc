@@ -172,7 +172,7 @@ int main () {
           // New cell, note we've seen it and add it to the queue to explore more
           bwd_seen[neighbor.board] = neighbor.path;
           bwd_q.push(Node<num_rows, num_cols>(neighbor.board, neighbor.path));
-          if (fwd_seen.find(neighbor.board) != bwd_seen.end()) {
+          if (fwd_seen.find(neighbor.board) != fwd_seen.end()) {
             printSolution(fwd_seen[neighbor.board], neighbor.path);
             return 0;
           }

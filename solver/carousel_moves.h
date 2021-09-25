@@ -126,7 +126,7 @@ bool validateCarouselColMove(const Board<num_rows, num_cols> &board, int offset,
       down_idx %= num_cols;
     }
 
-    if (board[0][up_idx] & VERT || board[num_rows - 1][down_idx] & HORIZ) {
+    if (board[0][up_idx] & VERT || board[num_rows - 1][down_idx] & VERT) {
       return false;
     }
 
