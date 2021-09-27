@@ -12,4 +12,5 @@ W17 w_rotate_plus 4 7 10
 W18 w_quad_stripe 7 9 12
 W19 w_quad_horizontal_stripe 7 9 13
 W20 w_inverse_firework 9 12 17
-W21 w_big_plus 5 9 14
+W21 w_angle_brace 5 7 9
+W22 w_big_plus 5 9 14

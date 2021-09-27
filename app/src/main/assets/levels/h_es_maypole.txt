@@ -5,3 +5,5 @@ E,2,2,2,1,F 0,F 0,2,1,F 0,F 0,2,1,1,1,E
 E,1,1,1,2,F 0,F 0,1,2,F 0,F 0,1,2,2,2,E
 
 # C3,R0,C0,R0,C0,R0,C0,R3,C3,R3,C3,R3,C3,R0 (14)
+human solution: Col0 Col3 Row0' Col0 Row0' Col0 Row0' Row0' Row3 Col3 Row3 Col3 Row3 Col3 Row0 (15)
+human solution: Col3 Col0' Row3' Row3' Col3 Row3' Col3 Row3' Row3' Col3 Row3 Row0' Col0' Row0' Col0' Row0' Col0' Row3' (18)

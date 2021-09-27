@@ -1,7 +1,6 @@
 Wide (Advanced)
-W22 w_comb 5 7 9
-W23 w_lake 5 7 12
-W24 w_angle_brace 5 6 9
+W23 w_comb 5 7 9
+W24 w_lake 5 7 12
 W25 w_thick_checkerboard 4 7 13
 W26 w_join_edges 6 9 13
 W27 w_simon 6 11 16

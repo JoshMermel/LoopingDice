@@ -6,7 +6,7 @@ AE1 h_ae_simple_columns 11 12 16
 AE2 h_ae_broken_whirlpool 7 8 10
 AG1 h_ag_plus 4 6 8
 AG2 h_ag_rain_barrel 5 7 9
-AL1 h_al_raft 10 12 17
+AL1 h_al_plus 6 7 10
 AS1 h_as_congregate 9 11 14
 AS2 h_as_big_void 18 24 30
 AW1 h_aw_abelian 3 5 8
@@ -36,9 +36,8 @@ EG2 h_eg_boxy 6 8 12
 EL1 h_el_shift_square 11 13 15
 EL2 h_el_chimera 12 15 19
 ES1 h_es_transpose 8 12 16
-ES2 h_es_flip_5 12 13 16
+ES2 h_es_maypole 14 17 20
 EW1 h_ew_stack_up 5 7 10
 GS1 h_gs_compaction 4 5 8
 GW1 h_gw_magnets 5 7 9
 LS1 h_ls_upside_down_burger 10 12 16
-

@@ -6,3 +6,4 @@ CAROUSEL|CAROUSEL|STATIC
 
 # R0,R0,C2',R2,C1',C1',R1' (7)
 human solution: Col1' Row2' Row1' Row1' Col2' Col2' Col2' Row0 Col3' Row0 Row0 Col3 Row0' Col3' (14)
+human solution: Row2' Col1' Col2 Col2 Col2 Row0' Col3 Col3 Col3 Col3 (10)
