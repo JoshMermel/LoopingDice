@@ -5,3 +5,4 @@ D R 0,D L 0,3,U R 0,U L 0,2,3,2,3,2,D R 0,D L 0,3,U R 0,U L 0
 D R 0,D L 0,3,U R 0,U L 0,3,2,2,2,3,D R 0,D L 0,3,U R 0,U L 0
 
 # R0,C0,R2,C0',C0',R0' (6)
+human solution: Row3' Col2 Row3 Row0 Col0' Col0' Row0' (7)
