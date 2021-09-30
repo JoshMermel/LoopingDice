@@ -35,5 +35,6 @@ G32 g_unique_transpose 14 35 60
 GS3 h_gs_crossed_wires 10 20 30
 GW4 h_gw_unique_transpose 14 35 60
 L28 l_big_ai 21 34 55
+LS3 h_ls_keep_checkerboard 14 20 30
 S30 s_unique_transpose 32 64 128
 W35 w_unique_transpose 18 35 60
