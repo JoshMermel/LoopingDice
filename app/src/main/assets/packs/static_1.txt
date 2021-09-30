@@ -1,4 +1,5 @@
 Static Cells (Intermediate)
+S9 s_thin_pinwheel 11 14 18
 S10 s_top_two 8 9 11
 S11 s_ring 5 7 10
 S12 s_pop_out 6 8 12

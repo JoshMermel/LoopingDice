@@ -5,3 +5,4 @@ F 1,F 1,F 1,2,2,2,F 2,F 2,F 2,2,2,2
 F 2,F 2,F 2,2,2,2,F 1,F 1,F 1,2,2,2
 
 # C0,R0',R3,C0,R0',C0,R3,C0,C2',C2',R1',C1',R2,R1',C0' (15)
+human solution: Col0 Row3 Row0' Col0 Row0' Col0 Col1' Col1' Col2' Row3 Col0 Row0' Row3 Col1' Col2' (15)
