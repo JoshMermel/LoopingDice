@@ -3,7 +3,7 @@ W23 w_comb 5 7 9
 W24 w_lake 5 7 12
 W25 w_thick_checkerboard 4 7 13
 W26 w_join_edges 6 9 13
-W27 w_simon 6 11 16
+W27 w_simon 6 10 14
 W28 w_staircase 8 12 16
 W29 w_smash 9 14 20
 W30 w_narrow_jail 4 7 11

@@ -6,3 +6,5 @@ E,H 0,1,V 0,1,1,1,1,V 0,1,H 0,E
 
 # C0,R1',R3',C2,C2,R3,C2 (7)
 human solution: Row3 Col0 Row1' Col0' Row3' Col2' Row2 Col0 (8)
+human solution: Col0 Row3 Row1' Row3 Col2' Col2' Row3 Col2 (8)
+human solution: Col2 Row0 Col0 Col0 Row0' Row2' Col2' Col2' Col0' (9)

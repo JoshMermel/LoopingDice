@@ -136,7 +136,7 @@
     <string name="threeDotsHelptext">Use the three dots menu to check stats, reset the level, or copy your solution</string>
     <string name="introSizeHelptext">Puzzles come in many shapes and colors</string>
     <string name="MixHorizVertHelptext">Mix vertical and horizontal moves to match the goal</string>
-    <string name="EndIntroHelptext">This ends the intro. Check out the "Sampler" section to see all the available game modes :)</string>
+    <string name="EndIntroHelptext">This ends the intro. Feel free to skip around and try all the different game modes :)</string>
     <string name="ArrowsOverview">In Arrows mode, some dice are limited to moving in certain directions</string>
     <string name="BandagedOverviewHelptext">In "Bandaged" mode, dice can be joined together</string>
     <string name="BandagedTransitiveHelptext">Dice that are joined by bonds can never be separated</string>

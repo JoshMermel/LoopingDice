@@ -2,11 +2,11 @@ Lightning (Intermediate)
 L8 l_quad_stripe 8 10 12
 L9 l_preserve_belt 10 12 14
 L10 l_flip_4 11 13 16
-L11 l_make_columns 6 8 10
-L12 l_raft 6 7 10
-L13 l_stratego 9 12 15
-L14 l_not_equals 8 10 14
-L15 l_sparse_plus 8 10 14
+L11 l_raft 6 7 10
+L12 l_not_equals 8 10 14
+L13 l_sparse_plus 8 10 14
+L14 l_make_columns 6 8 10
+L15 l_stratego 9 12 15
 L16 l_toggle_diagonal 4 5 7
 L17 l_dominoes 7 8 11
 L18 l_chimera 10 13 17

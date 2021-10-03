@@ -8,3 +8,4 @@ F 1,0,0,F 1,F 1,0,0,F 1,F 1,0
 human solution: Row0 Row0 Row1 Row1 Row2 Row3 Row3 Row2 Row3 (9)
 human solution: Row0 Row2 Col0' Row1' Row1' Row3 Row2 Row3 (8)
 human solution: Col0 Row2' Row1 Col0' Row1 Row3 Row2' (7)
+human solution: Col0 Col0 Row1 Row2' Row1' Row2 (6)

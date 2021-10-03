@@ -6,3 +6,4 @@ WIDE 2|WIDE 2|NONE
 
 # R1,R1,C2,C0',R1',R1' (6)
 human solution: Col0' Col0' Row0 Row0 Row1' Row3 Col2 Col2 (8)
+human solution: Row1 Row1 Col1' Row1 Row1 Col0 Col0 Row3 Row3 Col0' Col0' (11)

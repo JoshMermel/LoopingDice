@@ -6,3 +6,4 @@ LIGHTNING|LIGHTNING|NONE
 
 # R3',C1',C3',C3',C1',C0',R1',R1' (8)
 human solution: Row3' Col3 Row1 Col1 Row1 Col3 Row3' Col1 (8)
+human solution: Row1' Col2 Col2 Col1' Col1' Col3' Col3' Row1' Row1' (9)

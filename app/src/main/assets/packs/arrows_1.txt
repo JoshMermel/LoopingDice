@@ -12,6 +12,6 @@ A19 a_icy_river 9 12 16
 A20 a_caged_flip 8 11 16
 A21 a_dominoes 7 8 13
 A22 a_congregate 7 9 13
-A23 a_columns_ring 6 9 12
+A23 a_waveform 9 11 14
 A24 a_major_diagonal 9 11 14
-A25 a_waveform 9 11 14
+A25 a_columns_ring 6 9 12
