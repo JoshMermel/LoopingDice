@@ -3,9 +3,9 @@ D23 d_heist 7 9 13
 D24 d_narrow_jail 9 11 16
 D25 d_make_columns2 12 16 22
 D26 d_rotate_square 8 10 16
-D27 d_peas_in_a_pod 13 17 24
+D27 d_peas_in_a_pod 13 16 21
 D28 d_bicolor 14 27 40
-D29 d_wide_jail 14 19 25
+D29 d_wide_jail 14 18 22
 D30 d_swap_sides 13 21 30
 D31 d_quadrants 16 26 35
 D32 d_hippos 12 22 30

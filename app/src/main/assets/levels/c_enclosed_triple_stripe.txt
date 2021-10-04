@@ -5,5 +5,6 @@ CAROUSEL|CAROUSEL|NONE
 0,0,0,0,0,0,1,2,3,0,0,1,2,3,0,0,1,2,3,0,0,0,0,0,0
 
 # R0,C1',R4,C0,R1,C2,C1,R0' (8)
+human solution: Col0' Col3' Row3 Row0 Col4' Row4' Col3' Col0' (8)
 human solution: Col0' Col3' Row0 Row3 Row4 Row4 Row4 Col3' Col0' (9)
 human solution: Col3' Row3 Col0' Col3' Row3 Col1 Row4 Col1' Col0 Row4 Col0' Row4 Col0' (13)

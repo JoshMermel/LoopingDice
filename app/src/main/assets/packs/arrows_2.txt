@@ -1,18 +1,16 @@
 Arrows (Advanced)
-A26 a_shoelaces 20 22 35
-A27 a_ai 12 14 18
-A28 a_stratego 11 13 18
-A29 a_keep_bottom_stripe 8 10 15
-A30 a_whirlpool_parity 12 14 20
-A31 a_keep_two_stripes 12 15 21
-A32 a_staircase 8 12 18
-A33 a_dense_diagonal 8 10 16
-A34 a_diagonal_mirror 12 13 20
-A35 a_swap_sides 14 18 23
-A36 a_swap_triangles 12 15 24
-A37 a_tau 9 10 16
+A27 a_shoelaces 20 22 35
+A28 a_staircase 8 12 18
+A29 a_stratego 11 13 18
+A30 a_keep_bottom_stripe 8 10 15
+A31 a_whirlpool_parity 12 14 20
+A32 a_keep_two_stripes 12 15 21
+A33 a_tau 9 10 16
+A34 a_dense_diagonal 8 10 16
+A35 a_diagonal_mirror 12 13 20
+A36 a_swap_sides 14 18 23
+A37 a_swap_triangles 12 15 24
 A38 a_plait 13 15 19
 A39 a_crooked_doubles 15 17 22
 A40 a_two_fish 15 22 33
 A41 a_peas_in_a_pod 26 29 40
-
