@@ -1,8 +1,0 @@
-5
-2
-WIDE 2|WIDE 1|STATIC
-F 0,2,0,2,6,2,12,2,18,2
-F 0,2,18,2,12,2,6,2,0,2
-
-# R1,C1',R3,C1',R3,R2',C1',C1',R2',R1' (10)
-human solution: Row3 Col1 Col1 Row1' Col1' Col1' Row3 Col1' Row2 Col1' Row2' (11)
