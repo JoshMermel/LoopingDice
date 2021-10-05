@@ -1,8 +1,8 @@
 Gear (Advanced)
 G22 g_tall_stripe 5 8 12
 G23 g_pop_out 3 5 8
-G24 g_smash 8 11 15
-G25 g_flag 4 6 10
+G24 g_flag 4 6 10
+G25 g_smash 8 11 15
 G26 g_flip_5 10 12 17
 G27 g_just_middle 4 8 13
 G28 g_quad_horizontal_stripe 6 8 13

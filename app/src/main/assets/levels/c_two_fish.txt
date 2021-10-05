@@ -6,3 +6,4 @@ CAROUSEL|CAROUSEL|NONE
 
 # R2',C2',R4',R4',R2',R1',C0,R0 (8)
 human solution: Row4 Row4 Row1 Row1 Row0' Row2 Row2 Row2 Col0 Row0 Row0 Col0' Col1 (13)
+human solution: Col4 Col4 Col1 Col1 Col2 Col2 Col0' Col3' Row3' Col0 Row0' Col0' Row0 (13)
