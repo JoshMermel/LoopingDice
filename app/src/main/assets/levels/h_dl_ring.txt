@@ -8,3 +8,4 @@ F 1,F 1,1,F 1,F 1,B 1,F 1,F 1,1,F 1,F 1,1
 human solution: Col0 Row3 Col0 Row1' Row3 Row0' Col0 Row0 Col1' Col0' Row3' Col0 Row0' Col2' Row0' Col2' (16)
 human solution: Col0 Row3 Col0 Col2 Row0 Row1' Col1' Row0' Col0' Row3' Col0 Row3 Col0' Row2' Row3'(15)
 human solution: Col2 Row0 Col0 Row1' Col1 Row0' Row0' Col2' Row2 Col2 Row0 Row2' Col0' Row3' (14)
+human solution: Col2 Row0 Col0 Row1' Col1 Row0' Col2' Row2 Col2 Row2' Col0' Row3' (12)

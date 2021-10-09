@@ -7,8 +7,8 @@ AE2 h_ae_broken_whirlpool 7 8 10
 AG1 h_ag_plus 4 6 8
 AG2 h_ag_rain_barrel 5 7 9
 AL1 h_al_plus 6 7 10
+AL2 h_al_stairs 8 10 14
 AS1 h_as_congregate 9 11 14
-AS2 h_as_big_void 18 24 30
 AW1 h_aw_abelian 3 5 8
 BD1 h_bd_hourglass 7 8 10
 BD2 h_bd_caged_flip 8 10 13
@@ -40,4 +40,3 @@ ES2 h_es_maypole 14 17 20
 EW1 h_ew_stack_up 5 7 10
 GS1 h_gs_compaction 4 5 8
 GW1 h_gw_magnets 5 7 9
-LS1 h_ls_upside_down_burger 10 12 16

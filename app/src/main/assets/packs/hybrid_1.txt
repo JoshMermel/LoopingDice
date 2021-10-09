@@ -7,8 +7,8 @@ AD3 h_ad_swap_rows_easier 9 11 14
 AE3 h_ae_keep_bottom_stripe 12 15 20
 AE4 h_ae_waveform 12 15 18
 AG3 h_ag_preserve_column 8 10 14
-AL2 h_al_raft 10 12 17
-AL3 h_al_stairs 8 10 14
+AL3 h_al_raft 10 12 17
+AS2 h_as_big_void 18 24 30
 AS3 h_as_inside_out 12 16 22
 AW2 h_aw_staircase 10 13 16
 AW3 h_aw_plus 6 9 13
@@ -37,4 +37,5 @@ EW2 h_ew_diag 5 8 13
 GS2 h_gs_wide_middle 6 10 16
 GW2 h_gw_equator 6 9 12
 GW3 h_gw_flag 5 15 25
+LS1 h_ls_upside_down_burger 10 12 16
 LS2 h_ls_spaced_rotate_columns 10 13 18

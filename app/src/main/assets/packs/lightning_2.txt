@@ -6,4 +6,4 @@ L23 l_two_fish 11 16 21
 L24 l_keep_bottom_stripe 7 11 15
 L25 l_swap_triangles 12 18 26
 L26 l_keep_two_stripes 10 16 23
-L27 l_ai 13 20 40
+L27 l_ai 13 20 27

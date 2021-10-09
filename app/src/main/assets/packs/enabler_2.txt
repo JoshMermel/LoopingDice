@@ -1,6 +1,6 @@
 Enabler (Advanced)
 E23 e_swap_triangles_1 11 14 20
-E24 e_make_columns 6 9 13
+E24 e_make_columns 5 9 13
 E25 e_lava 7 10 16
 E26 e_swap_triangles_2 9 14 20
 E27 e_180_bottom 9 14 20
