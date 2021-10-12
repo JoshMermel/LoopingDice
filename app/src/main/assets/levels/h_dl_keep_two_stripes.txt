@@ -5,3 +5,4 @@ F B 1,0,0,0,F B 1,1,1,1,F B 1,2,2,2,F 1,F B 1,F B 1,F B 1
 F B 1,0,1,2,F B 1,0,1,2,F B 1,0,1,2,F 1,F B 1,F B 1,F B 1
 
 # R0,C1',R1,C1,R1',R2,C1,R0',C2',R2,C2,R2' (12)
+human solution: Col3' Col2' Row3 Col1' Row3' Col2 Col3 Row1 Col3' Row1' Col3 Row1 Col3 Row1' Col2' Row0 Col2 Row0 Col2' Row0' Col2 Col1' Col2' Row0 Col2 Row0' Col1 Col3' Row0' Col3 Row0' Col2' Row0' Col2 (34)
