@@ -1,9 +1,9 @@
 Bandaged (Advanced)
-B21 b_quadrants 14 18 24
-B22 b_big_corners 9 16 25
-B23 b_half_split_dozer 13 17 21
-B24 b_distribute 9 13 18
-B25 b_split_dozer 12 19 25
-B26 b_chiral_spiral 15 19 25
-B27 b_ai 8 16 25
-B28 b_peas_in_a_pod 35 40 55
+B22 b_quadrants 14 18 24
+B23 b_big_corners 9 16 25
+B24 b_half_split_dozer 13 17 21
+B25 b_distribute 9 13 18
+B26 b_split_dozer 12 19 25
+B27 b_chiral_spiral 15 19 25
+B28 b_ai 8 16 25
+B29 b_peas_in_a_pod 35 40 55

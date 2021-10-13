@@ -16,7 +16,7 @@ BD3 h_bd_make_triangle 10 12 16
 BE3 h_be_stratego 9 13 18
 BE4 h_be_transpose 9 14 21
 BS3 h_bs_thin_pinwheel 9 11 16
-CD3 h_cd_triple_stripe 4 7 12
+CD3 h_cd_invert_columns 8 11 15
 CE3 h_ce_dominoes 5 8 12
 CE4 h_ce_keep_bottom_stripe 5 8 12
 CG2 h_cg_swap_stairs 5 6 9
@@ -37,5 +37,5 @@ EW2 h_ew_diag 5 8 13
 GS2 h_gs_wide_middle 6 10 16
 GW2 h_gw_equator 6 9 12
 GW3 h_gw_flag 5 15 25
-LS1 h_ls_upside_down_burger 10 12 16
-LS2 h_ls_spaced_rotate_columns 10 13 18
+LS2 h_ls_upside_down_burger 10 12 16
+LS3 h_ls_spaced_rotate_columns 10 13 18
