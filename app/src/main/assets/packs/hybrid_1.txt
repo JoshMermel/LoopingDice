@@ -21,9 +21,9 @@ CE3 h_ce_dominoes 5 8 12
 CE4 h_ce_keep_bottom_stripe 5 8 12
 CG2 h_cg_swap_stairs 5 6 9
 CG3 h_cg_quad_horizontal_stripe 4 7 10
-CS3 h_cs_compaction 7 11 18
+CS3 h_cs_compaction 7 13 18
 CW3 h_cw_too_wide 5 8 12
-DE3 h_de_padded_stripe 9 12 15
+DE3 h_de_padded_stripe 9 12 17
 DG2 h_dg_checkerboard_density 6 8 10
 DG3 h_dg_make_triangle 11 13 18
 DL2 h_dl_dominoes 11 13 17

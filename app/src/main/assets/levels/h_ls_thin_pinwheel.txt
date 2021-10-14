@@ -5,3 +5,5 @@ LIGHTNING|LIGHTNING|STATIC
 2,3,2,2,3,2,3,F 0,B 0,2,B 0,2,2,B 0,2
 
 # R0',R1',C2',R3,R4,C0',R0,C2,R1 (9)
+human solution: Row0' Row1' Col2 Row3 Row4 Col0 Row4' Col0 Row0 Row1 (10)
+human solution: Row0' Col2 Row1 Row3' Row4 Col0 Row3' Row4' Col0 Row0 Row1 (11)

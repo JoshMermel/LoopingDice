@@ -1,8 +1,8 @@
 Bandaged (Intermediate)
 B10 b_dominoes 6 8 12
 B11 b_rotate_180 5 6 9
-B12 b_quad_stripes 8 10 14
-B13 b_make_columns 6 7 9
+B12 b_make_columns 6 7 9
+B13 b_quad_stripes 8 10 14
 B14 b_anticenter 9 12 15
 B15 b_pedals 11 12 15
 B16 b_coin_dozer 12 14 20
