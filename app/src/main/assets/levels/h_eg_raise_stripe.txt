@@ -5,3 +5,4 @@ E 0,0,0,0,0,0,0,0,3,3
 E 0,0,0,0,0,0,3,3,0,0
 
 # R0,C0,R3,C0',R2,C0,R2',C0',C0' (9)
+human solution: Col0' Row3 Col1' Row3' Row2 Col1' Row1 Col0' Row1' Row0 Col0' (11)

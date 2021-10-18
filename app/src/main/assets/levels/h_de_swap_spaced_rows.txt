@@ -5,4 +5,5 @@ WIDE 1|WIDE 1|DYNAMIC+ENABLER
 0,0,0,F 2,F 2,F 2,E 0,E 0,E 0,F 1,F 1,F 1
 
 # C2',R1,R2',C2,C2,R0',R1,C1',C1',C0',R3',C0',R0',C2,R2',R2',R1,C0 (18)
-human solutions: Col0' Row1' Row2 Col0 Col0 Row1' Col1' Col1' Col2' Row3 Col0 Row3 Col2' Row0' Col0 Row2' Row0 Col2 Col2 Row2' Col2' Row0 Col2' Row2 Col2' Row2 Col2 (27)
+human solution: Col2' Row2' Col2 Row2' Col2' Row1 Col2 Col0' Row3' Row0' Col2 Row1 Col0' Row3' Row0' Col2 Col0' Row1 Col0 Row2' Col0' Row2' Col0 (24)
+human solution: Col0' Row1' Row2 Col0 Col0 Row1' Col1' Col1' Col2' Row3 Col0 Row3 Col2' Row0' Col0 Row2' Row0 Col2 Col2 Row2' Col2' Row0 Col2' Row2 Col2' Row2 Col2 (27)

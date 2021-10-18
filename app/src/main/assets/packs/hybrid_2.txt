@@ -1,13 +1,15 @@
 Grandmaster
+A42 a_windmill 53 65 80
 AB4 h_ab_major_diagonal 16 24 32
-AC3 h_ac_shoelaces 47 90 140
+AC3 h_ac_implied_checkerboard 11 24 36
+AC4 h_ac_heist 12 24 36
 AD4 h_ad_plait 15 25 35
 AD5 h_ad_swap_rows_harder 28 40 60
 AE5 h_ae_eight_segment_display 21 29 36
 AE6 h_ae_flowerbud_harder 18 28 38
 AG4 h_ag_stack_up 11 20 30
 AL4 h_al_shoelaces 23 29 40
-AS4 h_as_red_switch 25 30 35
+AS4 h_as_red_switch 23 30 35
 AW4 h_aw_heist 11 15 30
 B30 b_spiral_fortress 32 45 60
 BD4 h_bd_small_renumber 18 30 45
@@ -20,7 +22,7 @@ CG4 h_cg_unique_transpose 10 35 60
 CS4 h_cs_swap_sides 9 18 32
 CW4 h_cw_unique_transpose 13 35 60
 D33 d_enclosed_triple_stripe 22 44 66
-DE4 h_de_swap_spaced_rows 18 30 50
+DE4 h_de_swap_spaced_rows 18 26 34
 DE5 h_de_dublin 40 60 80
 DG4 h_dg_lego_hand 18 40 60
 DL4 h_dl_keep_two_stripes 12 20 30
