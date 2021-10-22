@@ -40,4 +40,4 @@ GS2 h_gs_wide_middle 6 10 16
 GW2 h_gw_equator 6 9 12
 GW3 h_gw_flag 5 15 25
 LS2 h_ls_upside_down_burger 10 12 16
-LS3 h_ls_spaced_rotate_columns 10 13 18
+LS3 h_ls_keep_corner 12 16 20

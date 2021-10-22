@@ -5,3 +5,4 @@ BANDAGED|BANDAGED|NONE
 3,2,D R 0,D L 0,3,2,U R 0,U L 0,D R 0,D L 0,9,8,U R 0,U L 0,9,8
 
 # R0',C0',C3,R0,C0',R0',R0',C0' (8)
+human solution: Col2' Row1 Col2 Row2 Col0' Row2' Col2' Row1 Col2' Row1' Col2 Row1 Col2' Row1' Col2 Col2 (16)
