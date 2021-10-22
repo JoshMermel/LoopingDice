@@ -8,6 +8,7 @@ AE3 h_ae_keep_bottom_stripe 12 15 20
 AE4 h_ae_waveform 12 15 18
 AG3 h_ag_preserve_column 8 10 14
 AL3 h_al_raft 10 12 17
+AL4 h_al_ai 13 18 25
 AS2 h_as_big_void 18 24 30
 AS3 h_as_inside_out 12 16 22
 AW2 h_aw_staircase 10 13 16
@@ -16,6 +17,7 @@ BD3 h_bd_make_triangle 10 12 16
 BE3 h_be_stratego 9 13 18
 BE4 h_be_transpose 9 14 21
 BS3 h_bs_thin_pinwheel 9 11 16
+BS4 h_bs_locked_quadrants 20 26 32
 CD3 h_cd_invert_columns 8 11 15
 CE3 h_ce_dominoes 5 8 12
 CE4 h_ce_keep_bottom_stripe 5 8 12
