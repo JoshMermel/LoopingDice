@@ -226,7 +226,7 @@ fun generateStaticCellGoal(
     blockedRows: Int,
     blockedCols: Int
 ): Array<String> {
-    val blocked = (0..35).filter { (it < blockedRows * numCols) && (it % numCols < blockedCols) }
+    val blocked = (0..63).filter { (it < blockedRows * numCols) && (it % numCols < blockedCols) }
         .toTypedArray()
 
     // Speckled Static is special because we want to avoid putting a speckle where we've

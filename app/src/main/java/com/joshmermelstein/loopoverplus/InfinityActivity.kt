@@ -68,7 +68,6 @@ enum class Mode(val userString: Int) {
 // Activity for letting the user build a level
 class InfinityActivity : AppCompatActivity() {
     // Arrays to go into spinner adaptors.
-    private val rowSizes = (2..6).map { num -> num.toString() }
     private val rowModes = Mode.values()
     private val colModes = arrayOf(Mode.WIDE, Mode.CAROUSEL, Mode.GEAR)
     private val colorSchemes = ColorScheme.values()
@@ -413,11 +412,13 @@ class InfinityActivity : AppCompatActivity() {
     // Callback for when num cols is changed.
     private fun onUpdateNumCols() {
         updateColDepthPicker()
+        updateNumBlockedColsPicker()
     }
 
     // Callback for when num rows is changed.
     private fun onUpdateNumRows() {
         updateRowDepthPicker()
+        updateNumBlockedRowsPicker()
     }
 
     // Configured the "generate level" button to launch a gameplay activity based on the values of spinners.
