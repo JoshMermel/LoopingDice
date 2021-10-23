@@ -83,6 +83,7 @@ class InfinityActivity : AppCompatActivity() {
         setSupportActionBar(findViewById(R.id.infinity_toolbar))
         configureRowModePicker()
         configureColorSchemePicker()
+        updateRowSizePicker()
         configureButton()
     }
 
