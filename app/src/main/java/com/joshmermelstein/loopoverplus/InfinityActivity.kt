@@ -82,21 +82,9 @@ class InfinityActivity : AppCompatActivity() {
         //  - more granular resets?
         //  - expose some stats?
         setSupportActionBar(findViewById(R.id.infinity_toolbar))
-        configureRowSizePicker()
         configureRowModePicker()
         configureColorSchemePicker()
         configureButton()
-    }
-
-    // Configures the row size spinner. This is always shown.
-    private fun configureRowSizePicker() {
-        val rowSizeSpinner = findViewById<Spinner>(R.id.rowSizeSpinner)
-        val rowAdapter = ArrayAdapter(this, R.layout.spinner_item, rowSizes)
-        rowAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
-        rowSizeSpinner.adapter = rowAdapter
-        rowSizeSpinner.onItemSelectedListener = SelectionMadeListener(::onUpdateNumRows)
-
-        rowSizeSpinner.setSelection(Random.nextInt(1, 3))
     }
 
     // Configures the row mode spinner. This is always shown.
@@ -118,6 +106,7 @@ class InfinityActivity : AppCompatActivity() {
 
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
         colorSchemeSpinner.adapter = adapter
+        colorSchemeSpinner.onItemSelectedListener = SelectionMadeListener(::onUpdateColorScheme)
         colorSchemeSpinner.setSelection(Random.nextInt(0, colorSchemes.size))
     }
 
@@ -178,16 +167,56 @@ class InfinityActivity : AppCompatActivity() {
         return null
     }
 
-    // The available col sizes depends on the user's mode. In modes where a color has a special
-    // meaning, the number of columns is limited to 5 so no normal game cells of that special color
-    // will be used. Arguably this could be increased in the "bicolor" color scheme but I think that
-    // would be too confusing a UI.
+    // The available row sizes depends on the user's color scheme
+    // When the colorscheme is bicolor or speckled, there are no logical limits on num_cols.
+    // When the colorscheme is columns or unique, we can have one row per pip so we cap at 6 rows.
+    private fun updateRowSizePicker() {
+        val rowSizeSpinner = findViewById<Spinner>(R.id.rowSizeSpinner)
+        val oldValue: Int? = rowSizeSpinner.selectedItem?.toString()?.toInt()
+        val colorScheme = getColorScheme()
+        val maxValue =
+            if (colorScheme == ColorScheme.BICOLOR || colorScheme == ColorScheme.SPECKLED) {
+                8
+            } else {
+                6
+            }
+        val rowSizes = (2..maxValue).map { num -> num.toString() }
+
+        val adapter = ArrayAdapter(this, R.layout.spinner_item, rowSizes)
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
+        rowSizeSpinner.adapter = adapter
+        rowSizeSpinner.onItemSelectedListener = SelectionMadeListener(::onUpdateNumRows)
+
+        when {
+            oldValue == null -> {
+                // Initialize to random
+                rowSizeSpinner.setSelection(Random.nextInt(1, 3))
+            }
+            oldValue <= maxValue -> {
+                // Reset old value
+                rowSizeSpinner.setSelection(oldValue - 2)
+            }
+            else -> {
+                // Old value was too big, replace with largest value that fits
+                rowSizeSpinner.setSelection(maxValue - 2)
+            }
+        }
+    }
+
+    // The available col sizes depends on the user's color scheme and mode.
+    // When the colorscheme is bicolor or speckled, there are no logical limits on num_cols.
+    // When the colorscheme is columns or unique, we can have one column per color. The number of
+    // available colors depends on the mode. In some modes a color has a special meaning so we allow
+    // five colors. In other modes we allow six colors.
     private fun updateColSizePicker() {
         val colSizeSpinner = findViewById<Spinner>(R.id.colSizeSpinner)
         val oldValue: Int? = colSizeSpinner.selectedItem?.toString()?.toInt()
         val rowMode = getRowMode()
+        val colorScheme = getColorScheme()
         val maxValue =
-            if (rowMode in colModes || rowMode == Mode.ARROWS || rowMode == Mode.LIGHTNING) {
+            if (colorScheme == ColorScheme.BICOLOR || colorScheme == ColorScheme.SPECKLED) {
+                8
+            } else if (rowMode in colModes || rowMode == Mode.ARROWS || rowMode == Mode.LIGHTNING) {
                 6
             } else {
                 5
@@ -373,6 +402,12 @@ class InfinityActivity : AppCompatActivity() {
     // Callback for when col mode is changed.
     private fun onUpdateColMode() {
         updateColDepthPicker()
+    }
+
+    // Callback for when the colorscheme is changed
+    private fun onUpdateColorScheme() {
+        updateRowSizePicker()
+        updateColSizePicker()
     }
 
     // Callback for when num cols is changed.
