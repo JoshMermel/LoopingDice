@@ -219,6 +219,7 @@ fun generateLightningGoal(
     )
 }
 
+// TODO(jmerm): consider more interesting arrangements of static cells.
 fun generateStaticCellGoal(
     numRows: Int,
     numCols: Int,

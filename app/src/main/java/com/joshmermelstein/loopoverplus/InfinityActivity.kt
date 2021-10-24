@@ -335,13 +335,14 @@ class InfinityActivity : AppCompatActivity() {
             )
         ) {
             container?.visibility = View.VISIBLE
-            val numBandagedSpinner = findViewById<Spinner>(R.id.densitySpinner)
+            val densitySpinner = findViewById<Spinner>(R.id.densitySpinner)
+            val oldVal = densitySpinner.selectedItemPosition
             val adapter = ArrayAdapter(
                 this,
                 R.layout.spinner_item,
                 densities.map { getString(it.userString) })
             adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
-            numBandagedSpinner.adapter = adapter
+            densitySpinner.adapter = adapter
             findViewById<TextView>(R.id.densityLabel)?.text = when (rowMode) {
                 Mode.DYNAMIC -> getString(R.string.infinityNumBandaged)
                 Mode.ENABLER -> getString(R.string.infinityNumEnablers)
@@ -350,6 +351,7 @@ class InfinityActivity : AppCompatActivity() {
                 Mode.LIGHTNING -> getString(R.string.infinityNumBolts)
                 else -> getString(R.string.infinityDensity)  // should never happen.
             }
+            densitySpinner.setSelection(oldVal)
         } else {
             container?.visibility = View.GONE
         }
@@ -360,11 +362,21 @@ class InfinityActivity : AppCompatActivity() {
         if (getRowMode() == Mode.STATIC) {
             container?.visibility = View.VISIBLE
             val spinner = findViewById<Spinner>(R.id.blockedRowsSpinner)
+            val oldVal = getNumBlockedRows()
+            val maxVal = getNumRows()
 
             val options = (1..getNumRows()).map { it.toString() }
             val adapter = ArrayAdapter(this, R.layout.spinner_item, options)
             adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
             spinner.adapter = adapter
+
+            if (oldVal != null) {
+                if (oldVal <= maxVal) {
+                    spinner.setSelection(oldVal-1)
+                } else {
+                    spinner.setSelection(maxVal-1)
+                }
+            }
         } else {
             container?.visibility = View.GONE
         }
@@ -375,11 +387,21 @@ class InfinityActivity : AppCompatActivity() {
         if (getRowMode() == Mode.STATIC) {
             container?.visibility = View.VISIBLE
             val spinner = findViewById<Spinner>(R.id.blockedColsSpinner)
+            val oldVal = getNumBlockedCols()
+            val maxVal = getNumCols()
 
             val options = (1..getNumCols()).map { it.toString() }
             val adapter = ArrayAdapter(this, R.layout.spinner_item, options)
             adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
             spinner.adapter = adapter
+
+            if (oldVal != null) {
+                if (oldVal <= maxVal) {
+                    spinner.setSelection(oldVal-1)
+                } else {
+                    spinner.setSelection(maxVal-1)
+                }
+            }
         } else {
             container?.visibility = View.GONE
         }
