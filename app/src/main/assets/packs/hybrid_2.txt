@@ -8,7 +8,7 @@ AD5 h_ad_swap_rows_harder 28 40 60
 AE5 h_ae_eight_segment_display 21 29 36
 AE6 h_ae_flowerbud_harder 18 28 38
 AG4 h_ag_stack_up 11 20 30
-AL5 h_al_shoelaces 23 29 40
+AL5 h_al_ai 13 21 32
 AL6 h_al_keep_two_stripes 13 25 36
 AS4 h_as_red_switch 23 30 35
 AW4 h_aw_heist 11 15 30
