@@ -344,10 +344,10 @@ class InfinityActivity : AppCompatActivity() {
             adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
             densitySpinner.adapter = adapter
             findViewById<TextView>(R.id.densityLabel)?.text = when (rowMode) {
-                Mode.DYNAMIC -> getString(R.string.infinityNumBandaged)
+                Mode.DYNAMIC -> getString(R.string.infinityNumBlocks)
                 Mode.ENABLER -> getString(R.string.infinityNumEnablers)
                 Mode.ARROWS -> getString(R.string.infinityNumArrows)
-                Mode.BANDAGED -> getString(R.string.infinityNumBlocks)
+                Mode.BANDAGED -> getString(R.string.infinityNumBandaged)
                 Mode.LIGHTNING -> getString(R.string.infinityNumBolts)
                 else -> getString(R.string.infinityDensity)  // should never happen.
             }
