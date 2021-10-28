@@ -107,13 +107,13 @@ val rareSignatures: Map<BoardSize, List<BondSignature>> = mapOf(
         BondSignature(0, 2, 1, 0, 0),
     ),
     BoardSize(6, 4) to listOf(
-        BondSignature(2, 0, 1, 0, 1),
+        BondSignature(2, 1, 0, 0, 1),
         BondSignature(2, 2, 0, 0, 0),
         BondSignature(0, 0, 0, 2, 1),
     ),
     BoardSize(6, 5) to listOf(
-        BondSignature(2, 2, 0, 0, 1),
-        BondSignature(2, 0, 0, 1, 1),
+        BondSignature(2, 0, 1, 0, 1),
+        BondSignature(0, 2, 0, 1, 1),
         BondSignature(0, 0, 2, 1, 0),
         BondSignature(0, 0, 0, 2, 2),
     ),
@@ -127,7 +127,7 @@ val rareSignatures: Map<BoardSize, List<BondSignature>> = mapOf(
         BondSignature(0, 3, 0, 0, 0),
     ),
     BoardSize(7, 3) to listOf(
-        BondSignature(1, 1, 0, 0, 1),
+        BondSignature(0, 1, 0, 0, 2),
         BondSignature(0, 4, 0, 0, 0),
         BondSignature(1, 1, 1, 0, 0),
     ),
@@ -153,7 +153,7 @@ val rareSignatures: Map<BoardSize, List<BondSignature>> = mapOf(
         BondSignature(3, 2, 0, 0, 0),
     ),
     BoardSize(8, 2) to listOf(
-        BondSignature(0, 1, 0, 0, 1),
+        BondSignature(0, 2, 0, 0, 1),
         BondSignature(0, 0, 0, 0, 2),
     ),
     BoardSize(8, 3) to listOf(
@@ -162,8 +162,8 @@ val rareSignatures: Map<BoardSize, List<BondSignature>> = mapOf(
     ),
     BoardSize(8, 4) to listOf(
         BondSignature(2, 1, 1, 0, 0),
-        BondSignature(0, 0, 2, 0, 0),
-        BondSignature(0, 1, 0, 0, 3),
+        BondSignature(0, 0, 2, 0, 1),
+        BondSignature(0, 2, 0, 0, 2),
     ),
     BoardSize(8, 5) to listOf(
         BondSignature(2, 2, 0, 0, 1),
@@ -183,7 +183,7 @@ val rareSignatures: Map<BoardSize, List<BondSignature>> = mapOf(
     BoardSize(8, 8) to listOf(
         BondSignature(0, 0, 2, 2, 1),
         BondSignature(1, 1, 1, 1, 1),
-        BondSignature(3, 1, 0, 1, 2),
+        BondSignature(2, 1, 0, 1, 2),
     ),
 )
 val commonSignatures: Map<BoardSize, List<BondSignature>> = mapOf(
@@ -205,6 +205,7 @@ val commonSignatures: Map<BoardSize, List<BondSignature>> = mapOf(
     ),
     BoardSize(4, 4) to listOf(
         BondSignature(1, 1, 0, 1, 0),
+        BondSignature(1, 2, 0, 0, 0),
         BondSignature(1, 0, 1, 0, 1),
     ),
     BoardSize(5, 2) to listOf(
@@ -213,6 +214,7 @@ val commonSignatures: Map<BoardSize, List<BondSignature>> = mapOf(
     ),
     BoardSize(5, 3) to listOf(
         BondSignature(2, 2, 0, 0, 0),
+        BondSignature(0, 4, 0, 0, 0),
         BondSignature(1, 1, 0, 0, 1),
     ),
     BoardSize(5, 4) to listOf(
@@ -234,16 +236,16 @@ val commonSignatures: Map<BoardSize, List<BondSignature>> = mapOf(
         BondSignature(1, 2, 0, 0, 1),
     ),
     BoardSize(6, 4) to listOf(
-        BondSignature(1, 0, 1, 1, 1),
-        BondSignature(2, 3, 0, 0, 1),
+        BondSignature(1, 0, 2, 0, 1),
+        BondSignature(2, 2, 0, 0, 1),
     ),
     BoardSize(6, 5) to listOf(
-        BondSignature(1, 1, 1, 1, 1),
-        BondSignature(3, 4, 0, 0, 0),
+        BondSignature(1, 0, 1, 1, 1),
+        BondSignature(2, 2, 1, 0, 0),
     ),
     BoardSize(6, 6) to listOf(
         BondSignature(1, 1, 1, 1, 1),
-        BondSignature(4, 4, 0, 0, 0),
+        BondSignature(3, 3, 0, 0, 0),
     ),
     BoardSize(7, 2) to listOf(
         BondSignature(0, 2, 0, 0, 1),
@@ -262,7 +264,7 @@ val commonSignatures: Map<BoardSize, List<BondSignature>> = mapOf(
         BondSignature(2, 1, 1, 1, 1),
         BondSignature(1, 1, 1, 2, 0),
         BondSignature(3, 4, 0, 0, 0),
-        BondSignature(1, 0, 2, 0, 2),
+        BondSignature(2, 0, 2, 0, 2),
     ),
     BoardSize(7, 6) to listOf(
         BondSignature(0, 0, 0, 3, 2),
@@ -285,15 +287,15 @@ val commonSignatures: Map<BoardSize, List<BondSignature>> = mapOf(
     BoardSize(8, 4) to listOf(
         BondSignature(1, 1, 1, 1, 1),
         BondSignature(0, 3, 0, 2, 0),
-        BondSignature(3, 0, 1, 0, 0),
+        BondSignature(3, 0, 1, 0, 1),
     ),
     BoardSize(8, 5) to listOf(
-        BondSignature(1, 1, 2, 1, 1),
+        BondSignature(1, 2, 1, 1, 1),
         BondSignature(0, 2, 0, 1, 3),
         BondSignature(0, 3, 3, 0, 0),
     ),
     BoardSize(8, 6) to listOf(
-        BondSignature(1, 2, 1, 1, 1),
+        BondSignature(1, 1, 2, 1, 1),
         BondSignature(1, 1, 3, 0, 0),
         BondSignature(3, 0, 0, 4, 0),
     ),
@@ -358,7 +360,6 @@ val frequentSignatures: Map<BoardSize, List<BondSignature>> = mapOf(
         BondSignature(1, 3, 0, 0, 1)
     ),
     BoardSize(6, 4) to listOf(
-        BondSignature(1, 1, 1, 1, 1),
         BondSignature(3, 2, 1, 0, 0),
         BondSignature(0, 0, 3, 0, 0),
     ),
@@ -373,37 +374,37 @@ val frequentSignatures: Map<BoardSize, List<BondSignature>> = mapOf(
         BondSignature(0, 3, 0, 3, 0),
     ),
     BoardSize(7, 2) to listOf(
-        BondSignature(0, 1, 0, 0, 2),
+        BondSignature(0, 2, 0, 0, 2),
         BondSignature(0, 4, 0, 0, 1),
     ),
     BoardSize(7, 3) to listOf(
         BondSignature(0, 1, 0, 0, 3),
         BondSignature(0, 4, 1, 0, 0),
-        BondSignature(1, 1, 0, 1, 1),
+        BondSignature(1, 1, 1, 0, 1),
     ),
     BoardSize(7, 4) to listOf(
-        BondSignature(1, 1, 1, 1, 1),
         BondSignature(4, 2, 1, 0, 0),
         BondSignature(1, 0, 3, 0, 0),
     ),
     BoardSize(7, 5) to listOf(
         BondSignature(2, 2, 1, 1, 1),
         BondSignature(3, 3, 0, 0, 1),
-        BondSignature(2, 0, 2, 0, 2),
+        BondSignature(1, 0, 3, 0, 2),
         BondSignature(0, 0, 2, 3, 0),
     ),
     BoardSize(7, 6) to listOf(
         BondSignature(1, 0, 3, 2, 0),
-        BondSignature(2, 2, 0, 1, 1),
+        BondSignature(2, 2, 1, 1, 1),
     ),
     BoardSize(7, 7) to listOf(
         BondSignature(1, 0, 3, 3, 0),
         BondSignature(3, 1, 0, 1, 1),
         BondSignature(1, 2, 2, 1, 1),
         BondSignature(0, 0, 2, 2, 2),
+        BondSignature(0, 0, 3, 1, 1),
     ),
     BoardSize(8, 2) to listOf(
-        BondSignature(0, 2, 0, 0, 2),
+        BondSignature(0, 3, 0, 0, 2),
         BondSignature(0, 4, 0, 0, 1),
         BondSignature(0, 5, 0, 0, 0),
     ),
