@@ -96,9 +96,13 @@ class MainActivity : AppCompatActivity() {
                     expandedListItems.remove(packId)
                     View.GONE
                 }
-            // Focus the first row of the expanded pack. This scrolls a bit if the pack was at the
-            // bottom of the screen but not a jarring amount of the container being expanded is larger than the screen.
-            layout.requestChildFocus(header, levelsContainer.getChildAt(0))
+            // Focus the second row of the expanded pack. This scrolls a bit if the pack was at the
+            // bottom of the screen but not a jarring amount of the container being expanded is
+            // larger than the screen.
+            layout.requestChildFocus(
+                header,
+                levelsContainer.getChildAt((levelsContainer.childCount - 1).coerceAtMost(1))
+            )
         }
 
         // Put header and buttons in a vertical linear layout and add that to the activity's layout.
