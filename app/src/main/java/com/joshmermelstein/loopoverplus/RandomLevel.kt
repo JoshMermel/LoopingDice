@@ -100,7 +100,8 @@ fun generateEnablerGoal(
         Density.RARE -> listOf(0)
         Density.COMMON -> (1 until numRows * numCols).shuffled()
             .take((numRows * numCols / 8).coerceAtLeast(2))
-        Density.FREQUENT -> (1 until numRows * numCols).shuffled().take(numRows * numCols / 4)
+        Density.FREQUENT -> (1 until numRows * numCols).shuffled()
+            .take((numRows * numCols / 4).coerceAtLeast(3))
     }.toSet()
 
     // In Speckled + Enabler, we avoid putting speckles in the same places as enabler cells
