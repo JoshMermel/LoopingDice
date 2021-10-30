@@ -11,10 +11,7 @@ import android.os.Bundle
 import android.util.TypedValue
 import android.view.*
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.LinearLayout
-import android.widget.RelativeLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import java.io.File
@@ -33,6 +30,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.pack_select_toolbar))
         redrawLevelSelect()
+        findViewById<ScrollView>(R.id.PackScrollView).isSmoothScrollingEnabled = true
     }
 
     // Because I am dumb and didn't use Room or something for my underlying storage, I need to
