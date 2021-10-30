@@ -98,7 +98,8 @@ fun generateEnablerGoal(
 ): Array<String> {
     val enablersIndices = when (numEnablers) {
         Density.RARE -> listOf(0)
-        Density.COMMON -> (1 until numRows * numCols).shuffled().take(numRows * numCols / 8)
+        Density.COMMON -> (1 until numRows * numCols).shuffled()
+            .take((numRows * numCols / 8).coerceAtLeast(2))
         Density.FREQUENT -> (1 until numRows * numCols).shuffled().take(numRows * numCols / 4)
     }.toSet()
 
