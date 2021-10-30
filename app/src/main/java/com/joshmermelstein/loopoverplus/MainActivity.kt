@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
         }
         // The infinity button goes to a level builder activity where the user can generate a level
         // on the fly.
-        appendInfinityButton()
+        appendInfinityExpando()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -98,6 +98,9 @@ class MainActivity : AppCompatActivity() {
                     expandedListItems.remove(packId)
                     View.GONE
                 }
+            // Focus the first row of the expanded pack. This scrolls a bit if the pack was at the
+            // bottom of the screen but not a jarring amount of the container being expanded is larger than the screen.
+            layout.requestChildFocus(header, levelsContainer.getChildAt(0))
         }
 
         // Put header and buttons in a vertical linear layout and add that to the activity's layout.
@@ -259,29 +262,90 @@ class MainActivity : AppCompatActivity() {
         layout.addView(line)
     }
 
-    private fun appendInfinityButton() {
+    private fun appendInfinityExpando() {
         val layout = findViewById<LinearLayout>(R.id.PackLinearLayout)
+
+        // Create a layout row
+        val header = LinearLayout(this)
+        header.layoutParams = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        )
+        addOnclickEffect(header)
+
+        // Write the name of the pack
         TextView(this).also {
-            // create full width text view as a row of the main linear layout in the level select
-            // activity in a style that matches other buttons.
             it.text = getString(R.string.infinityLabel)
             it.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30F)
             it.setPadding(0, 0, 0, 25)
             it.layoutParams = LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                1F
             )
+            header.addView(it)
+        }
 
-            // Configure OnClick to open the infinity activity.
+        val buttonContainer = LinearLayout(this)
+
+        // Level Builder
+        Button(this).also {
+            it.text = getString(R.string.levelSelectLevelBuilder)
             it.setOnClickListener {
                 val intent = Intent(this, InfinityActivity::class.java)
                 startActivity(intent)
             }
+            it.layoutParams = LinearLayout.LayoutParams(
+                0,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                1.0f
+            )
+            buttonContainer.addView(it)
+        }
 
-            // Configure onclick effects.
-            addOnclickEffect(it)
+        // I'm feeling lucky
+        Button(this).also {
+            it.text = getString(R.string.levelSelectFeelingLucky)
+            it.setOnClickListener {
+                val intent = Intent(this, GameplayActivity::class.java)
+                intent.putExtra("randomLevelParams", feelingLucky())
+                intent.putExtra("loadSave", false)
+                startActivity(intent)
+            }
+            it.layoutParams = LinearLayout.LayoutParams(
+                0,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                1.0f
+            )
+            buttonContainer.addView(it)
+        }
 
+        // Configure onclick listener to move to Level Select activity for this pack ID.
+        header.setOnClickListener {
+            buttonContainer.visibility =
+                if (buttonContainer.visibility == View.GONE) {
+                    expandedListItems.add(getString(R.string.infinityLabel))
+                    View.VISIBLE
+                } else {
+                    expandedListItems.remove(getString(R.string.infinityLabel))
+                    View.GONE
+                }
+            // Unlike normal expandos, focus the button container here since it's appearing below
+            // the screen and would be easy to miss otherwise.
+            layout.requestChildFocus(header, buttonContainer)
+        }
+
+
+        // Put header and buttons in a vertical linear layout and add that to the activity's layout.
+        LinearLayout(this).also {
+            it.orientation = LinearLayout.VERTICAL
+            it.addView(header)
+            it.addView(buttonContainer)
             layout.addView(it)
+        }
+
+        if (!expandedListItems.contains(getString(R.string.infinityLabel))) {
+            buttonContainer.visibility = View.GONE
         }
     }
 

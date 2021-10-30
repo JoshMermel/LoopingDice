@@ -54,6 +54,8 @@
 
     <!-- Level select -->
     <string name="infinityLabel">Infinity</string>
+    <string name="levelSelectLevelBuilder">Level Builder</string>
+    <string name="levelSelectFeelingLucky">I\'m feeling lucky</string>
     <string name="levelSelectDropdownAbout">About</string>
     <string name="levelSelectDropdownResetAll">Reset all levels</string>
 
@@ -156,6 +158,4 @@
     <string name="WideThreeDotsReminderHelptext">If you want to double check the rules, look at the "about level" section of the three dots menu</string>
     <string name="WideWithinLevelVarianceHelptext">On this level, horizontal moves affect 3 rows but vertical moves only affect 2 columns. These numbers often won\'t match each other.</string>
     <string name="WidePreviewHelptext">You can also look at the edge of the board before releasing a swipe to see which rows/cols will move</string>
-
-
 </resources>

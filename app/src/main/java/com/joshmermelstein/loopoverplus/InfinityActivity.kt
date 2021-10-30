@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
+import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -372,9 +373,9 @@ class InfinityActivity : AppCompatActivity() {
 
             if (oldVal != null) {
                 if (oldVal <= maxVal) {
-                    spinner.setSelection(oldVal-1)
+                    spinner.setSelection(oldVal - 1)
                 } else {
-                    spinner.setSelection(maxVal-1)
+                    spinner.setSelection(maxVal - 1)
                 }
             }
         } else {
@@ -397,9 +398,9 @@ class InfinityActivity : AppCompatActivity() {
 
             if (oldVal != null) {
                 if (oldVal <= maxVal) {
-                    spinner.setSelection(oldVal-1)
+                    spinner.setSelection(oldVal - 1)
                 } else {
-                    spinner.setSelection(maxVal-1)
+                    spinner.setSelection(maxVal - 1)
                 }
             }
         } else {
@@ -497,6 +498,81 @@ class InfinityActivity : AppCompatActivity() {
             getNumBlockedCols()
         )
     }
+}
+
+fun feelingLucky(): RandomLevelParams {
+    val rowMode = Mode.values().random()
+
+    val colModes = arrayOf(Mode.WIDE, Mode.CAROUSEL, Mode.GEAR)
+    val colMode = if (rowMode in colModes) {
+        colModes.random()
+    } else {
+        null
+    }
+
+    val colorScheme = ColorScheme.values().random()
+
+    val maxNumRows = when (colorScheme) {
+        ColorScheme.SPECKLED, ColorScheme.BICOLOR -> 8
+        else -> 6
+    }
+    val numRows = (2..maxNumRows).random()
+    val maxNumCols = when {
+        colorScheme == ColorScheme.SPECKLED || colorScheme == ColorScheme.BICOLOR -> 8
+        rowMode in colModes || rowMode == Mode.ARROWS || rowMode == Mode.LIGHTNING -> 6
+        else -> 5
+    }
+    val numCols = (2..maxNumCols).random()
+
+    val rowDepth = when (rowMode) {
+        Mode.WIDE -> (1..numRows).random()
+        Mode.STATIC -> (1 until numRows).random()
+        else -> null
+    }
+
+    val colDepth = when {
+        colMode == Mode.WIDE -> (1..numCols).random()
+        rowMode == Mode.STATIC -> (1 until numCols).random()
+        else -> null
+    }
+
+    val density = if (rowMode in listOf(
+            Mode.DYNAMIC,
+            Mode.ENABLER,
+            Mode.ARROWS,
+            Mode.BANDAGED,
+            Mode.LIGHTNING
+        )
+    ) {
+        Density.values().random()
+    } else {
+        null
+    }
+
+    val numBlockedRows = if (rowMode == Mode.STATIC) {
+        (1..(numRows-rowDepth!!)).random()
+    } else {
+        null
+    }
+
+    val numBlockedCols = if (rowMode == Mode.STATIC) {
+        (1..(numCols-colDepth!!)).random()
+    } else {
+        null
+    }
+
+    return RandomLevelParams(
+        numRows,
+        numCols,
+        colorScheme,
+        rowMode,
+        colMode,
+        rowDepth,
+        colDepth,
+        density,
+        numBlockedRows,
+        numBlockedCols
+    )
 }
 
 // Helper class for calling a void callback when the user picks an option.
