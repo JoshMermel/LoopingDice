@@ -104,6 +104,7 @@
     <!-- misc infinity UI -->
     <string name="infinityGenerateLevelButtonLabel">Generate Level</string>
     <string name="infinityToolbarTitle">Infinity</string>
+    <string name="infinityToolbarRecentLevels">Recent Levels</string>
 
     <!-- Help text for move effects -->
     <string name="bandagedRowEffectHelpText">Horizontal moves are bandaged moves</string>

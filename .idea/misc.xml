@@ -3,7 +3,15 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/layout/activity_gameplay.xml" value="0.23802083333333332" />
         <entry key="app/src/main/res/layout/activity_infinity.xml" value="0.23802083333333332" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.23802083333333332" />
+        <entry key="app/src/main/res/layout/help_popup.xml" value="0.23802083333333332" />
+        <entry key="app/src/main/res/layout/recent_levels_popup.xml" value="0.23802083333333332" />
+        <entry key="app/src/main/res/layout/spinner_dropdown_item.xml" value="0.23802083333333332" />
+        <entry key="app/src/main/res/layout/win_popup.xml" value="0.23802083333333332" />
+        <entry key="app/src/main/res/menu/infinity_dropdown.xml" value="0.23802083333333332" />
+        <entry key="app/src/main/res/menu/level_select_dropdown.xml" value="0.23802083333333332" />
       </map>
     </option>
   </component>

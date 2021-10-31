@@ -310,8 +310,13 @@ class MainActivity : AppCompatActivity() {
             it.text = getString(R.string.levelSelectFeelingLucky)
             it.setOnClickListener {
                 val intent = Intent(this, GameplayActivity::class.java)
-                intent.putExtra("randomLevelParams", feelingLucky())
-                intent.putExtra("loadSave", false)
+                val params = feelingLucky()
+                saveParamsToRecentLevels(
+                    getSharedPreferences("RecentLevels", Context.MODE_PRIVATE),
+                    params
+                )
+                intent.putExtra("randomLevelParams", params)
+                intent.putExtra("loadSave", true)
                 startActivity(intent)
             }
             it.layoutParams = LinearLayout.LayoutParams(

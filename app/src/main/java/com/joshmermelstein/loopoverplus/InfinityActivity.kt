@@ -1,15 +1,19 @@
 package com.joshmermelstein.loopoverplus
 
 import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
-import android.os.Parcelable
 import android.util.Log
+import android.util.TypedValue
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.parcelize.Parcelize
 import java.io.File
 import kotlin.random.Random
 
@@ -22,50 +26,6 @@ import kotlin.random.Random
  * Luckily, it is possible to do so without any cyclic updates.
  */
 
-
-@Parcelize
-data class RandomLevelParams(
-    val numRows: Int,
-    val numCols: Int,
-    val colorScheme: ColorScheme,
-    val rowMode: Mode,
-    val colMode: Mode?,
-    val rowDepth: Int?,
-    val colDepth: Int?,
-    val density: Density?,
-    val blockedRows: Int?,
-    val blockedCols: Int?,
-) : Parcelable {
-    override fun toString(): String {
-        return "$numRows,$numCols,$colorScheme,$rowMode,$colMode,$rowDepth,$colDepth,$density,$blockedRows,$blockedCols"
-    }
-}
-
-enum class Density(val userString: Int) {
-    RARE(R.string.infinityDensityRare),
-    COMMON(R.string.infinityDensityCommon),
-    FREQUENT(R.string.infinityDensityFrequent), ;
-}
-
-enum class ColorScheme(val userString: Int) {
-    BICOLOR(R.string.infinityColorSchemeBicolor),
-    SPECKLED(R.string.infinityColorSchemeSpeckled),
-    COLUMNS(R.string.infinityColorSchemeColumns),
-    UNIQUE(R.string.infinityColorSchemeUnique),
-}
-
-enum class Mode(val userString: Int) {
-    WIDE(R.string.infinityModeWide),
-    CAROUSEL(R.string.infinityModeCarousel),
-    GEAR(R.string.infinityModeGear),
-    DYNAMIC(R.string.infinityModeDynamic),
-    BANDAGED(R.string.infinityModeBandaged),
-    LIGHTNING(R.string.infinityModeLightning),
-    ARROWS(R.string.infinityModeArrows),
-    ENABLER(R.string.infinityModeEnabler),
-    STATIC(R.string.infinityModeStatic),
-}
-
 // Activity for letting the user build a level
 class InfinityActivity : AppCompatActivity() {
     // Arrays to go into spinner adaptors.
@@ -77,15 +37,64 @@ class InfinityActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_infinity)
-        // TODO(jmerm): consider if there are any useful dropdowns I can have on this toolbar.
-        //  - explanation of infinity's options?
-        //  - more granular resets?
-        //  - expose some stats?
         setSupportActionBar(findViewById(R.id.infinity_toolbar))
         configureRowModePicker()
         configureColorSchemePicker()
         updateRowSizePicker()
         configureButton()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.infinity_dropdown, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.recentLevels -> {
+                recentLevelsDialog()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    // Add a horizontal line between rows of a linear layout for visual clarity.
+    private fun addDivider(layout: LinearLayout) {
+        val line = View(this).also {
+            it.layoutParams = RelativeLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                2
+            )
+            it.setBackgroundColor(getColor(R.color.bandaged_cell))
+        }
+        layout.addView(line)
+    }
+
+    private fun recentLevelsDialog() {
+        val dialog = Dialog(this)
+        dialog.setContentView(R.layout.recent_levels_popup)
+        val layout = dialog.findViewById<LinearLayout>(R.id.recentLevelsList)
+        // TODO(jmerm): this is broken when there are zero levels.
+        getRecentLevels(this)?.forEach { params ->
+            val text = TextView(this)
+            text.text = params.toUserString()
+            text.setTextSize(TypedValue.COMPLEX_UNIT_SP,24f)
+            text.setOnClickListener {
+                val intent = Intent(this, GameplayActivity::class.java)
+                saveParamsToRecentLevels(
+                    getSharedPreferences("RecentLevels", Context.MODE_PRIVATE),
+                    params
+                )
+                intent.putExtra("randomLevelParams", params)
+                intent.putExtra("loadSave", true)
+                dialog.dismiss()
+                startActivity(intent)
+            }
+            layout.addView(text)
+            addDivider(layout)
+        }
+        dialog.show()
     }
 
     // Configures the row mode spinner. This is always shown.
@@ -175,12 +184,11 @@ class InfinityActivity : AppCompatActivity() {
         val rowSizeSpinner = findViewById<Spinner>(R.id.rowSizeSpinner)
         val oldValue: Int? = rowSizeSpinner.selectedItem?.toString()?.toInt()
         val colorScheme = getColorScheme()
-        val maxValue =
-            if (colorScheme == ColorScheme.BICOLOR || colorScheme == ColorScheme.SPECKLED) {
-                8
-            } else {
-                6
-            }
+        val maxValue = if (!colorScheme.hasSizeLimit()) {
+            8
+        } else {
+            6
+        }
         val rowSizes = (2..maxValue).map { num -> num.toString() }
 
         val adapter = ArrayAdapter(this, R.layout.spinner_item, rowSizes)
@@ -214,14 +222,11 @@ class InfinityActivity : AppCompatActivity() {
         val oldValue: Int? = colSizeSpinner.selectedItem?.toString()?.toInt()
         val rowMode = getRowMode()
         val colorScheme = getColorScheme()
-        val maxValue =
-            if (colorScheme == ColorScheme.BICOLOR || colorScheme == ColorScheme.SPECKLED) {
-                8
-            } else if (rowMode in colModes || rowMode == Mode.ARROWS || rowMode == Mode.LIGHTNING) {
-                6
-            } else {
-                5
-            }
+        val maxValue = when {
+            !colorScheme.hasSizeLimit() -> 8
+            rowMode.hasSpecialColor() -> 5
+            else -> 6
+        }
         val colSizes = (2..maxValue).map { num -> num.toString() }
 
         val adapter = ArrayAdapter(this, R.layout.spinner_item, colSizes)
@@ -327,14 +332,7 @@ class InfinityActivity : AppCompatActivity() {
     private fun updateDensityPicker() {
         val container = findViewById<View>(R.id.density_container)
         val rowMode = getRowMode()
-        if (rowMode in listOf(
-                Mode.DYNAMIC,
-                Mode.ENABLER,
-                Mode.ARROWS,
-                Mode.BANDAGED,
-                Mode.LIGHTNING
-            )
-        ) {
+        if (rowMode.hasDensity()) {
             container?.visibility = View.VISIBLE
             val densitySpinner = findViewById<Spinner>(R.id.densitySpinner)
             val oldVal = densitySpinner.selectedItemPosition
@@ -344,6 +342,7 @@ class InfinityActivity : AppCompatActivity() {
                 densities.map { getString(it.userString) })
             adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
             densitySpinner.adapter = adapter
+            // TODO(jmerm): move these into the enum?
             findViewById<TextView>(R.id.densityLabel)?.text = when (rowMode) {
                 Mode.DYNAMIC -> getString(R.string.infinityNumBlocks)
                 Mode.ENABLER -> getString(R.string.infinityNumEnablers)
@@ -473,6 +472,7 @@ class InfinityActivity : AppCompatActivity() {
 
     private fun startGame(loadSave: Boolean) {
         val params = build()
+        saveParamsToRecentLevels(getSharedPreferences("RecentLevels", Context.MODE_PRIVATE), params)
         if (!loadSave) {
             getSharedPreferences("highscores", Context.MODE_PRIVATE).edit().remove("∞$params")
                 .apply()
@@ -498,81 +498,6 @@ class InfinityActivity : AppCompatActivity() {
             getNumBlockedCols()
         )
     }
-}
-
-fun feelingLucky(): RandomLevelParams {
-    val rowMode = Mode.values().random()
-
-    val colModes = arrayOf(Mode.WIDE, Mode.CAROUSEL, Mode.GEAR)
-    val colMode = if (rowMode in colModes) {
-        colModes.random()
-    } else {
-        null
-    }
-
-    val colorScheme = ColorScheme.values().random()
-
-    val maxNumRows = when (colorScheme) {
-        ColorScheme.SPECKLED, ColorScheme.BICOLOR -> 8
-        else -> 6
-    }
-    val numRows = (2..maxNumRows).random()
-    val maxNumCols = when {
-        colorScheme == ColorScheme.SPECKLED || colorScheme == ColorScheme.BICOLOR -> 8
-        rowMode in colModes || rowMode == Mode.ARROWS || rowMode == Mode.LIGHTNING -> 6
-        else -> 5
-    }
-    val numCols = (2..maxNumCols).random()
-
-    val rowDepth = when (rowMode) {
-        Mode.WIDE -> (1..numRows).random()
-        Mode.STATIC -> (1 until numRows).random()
-        else -> null
-    }
-
-    val colDepth = when {
-        colMode == Mode.WIDE -> (1..numCols).random()
-        rowMode == Mode.STATIC -> (1 until numCols).random()
-        else -> null
-    }
-
-    val density = if (rowMode in listOf(
-            Mode.DYNAMIC,
-            Mode.ENABLER,
-            Mode.ARROWS,
-            Mode.BANDAGED,
-            Mode.LIGHTNING
-        )
-    ) {
-        Density.values().random()
-    } else {
-        null
-    }
-
-    val numBlockedRows = if (rowMode == Mode.STATIC) {
-        (1..(numRows-rowDepth!!)).random()
-    } else {
-        null
-    }
-
-    val numBlockedCols = if (rowMode == Mode.STATIC) {
-        (1..(numCols-colDepth!!)).random()
-    } else {
-        null
-    }
-
-    return RandomLevelParams(
-        numRows,
-        numCols,
-        colorScheme,
-        rowMode,
-        colMode,
-        rowDepth,
-        colDepth,
-        density,
-        numBlockedRows,
-        numBlockedCols
-    )
 }
 
 // Helper class for calling a void callback when the user picks an option.
