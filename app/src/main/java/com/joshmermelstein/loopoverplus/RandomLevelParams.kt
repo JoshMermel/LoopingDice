@@ -270,9 +270,10 @@ fun randomLevelParamsFromString(s: String): RandomLevelParams {
 fun saveParamsToRecentLevels(recentLevels: SharedPreferences, params: RandomLevelParams) {
     val old = recentLevels.getString("LastTwenty", "") ?: ""
     val parts: MutableList<String> = old.split("\n").toMutableList()
+    parts.remove("$params")
     parts.add("$params")
     with(recentLevels.edit()) {
-        putString("LastTwenty", parts.distinct().takeLast(20).joinToString("\n"))
+        putString("LastTwenty", parts.takeLast(20).joinToString("\n"))
         apply()
     }
 }
