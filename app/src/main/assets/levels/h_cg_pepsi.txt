@@ -5,3 +5,4 @@ CAROUSEL|GEAR|NONE
 2,0,0,2,1,0,2,2,0
 
 # R2',C2,R2' (3)
+human solution: Col1 Row0' Row0' Col0 (4)

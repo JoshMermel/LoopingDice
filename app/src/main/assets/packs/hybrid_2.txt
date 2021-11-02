@@ -26,7 +26,7 @@ CS4 h_cs_swap_sides 9 18 32
 CW4 h_cw_unique_transpose 13 35 60
 D33 d_enclosed_triple_stripe 22 44 66
 DE4 h_de_swap_spaced_rows 18 26 34
-DE5 h_de_dublin 40 60 80
+DE5 h_de_dublin 40 64 100
 DG4 h_dg_lego_hand 18 40 60
 DL4 h_dl_swap_triangles 12 24 36
 DL5 h_dl_keep_two_stripes 12 24 36
