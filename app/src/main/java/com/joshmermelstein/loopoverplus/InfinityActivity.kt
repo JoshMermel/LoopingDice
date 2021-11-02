@@ -4,9 +4,7 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.util.TypedValue
 import android.view.Menu
 import android.view.MenuItem
@@ -75,6 +73,7 @@ class InfinityActivity : AppCompatActivity() {
         val dialog = Dialog(this)
         dialog.setContentView(R.layout.recent_levels_popup)
         val layout = dialog.findViewById<LinearLayout>(R.id.recentLevelsList)
+        addDivider(layout)
         // TODO(jmerm): this is broken when there are zero levels.
         getRecentLevels(this)?.forEach { params ->
             val text = TextView(this)
