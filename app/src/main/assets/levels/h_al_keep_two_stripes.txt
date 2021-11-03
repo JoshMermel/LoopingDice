@@ -5,3 +5,4 @@ B 3,H 0,0,0,B 3,1,V 1,1,B 3,2,2,H 2,3,B 3,B 3,B 3
 B 3,H 0,1,2,B 3,0,V 1,2,B 3,0,1,H 2,3,B 3,B 3,B 3
 
 # R0,C0,C1,R0,R2',R3,C3,R3',R0',C1',R2,C0',R0' (13)
+human solution: Row3 Col2 Row3' Col0' Row1' Col0 Row3 Col2' Row0' Col1 Row0 Row3 Row2 Col3' Col3' Col2' Row1' Col3 Col2' Row2' (20)
