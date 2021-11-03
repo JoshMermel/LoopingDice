@@ -3,6 +3,6 @@
 CAROUSEL|GEAR|NONE
 0,0,0,0,1,2,2,2,2
 2,0,0,2,1,0,2,2,0
-
+hybrid_explain_cg
 # R2',C2,R2' (3)
 human solution: Col1 Row0' Row0' Col0 (4)

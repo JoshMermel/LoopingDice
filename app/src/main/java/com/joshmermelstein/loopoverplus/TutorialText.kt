@@ -34,6 +34,16 @@ val tutorialTextMap = mapOf(
     "wide_three_dots_reminder_helptext" to R.string.WideThreeDotsReminderHelptext,
     "wide_within_level_variance_helptext" to R.string.WideWithinLevelVarianceHelptext,
     "wide_preview_helptext" to R.string.WidePreviewHelptext,
+    "hybrid_explain_ac" to R.string.HybridExplainAC,
+    "hybrid_explain_be" to R.string.HybridExplainBE,
+    "hybrid_explain_ce" to R.string.HybridExplainCE,
+    "hybrid_explain_cg" to R.string.HybridExplainCG,
+    "hybrid_explain_cw" to R.string.HybridExplainCW,
+    "hybrid_explain_dl" to R.string.HybridExplainDL,
+    "hybrid_explain_eg" to R.string.HybridExplainEG,
+    "hybrid_explain_es" to R.string.HybridExplainES,
+    "hybrid_explain_ew" to R.string.HybridExplainEW,
+    "hybrid_explain_gw" to R.string.HybridExplainGW,
 )
 
 fun getTutorialText(id: String, context: Context): String {

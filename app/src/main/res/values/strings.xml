@@ -22,9 +22,9 @@
 
     <!-- help strings for move validators -->
     <string name="arrowValidatorHelptext">Dice containing arrows can only move in some directions.</string>
-    <string name="dynamicValidatorHelptext">Moves cannot push a black square off the edge of the board</string>
-    <string name="enablerValidatorHelptext">Moves must contain a gold square</string>
-    <string name="staticValidatorHelptext">black squares prevent moves</string>
+    <string name="dynamicValidatorHelptext">Moves cannot push black dice off the edge of the board</string>
+    <string name="enablerValidatorHelptext">Moves must contain a gold die</string>
+    <string name="staticValidatorHelptext">black dice prevent moves</string>
 
     <!-- plurals for help texts and popups -->
     <plurals name="numberOfMoves">
@@ -146,8 +146,8 @@
     <string name="CarouselOverviewHelptext">C levels use move pairs of rows/columns in a carousel</string>
     <string name="CarouselDirectionalityHelptext">Horizontal moves join with their row below. Vertical moves join with the column to their right</string>
     <string name="CarouselPreviewHelptext">Start a swipe but do not release it to see where each die will move</string>
-    <string name="DynamicOverviewHelptext">In "Dynamic Bandaging" mode, black squares cannot wrap around the edge of the board</string>
-    <string name="EnablerOverviewHelptext">In "Enabler" mode, moves must contain the gold square</string>
+    <string name="DynamicOverviewHelptext">In "Dynamic Bandaging" mode, black dice cannot wrap around the edge of the board</string>
+    <string name="EnablerOverviewHelptext">In "Enabler" mode, moves must contain the gold die</string>
     <string name="EnablerMultiplicityHelptext">Some levels will have more enabler dice than others</string>
     <string name="GearOverviewHelptext">In "Gear" mode, the next row/column moves in the opposite direction of your swipe</string>
     <string name="GearDirectionalityHelptext">The extra move is always to the right for columns, and always below for rows</string>
@@ -159,4 +159,15 @@
     <string name="WideThreeDotsReminderHelptext">If you want to double check the rules, look at the "about level" section of the three dots menu</string>
     <string name="WideWithinLevelVarianceHelptext">On this level, horizontal moves affect 3 rows but vertical moves only affect 2 columns. These numbers often won\'t match each other.</string>
     <string name="WidePreviewHelptext">You can also look at the edge of the board before releasing a swipe to see which rows/cols will move</string>
+    <string name="HybridExplainAC">In AC, dice can only move in the direction of their arrows</string>
+    <string name="HybridExplainBE">In BE, moves are valid if an Enabler die is used in any part of the move</string>
+    <string name="HybridExplainCE">In CE, moves are valid if an Enabler die is used in any part of the move</string>
+    <string name="HybridExplainCG">In CG, row moves are always one kind of move and column moves are the other type</string>
+    <string name="HybridExplainCW">In CW, row moves are always one kind of move and column moves are the other type</string>
+    <string name="HybridExplainDL">In DL, Moves cannot push black dice off the edge of the board</string>
+    <string name="HybridExplainEG">In EG, moves are valid if an Enabler die is used in any part of the move</string>
+    <string name="HybridExplainES">In ES, locked dice block enabler dice</string>
+    <string name="HybridExplainEW">In EW, moves are valid if an Enabler die is used in any part of the move</string>
+    <string name="HybridExplainGW">In GW, row moves are always one kind of move and column moves are the other type</string>
+
 </resources>
