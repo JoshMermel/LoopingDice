@@ -134,11 +134,11 @@
     <string name="noStars">☆☆☆</string>
 
     <!-- Help texts on levels -->
-    <string name="verticalHelptext">Swipe vertically match the pattern in the top left</string>
+    <string name="verticalHelptext">Swipe vertically to match the pattern in the top left</string>
     <string name="horizontalHelptext">Swipe horizontally to rearrange a row</string>
     <string name="threeDotsHelptext">Use the three dots menu to check stats, reset the level, or copy your solution</string>
     <string name="introSizeHelptext">Puzzles come in many shapes and colors</string>
-    <string name="MixHorizVertHelptext">Mix vertical and horizontal moves to match the goal</string>
+    <string name="MixHorizVertHelptext">Dice that fall off the edge of the board reappear on the other side</string>
     <string name="EndIntroHelptext">This ends the intro. Feel free to skip around and try all the different game modes :)</string>
     <string name="ArrowsOverview">In Arrows mode, some dice are limited to moving in certain directions</string>
     <string name="BandagedOverviewHelptext">In "Bandaged" mode, dice can be joined together</string>
