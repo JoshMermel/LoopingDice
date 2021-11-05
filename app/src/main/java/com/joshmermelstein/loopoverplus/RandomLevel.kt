@@ -259,8 +259,9 @@ fun generateStaticCellGoal(
 ): Array<String> {
     val blockedRows = partitionAxis(numRows, numBlockedRows, rowDepth)
     val blockedCols = partitionAxis(numCols, numBlockedCols, colDepth)
-    val blocked = (0..63).filter { (it / numCols in blockedRows) && (it % numCols in blockedCols) }
-        .toTypedArray()
+    val blocked =
+        (0..(numRows * numCols)).filter { (it / numCols in blockedRows) && (it % numCols in blockedCols) }
+            .toTypedArray()
 
     // Speckled Static is special because we want to avoid putting a speckle where we've
     // put the fixed cell.
