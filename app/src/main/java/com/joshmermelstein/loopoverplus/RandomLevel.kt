@@ -221,15 +221,45 @@ fun generateLightningGoal(
     )
 }
 
-// TODO(jmerm): consider more interesting arrangements of static cells.
+// Returns a list of |numBlocked| offsets in [0,|depth|) to block such that all contiguous
+// non-blocked offsets are at least |size| wide
+fun partitionAxis(size: Int, numBlocked: Int, depth: Int): Set<Int> {
+    val maxNumPartitions = (size - numBlocked) / depth
+    val numPartitions = try {
+        (1..maxNumPartitions).random().coerceAtMost(numBlocked)
+    } catch (e: NoSuchElementException) {
+        // There isn't room for even one partition, return something that looks OK as a fallback
+        return (0 until numBlocked).toList().toSet()
+    }
+    val lanes = Array(numBlocked) { i -> if (i < numPartitions) depth else 0 }
+
+    repeat(size - (numPartitions * depth) - numBlocked) {
+        lanes[(0 until numPartitions).random()]++
+    }
+    lanes.shuffle()
+
+    val ret = Array(numBlocked) { 0 }
+    for (i in (1 until numBlocked)) {
+        ret[i] = ret[i - 1] + lanes[i] + 1
+    }
+
+    // TODO(jmerm): circular shift offsets before returning so top-left isn't always locked?
+
+    return ret.toSet()
+}
+
 fun generateStaticCellGoal(
     numRows: Int,
     numCols: Int,
     colorScheme: ColorScheme,
-    blockedRows: Int,
-    blockedCols: Int
+    rowDepth: Int,
+    colDepth: Int,
+    numBlockedRows: Int,
+    numBlockedCols: Int
 ): Array<String> {
-    val blocked = (0..63).filter { (it < blockedRows * numCols) && (it % numCols < blockedCols) }
+    val blockedRows = partitionAxis(numRows, numBlockedRows, rowDepth)
+    val blockedCols = partitionAxis(numCols, numBlockedCols, colDepth)
+    val blocked = (0..63).filter { (it / numCols in blockedRows) && (it % numCols in blockedCols) }
         .toTypedArray()
 
     // Speckled Static is special because we want to avoid putting a speckle where we've
@@ -365,6 +395,8 @@ fun generateRandomLevel(
             options.numRows,
             options.numCols,
             options.colorScheme,
+            options.rowDepth!!,
+            options.colDepth!!,
             options.blockedRows!!,
             options.blockedCols!!
         )
