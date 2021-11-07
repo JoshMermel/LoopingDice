@@ -151,9 +151,9 @@ enum class Mode(val userString: Int) {
 fun feelingLucky(): RandomLevelParams {
     val rowMode = Mode.values().random()
 
-    val colModes = arrayOf(Mode.WIDE, Mode.CAROUSEL, Mode.GEAR)
-    val colMode = if (rowMode in colModes) {
-        colModes.random()
+    val colMode = if (rowMode in arrayOf(Mode.WIDE, Mode.CAROUSEL, Mode.GEAR)) {
+        // We include rowMode a few extra times to make rowMode=colMode more likely than otherwise.
+        arrayOf(Mode.WIDE, Mode.CAROUSEL, Mode.GEAR, rowMode, rowMode).random()
     } else {
         null
     }
@@ -163,15 +163,15 @@ fun feelingLucky(): RandomLevelParams {
     val numRows = (2..colorScheme.maxNumRows()).random()
     val numCols = (2..colorScheme.maxNumCols(rowMode)).random()
 
+    // Probability distribution hack to make small depth more likely than large depth.
     val rowDepth = when (rowMode) {
-        Mode.WIDE -> (1..numRows).random()
-        Mode.STATIC -> (1 until numRows).random()
+        Mode.WIDE -> minOf((1..numRows).random(), (1..numRows).random())
+        Mode.STATIC -> minOf((1 until numRows).random(), (1 until numRows).random())
         else -> null
     }
-
     val colDepth = when {
-        colMode == Mode.WIDE -> (1..numCols).random()
-        rowMode == Mode.STATIC -> (1 until numCols).random()
+        colMode == Mode.WIDE -> minOf((1..numCols).random(), (1..numCols).random())
+        rowMode == Mode.STATIC -> minOf((1 until numCols).random(), (1 until numCols).random())
         else -> null
     }
 
