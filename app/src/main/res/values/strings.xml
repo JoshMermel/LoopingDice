@@ -146,7 +146,7 @@
     <string name="CarouselOverviewHelptext">C levels use move pairs of rows/columns in a carousel</string>
     <string name="CarouselDirectionalityHelptext">Horizontal moves join with their row below. Vertical moves join with the column to their right</string>
     <string name="CarouselPreviewHelptext">Start a swipe but do not release it to see where each die will move</string>
-    <string name="DynamicOverviewHelptext">In "Dynamic Bandaging" mode, black dice cannot wrap around the edge of the board</string>
+    <string name="DynamicOverviewHelptext">In "Dynamic Blocking" mode, black dice cannot wrap around the edge of the board</string>
     <string name="EnablerOverviewHelptext">In "Enabler" mode, moves must contain the gold die</string>
     <string name="EnablerMultiplicityHelptext">Some levels will have more enabler dice than others</string>
     <string name="GearOverviewHelptext">In "Gear" mode, the next row/column moves in the opposite direction of your swipe</string>
