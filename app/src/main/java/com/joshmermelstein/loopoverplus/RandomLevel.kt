@@ -76,7 +76,7 @@ fun generateUniqueGoal(numRows: Int, numCols: Int): Array<Int> {
 // 0  1  2  ...
 // ...
 fun generateColumnsGoal(numRows: Int, numCols: Int): Array<Int> {
-    return generateUniqueGoal(numRows, numCols).map { it % 6 }.toTypedArray()
+    return (0..47).filter { (it < numRows * 6) && (it % 6 < numCols) }.map { it % 6 }.toTypedArray()
 }
 
 // Generates a sensible goal for modes without special cells. Modes with special cells should
@@ -261,7 +261,6 @@ fun generateStaticCellGoal(
     val blockedCols = partitionAxis(numCols, numBlockedCols, colDepth)
     val blocked =
         (0..(numRows * numCols)).filter { (it / numCols in blockedRows) && (it % numCols in blockedCols) }
-            .toTypedArray()
 
     // Speckled Static is special because we want to avoid putting a speckle where we've
     // put the fixed cell.

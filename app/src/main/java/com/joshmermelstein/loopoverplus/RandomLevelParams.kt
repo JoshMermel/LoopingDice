@@ -85,19 +85,24 @@ enum class Density(val userString: Int) {
 
 enum class ColorScheme(val userString: Int) {
     BICOLOR(R.string.infinityColorSchemeBicolor) {
-        override fun hasSizeLimit(): Boolean = false
+        override fun maxNumRows() = 8
+        override fun maxNumCols(m : Mode) = 8
     },
     SPECKLED(R.string.infinityColorSchemeSpeckled) {
-        override fun hasSizeLimit(): Boolean = false
+        override fun maxNumRows() = 8
+        override fun maxNumCols(m : Mode) = 8
     },
     COLUMNS(R.string.infinityColorSchemeColumns) {
-        override fun hasSizeLimit(): Boolean = true
+        override fun maxNumRows() = 8
+        override fun maxNumCols(m : Mode) = if (m.hasSpecialColor()) 5 else 6
     },
     UNIQUE(R.string.infinityColorSchemeUnique) {
-        override fun hasSizeLimit(): Boolean = true
+        override fun maxNumRows() = 6
+        override fun maxNumCols(m : Mode) = if (m.hasSpecialColor()) 5 else 6
     };
 
-    abstract fun hasSizeLimit(): Boolean
+    abstract fun maxNumRows(): Int
+    abstract fun maxNumCols(m : Mode): Int
 }
 
 enum class Mode(val userString: Int) {
@@ -155,18 +160,8 @@ fun feelingLucky(): RandomLevelParams {
 
     val colorScheme = ColorScheme.values().random()
 
-    val maxNumRows = if (colorScheme.hasSizeLimit()) {
-        6
-    } else {
-        8
-    }
-    val numRows = (2..maxNumRows).random()
-    val maxNumCols = when {
-        !colorScheme.hasSizeLimit() -> 8
-        rowMode.hasSpecialColor() -> 5
-        else -> 6
-    }
-    val numCols = (2..maxNumCols).random()
+    val numRows = (2..colorScheme.maxNumRows()).random()
+    val numCols = (2..colorScheme.maxNumCols(rowMode)).random()
 
     val rowDepth = when (rowMode) {
         Mode.WIDE -> (1..numRows).random()

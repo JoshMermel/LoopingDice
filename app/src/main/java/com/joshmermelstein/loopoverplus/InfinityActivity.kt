@@ -183,11 +183,7 @@ class InfinityActivity : AppCompatActivity() {
         val rowSizeSpinner = findViewById<Spinner>(R.id.rowSizeSpinner)
         val oldValue: Int? = rowSizeSpinner.selectedItem?.toString()?.toInt()
         val colorScheme = getColorScheme()
-        val maxValue = if (!colorScheme.hasSizeLimit()) {
-            8
-        } else {
-            6
-        }
+        val maxValue = colorScheme.maxNumRows()
         val rowSizes = (2..maxValue).map { num -> num.toString() }
 
         val adapter = ArrayAdapter(this, R.layout.spinner_item, rowSizes)
@@ -219,13 +215,8 @@ class InfinityActivity : AppCompatActivity() {
     private fun updateColSizePicker() {
         val colSizeSpinner = findViewById<Spinner>(R.id.colSizeSpinner)
         val oldValue: Int? = colSizeSpinner.selectedItem?.toString()?.toInt()
-        val rowMode = getRowMode()
         val colorScheme = getColorScheme()
-        val maxValue = when {
-            !colorScheme.hasSizeLimit() -> 8
-            rowMode.hasSpecialColor() -> 5
-            else -> 6
-        }
+        val maxValue = colorScheme.maxNumCols(getRowMode())
         val colSizes = (2..maxValue).map { num -> num.toString() }
 
         val adapter = ArrayAdapter(this, R.layout.spinner_item, colSizes)
