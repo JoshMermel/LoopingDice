@@ -55,7 +55,6 @@ class BondSignature(
 //   - fix numRows and numCols; adjust density
 //   - fix numRows and density; adjust numCols
 //   - fix numCols and density; adjust numRows
-// TODO(jmerm): what about a helper that slightly changes these for even more variety?
 val rareSignatures: Map<BoardSize, List<BondSignature>> = mapOf(
     BoardSize(2, 2) to listOf(
         BondSignature(0, 1, 0, 0, 0),
