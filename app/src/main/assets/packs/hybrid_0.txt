@@ -38,6 +38,6 @@ EL2 h_el_shift_square 11 13 15
 ES1 h_es_transpose 8 12 16
 ES2 h_es_maypole 14 17 20
 EW1 h_ew_stack_up 5 7 10
-GS1 h_gs_compaction 4 5 8
+GS1 h_gs_small_empty 4 5 8
 GW1 h_gw_magnets 5 7 9
 LS1 h_ls_thin_pinwheel 9 10 12
