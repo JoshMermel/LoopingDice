@@ -331,7 +331,6 @@ class InfinityActivity : AppCompatActivity() {
                 densities.map { getString(it.userString) })
             adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
             densitySpinner.adapter = adapter
-            // TODO(jmerm): move these into the enum?
             findViewById<TextView>(R.id.densityLabel)?.text = when (rowMode) {
                 Mode.DYNAMIC -> getString(R.string.infinityNumBlocks)
                 Mode.ENABLER -> getString(R.string.infinityNumEnablers)
