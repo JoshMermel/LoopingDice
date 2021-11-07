@@ -158,7 +158,7 @@
     <string name="WideVarietyHelptext">The number of rows/columns that move varies from level to level</string>
     <string name="WideThreeDotsReminderHelptext">If you want to double check the rules, look at the "about level" section of the three dots menu</string>
     <string name="WideWithinLevelVarianceHelptext">On this level, horizontal moves affect 3 rows but vertical moves only affect 2 columns. These numbers often won\'t match each other.</string>
-    <string name="WidePreviewHelptext">You can also look at the edge of the board before releasing a swipe to see which rows/cols will move</string>
+    <string name="WidePreviewHelptext">Start a swipe but don\'t release it to see a preview of which dice will move</string>
     <string name="HybridExplainAC">In AC, dice can only move in the direction of their arrows</string>
     <string name="HybridExplainBE">In BE, moves are valid if an Enabler die is used in any part of the move</string>
     <string name="HybridExplainCE">In CE, moves are valid if an Enabler die is used in any part of the move</string>
