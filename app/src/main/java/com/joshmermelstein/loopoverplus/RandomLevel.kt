@@ -238,12 +238,10 @@ fun partitionAxis(size: Int, numBlocked: Int, depth: Int): Set<Int> {
     }
     lanes.shuffle()
 
-    val ret = Array(numBlocked) { 0 }
+    val ret = Array(numBlocked) { (0 until size).random() }
     for (i in (1 until numBlocked)) {
-        ret[i] = ret[i - 1] + lanes[i] + 1
+        ret[i] = (ret[i - 1] + lanes[i] + 1) % size
     }
-
-    // TODO(jmerm): circular shift offsets before returning so top-left isn't always locked?
 
     return ret.toSet()
 }

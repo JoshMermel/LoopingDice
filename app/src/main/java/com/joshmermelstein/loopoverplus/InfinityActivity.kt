@@ -74,7 +74,6 @@ class InfinityActivity : AppCompatActivity() {
         dialog.setContentView(R.layout.recent_levels_popup)
         val layout = dialog.findViewById<LinearLayout>(R.id.recentLevelsList)
         addDivider(layout)
-        // TODO(jmerm): this is broken when there are zero levels.
         getRecentLevels(this)?.forEach { params ->
             val text = TextView(this)
             text.text = params.toUserString()
