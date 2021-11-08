@@ -1,5 +1,5 @@
 Grandmaster
-A42 a_windmill 53 65 80
+A42 a_windmill 53 70 85
 AB4 h_ab_major_diagonal 16 24 32
 AC3 h_ac_implied_checkerboard 11 24 36
 AC4 h_ac_heist 12 24 36
