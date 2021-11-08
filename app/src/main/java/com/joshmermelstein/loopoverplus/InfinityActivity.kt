@@ -69,6 +69,7 @@ class InfinityActivity : AppCompatActivity() {
         layout.addView(line)
     }
 
+    // TODO(jmerm): consider adding whether the level was completed.
     private fun recentLevelsDialog() {
         val dialog = Dialog(this)
         dialog.setContentView(R.layout.recent_levels_popup)
