@@ -38,7 +38,7 @@ EW3 h_ew_two_fish 11 25 40
 EL5 h_el_swap_triangles 12 25 35
 EL6 h_el_ai 19 38 57
 ES4 h_es_excessive_flower 36 65 80
-G32 g_unique_transpose 14 35 60
+G33 g_unique_transpose 14 35 60
 GS3 h_gs_crossed_wires 10 20 30
 GW4 h_gw_unique_transpose 14 35 60
 L28 l_big_ai 21 34 55
