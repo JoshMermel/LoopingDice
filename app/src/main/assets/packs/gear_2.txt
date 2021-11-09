@@ -1,11 +1,11 @@
 Gear (Advanced)
-G22 g_pop_out 3 5 8
-G23 g_tall_stripe 5 8 12
-G24 g_flag 4 6 10
-G25 g_flip_5 10 12 17
-G26 g_smash 8 11 15
-G27 g_just_middle 4 8 13
-G28 g_quad_horizontal_stripe 6 8 13
-G29 g_too_wide 7 10 15
-G30 g_equator 5 10 16
-G31 g_align_columns 5 10 16
+G23 g_pop_out 3 5 8
+G24 g_tall_stripe 5 8 12
+G25 g_flag 4 6 10
+G26 g_flip_5 10 12 17
+G27 g_smash 8 11 15
+G28 g_just_middle 4 8 13
+G29 g_quad_horizontal_stripe 6 8 13
+G30 g_too_wide 7 10 15
+G31 g_equator 5 10 16
+G32 g_align_columns 5 10 16
