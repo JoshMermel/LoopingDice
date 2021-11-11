@@ -5,3 +5,4 @@ U L 3,U R 3,U L R 3,U L 3,U R 3,D L 3,0,0,0,D R 3,U D L 3,1,1,1,U D R 3,U L 3,2,
 U L 3,U R 3,U L R 3,U L 3,U R 3,D L 3,0,1,2,D R 3,U D L 3,0,1,2,U D R 3,U L 3,0,1,2,U R 3,D L 3,D R 3,D L R 3,D L 3,D R 3
 
 # R0,R0,C0,C0,R0',C0,R0,C0,R0',C2',R0',C0',C0',R0,C0,R0,C0,C0,R0',R0' (20)
+human solution: Row1' Row1' Col4 Col4 Row1' Col0 Row1' Col4 Col4 Row1 Col0' Row1 Col4' Col4' Row1' Col4' Col4' Row1 Col4 Row1' Col4' Row1 Col4' Row1' Col4' Col4' Row1' Row1' (28)
