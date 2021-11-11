@@ -5,10 +5,10 @@ A12 a_triple_stripe 5 8 12
 A13 a_whirlpool 7 8 13
 A14 a_defrag_vertical 9 11 16
 A15 a_defrag_horizontal 11 14 19
-A16 a_broken_whirlpool 6 7 9
-A17 a_kintsugi 7 8 10
-A18 a_make_columns 6 8 11
-A19 a_icy_river 9 12 16
+A16 a_icy_river 9 12 16
+A17 a_broken_whirlpool 6 7 9
+A18 a_kintsugi 7 8 10
+A19 a_make_columns 6 8 11
 A20 a_caged_flip 8 11 16
 A21 a_dominoes 7 8 13
 A22 a_congregate 7 9 13
