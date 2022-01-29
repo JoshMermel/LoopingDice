@@ -6,17 +6,17 @@
 #include "moves.h"
 
 constexpr size_t num_rows = 4;
-constexpr size_t num_cols = 4;
+constexpr size_t num_cols = 2;
 constexpr Board<num_rows, num_cols> initial = {{
-  {{ENABLER,3,3,3}},
-  {{3,1|FIXED,1|FIXED,1|FIXED}},
-  {{3,1|FIXED,1|FIXED,1|FIXED}},
-  {{3,1|FIXED,1|FIXED,1|FIXED}},
+  {{0,0}},
+  {{1,1}},
+  {{2,2}},
+  {{3,3}},
 }};
 
-Mode row_mode = Mode::BASIC;
-Mode col_mode = Mode::BASIC;
-Validation validation = Validation::DYNAMIC | Validation::ENABLER;
+Mode row_mode = Mode::GEAR;
+Mode col_mode = Mode::GEAR;
+Validation validation = Validation::NONE;
 
 template <std::size_t num_rows, std::size_t num_cols> struct Node {
   Board<num_rows, num_cols> board;
@@ -60,7 +60,21 @@ void exploreNeighbors(const Board<num_rows, num_cols>& board,
 }
 
 template<std::size_t num_rows, std::size_t num_cols>
+int diff(const Board<num_rows, num_cols>& b1, const Board<num_rows, num_cols>& b2) {
+  int ret = 0;
+  for (size_t row = 0; row < num_rows; ++row) {
+    for (size_t col = 0; col < num_cols; ++col) {
+      if (b1[row][col] != b2[row][col]) {
+        ++ret;
+      }
+    }
+  }
+  return ret;
+}
+
+template<std::size_t num_rows, std::size_t num_cols>
 bool shouldPrint(const Board<num_rows, num_cols>& b) {
+  return true;
   for (size_t row = 0; row < num_rows; ++row) {
     for (size_t col = 0; col < num_cols; ++col) {
       if (b[row][col] != b[col][row]) {
@@ -94,8 +108,10 @@ int main () {
     Node<num_rows, num_cols> next = q.front();
     exploreNeighbors<num_rows, num_cols>(next.board, q, seen, next.path);
     if (shouldPrint(next.board))
-    std::cout << boardToString(next.board, row_mode, "\n") 
-	    << std::endl << next.path << std::endl << std::endl;
+      std::cout << boardToString(next.board, row_mode, "\n") 
+        << std::endl << next.path << std::endl 
+        << diff(next.board, initial) << std::endl
+        << std::endl;
     q.pop();
   }
 

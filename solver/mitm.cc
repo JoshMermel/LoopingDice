@@ -8,21 +8,24 @@
 #include "moves.h"
 
 // Global settings
-constexpr size_t num_rows = 3;
-constexpr size_t num_cols = 3;
+constexpr size_t num_rows = 4;
+constexpr size_t num_cols = 4;
+
 constexpr Board<num_rows, num_cols> initial = {{
-  {{FIXED,ENABLER,ENABLER}},
-  {{2,3,3}},
-  {{2,3,3}},
+  {{FIXED|1,ENABLER,ENABLER,FIXED|1}},
+  {{1,FIXED|1,FIXED|1,2}},
+  {{1,FIXED|1,FIXED|1,2}},
+  {{FIXED|1,3,3,FIXED|1}},
 }};
 constexpr Board<num_rows, num_cols> win = {{
-  {{FIXED,2,2}},
-  {{ENABLER,3,3}},
-  {{ENABLER,3,3}},
+  {{FIXED|1,2,2,FIXED|1}},
+  {{ENABLER,FIXED|1,FIXED|1,3}},
+  {{ENABLER,FIXED|1,FIXED|1,3}},
+  {{FIXED|1,1,1,FIXED|1}},
 }};
 constexpr Mode row_mode = Mode::BASIC;
 constexpr Mode col_mode = Mode::BASIC;
-const  Validation validation = Validation::STATIC|Validation::ENABLER;
+const Validation validation = Validation::ENABLER | Validation::DYNAMIC;
 
 template<std::size_t num_rows, std::size_t num_cols>
 struct Node {
@@ -172,7 +175,7 @@ int main () {
           // New cell, note we've seen it and add it to the queue to explore more
           bwd_seen[neighbor.board] = neighbor.path;
           bwd_q.push(Node<num_rows, num_cols>(neighbor.board, neighbor.path));
-          if (fwd_seen.find(neighbor.board) != bwd_seen.end()) {
+          if (fwd_seen.find(neighbor.board) != fwd_seen.end()) {
             printSolution(fwd_seen[neighbor.board], neighbor.path);
             return 0;
           }
@@ -183,7 +186,6 @@ int main () {
 
     ++target_depth;
   }
-
 
   return 0;
 }
