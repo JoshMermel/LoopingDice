@@ -1,0 +1,11 @@
+Title: Privacy policy for Looping Dice.
+
+For more information, contact joshmermel@gmail.com
+
+Looping Dice does not collect, share, or retain any user data and never will.
+
+Looping Dice does not not request any user permissions.
+
+Looping Dice stores a small amount of game data in the player's google account
+so that their completed levels can be transferred from one device to another.
+This save file is only accessible to the user.
