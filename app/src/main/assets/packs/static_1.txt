@@ -1,10 +1,10 @@
 Static Cells (Intermediate)
-S10 s_top_two 8 9 15
-S11 s_big_corners 10 20 30
+S9 s_thin_pinwheel 11 14 18
+S10 s_top_two 8 9 11
+S11 s_ring 5 7 10
 S12 s_pop_out 6 8 12
-S13 s_ring 5 7 12
+S13 s_tall_bicolor 7 8 13
 S14 s_bicolor_31 8 11 14
-S15 s_spread_corners 8 10 14
-S16 s_upside_down_burger 14 17 22
-S17 s_tall_bicolor 7 8 20
-S18 s_spaced_rotate_columns 9 11 15
+S15 s_big_corners 10 15 20
+S16 s_spread_corners 8 9 13
+S17 s_spaced_rotate_columns 9 11 15

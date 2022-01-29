@@ -49,14 +49,14 @@ class GameManager(
     private var future = GameBoard(params.numRows, params.numCols, params.initial, data)
     private var goal = GameBoard(params.numRows, params.numCols, params.goal, data)
 
+    private var preview: GameBoard? = null
+
     private var moveQueue: MoveQueue = MoveQueue()
     private var undoStack = Stack<LegalMove>()
     private var redoStack = Stack<LegalMove>()
 
     private var numMoves: Int = 0
     private var complete = false
-
-    private var highlights: Array<Highlight> = emptyArray()
 
     init {
         buttonState.undoButtonEnabled = false
@@ -102,7 +102,7 @@ class GameManager(
     // determine positions so that animation speed doesn't depend on frames per second.
     fun update() {
         moveQueue.runMoves(System.nanoTime(), this)
-        if (!complete && this.isSolved()) {
+        if (!complete && isSolved()) {
             complete = true
             winDialog()
         }
@@ -123,23 +123,15 @@ class GameManager(
     }
 
     fun drawBoard(canvas: Canvas, boundsBoard: Bounds) {
-        drawGrid(canvas, boundsBoard, board, 5)
+        if (moveQueue.isEmpty() && preview != null) {
+            drawGrid(canvas, boundsBoard, preview!!, mainGridPadding)
+        } else {
+            drawGrid(canvas, boundsBoard, board, mainGridPadding)
+        }
     }
 
     fun drawGoal(canvas: Canvas, boundsGoal: Bounds) {
-        drawGrid(canvas, boundsGoal, goal, 2)
-    }
-
-    fun drawHighlights(canvas: Canvas, boundsBoard: Bounds) {
-        for (highlight in this.highlights) {
-            highlight.drawSelf(
-                canvas,
-                boundsBoard,
-                context,
-                params.numRows,
-                params.numCols
-            )
-        }
+        drawGrid(canvas, boundsGoal, goal, goalGridPadding)
     }
 
     private fun isSolved(): Boolean {
@@ -157,6 +149,7 @@ class GameManager(
         // But only legal moves get added to the undo stack and counted toward the user's numMoves
         if (move is LegalMove) {
             val wasSolved = isSolved()
+            move.animateProgress(1.0, future)
             move.finalize(future)
             undoStack.push(move)
             redoStack.clear()
@@ -176,6 +169,8 @@ class GameManager(
         }
         val wasSolved = isSolved()
         val lastMove = undoStack.peek().inverse()
+        resetPreview()
+        lastMove.animateProgress(1.0, future)
         lastMove.finalize(future)
         moveQueue.addMove(lastMove)
         redoStack.push(undoStack.pop())
@@ -196,6 +191,8 @@ class GameManager(
         }
         val wasSolved = isSolved()
         val redoneMove = redoStack.pop()
+        resetPreview()
+        redoneMove.animateProgress(1.0, future)
         redoneMove.finalize(future)
         moveQueue.addMove(redoneMove)
         undoStack.push(redoneMove)
@@ -210,12 +207,23 @@ class GameManager(
         }
     }
 
-    fun addHighlights(axis: Axis, direction: Direction, offset: Int) {
-        this.highlights = params.moveFactory.makeHighlights(axis, direction, offset, board)
+    fun setPreview(axis: Axis, direction: Direction, offset: Int) {
+        preview = future.copy()
+
+        val previewMove = params.moveFactory.makeMove(axis, direction, offset, preview!!)
+        val unvalidated = if (previewMove is IllegalMove) {
+            params.moveFactory.makeMoveUnvalidated(axis, direction, offset, preview!!)
+        } else {
+            null
+        }
+
+        // Run the previews to twice the eccentricity threshold so the wraparound is more than a sliver.
+        previewMove.animateProgress(2 * eccentricityThreshold, preview!!)
+        unvalidated?.animateProgress(2 * eccentricityThreshold, preview!!)
     }
 
-    fun resetHighlights() {
-        this.highlights = emptyArray()
+    fun resetPreview() {
+        preview = null
     }
 
     // Generates a human readable string explaining the rules of the level
@@ -292,10 +300,10 @@ class GameManager(
         val doBetter = dialog.findViewById<TextView>(R.id.doBetter)
         val earnedStars = dialog.findViewById<TextView>(R.id.earnedStars)
         earnedStars.text = when {
-            numMoves <= fourStar -> "✯✯✯"
-            numMoves <= threeStar -> "★★★"
-            numMoves <= twoStar -> "★★☆"
-            else -> "★☆☆"
+            numMoves <= fourStar -> context.getString(R.string.fourStars)
+            numMoves <= threeStar -> context.getString(R.string.threeStars)
+            numMoves <= twoStar -> context.getString(R.string.twoStars)
+            else -> context.getString(R.string.oneStar)
         }
 
         // Print the threshold for more stars based on their best ever

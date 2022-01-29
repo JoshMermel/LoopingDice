@@ -1,7 +1,0 @@
-3
-2
-BASIC|BASIC|DYNAMIC
-F 1,0,F 1,1,F 1,2
-F 1,0,F 1,2,F 1,1
-
-# R1,C1',R1,C1,R1' (5)

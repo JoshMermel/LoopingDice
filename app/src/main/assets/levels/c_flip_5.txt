@@ -5,4 +5,5 @@ CAROUSEL|CAROUSEL|NONE
 27,2,21,2,15,2,9,2,3,2
 
 # R0,R0,R3',R4',R0',R4',R3 (7)
-(Also works as CAROUSEL | WIDE  2 2 with same optimal answer)
+human solution: Row4' Col0' Row1' Row2 Col0 Col0 Row0 Row0 Col0 (9)
+human solution: Row4' Row2 Row1 Col1 Row2' Col1 Row2' Col0 Col0 (9)

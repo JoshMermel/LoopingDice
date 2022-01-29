@@ -8,6 +8,7 @@
 
     <!--suppress CheckTagEmptyBody -->
     <ScrollView
+        android:id="@+id/PackScrollView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"

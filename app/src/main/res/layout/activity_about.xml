@@ -45,9 +45,12 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
                 android:contentDescription="@string/aboutSixteenPhotoDescription"
+                android:paddingStart="15dp"
                 android:paddingTop="15dp"
-                android:textAlignment="center"
+                android:paddingEnd="15dp"
+                android:scaleType="fitXY"
                 app:srcCompat="@drawable/sixteen" />
 
             <TextView
@@ -62,8 +65,12 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
                 android:contentDescription="@string/aboutGearPhotoDescription"
+                android:paddingStart="15dp"
                 android:paddingTop="15dp"
+                android:paddingEnd="15dp"
+                android:scaleType="fitXY"
                 android:textAlignment="center"
                 app:srcCompat="@drawable/gear" />
 
@@ -79,21 +86,27 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
                 android:contentDescription="@string/aboutBigBlockPhotoDescription"
+                android:paddingStart="15dp"
                 android:paddingTop="15dp"
-                android:textAlignment="center"
+                android:paddingEnd="15dp"
+                android:scaleType="fitXY"
                 app:srcCompat="@drawable/bandaged" />
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
                 android:contentDescription="@string/aboutAiCubePhotoDescription"
+                android:paddingStart="15dp"
                 android:paddingTop="15dp"
-                android:textAlignment="center"
+                android:paddingEnd="15dp"
+                android:scaleType="fitXY"
                 app:srcCompat="@drawable/ai_cube" />
 
             <TextView
-                android:id="@+id/dynamic_bandaging"
+                android:id="@+id/dynamic_blocking"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:linksClickable="true"
@@ -104,17 +117,23 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
                 android:contentDescription="@string/aboutConstrainedCubePhotoDescription"
+                android:paddingStart="15dp"
                 android:paddingTop="15dp"
-                android:textAlignment="center"
+                android:paddingEnd="15dp"
+                android:scaleType="fitXY"
                 app:srcCompat="@drawable/constrained" />
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
                 android:contentDescription="@string/aboutJointCubePhotoDescription"
+                android:paddingStart="15dp"
                 android:paddingTop="15dp"
-                android:textAlignment="center"
+                android:paddingEnd="15dp"
+                android:scaleType="fitXY"
                 app:srcCompat="@drawable/joint" />
 
             <TextView
@@ -129,9 +148,12 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
                 android:contentDescription="@string/aboutSquareminxPhotoDescription"
+                android:paddingStart="15dp"
                 android:paddingTop="15dp"
-                android:textAlignment="center"
+                android:paddingEnd="15dp"
+                android:scaleType="fitXY"
                 app:srcCompat="@drawable/squareminx" />
 
             <TextView
@@ -146,9 +168,12 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
                 android:contentDescription="@string/aboutEnablerPhotoDescription"
+                android:paddingStart="15dp"
                 android:paddingTop="15dp"
-                android:textAlignment="center"
+                android:paddingEnd="15dp"
+                android:scaleType="fitXY"
                 app:srcCompat="@drawable/enabler" />
 
             <TextView

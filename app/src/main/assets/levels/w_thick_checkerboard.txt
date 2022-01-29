@@ -5,4 +5,5 @@ WIDE 1|WIDE 2|NONE
 3,3,2,2,3,3,2,2,2,2,3,3,2,2,3,3
 
 # R1,C3,R0',C1' (4)
-human solution: Col2' Row1 Row2 Row2 Col1' Row3 Row2'
+human solution: Col2' Row1 Row2 Row2 Col1' Row3 Row2' (7)
+human solution: Col0 Row1' Col0' Row1 Col2' Row2 Col2 Row2' (8)

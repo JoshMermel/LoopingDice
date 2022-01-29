@@ -1,8 +1,13 @@
 Bandaged (Intermediate)
-B9 b_quad_stripes 8 10 15
-B10 b_dominoes 6 8 14
-B11 b_rotate_180 5 6 10
-B12 b_chimera 9 11 16
-B13 b_flower 11 13 18
-B14 b_pong 9 11 16
-B15 b_coin_dozer 12 14 24
+B10 b_dominoes 6 8 12
+B11 b_rotate_180 5 6 9
+B12 b_make_columns 6 7 9
+B13 b_quad_stripes 8 10 14
+B14 b_anticenter 9 12 15
+B15 b_pedals 11 12 15
+B16 b_coin_dozer 12 14 20
+B17 b_chimera 9 11 16
+B18 b_semaphore 9 11 14
+B19 b_quad_dozer 10 14 20
+B20 b_flower 11 13 17
+B21 b_pong 9 11 14

@@ -1,0 +1,8 @@
+4
+4
+WIDE 3|WIDE 3|DYNAMIC
+0,0,0,F 1,0,F 1,0,0,0,0,0,0,F 1,0,0,F 1
+0,0,0,0,0,F 1,F 1,0,0,F 1,F 1,0,0,0,0,0
+
+# C0',R3',R0,R3',C2,C2,C1',R2 (8)
+human solution: Col0' Row3' Row0 Col3 Col0' Row3' Row2 Col2' Row1' Col1 (10)

@@ -96,7 +96,7 @@ interface LegalMove : Move {
     }
 
     // Returns a move that undoes this one, used for managing undo and redo stacks.
-    fun inverse(): Move
+    fun inverse(): LegalMove
 
     // Used for saving move history to a file.
     override fun toString(): String
@@ -160,6 +160,7 @@ fun stringToMove(s: String, numRows: Int, numCols: Int): LegalMove? {
         }
         "GEAR" -> GearMove(axis, direction, offset, numRows, numCols)
         "CAROUSEL" -> CarouselMove(axis, direction, offset, numRows, numCols)
+        "LIGHTNING" -> LightningMove(axis, direction, offset, numRows, numCols)
         else -> null
     }
 }

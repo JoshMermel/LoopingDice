@@ -3,5 +3,5 @@
 BASIC|BASIC|ENABLER
 E,1,1,1,1,1,1,1,1,1,1,1,1,1,0
 E,1,1,1,1,1,1,0,1,1,1,1,1,1,1
-In "Enabler" mode, moves must contain the gold square
+enabler_overview_helptext
 # C0',R4',C2',C2',R2',C1',C1',R0' (8)

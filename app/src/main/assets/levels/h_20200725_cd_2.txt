@@ -1,8 +1,0 @@
-3
-3
-CAROUSEL|CAROUSEL|DYNAMIC
-F 1,F 1,F 1,1,1,1,2,2,2
-F 1,1,2,F 1,1,2,F 1,1,2
-
-# C0,C1,R1',R0' (4)
-human solution: Col0' Col1 Col0' Row0 Col0' Col1 Col1 Col1

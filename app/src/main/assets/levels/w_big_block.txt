@@ -3,5 +3,5 @@
 WIDE 4|WIDE 4|NONE
 0,2,2,2,0,2,2,2,0,2,2,2,0,0,0,0
 0,0,0,0,2,2,2,0,2,2,2,0,2,2,2,0
-The number of rows/columns that move varies from level to level
+wide_variety_helptext
 # C1,R1' (2)

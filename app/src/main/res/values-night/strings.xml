@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- help strings for move validators -->
-    <string name="dynamicValidatorHelptext">Moves cannot push a white square off the edge of the board</string>
-    <string name="staticValidatorHelptext">white squares prevent moves</string>
+    <string name="dynamicValidatorHelptext">Moves cannot push white dice off the edge of the board</string>
+    <string name="staticValidatorHelptext">white dice prevent moves</string>
+    <string name="DynamicOverviewHelptext">In "Dynamic Blocking" mode, white dice cannot wrap around the edge of the board</string>
+    <string name="HybridExplainDL">In DL, Moves cannot push white dice off the edge of the board</string>
 </resources>

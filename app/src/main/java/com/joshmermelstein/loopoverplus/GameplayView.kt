@@ -91,7 +91,7 @@ class GameplayView : View {
         super.onDraw(canvas)
         gameManager.update()
         if (boundsBoard.left >= 0.0) {
-            gameManager.drawHighlights(canvas, boundsBoard)
+            // gameManager.drawHighlights(canvas, boundsBoard)
             gameManager.drawBoard(canvas, boundsBoard)
         } else {
             placeBoard(canvas)
@@ -120,12 +120,12 @@ class GameplayView : View {
             }
             MotionEvent.ACTION_UP -> {
                 maybeEnqueueMove(eventStartX, eventStartY, event.x, event.y)
-                gameManager.resetHighlights()
+                gameManager.resetPreview()
                 true
             }
             MotionEvent.ACTION_MOVE -> {
-                gameManager.resetHighlights()
-                maybeHighlightEdge(eventStartX, eventStartY, event.x, event.y)
+                gameManager.resetPreview()
+                maybeSetPreview(eventStartX, eventStartY, event.x, event.y)
                 true
             }
             else -> super.onTouchEvent(event)
@@ -133,7 +133,7 @@ class GameplayView : View {
     }
 
     private fun closeTo(f: Float, target: Double): Boolean {
-        return f > target - 0.3 && f < target + 0.3
+        return f > target - allowedAngleError && f < target + allowedAngleError
     }
 
     private fun isInsideGrid(x: Float, y: Float): Boolean {
@@ -166,58 +166,56 @@ class GameplayView : View {
 
     private fun getOffset(startX: Float, startY: Float, axis: Axis): Int {
         return when (axis) {
-            Axis.HORIZONTAL -> {
-                floor(gameManager.board.numRows * (startY - boundsBoard.top) / (boundsBoard.bottom - boundsBoard.top)).toInt()
-            }
-            Axis.VERTICAL -> {
-                floor(gameManager.board.numCols * (startX - boundsBoard.left) / (boundsBoard.right - boundsBoard.left)).toInt()
-            }
+            Axis.HORIZONTAL -> floor(gameManager.board.numRows * (startY - boundsBoard.top) / (boundsBoard.bottom - boundsBoard.top)).toInt()
+            Axis.VERTICAL -> floor(gameManager.board.numCols * (startX - boundsBoard.left) / (boundsBoard.right - boundsBoard.left)).toInt()
         }
     }
 
-    private fun maybeEnqueueMove(startX: Float, startY: Float, endX: Float, endY: Float) {
+    // Glorified tuple for returning the result of a swipe
+    data class SwipeResult(
+        val axis: Axis,
+        val direction: Direction,
+        val offset: Int
+    )
+
+    // Translates the start/end coordinates of a swipe into a triple of Axis, Direction, Offset,
+    // suitable for turning into a Move.
+    // Returns Null if the swipe isn't a valid input to make a move.
+    private fun interpretSwipe(
+        startX: Float,
+        startY: Float,
+        endX: Float,
+        endY: Float
+    ): SwipeResult? {
         // ignore events that start outside the grid.
         if (!isInsideGrid(startX, startY)) {
-            return
+            return null
         }
 
         // Compute swipe angle and distance. Ignore very short swipes.
         val hDist = (startX - endX)
         val vDist = (startY - endY)
-        if ((hDist * hDist) + (vDist * vDist) < 1500) {
-            return
+        if ((hDist * hDist) + (vDist * vDist) < minSwipeDistance) {
+            return null
         }
         val theta = atan(vDist / hDist)
 
         // Compute Axis and Direction of swipe
-        val axis = angleToAxis(theta) ?: return
+        val axis = angleToAxis(theta) ?: return null
         val direction = getDirection(hDist, vDist, axis)
         val offset = getOffset(startX, startY, axis)
 
-        gameManager.enqueueMove(axis, direction, offset)
+        return SwipeResult(axis, direction, offset)
     }
 
+    private fun maybeEnqueueMove(startX: Float, startY: Float, endX: Float, endY: Float) {
+        val (axis, direction, offset) = interpretSwipe(startX, startY, endX, endY) ?: return
+        gameManager.enqueueMove(axis, direction, offset)
 
-    private fun maybeHighlightEdge(startX: Float, startY: Float, endX: Float, endY: Float) {
-        // ignore events that start outside the grid
-        if (!isInsideGrid(startX, startY)) {
-            return
-        }
+    }
 
-        // Compute swipe angle and direction
-        val hDist = (startX - endX)
-        val vDist = (startY - endY)
-        if ((hDist * hDist) + (vDist * vDist) < 3000) {
-            // Ignore extremely short swipes
-            return
-        }
-        val theta = atan(vDist / hDist)
-
-        // Figure out which axis was swiped and in what direction
-        val axis = angleToAxis(theta) ?: return
-        val direction = getDirection(hDist, vDist, axis)
-        val offset = getOffset(startX, startY, axis)
-
-        gameManager.addHighlights(axis, direction, offset)
+    private fun maybeSetPreview(startX: Float, startY: Float, endX: Float, endY: Float) {
+        val (axis, direction, offset) = interpretSwipe(startX, startY, endX, endY) ?: return
+        gameManager.setPreview(axis, direction, offset)
     }
 }

@@ -1,0 +1,9 @@
+4
+3
+WIDE 1|WIDE 1|DYNAMIC+ENABLER
+1,1,1,1,1,1,E 0,E 0,E 0,F 1,F 1,F 1
+1,1,1,E 0,E 0,E 0,1,1,1,F 1,F 1,F 1
+
+# C0',R2,C0',R1,R2',C1',R1,C1,C0 (9)
+human solution: Col0' Row2 Col0' Row2' Row1' Col0 Row2 Col2' Row1 Col2 (10)
+human solution: Col2' Row2' Col2' Row2 Row1 Col2 Row2 Col2' Row1 Col2 (10)

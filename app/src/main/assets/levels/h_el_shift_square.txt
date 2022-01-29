@@ -1,0 +1,8 @@
+4
+4
+LIGHTNING|LIGHTNING|ENABLER
+B 3,B 3,2,E 0,B 3,B 3,2,2,2,2,2,2,E 0,2,2,2
+E 0,2,2,2,2,B 3,B 3,2,2,B 3,B 3,2,2,2,2,E 0
+
+# R3',C3,R0,C1,R2,C2,R1',R0',C1',R3',R3' (11)
+human solution: Col0 Col3 Col3 Row2 Row1' Col1 Row0' Col0' Row1 Col0' Col0' Row3' (12)

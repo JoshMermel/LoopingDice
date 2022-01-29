@@ -116,16 +116,14 @@ class GameplayActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.tutorialText).apply {
             layoutParams.height = tutorialTextBoxWidth * 7 / 8
             layoutParams.width = tutorialTextBoxHeight * 7 / 8
-            text = params.tutorialText
+            text = getTutorialText(params.tutorialText, context)
             TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(
                 this, 1, 200, 1,
                 TypedValue.COMPLEX_UNIT_DIP
             )
         }
 
-        findViewById<GameplayView>(R.id.gameplayView).apply {
-            gameManager = this@GameplayActivity.gameManager
-        }
+        findViewById<GameplayView>(R.id.gameplayView).gameManager = this.gameManager
         findViewById<Toolbar>(R.id.gameplay_toolbar).also {
             setSupportActionBar(it)
         }

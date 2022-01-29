@@ -1,0 +1,9 @@
+5
+3
+LIGHTNING|LIGHTNING|ARROWS
+B 0,B 0,B 0,1,1,1,V 3,V 3,V 3,1,1,1,B 0,B 0,B 0
+B 0,B 0,B 0,B 0,B 0,V 3,B 0,V 3,1,V 3,1,1,1,1,1
+
+# C0',R4,C2',R4,C2',R1,C2',C0' (8)
+human solution: Col2 Row1' Col2 Row0' Col1' Row4' Col1 Col0 Col0 Row4 Col0 (11)
+human solution: Col2' Row4' Col2' Row1 Col0' Row4 Col0' Row0 Col2' (9)

@@ -1,12 +1,13 @@
-Dynamic Bandaging (Intermediate)
-D12 d_quad_horizontal_stripe 8 9 20
-D13 d_make_columns 7 8 13
+Dynamic Blocking (Intermediate)
+D12 d_quad_horizontal_stripe 8 9 12
+D13 d_make_columns 7 8 12
 D14 d_stack_up 6 7 10
-D15 d_swap_triangles 9 12 20
-D16 d_corners_again 6 8 12
-D17 d_stratego 9 11 15
-D18 d_keep_bottom_stripe 7 12 18
-D19 d_padded_stripe 8 12 20
-D20 d_swap_spaced_rows 15 20 25
-D21 d_swap_rows 12 13 18
-D22 d_ring 7 8 15
+D15 d_corners_again 6 8 10
+D16 d_stratego 9 11 15
+D17 d_propellers 6 8 11
+D18 d_swap_triangles 9 12 18
+D19 d_padded_stripe 8 11 17
+D20 d_keep_bottom_stripe 7 10 15
+D21 d_swap_spaced_rows 15 19 23
+D22 d_swap_rows 12 13 16
+D23 d_ring 7 8 13

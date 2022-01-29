@@ -3,5 +3,5 @@
 CAROUSEL|CAROUSEL|NONE
 3,3,3,3,3,3,0,3,3,3,3,3,3,3,3,3,3,3,0,3,3,3,3,3,3
 3,3,3,3,3,3,3,3,0,3,3,3,3,3,3,3,0,3,3,3,3,3,3,3,3
-C levels use move pairs of rows/columns in a carousel
+carousel_overview_helptext
 # R2,R2,R0',R0' (4)

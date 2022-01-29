@@ -1,0 +1,9 @@
+4
+3
+LIGHTNING|LIGHTNING|NONE
+0,0,0,1,1,1,2,2,2,B 3,B 3,B 3
+0,1,2,0,1,2,0,1,2,B 3,B 3,B 3
+
+# C0,R0',R3',C1,R3,C0',R1' (7)
+human solution: Col1' Row2' Row0 Row1 Col1 Row1' Col1' Row1 (8)
+human solution: Col2 Row1 Col2' Row2' Row0' Row1' Row2' Col2 Row2 (9)

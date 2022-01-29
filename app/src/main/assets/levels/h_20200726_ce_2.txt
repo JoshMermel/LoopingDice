@@ -1,8 +1,0 @@
-5
-2
-CAROUSEL|CAROUSEL|ENABLER
-0,0,1,1,E,E,1,1,0,0
-0,0,0,E,0,1,E,1,1,1
-
-# C0',R0,R2,R4',R0 (5)
-human solution: Col0' Col0' Row0 Row4' Col0' Row3' Row4' Col0' Row0

@@ -1,0 +1,10 @@
+5
+3
+BANDAGED|BANDAGED|ARROWS
+D 0,H 3,2,U 0,H 3,2,0,H 3,2,0,H 3,D 2,0,H 3,U 2
+D 2,H 3,0,U 2,H 3,0,2,H 3,0,2,H 3,D 0,2,H 3,U 0
+
+# R0',C2',C2',R3',C2',R3,R0',C0',C0',R0' (10)
+human solution: Row3 Col0 Col0 Row2' Row4' Col2 Row2 Row3' Col2 Col2 Row3 (11)
+human solution: Row0 Col0' Col0' Row0' Row0' Col2 Col2 Row0 Row2' Col2' Row2 Col2 (12)
+human solution: Row0 Col0 Col0 Row0 Col2 Col2 Row0 Col0 Row4 Col0' Row4' Col2 (12)

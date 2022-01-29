@@ -1,11 +1,12 @@
 Carousel (Intermediate)
-C10 c_kite 4 5 10
-C11 c_tower 3 4 9
-C12 c_inverse_hot_dog 6 8 13
+C9 c_triple_stripe 2 4 8
+C10 c_tower 3 4 7
+C11 c_inverse_hot_dog 6 8 13
+C12 c_kite 4 5 8
 C13 c_sparse_plus 3 5 7
-C14 c_raft 6 8 11
-C15 c_dominoes 5 7 12
-C16 c_defrag 6 9 14
-C17 c_drop_row 4 6 7
-C18 c_big_plus 4 5 9
-C19 c_not_equals 4 6 8
+C14 c_dominoes 5 7 10
+C15 c_defrag 6 8 12
+C16 c_raft 6 8 11
+C17 c_drop_row 4 5 8
+C18 c_not_equals 4 5 9
+C19 c_big_plus 4 5 9

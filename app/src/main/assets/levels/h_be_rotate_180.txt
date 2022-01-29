@@ -1,0 +1,8 @@
+3
+3
+BANDAGED|BANDAGED|ENABLER
+D R 3,D L 3,E,U R 3,U L 3,1,E,1,2
+2,1,E,1,D R 3,D L 3,E,U R 3,U L 3
+hybrid_explain_be
+# R0',C0,R0,C1',R1' (5)
+human solution: Col0' Row2 Col0 Row1' Col1' (5)

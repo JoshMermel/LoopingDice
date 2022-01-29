@@ -27,6 +27,10 @@ class GameBoard(private val board: Array<Array<GameCell>>) {
             }
         })
 
+    // Returns a deep copy of |this|
+    fun copy(): GameBoard =
+        GameBoard(Array(numRows) { row -> Array(numCols) { col -> getCell(row, col).copy() } })
+
     // Gets a cell. Coordinates that are out of range will be modded until they are in range.
     fun getCell(row: Int, col: Int): GameCell = board[mod(row, numRows)][mod(col, numCols)]
 

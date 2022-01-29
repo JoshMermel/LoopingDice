@@ -5,3 +5,4 @@ BASIC|BASIC|DYNAMIC
 1,1,1,1,1,1,1,F 1,1,1,1,F 1,1,F 1,1,1,1,F 1,1,1,1,1,1,1,1
 
 # R0,C2',C3,C4',R2,R1',C3 (7)
+human solution: Row0' Col1 Col0 Row3 Row2' Col2' Row1 Col1' (8)

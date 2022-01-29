@@ -5,19 +5,16 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.res.ColorStateList
 import android.content.res.TypedArray
-import android.graphics.Color
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.*
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.LinearLayout
-import android.widget.RelativeLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import java.io.File
-
 
 // The main activity for the app.
 // Shows the user all of the packs of levels and lets them pick which one they want to play.
@@ -33,6 +30,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.pack_select_toolbar))
         redrawLevelSelect()
+        findViewById<ScrollView>(R.id.PackScrollView).isSmoothScrollingEnabled = true
     }
 
     // Because I am dumb and didn't use Room or something for my underlying storage, I need to
@@ -53,7 +51,7 @@ class MainActivity : AppCompatActivity() {
         }
         // The infinity button goes to a level builder activity where the user can generate a level
         // on the fly.
-        appendInfinityButton()
+        appendInfinityExpando()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -86,7 +84,7 @@ class MainActivity : AppCompatActivity() {
 
 
         val header = makeHeader(packId)
-        val levelsContainer = makeLevelButtons(packId, levels, 4)
+        val levelsContainer = makeLevelButtons(packId, levels)
 
         // Configure onclick listener to move to Level Select activity for this pack ID.
         header.setOnClickListener {
@@ -98,6 +96,13 @@ class MainActivity : AppCompatActivity() {
                     expandedListItems.remove(packId)
                     View.GONE
                 }
+            // Focus the second row of the expanded pack. This scrolls a bit if the pack was at the
+            // bottom of the screen but not a jarring amount of the container being expanded is
+            // larger than the screen.
+            layout.requestChildFocus(
+                header,
+                levelsContainer.getChildAt((levelsContainer.childCount - 1).coerceAtMost(1))
+            )
         }
 
         // Put header and buttons in a vertical linear layout and add that to the activity's layout.
@@ -148,7 +153,8 @@ class MainActivity : AppCompatActivity() {
         return header
     }
 
-    private fun makeLevelButtons(packId: String, levels: List<String>, numCols: Int): LinearLayout {
+    private fun makeLevelButtons(packId: String, levels: List<String>): LinearLayout {
+        val numCols = mainScreenNumCols
         val buttonContainer = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
         }
@@ -169,7 +175,9 @@ class MainActivity : AppCompatActivity() {
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 1.0f
             )
-            btnTag.text = buttonText(levelData)
+            val numStars = numStars(levelData)
+            btnTag.text = buttonText(levelData.displayId, numStars)
+            btnTag.backgroundTintList = ColorStateList.valueOf(buttonColor(numStars))
             btnTag.setOnClickListener {
                 val intent = Intent(this, GameplayActivity::class.java)
                 intent.putExtra("id", id)
@@ -211,19 +219,36 @@ class MainActivity : AppCompatActivity() {
         return buttonContainer
     }
 
-    // Figures out what text to write to a button based on looking up the user's highscore and
-    // comparing it to par.
-    private fun buttonText(levelData: LevelMetadata): String {
+    private fun numStars(levelData: LevelMetadata): Int {
         val highscores: SharedPreferences = getSharedPreferences("highscores", Context.MODE_PRIVATE)
         val highscore = highscores.getInt(levelData.canonicalId, Int.MAX_VALUE)
-        val id = levelData.displayId
 
         return when {
-            highscore <= levelData.fourStar -> "$id\n✯✯✯"
-            highscore <= levelData.threeStar -> "$id\n★★★"
-            highscore <= levelData.twoStar -> "$id\n★★☆"
-            highscore < Int.MAX_VALUE -> "$id\n★☆☆"
-            else -> "$id\n☆☆☆"
+            highscore <= levelData.fourStar -> 4
+            highscore <= levelData.threeStar -> 3
+            highscore <= levelData.twoStar -> 2
+            highscore < Int.MAX_VALUE -> 1
+            else -> 0
+        }
+    }
+
+    // Figures out what text to write to a button based on looking up the user's highscore and
+    // comparing it to par.
+    private fun buttonText(id: String, numStars: Int): String {
+        return id + "\n" + when (numStars) {
+            4 -> getString(R.string.fourStars)
+            3 -> getString(R.string.threeStars)
+            2 -> getString(R.string.twoStars)
+            1 -> getString(R.string.oneStar)
+            else -> getString(R.string.noStars)
+        }
+    }
+
+    private fun buttonColor(numStars: Int): Int {
+        return if (numStars > 0) {
+            ContextCompat.getColor(this, R.color.completed_level)
+        } else {
+            ContextCompat.getColor(this, R.color.incomplete_level)
         }
     }
 
@@ -234,34 +259,100 @@ class MainActivity : AppCompatActivity() {
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 2
             )
-            it.setBackgroundColor(Color.BLACK)
+            it.setBackgroundColor(getColor(R.color.bandaged_cell))
         }
         layout.addView(line)
     }
 
-    private fun appendInfinityButton() {
+    private fun appendInfinityExpando() {
         val layout = findViewById<LinearLayout>(R.id.PackLinearLayout)
+
+        // Create a layout row
+        val header = LinearLayout(this)
+        header.layoutParams = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        )
+        addOnclickEffect(header)
+
+        // Write the name of the pack
         TextView(this).also {
-            // create full width text view as a row of the main linear layout in the level select
-            // activity in a style that matches other buttons.
             it.text = getString(R.string.infinityLabel)
             it.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30F)
             it.setPadding(0, 0, 0, 25)
             it.layoutParams = LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                1F
             )
+            header.addView(it)
+        }
 
-            // Configure OnClick to open the infinity activity.
+        val buttonContainer = LinearLayout(this)
+
+        // Level Builder
+        Button(this).also {
+            it.text = getString(R.string.levelSelectLevelBuilder)
             it.setOnClickListener {
                 val intent = Intent(this, InfinityActivity::class.java)
                 startActivity(intent)
             }
+            it.layoutParams = LinearLayout.LayoutParams(
+                0,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                1.0f
+            )
+            buttonContainer.addView(it)
+        }
 
-            // Configure onclick effects.
-            addOnclickEffect(it)
+        // I'm feeling lucky
+        Button(this).also {
+            it.text = getString(R.string.levelSelectFeelingLucky)
+            it.setOnClickListener {
+                val intent = Intent(this, GameplayActivity::class.java)
+                val params = feelingLucky()
+                saveParamsToRecentLevels(
+                    getSharedPreferences("RecentLevels", Context.MODE_PRIVATE),
+                    params
+                )
+                intent.putExtra("randomLevelParams", params)
+                intent.putExtra("loadSave", true)
+                startActivity(intent)
+            }
+            it.layoutParams = LinearLayout.LayoutParams(
+                0,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                1.0f
+            )
+            buttonContainer.addView(it)
+        }
 
+        // Configure onclick listener to move to Level Select activity for this pack ID.
+        header.setOnClickListener {
+            buttonContainer.visibility =
+                if (buttonContainer.visibility == View.GONE) {
+                    expandedListItems.add(getString(R.string.infinityLabel))
+                    View.VISIBLE
+                } else {
+                    expandedListItems.remove(getString(R.string.infinityLabel))
+                    View.GONE
+                }
+            // Unlike normal expandos, focus the button container here since it's appearing below
+            // the screen and would be easy to miss otherwise.
+            layout.requestChildFocus(header, buttonContainer)
+        }
+
+
+        // Put header and buttons in a vertical linear layout and add that to the activity's layout.
+        LinearLayout(this).also {
+            it.orientation = LinearLayout.VERTICAL
+            it.addView(header)
+            it.addView(buttonContainer)
             layout.addView(it)
+        }
+
+        if (!expandedListItems.contains(getString(R.string.infinityLabel))) {
+            buttonContainer.visibility = View.GONE
         }
     }
 
@@ -284,7 +375,7 @@ class MainActivity : AppCompatActivity() {
                 redrawLevelSelect()
             }
             .setNegativeButton("no", null)
-            .setIcon(android.R.drawable.ic_dialog_alert)
+            .setIconAttribute(android.R.attr.alertDialogIcon)
             .show()
     }
 

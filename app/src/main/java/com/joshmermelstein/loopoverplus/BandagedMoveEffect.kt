@@ -2,7 +2,10 @@ package com.joshmermelstein.loopoverplus
 
 // Bandaged moves are like basic moves but they can expand to move additional
 // rows/columns depending on the positions of bonds.
-class BandagedMoveEffect(private val axis: Axis) : MoveEffect {
+class BandagedMoveEffect(
+    private val axis: Axis,
+    metadata: MoveEffectMetadata = MoveEffectMetadata()
+) : MoveEffect(metadata) {
     override fun makeMove(
         direction: Direction,
         offset: Int,
@@ -10,30 +13,6 @@ class BandagedMoveEffect(private val axis: Axis) : MoveEffect {
     ): LegalMove {
         val params = applyToBoard(axis, offset, board)
         return WideMove(axis, direction, params.first, board.numRows, board.numCols, params.second)
-    }
-
-    override fun makeHighlights(
-        direction: Direction,
-        offset: Int,
-        board: GameBoard
-    ): Array<Highlight> {
-        val params = applyToBoard(axis, offset, board)
-
-        // It's fine if offset goes out of range, it'll get modulus'd into range before being drawn
-        return Array(params.second) { idx: Int ->
-            Highlight(
-                axis,
-                direction,
-                idx + params.first
-            )
-        }
-    }
-
-    override fun helpText(): String {
-        return when (axis) {
-            Axis.HORIZONTAL -> "Horizontal moves are bandaged moves"
-            Axis.VERTICAL -> "Vertical moves are bandaged moves"
-        }
     }
 
     // Logic for figuring out which columns move when a particular offset is
@@ -76,10 +55,6 @@ class BandagedMoveEffect(private val axis: Axis) : MoveEffect {
             retOffset = mod(retOffset, board.numCols)
         }
         return Pair(retOffset, depth)
-    }
-
-    override fun helpTextWhenSame(): String {
-        return "Blocks connected by a bond always move together and will cause extra rows/columns to be dragged"
     }
 
     // Equality is only used for checking that vertical and horizontal are "the same" so help text

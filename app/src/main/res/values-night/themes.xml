@@ -13,7 +13,7 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
         <item name="android:textColor">@android:color/white</item>
-
+        <item name="android:textColorLink">#5c5cff</item>
         <!-- <item name="colorButtonNormal">@color/highlight</item> -->
     </style>
     <style name="Theme.Gameplay" parent="Theme.LoopoverPlus">

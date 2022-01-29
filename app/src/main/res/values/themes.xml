@@ -14,7 +14,7 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
         <item name="android:textColor">@android:color/black</item>
-
+        <item name="android:textColorLink">#1111ab</item>
     </style>
     <style name="Theme.Gameplay" parent="Theme.LoopoverPlus">
         <item name="colorPrimaryVariant">@color/gameplay_notif_bar</item>

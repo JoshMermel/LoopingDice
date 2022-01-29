@@ -31,6 +31,10 @@ typealias BondGrid = Array<Array<String>>
 data class BoardSize(val numRows: Int, val numCols: Int)
 
 // Another glorified struct, for "how many of each kind of block should be added?"
+// TODO(jmerm): support even more bond types for really big boards (6x6 and up?)
+// - both orientations of 2x3
+// - both orientations of 1x4
+// - 3x3 ??
 class BondSignature(
     val numHDomino: Int,
     val numVDomino: Int,
@@ -45,62 +49,402 @@ class BondSignature(
     }
 }
 
-// TODO(jmerm): map to a list that we choose randomly from for variety?
-// per-density maps from BoardSize(numRows, numCols) to a sensible bond signature for a board of those dimensions
-val rareSignatures: Map<BoardSize, BondSignature> = mapOf(
-    BoardSize(2, 2) to BondSignature(0, 1, 0, 0, 0),
-    BoardSize(3, 2) to BondSignature(0, 1, 0, 0, 0),
-    BoardSize(3, 3) to BondSignature(1, 0, 0, 0, 0),
-    BoardSize(4, 2) to BondSignature(0, 1, 0, 0, 0),
-    BoardSize(4, 3) to BondSignature(2, 0, 0, 0, 0),
-    BoardSize(4, 4) to BondSignature(1, 1, 0, 0, 0),
-    BoardSize(5, 2) to BondSignature(0, 2, 0, 0, 0),
-    BoardSize(5, 3) to BondSignature(1, 1, 0, 0, 1),
-    BoardSize(5, 4) to BondSignature(2, 0, 0, 0, 1),
-    BoardSize(5, 5) to BondSignature(1, 0, 0, 1, 1),
-    BoardSize(6, 2) to BondSignature(0, 1, 0, 0, 1),
-    BoardSize(6, 3) to BondSignature(1, 1, 0, 0, 1),
-    BoardSize(6, 4) to BondSignature(1, 0, 1, 0, 1),
-    BoardSize(6, 5) to BondSignature(2, 2, 0, 0, 1),
+// per-density maps from BoardSize(numRows, numCols) to a list of sensible bond signature for a
+// board of those dimensions
+// TODO(jmerm): do the following review passes to show that changes have sensible effects:
+//   - fix numRows and numCols; adjust density
+//   - fix numRows and density; adjust numCols
+//   - fix numCols and density; adjust numRows
+val rareSignatures: Map<BoardSize, List<BondSignature>> = mapOf(
+    BoardSize(2, 2) to listOf(
+        BondSignature(0, 1, 0, 0, 0),
+    ),
+    BoardSize(3, 2) to listOf(
+        BondSignature(0, 1, 0, 0, 0),
+    ),
+    BoardSize(3, 3) to listOf(
+        BondSignature(1, 0, 0, 0, 0),
+    ),
+    BoardSize(4, 2) to listOf(
+        BondSignature(0, 1, 0, 0, 0),
+    ),
+    BoardSize(4, 3) to listOf(
+        BondSignature(2, 0, 0, 0, 0),
+        BondSignature(0, 2, 0, 0, 0),
+    ),
+    BoardSize(4, 4) to listOf(
+        BondSignature(1, 1, 0, 0, 0),
+        BondSignature(1, 0, 1, 0, 0),
+        BondSignature(0, 1, 0, 1, 0),
+    ),
+    BoardSize(5, 2) to listOf(
+        BondSignature(0, 2, 0, 0, 0),
+        BondSignature(0, 0, 0, 0, 1),
+    ),
+    BoardSize(5, 3) to listOf(
+        BondSignature(1, 2, 0, 0, 0),
+        BondSignature(0, 0, 1, 0, 1),
+        BondSignature(0, 3, 0, 0, 0)
+    ),
+    BoardSize(5, 4) to listOf(
+        BondSignature(2, 0, 0, 0, 1),
+        BondSignature(0, 2, 0, 1, 0),
+        BondSignature(0, 1, 1, 1, 0),
+    ),
+    BoardSize(5, 5) to listOf(
+        BondSignature(1, 0, 0, 1, 1),
+        BondSignature(0, 0, 2, 0, 0),
+        BondSignature(1, 2, 0, 0, 1),
+    ),
+    BoardSize(6, 2) to listOf(
+        BondSignature(0, 1, 0, 0, 1),
+        BondSignature(0, 2, 0, 0, 0),
+    ),
+    BoardSize(6, 3) to listOf(
+        BondSignature(1, 1, 0, 0, 1),
+        BondSignature(0, 2, 1, 0, 0),
+    ),
+    BoardSize(6, 4) to listOf(
+        BondSignature(2, 1, 0, 0, 1),
+        BondSignature(2, 2, 0, 0, 0),
+        BondSignature(0, 0, 0, 2, 1),
+    ),
+    BoardSize(6, 5) to listOf(
+        BondSignature(2, 0, 1, 0, 1),
+        BondSignature(0, 2, 0, 1, 1),
+        BondSignature(0, 0, 2, 1, 0),
+    ),
+    BoardSize(6, 6) to listOf(
+        BondSignature(0, 0, 0, 2, 2),
+        BondSignature(0, 0, 3, 0, 0),
+        BondSignature(1, 1, 0, 1, 1),
+    ),
+    BoardSize(7, 2) to listOf(
+        BondSignature(0, 1, 0, 0, 1),
+        BondSignature(0, 3, 0, 0, 0),
+    ),
+    BoardSize(7, 3) to listOf(
+        BondSignature(0, 1, 0, 0, 2),
+        BondSignature(0, 4, 0, 0, 0),
+        BondSignature(1, 1, 1, 0, 0),
+    ),
+    BoardSize(7, 4) to listOf(
+        BondSignature(2, 1, 1, 0, 0),
+        BondSignature(0, 0, 2, 0, 1),
+        BondSignature(0, 0, 0, 1, 2),
+    ),
+    BoardSize(7, 5) to listOf(
+        BondSignature(2, 1, 0, 0, 1),
+        BondSignature(1, 0, 2, 1, 0),
+        BondSignature(0, 0, 0, 2, 2),
+    ),
+    BoardSize(7, 6) to listOf(
+        BondSignature(1, 0, 0, 0, 3),
+        BondSignature(2, 1, 1, 0, 0),
+        BondSignature(0, 2, 1, 1, 0),
+    ),
+    BoardSize(7, 7) to listOf(
+        BondSignature(0, 0, 0, 0, 3),
+        BondSignature(0, 0, 2, 1, 1),
+        BondSignature(3, 1, 0, 0, 0),
+    ),
+    BoardSize(8, 2) to listOf(
+        BondSignature(0, 2, 0, 0, 1),
+        BondSignature(0, 0, 0, 0, 2),
+    ),
+    BoardSize(8, 3) to listOf(
+        BondSignature(1, 0, 1, 0, 1),
+        BondSignature(0, 2, 0, 0, 2),
+    ),
+    BoardSize(8, 4) to listOf(
+        BondSignature(2, 1, 1, 0, 0),
+        BondSignature(0, 2, 1, 0, 1),
+        BondSignature(0, 2, 0, 0, 2),
+    ),
+    BoardSize(8, 5) to listOf(
+        BondSignature(0, 1, 0, 1, 2),
+        BondSignature(0, 3, 1, 0, 0),
+    ),
+    BoardSize(8, 6) to listOf(
+        BondSignature(0, 2, 0, 1, 1),
+        BondSignature(0, 1, 3, 0, 0),
+        BondSignature(4, 0, 0, 0, 0),
+    ),
+    BoardSize(8, 7) to listOf(
+        BondSignature(0, 0, 0, 4, 0),
+        BondSignature(0, 0, 2, 1, 1),
+        BondSignature(3, 2, 0, 0, 0),
+    ),
+    BoardSize(8, 8) to listOf(
+        BondSignature(0, 0, 2, 2, 1),
+        BondSignature(1, 1, 1, 1, 1),
+        BondSignature(1, 1, 0, 1, 2),
+    ),
 )
-val commonSignatures: Map<BoardSize, BondSignature> = mapOf(
-    BoardSize(2, 2) to BondSignature(1, 0, 0, 0, 0),
-    BoardSize(3, 2) to BondSignature(0, 1, 0, 0, 0),
-    BoardSize(3, 3) to BondSignature(0, 0, 1, 0, 0),
-    BoardSize(4, 2) to BondSignature(0, 1, 0, 0, 0),
-    BoardSize(4, 3) to BondSignature(1, 1, 0, 0, 0),
-    BoardSize(4, 4) to BondSignature(1, 1, 0, 1, 0),
-    BoardSize(5, 2) to BondSignature(0, 1, 0, 0, 1),
-    BoardSize(5, 3) to BondSignature(1, 0, 1, 0, 1),
-    BoardSize(5, 4) to BondSignature(2, 1, 1, 0, 0),
-    BoardSize(5, 5) to BondSignature(2, 1, 0, 1, 1),
-    BoardSize(6, 2) to BondSignature(0, 2, 0, 0, 1),
-    BoardSize(6, 3) to BondSignature(1, 1, 1, 0, 1),
-    BoardSize(6, 4) to BondSignature(1, 0, 1, 1, 1),
-    BoardSize(6, 5) to BondSignature(1, 1, 1, 1, 1),
+val commonSignatures: Map<BoardSize, List<BondSignature>> = mapOf(
+    BoardSize(2, 2) to listOf(
+        BondSignature(1, 0, 0, 0, 0),
+    ),
+    BoardSize(3, 2) to listOf(
+        BondSignature(0, 1, 0, 0, 0),
+    ),
+    BoardSize(3, 3) to listOf(
+        BondSignature(0, 0, 1, 0, 0),
+    ),
+    BoardSize(4, 2) to listOf(
+        BondSignature(0, 0, 0, 0, 1),
+    ),
+    BoardSize(4, 3) to listOf(
+        BondSignature(1, 0, 0, 0, 1),
+        BondSignature(0, 1, 1, 0, 0),
+    ),
+    BoardSize(4, 4) to listOf(
+        BondSignature(1, 1, 0, 1, 0),
+        BondSignature(1, 2, 0, 0, 0),
+        BondSignature(1, 0, 1, 0, 1),
+    ),
+    BoardSize(5, 2) to listOf(
+        BondSignature(0, 1, 0, 0, 1),
+        BondSignature(0, 3, 0, 0, 0),
+    ),
+    BoardSize(5, 3) to listOf(
+        BondSignature(2, 2, 0, 0, 0),
+        BondSignature(0, 4, 0, 0, 0),
+        BondSignature(1, 1, 0, 0, 1),
+    ),
+    BoardSize(5, 4) to listOf(
+        BondSignature(2, 1, 1, 0, 0),
+        BondSignature(0, 0, 1, 1, 1),
+        BondSignature(2, 0, 0, 0, 2),
+    ),
+    BoardSize(5, 5) to listOf(
+        BondSignature(2, 0, 0, 1, 1),
+        BondSignature(0, 3, 1, 1, 0),
+        BondSignature(3, 2, 0, 0, 0),
+    ),
+    BoardSize(6, 2) to listOf(
+        BondSignature(0, 2, 0, 0, 1),
+        BondSignature(0, 0, 0, 0, 2),
+    ),
+    BoardSize(6, 3) to listOf(
+        BondSignature(1, 1, 1, 0, 1),
+        BondSignature(1, 2, 0, 0, 1),
+    ),
+    BoardSize(6, 4) to listOf(
+        BondSignature(1, 0, 2, 0, 1),
+        BondSignature(2, 2, 0, 0, 1),
+    ),
+    BoardSize(6, 5) to listOf(
+        BondSignature(1, 0, 1, 1, 1),
+        BondSignature(2, 2, 1, 0, 0),
+    ),
+    BoardSize(6, 6) to listOf(
+        BondSignature(1, 1, 1, 1, 1),
+        BondSignature(3, 3, 0, 0, 0),
+    ),
+    BoardSize(7, 2) to listOf(
+        BondSignature(0, 2, 0, 0, 1),
+        BondSignature(0, 0, 0, 0, 2),
+    ),
+    BoardSize(7, 3) to listOf(
+        BondSignature(2, 0, 1, 0, 1),
+        BondSignature(1, 3, 0, 0, 1),
+    ),
+    BoardSize(7, 4) to listOf(
+        BondSignature(0, 0, 1, 1, 2),
+        BondSignature(1, 2, 1, 1, 0),
+        BondSignature(2, 0, 1, 0, 1),
+    ),
+    BoardSize(7, 5) to listOf(
+        BondSignature(2, 1, 1, 1, 1),
+        BondSignature(1, 1, 1, 2, 0),
+        BondSignature(3, 4, 0, 0, 0),
+        BondSignature(2, 0, 2, 0, 2),
+    ),
+    BoardSize(7, 6) to listOf(
+        BondSignature(0, 0, 0, 3, 2),
+        BondSignature(3, 3, 1, 0, 0),
+    ),
+    BoardSize(7, 7) to listOf(
+        BondSignature(0, 0, 0, 3, 3),
+        BondSignature(0, 2, 1, 2, 1),
+        BondSignature(1, 1, 2, 1, 1),
+    ),
+    BoardSize(8, 2) to listOf(
+        BondSignature(0, 1, 0, 0, 2),
+        BondSignature(0, 4, 0, 0, 0),
+    ),
+    BoardSize(8, 3) to listOf(
+        BondSignature(1, 2, 1, 0, 1),
+        BondSignature(0, 1, 0, 0, 3),
+        BondSignature(0, 2, 2, 0, 0),
+    ),
+    BoardSize(8, 4) to listOf(
+        BondSignature(1, 1, 1, 1, 1),
+        BondSignature(0, 3, 0, 2, 0),
+        BondSignature(3, 0, 1, 0, 1),
+    ),
+    BoardSize(8, 5) to listOf(
+        BondSignature(1, 2, 1, 1, 1),
+        BondSignature(0, 2, 0, 1, 3),
+        BondSignature(0, 3, 3, 0, 0),
+    ),
+    BoardSize(8, 6) to listOf(
+        BondSignature(1, 1, 2, 1, 1),
+        BondSignature(1, 1, 3, 0, 0),
+        BondSignature(3, 0, 0, 4, 0),
+    ),
+    BoardSize(8, 7) to listOf(
+        BondSignature(0, 0, 1, 3, 3),
+        BondSignature(3, 0, 0, 4, 0),
+        BondSignature(3, 2, 2, 0, 0),
+    ),
+    BoardSize(8, 8) to listOf(
+        BondSignature(1, 2, 0, 3, 2),
+        BondSignature(2, 2, 3, 0, 0),
+        BondSignature(1, 3, 1, 1, 1),
+    ),
 )
-val frequentSignatures: Map<BoardSize, BondSignature> = mapOf(
-    BoardSize(2, 2) to BondSignature(2, 0, 0, 0, 0),
-    BoardSize(3, 2) to BondSignature(0, 2, 0, 0, 0),
-    BoardSize(3, 3) to BondSignature(1, 1, 0, 0, 0),
-    BoardSize(4, 2) to BondSignature(0, 2, 0, 0, 0),
-    BoardSize(4, 3) to BondSignature(0, 1, 1, 0, 0),
-    BoardSize(4, 4) to BondSignature(0, 0, 2, 0, 0),
-    BoardSize(5, 2) to BondSignature(0, 2, 0, 0, 1),
-    BoardSize(5, 3) to BondSignature(0, 1, 1, 0, 1),
-    BoardSize(5, 4) to BondSignature(1, 2, 1, 1, 0),
-    BoardSize(5, 5) to BondSignature(1, 2, 1, 1, 0),
-    BoardSize(6, 2) to BondSignature(0, 1, 0, 0, 2),
-    BoardSize(6, 3) to BondSignature(0, 2, 2, 0, 0),
-    BoardSize(6, 4) to BondSignature(1, 1, 1, 1, 1),
-    BoardSize(6, 5) to BondSignature(2, 2, 1, 1, 1),
+val frequentSignatures: Map<BoardSize, List<BondSignature>> = mapOf(
+    BoardSize(2, 2) to listOf(
+        BondSignature(1, 0, 0, 0, 0),
+    ),
+    BoardSize(3, 2) to listOf(
+        BondSignature(0, 2, 0, 0, 0),
+    ),
+    BoardSize(3, 3) to listOf(
+        BondSignature(1, 1, 0, 0, 0),
+    ),
+    BoardSize(4, 2) to listOf(
+        BondSignature(0, 2, 0, 0, 0),
+        BondSignature(0, 1, 0, 0, 1),
+    ),
+    BoardSize(4, 3) to listOf(
+        BondSignature(0, 3, 0, 0, 0),
+        BondSignature(2, 0, 0, 0, 1),
+    ),
+    BoardSize(4, 4) to listOf(
+        BondSignature(0, 0, 2, 0, 0),
+        BondSignature(2, 2, 0, 0, 0),
+        BondSignature(1, 0, 0, 1, 1),
+    ),
+    BoardSize(5, 2) to listOf(
+        BondSignature(0, 2, 0, 0, 1),
+        BondSignature(0, 0, 0, 0, 2),
+    ),
+    BoardSize(5, 3) to listOf(
+        BondSignature(1, 2, 0, 0, 1),
+        BondSignature(0, 1, 1, 0, 1),
+    ),
+    BoardSize(5, 4) to listOf(
+        BondSignature(0, 2, 1, 1, 0),
+        BondSignature(2, 1, 0, 0, 2),
+        BondSignature(0, 1, 2, 0, 1),
+    ),
+    BoardSize(5, 5) to listOf(
+        BondSignature(1, 2, 1, 1, 0),
+        BondSignature(0, 0, 2, 1, 1),
+        BondSignature(0, 0, 3, 0, 0),
+    ),
+    BoardSize(6, 2) to listOf(
+        BondSignature(0, 1, 0, 0, 2),
+        BondSignature(0, 4, 0, 0, 0),
+    ),
+    BoardSize(6, 3) to listOf(
+        BondSignature(0, 2, 2, 0, 0),
+        BondSignature(1, 3, 0, 0, 1)
+    ),
+    BoardSize(6, 4) to listOf(
+        BondSignature(3, 2, 1, 0, 0),
+        BondSignature(0, 0, 3, 0, 0),
+    ),
+    BoardSize(6, 5) to listOf(
+        BondSignature(2, 1, 1, 1, 1),
+        BondSignature(3, 3, 0, 0, 1),
+        BondSignature(1, 0, 2, 0, 2),
+    ),
+    BoardSize(6, 6) to listOf(
+        BondSignature(0, 0, 5, 0, 0),
+        BondSignature(2, 0, 2, 0, 2),
+        BondSignature(0, 3, 0, 3, 0),
+    ),
+    BoardSize(7, 2) to listOf(
+        BondSignature(0, 2, 0, 0, 2),
+        BondSignature(0, 4, 0, 0, 1),
+    ),
+    BoardSize(7, 3) to listOf(
+        BondSignature(0, 1, 0, 0, 3),
+        BondSignature(0, 4, 1, 0, 0),
+        BondSignature(1, 1, 1, 0, 1),
+    ),
+    BoardSize(7, 4) to listOf(
+        BondSignature(4, 2, 1, 0, 0),
+        BondSignature(1, 0, 3, 0, 0),
+    ),
+    BoardSize(7, 5) to listOf(
+        BondSignature(2, 2, 1, 1, 1),
+        BondSignature(3, 3, 0, 1, 0),
+        BondSignature(1, 0, 3, 0, 2),
+        BondSignature(0, 0, 2, 3, 0),
+    ),
+    BoardSize(7, 6) to listOf(
+        BondSignature(1, 0, 3, 2, 0),
+        BondSignature(2, 2, 1, 1, 1),
+    ),
+    BoardSize(7, 7) to listOf(
+        BondSignature(1, 0, 3, 3, 0),
+        BondSignature(3, 1, 0, 1, 1),
+        BondSignature(1, 2, 2, 1, 1),
+        BondSignature(0, 0, 2, 2, 2),
+        BondSignature(0, 0, 3, 1, 1),
+    ),
+    BoardSize(8, 2) to listOf(
+        BondSignature(0, 3, 0, 0, 2),
+        BondSignature(0, 4, 0, 0, 1),
+        BondSignature(0, 5, 0, 0, 0),
+    ),
+    BoardSize(8, 3) to listOf(
+        BondSignature(2, 2, 0, 0, 1),
+        BondSignature(0, 1, 1, 0, 2),
+        BondSignature(0, 7, 0, 0, 0),
+        BondSignature(0, 0, 1, 0, 3),
+    ),
+    BoardSize(8, 4) to listOf(
+        BondSignature(2, 2, 2, 0, 0),
+        BondSignature(0, 3, 0, 0, 3),
+        BondSignature(0, 1, 0, 2, 2),
+        BondSignature(3, 4, 0, 0, 0),
+        BondSignature(2, 1, 3, 0, 0),
+    ),
+    BoardSize(8, 5) to listOf(
+        BondSignature(4, 3, 1, 0, 0),
+        BondSignature(0, 0, 2, 2, 2),
+        BondSignature(4, 0, 0, 3, 0),
+        BondSignature(0, 4, 0, 3, 0),
+    ),
+    BoardSize(8, 6) to listOf(
+        BondSignature(0, 0, 6, 0, 0),
+        BondSignature(1, 1, 1, 2, 2),
+        BondSignature(2, 2, 0, 0, 3),
+    ),
+    BoardSize(8, 7) to listOf(
+        BondSignature(0, 0, 2, 3, 3),
+        BondSignature(0, 0, 4, 1, 1),
+        BondSignature(3, 3, 1, 1, 1),
+    ),
+    BoardSize(8, 8) to listOf(
+        BondSignature(0, 0, 8, 0, 0),
+        BondSignature(0, 0, 4, 2, 2),
+        BondSignature(3, 3, 3, 0, 0),
+        BondSignature(2, 2, 2, 2, 2),
+    ),
 )
 
 // Ultimate map for figuring out which BondSignature to apply to a board.
 val allSignaturesMap = mapOf(
-    "Rare" to rareSignatures,
-    "Common" to commonSignatures,
-    "Frequent" to frequentSignatures
+    Density.RARE to rareSignatures,
+    Density.COMMON to commonSignatures,
+    Density.FREQUENT to frequentSignatures,
 )
 
 // Wraps the logic for "where can I place a block in a BondGrid such that it does not overlap with
@@ -232,16 +576,16 @@ class VTriplePlacer : BlockPlacer {
 
 // Adds bonds to a board. The set of bonds added depends on the dimensions of the board and the
 // |numBlocks| option. The exact position of the bonds is random.
-fun addBonds(numRows: Int, numCols: Int, board: List<Int>, numBlocks: String): List<String> {
+fun addBonds(numRows: Int, numCols: Int, board: List<Int>, numBlocks: Density): List<String> {
     val bondGrid = Array(numRows) { Array(numCols) { "" } }
     val signatures = allSignaturesMap.getValue(numBlocks)
 
     val bondSignature = when {
         signatures.containsKey(BoardSize(numRows, numCols)) -> {
-            signatures.getValue(BoardSize(numRows, numCols))
+            signatures.getValue(BoardSize(numRows, numCols)).random()
         }
         signatures.containsKey(BoardSize(numCols, numRows)) -> {
-            signatures.getValue(BoardSize(numCols, numRows)).transpose()
+            signatures.getValue(BoardSize(numCols, numRows)).random().transpose()
         }
         else -> {
             Log.e(

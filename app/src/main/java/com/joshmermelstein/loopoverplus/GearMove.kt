@@ -26,7 +26,7 @@ class GearMove(
         }
     }
 
-    override fun inverse(): Move {
+    override fun inverse(): LegalMove {
         return GearMove(axis, opposite(direction), offset, numRows, numCols)
     }
 

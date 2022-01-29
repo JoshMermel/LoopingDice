@@ -1,0 +1,8 @@
+5
+2
+WIDE 2|WIDE 1|STATIC
+3,2,9,2,15,2,21,2,27,F 0
+27,2,21,2,15,2,9,2,3,F 0
+
+# R0,R1,C0,C0,R1,R2,C0,C0,R0',C0',R2' (11)
+human solution: Row2 Col0 Row1 Col0 Col0 Row2 Row1 Col0 Row1 Col0' Row0 Col0 Row1 Col0 Col0 (15)

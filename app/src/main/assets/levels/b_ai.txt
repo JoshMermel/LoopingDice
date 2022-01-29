@@ -1,7 +1,8 @@
 4
 4
 BANDAGED|BANDAGED|NONE
-0,0,1,1,2,2,3,3,D R 0,D L 0,D R 0,D L 0,U R 0,U L 0,U R 0,U L 0
-3,2,1,0,3,2,1,0,D R 0,D L 0,D R 0,D L 0,U R 0,U L 0,U R 0,U L 0
+2,2,D R 0,D L 0,8,8,U R 0,U L 0,D R 0,D L 0,3,3,U R 0,U L 0,9,9
+3,2,D R 0,D L 0,3,2,U R 0,U L 0,D R 0,D L 0,9,8,U R 0,U L 0,9,8
 
-# R0,R0,C0,R1,C0',R2',C0,R0,C0' (9)
+# R0',C0',C3,R0,C0',R0',R0',C0' (8)
+human solution: Col2' Row1 Col2 Row2 Col0' Row2' Col2' Row1 Col2' Row1' Col2 Row1 Col2' Row1' Col2 Col2 (16)

@@ -1,0 +1,8 @@
+4
+4
+BANDAGED|BANDAGED|DYNAMIC
+0,0,0,0,F 1,D R 0,D L 0,F 1,F 1,U R 0,U L 0,F 1,F 1,0,0,F 1
+F 1,F 1,F 1,0,F 1,F 1,0,0,F 1,0,D R 0,D L 0,0,0,U R 0,U L 0
+
+# C0',R3',C1',C3,R3',R0,C2',C2',R1',R0' (10)
+human solution: Col1 Col3' Row0' Col3' Row0' Col3' Row1 Col0' Col0' Row2 Col0 Row0' (12)

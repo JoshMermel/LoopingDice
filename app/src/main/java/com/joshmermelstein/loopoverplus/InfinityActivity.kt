@@ -1,14 +1,17 @@
 package com.joshmermelstein.loopoverplus
 
 import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.Parcelable
+import android.util.TypedValue
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.parcelize.Parcelize
 import java.io.File
 import kotlin.random.Random
 
@@ -21,70 +24,83 @@ import kotlin.random.Random
  * Luckily, it is possible to do so without any cyclic updates.
  */
 
-
-// TODO(jmerm): spinner for how many locked cells in Static mode?
-
-@Parcelize
-class RandomLevelParams(
-    val numRows: Int,
-    val numCols: Int,
-    val colorScheme: String,
-    val rowMode: String,
-    val colMode: String?,
-    val rowDepth: Int?,
-    val colDepth: Int?,
-    val density: String?,
-) : Parcelable {
-    override fun toString(): String {
-        return "$numRows,$numCols,$colorScheme,$rowMode,$colMode,$rowDepth,$colDepth,$density"
-    }
-}
-
 // Activity for letting the user build a level
 class InfinityActivity : AppCompatActivity() {
-    private val rowSizes = (2..6).map { num -> num.toString() }
-
-    private val rowModes =
-        arrayOf(
-            "Wide",
-            "Carousel",
-            "Gear",
-            "Dynamic Bandaging",
-            "Bandaged",
-            "Lightning",
-            "Arrows",
-            "Enabler",
-            "Static Cells",
-        )
-    private val colModes = arrayOf("Wide", "Carousel", "Gear")
-    // TODO(jmerm): could either of these be made into Enums for safety.
-    private val colorSchemes = arrayOf("Bicolor", "Speckled", "Columns", "Unique")
-    private val densities = arrayOf("Rare", "Common", "Frequent")
+    // Arrays to go into spinner adaptors.
+    private val rowModes = Mode.values()
+    private val colModes = arrayOf(Mode.WIDE, Mode.CAROUSEL, Mode.GEAR)
+    private val colorSchemes = ColorScheme.values()
+    private val densities = Density.values()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_infinity)
-        configureRowSizePicker()
+        setSupportActionBar(findViewById(R.id.infinity_toolbar))
         configureRowModePicker()
         configureColorSchemePicker()
+        updateRowSizePicker()
         configureButton()
     }
 
-    // Configures the row size spinner. This is always shown.
-    private fun configureRowSizePicker() {
-        val rowSizeSpinner = findViewById<Spinner>(R.id.rowSizeSpinner)
-        val rowAdapter = ArrayAdapter(this, R.layout.spinner_item, rowSizes)
-        rowAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
-        rowSizeSpinner.adapter = rowAdapter
-        rowSizeSpinner.onItemSelectedListener = SelectionMadeListener(::onUpdateNumRows)
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.infinity_dropdown, menu)
+        return true
+    }
 
-        rowSizeSpinner.setSelection(Random.nextInt(1, 3))
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.recentLevels -> {
+                recentLevelsDialog()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    // Add a horizontal line between rows of a linear layout for visual clarity.
+    private fun addDivider(layout: LinearLayout) {
+        val line = View(this).also {
+            it.layoutParams = RelativeLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                2
+            )
+            it.setBackgroundColor(getColor(R.color.bandaged_cell))
+        }
+        layout.addView(line)
+    }
+
+    // TODO(jmerm): consider adding whether the level was completed.
+    private fun recentLevelsDialog() {
+        val dialog = Dialog(this)
+        dialog.setContentView(R.layout.recent_levels_popup)
+        val layout = dialog.findViewById<LinearLayout>(R.id.recentLevelsList)
+        addDivider(layout)
+        getRecentLevels(this)?.forEach { params ->
+            val text = TextView(this)
+            text.text = params.toUserString()
+            text.setTextSize(TypedValue.COMPLEX_UNIT_SP,24f)
+            text.setOnClickListener {
+                val intent = Intent(this, GameplayActivity::class.java)
+                saveParamsToRecentLevels(
+                    getSharedPreferences("RecentLevels", Context.MODE_PRIVATE),
+                    params
+                )
+                intent.putExtra("randomLevelParams", params)
+                intent.putExtra("loadSave", true)
+                dialog.dismiss()
+                startActivity(intent)
+            }
+            layout.addView(text)
+            addDivider(layout)
+        }
+        dialog.show()
     }
 
     // Configures the row mode spinner. This is always shown.
     private fun configureRowModePicker() {
         val rowModeSpinner = findViewById<Spinner>(R.id.rowModeSpinner)
-        val adapter = ArrayAdapter(this, R.layout.spinner_item, rowModes)
+        val adapter =
+            ArrayAdapter(this, R.layout.spinner_item, rowModes.map { getString(it.userString) })
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
         rowModeSpinner.adapter = adapter
         rowModeSpinner.onItemSelectedListener = SelectionMadeListener(::onUpdateRowMode)
@@ -94,10 +110,12 @@ class InfinityActivity : AppCompatActivity() {
     // Configures the color scheme spinner. This is always shown.
     private fun configureColorSchemePicker() {
         val colorSchemeSpinner = findViewById<Spinner>(R.id.colorSchemeSpinner)
-        val adapter = ArrayAdapter(this, R.layout.spinner_item, colorSchemes)
+        val adapter =
+            ArrayAdapter(this, R.layout.spinner_item, colorSchemes.map { getString(it.userString) })
 
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
         colorSchemeSpinner.adapter = adapter
+        colorSchemeSpinner.onItemSelectedListener = SelectionMadeListener(::onUpdateColorScheme)
         colorSchemeSpinner.setSelection(Random.nextInt(0, colorSchemes.size))
     }
 
@@ -109,19 +127,20 @@ class InfinityActivity : AppCompatActivity() {
         return findViewById<Spinner>(R.id.colSizeSpinner).selectedItem.toString().toInt()
     }
 
-    private fun getColorScheme(): String {
-        return findViewById<Spinner>(R.id.colorSchemeSpinner).selectedItem.toString()
+    private fun getColorScheme(): ColorScheme {
+        return colorSchemes[findViewById<Spinner>(R.id.colorSchemeSpinner).selectedItemPosition]
     }
 
-    private fun getRowMode(): String {
-        return findViewById<Spinner>(R.id.rowModeSpinner).selectedItem.toString()
+    private fun getRowMode(): Mode {
+        return rowModes[findViewById<Spinner>(R.id.rowModeSpinner).selectedItemPosition]
     }
 
-    private fun getColMode(): String? {
-        return findViewById<Spinner>(R.id.colModeSpinner).selectedItem?.toString()
+    private fun getColMode(): Mode? {
+        return colModes.getOrNull(findViewById<Spinner>(R.id.colModeSpinner).selectedItemPosition)
     }
 
-    // It's important to null these two out when they aren't used since they are part of the ID used for saving/restoring.
+    // The following getters return null when the container isn't shown because spinner value is
+    // used as part of the ID for saving/restoring
     private fun getRowDepth(): Int? {
         if (findViewById<View>(R.id.row_depth_container).visibility == View.VISIBLE) {
             return findViewById<Spinner>(R.id.rowDepthSpinner).selectedItem?.toString()?.toInt()
@@ -136,23 +155,68 @@ class InfinityActivity : AppCompatActivity() {
         return null
     }
 
-    private fun getDensity(): String? {
-        return findViewById<Spinner>(R.id.densitySpinner).selectedItem?.toString()
+    private fun getDensity(): Density? {
+        if (findViewById<View>(R.id.density_container).visibility == View.VISIBLE) {
+            return densities[findViewById<Spinner>(R.id.densitySpinner).selectedItemPosition]
+        }
+        return null
     }
 
-    // The available col sizes depends on the user's mode. In modes where a color has a special
-    // meaning, the number of columns is limited to 5 so no normal game cells of that special color
-    // will be used. Arguably this could be increased in the "bicolor" color scheme but I think that
-    // would be too confusing a UI.
+    private fun getNumBlockedRows(): Int? {
+        if (findViewById<View>(R.id.blocked_rows_container).visibility == View.VISIBLE) {
+            return findViewById<Spinner>(R.id.blockedRowsSpinner).selectedItem?.toString()?.toInt()
+        }
+        return null
+    }
+
+    private fun getNumBlockedCols(): Int? {
+        if (findViewById<View>(R.id.blocked_cols_container).visibility == View.VISIBLE) {
+            return findViewById<Spinner>(R.id.blockedColsSpinner).selectedItem?.toString()?.toInt()
+        }
+        return null
+    }
+
+    // The available row sizes depends on the user's color scheme
+    // When the colorscheme is bicolor or speckled, there are no logical limits on num_cols.
+    // When the colorscheme is columns or unique, we can have one row per pip so we cap at 6 rows.
+    private fun updateRowSizePicker() {
+        val rowSizeSpinner = findViewById<Spinner>(R.id.rowSizeSpinner)
+        val oldValue: Int? = rowSizeSpinner.selectedItem?.toString()?.toInt()
+        val colorScheme = getColorScheme()
+        val maxValue = colorScheme.maxNumRows()
+        val rowSizes = (2..maxValue).map { num -> num.toString() }
+
+        val adapter = ArrayAdapter(this, R.layout.spinner_item, rowSizes)
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
+        rowSizeSpinner.adapter = adapter
+        rowSizeSpinner.onItemSelectedListener = SelectionMadeListener(::onUpdateNumRows)
+
+        when {
+            oldValue == null -> {
+                // Initialize to random
+                rowSizeSpinner.setSelection(Random.nextInt(1, 3))
+            }
+            oldValue <= maxValue -> {
+                // Reset old value
+                rowSizeSpinner.setSelection(oldValue - 2)
+            }
+            else -> {
+                // Old value was too big, replace with largest value that fits
+                rowSizeSpinner.setSelection(maxValue - 2)
+            }
+        }
+    }
+
+    // The available col sizes depends on the user's color scheme and mode.
+    // When the colorscheme is bicolor or speckled, there are no logical limits on num_cols.
+    // When the colorscheme is columns or unique, we can have one column per color. The number of
+    // available colors depends on the mode. In some modes a color has a special meaning so we allow
+    // five colors. In other modes we allow six colors.
     private fun updateColSizePicker() {
         val colSizeSpinner = findViewById<Spinner>(R.id.colSizeSpinner)
         val oldValue: Int? = colSizeSpinner.selectedItem?.toString()?.toInt()
-        val rowMode = getRowMode()
-        val maxValue = if (rowMode in colModes || rowMode == "Arrows" || rowMode == "Lightning") {
-            6
-        } else {
-            5
-        }
+        val colorScheme = getColorScheme()
+        val maxValue = colorScheme.maxNumCols(getRowMode())
         val colSizes = (2..maxValue).map { num -> num.toString() }
 
         val adapter = ArrayAdapter(this, R.layout.spinner_item, colSizes)
@@ -185,7 +249,8 @@ class InfinityActivity : AppCompatActivity() {
             }
             container.visibility = View.VISIBLE
             val colModeSpinner = findViewById<Spinner>(R.id.colModeSpinner)
-            val colAdapter = ArrayAdapter(this, R.layout.spinner_item, colModes)
+            val colAdapter =
+                ArrayAdapter(this, R.layout.spinner_item, colModes.map { getString(it.userString) })
             colAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
             colModeSpinner.adapter = colAdapter
             colModeSpinner.onItemSelectedListener = SelectionMadeListener(::onUpdateColMode)
@@ -199,16 +264,12 @@ class InfinityActivity : AppCompatActivity() {
     private fun updateRowDepthPicker() {
         val container = findViewById<View>(R.id.row_depth_container)
         val mode = getRowMode()
-        if (mode == "Wide" || mode == "Static Cells") {
+        if (mode == Mode.WIDE || mode == Mode.STATIC) {
             container.visibility = View.VISIBLE
             val rowDepthSpinner = findViewById<Spinner>(R.id.rowDepthSpinner)
 
             val oldDepth = getRowDepth()
-            val maxDepth = if (mode == "Wide") {
-                getNumRows()
-            } else {
-                getNumRows() - 1
-            }
+            val maxDepth = getNumRows()
 
             val options = (1..maxDepth).map { num -> num.toString() }
             val adapter = ArrayAdapter(this, R.layout.spinner_item, options)
@@ -232,18 +293,14 @@ class InfinityActivity : AppCompatActivity() {
         val container = findViewById<View>(R.id.col_depth_container)
         val colMode = getColMode()
         val rowMode = getRowMode()
-        if (colMode == "Wide" || rowMode == "Static Cells") {
+        if (colMode == Mode.WIDE || rowMode == Mode.STATIC) {
             container.visibility = View.VISIBLE
             val colDepthSpinner = findViewById<Spinner>(R.id.colDepthSpinner)
 
             val oldDepth = getColDepth()
-            val maxDepth = if (colMode == "Static Cells") {
-                getNumCols() - 1
-            } else {
-                getNumCols()
-            }
+            val maxDepth = getNumCols()
 
-            val options = (1..maxDepth).map { num -> num.toString() }
+            val options = (1..maxDepth).map { it.toString() }
             val adapter = ArrayAdapter(this, R.layout.spinner_item, options)
             adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
             colDepthSpinner.adapter = adapter
@@ -265,19 +322,74 @@ class InfinityActivity : AppCompatActivity() {
     private fun updateDensityPicker() {
         val container = findViewById<View>(R.id.density_container)
         val rowMode = getRowMode()
-        if (rowMode in listOf("Dynamic Bandaging", "Enabler", "Arrows", "Bandaged", "Lightning")) {
+        if (rowMode.hasDensity()) {
             container?.visibility = View.VISIBLE
-            val numBandagedSpinner = findViewById<Spinner>(R.id.densitySpinner)
-            val adapter = ArrayAdapter(this, R.layout.spinner_item, densities)
+            val densitySpinner = findViewById<Spinner>(R.id.densitySpinner)
+            val oldVal = densitySpinner.selectedItemPosition
+            val adapter = ArrayAdapter(
+                this,
+                R.layout.spinner_item,
+                densities.map { getString(it.userString) })
             adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
-            numBandagedSpinner.adapter = adapter
+            densitySpinner.adapter = adapter
             findViewById<TextView>(R.id.densityLabel)?.text = when (rowMode) {
-                "Dynamic Bandaging" -> "# Bandaged"
-                "Enabler" -> "# Enablers"
-                "Arrows" -> "# Arrows"
-                "Bandaged" -> "# Blocks"
-                "Lightning" -> "# Bolts"
-                else -> "Density"  // should never happen.
+                Mode.DYNAMIC -> getString(R.string.infinityNumBlocks)
+                Mode.ENABLER -> getString(R.string.infinityNumEnablers)
+                Mode.ARROWS -> getString(R.string.infinityNumArrows)
+                Mode.BANDAGED -> getString(R.string.infinityNumBandaged)
+                Mode.LIGHTNING -> getString(R.string.infinityNumBolts)
+                else -> getString(R.string.infinityDensity)  // should never happen.
+            }
+            densitySpinner.setSelection(oldVal)
+        } else {
+            container?.visibility = View.GONE
+        }
+    }
+
+    private fun updateNumBlockedRowsPicker() {
+        val container = findViewById<View>(R.id.blocked_rows_container)
+        if (getRowMode() == Mode.STATIC) {
+            container?.visibility = View.VISIBLE
+            val spinner = findViewById<Spinner>(R.id.blockedRowsSpinner)
+            val oldVal = getNumBlockedRows()
+            val maxVal = getNumRows()
+
+            val options = (1..getNumRows()).map { it.toString() }
+            val adapter = ArrayAdapter(this, R.layout.spinner_item, options)
+            adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
+            spinner.adapter = adapter
+
+            if (oldVal != null) {
+                if (oldVal <= maxVal) {
+                    spinner.setSelection(oldVal - 1)
+                } else {
+                    spinner.setSelection(maxVal - 1)
+                }
+            }
+        } else {
+            container?.visibility = View.GONE
+        }
+    }
+
+    private fun updateNumBlockedColsPicker() {
+        val container = findViewById<View>(R.id.blocked_cols_container)
+        if (getRowMode() == Mode.STATIC) {
+            container?.visibility = View.VISIBLE
+            val spinner = findViewById<Spinner>(R.id.blockedColsSpinner)
+            val oldVal = getNumBlockedCols()
+            val maxVal = getNumCols()
+
+            val options = (1..getNumCols()).map { it.toString() }
+            val adapter = ArrayAdapter(this, R.layout.spinner_item, options)
+            adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
+            spinner.adapter = adapter
+
+            if (oldVal != null) {
+                if (oldVal <= maxVal) {
+                    spinner.setSelection(oldVal - 1)
+                } else {
+                    spinner.setSelection(maxVal - 1)
+                }
             }
         } else {
             container?.visibility = View.GONE
@@ -294,6 +406,8 @@ class InfinityActivity : AppCompatActivity() {
         updateRowDepthPicker()
         updateColDepthPicker()
         updateDensityPicker()
+        updateNumBlockedRowsPicker()
+        updateNumBlockedColsPicker()
     }
 
     // Callback for when col mode is changed.
@@ -301,14 +415,22 @@ class InfinityActivity : AppCompatActivity() {
         updateColDepthPicker()
     }
 
+    // Callback for when the colorscheme is changed
+    private fun onUpdateColorScheme() {
+        updateRowSizePicker()
+        updateColSizePicker()
+    }
+
     // Callback for when num cols is changed.
     private fun onUpdateNumCols() {
         updateColDepthPicker()
+        updateNumBlockedColsPicker()
     }
 
     // Callback for when num rows is changed.
     private fun onUpdateNumRows() {
         updateRowDepthPicker()
+        updateNumBlockedRowsPicker()
     }
 
     // Configured the "generate level" button to launch a gameplay activity based on the values of spinners.
@@ -339,6 +461,7 @@ class InfinityActivity : AppCompatActivity() {
 
     private fun startGame(loadSave: Boolean) {
         val params = build()
+        saveParamsToRecentLevels(getSharedPreferences("RecentLevels", Context.MODE_PRIVATE), params)
         if (!loadSave) {
             getSharedPreferences("highscores", Context.MODE_PRIVATE).edit().remove("∞$params")
                 .apply()
@@ -360,6 +483,8 @@ class InfinityActivity : AppCompatActivity() {
             getRowDepth(),
             getColDepth(),
             getDensity(),
+            getNumBlockedRows(),
+            getNumBlockedCols()
         )
     }
 }

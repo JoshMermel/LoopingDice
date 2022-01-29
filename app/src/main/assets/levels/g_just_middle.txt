@@ -5,4 +5,4 @@ GEAR|GEAR|NONE
 0,0,2,0,0,2,2,3,3,0,0,2,0,0,2
 
 # R4',C2',R3',C2' (4)
-human solution: Col0 Row4 Col0' Row2 Row3 Col0 Row4' Col0'
+human solution: Col0 Row4 Col0' Row2 Row3 Col0 Row4' Col0' (8)

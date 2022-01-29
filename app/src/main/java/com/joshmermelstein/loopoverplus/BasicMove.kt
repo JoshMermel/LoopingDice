@@ -20,7 +20,7 @@ class BasicMove(
         }
     }
 
-    override fun inverse(): Move {
+    override fun inverse(): LegalMove {
         return BasicMove(axis, opposite(direction), offset, numRows, numCols)
     }
 

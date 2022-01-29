@@ -1,0 +1,7 @@
+3
+3
+BASIC|BASIC|NONE
+1,1,1,2,2,2,3,3,3
+1,2,3,1,2,3,1,2,3
+end_intro_helptext
+"# C0,C2',R2,R0' (4)

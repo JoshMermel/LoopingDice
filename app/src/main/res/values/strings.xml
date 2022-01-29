@@ -3,14 +3,14 @@
 
     <!-- about game activity -->
     <string name="aboutGameText"><![CDATA[Looping Dice is a game by <a href=\'https://joshmermelstein.com\'>Josh Mermelstein</a>]]></string>
-    <string name="githubText"><![CDATA[\"The source code is available on <a href=\'https://github.com/JoshMermel/LoopingDice\'>my Github</a> and is licensed under the GPL v3.0 license \"]]></string>
+    <string name="githubText"><![CDATA[The source code is available on <a href=\'https://github.com/JoshMermel/LoopingDice\'>my Github</a> and is licensed under the GPL v3.0 license]]></string>
     <string name="sixteenPuzzleText"><![CDATA[It is inspired by the <a href=\'https://www.chiark.greenend.org.uk/~sgtatham/puzzles/doc/sixteen.html\'>Sixteen Puzzle</a> from Simon Tatham\'s Portable Puzzle Collection]]></string>
     <string name="gearCubeText"><![CDATA[Gear mode was inspired by geared puzzles such as <a href=\'https://twistypuzzles.com/cgi-bin/puzzle.cgi?pkey=1501\'> The Gear Cube</a> by Oskar van Deventer]]></string>
     <string name="staticBandagingText"><![CDATA[Static cells and bandaging were inspired by <a href=\'https://joshmermelstein.com/bandaged-cube-explorer-post/\'>different schemes of bandaging other twisty puzzles</a>]]></string>
-    <string name="dynamicBandagingText"><![CDATA[Dynamic bandaging was inspired by <a href=\'http://twistypuzzles.com/cgi-bin/puzzle.cgi?pkey=1691\'>The constrained cube</a> by TomZ and <a href=\'https://www.twistypuzzles.com/cgi-bin/puzzle.cgi?pkey=7227\'>The joint cube</a> by Grigr and Fenz]]></string>
+    <string name="dynamicBlockingText"><![CDATA[Dynamic blocking was inspired by <a href=\'http://twistypuzzles.com/cgi-bin/puzzle.cgi?pkey=1691\'>The constrained cube</a> by TomZ and <a href=\'https://www.twistypuzzles.com/cgi-bin/puzzle.cgi?pkey=7227\'>The joint cube</a> by Grigr and Fenz]]></string>
     <string name="carouselText"><![CDATA[Carousel mode was inspired by the android app, <a href=\'https://play.google.com/store/apps/details?id=com.katas.squareminx&hl=en_US&gl=US\'>squareminx</a> by Katas Studios]]></string>
     <string name="enablerText"><![CDATA[Enabler mode was inspired by <a href=\'https://twistypuzzles.com/cgi-bin/puzzle.cgi?pkey=3678\'>The enabler cube</a> by Oskar van Deventer]]></string>
-    <string name="openSourceLibrariesText">Click here for information on open source libraries used by Looping Dice.</string>
+    <string name="openSourceLibrariesText">Click for information about open source libraries used in Looping Dice.</string>
     <string name="aboutSixteenPhotoDescription">Screenshot of 16 puzzle</string>
     <string name="aboutGearPhotoDescription">Photo of gear cube</string>
     <string name="aboutBigBlockPhotoDescription">Photo of bandaged 3x3x3 cube known as Big Block</string>
@@ -21,15 +21,23 @@
     <string name="aboutEnablerPhotoDescription">Photo of enabler cube</string>
 
     <!-- help strings for move validators -->
-    <string name="arrowValidatorHelptext">Cells containing arrows can only move in some directions.</string>
-    <string name="dynamicValidatorHelptext">Moves cannot push a black square off the edge of the board</string>
-    <string name="enablerValidatorHelptext">Moves must contain a gold square</string>
-    <string name="staticValidatorHelptext">black squares prevent moves</string>
+    <string name="arrowValidatorHelptext">Dice containing arrows can only move in some directions.</string>
+    <string name="dynamicValidatorHelptext">Moves cannot push black dice off the edge of the board</string>
+    <string name="enablerValidatorHelptext">Moves must contain a gold die</string>
+    <string name="staticValidatorHelptext">black dice prevent moves</string>
 
     <!-- plurals for help texts and popups -->
     <plurals name="numberOfMoves">
         <item quantity="one">%d move</item>
         <item quantity="other">%d moves</item>
+    </plurals>
+    <plurals name="numberOfRows">
+        <item quantity="one">%d row</item>
+        <item quantity="other">%d rows</item>
+    </plurals>
+    <plurals name="numberOfColumns">
+        <item quantity="one">%d col</item>
+        <item quantity="other">%d cols</item>
     </plurals>
 
     <!-- help dialog and win dialog -->
@@ -46,6 +54,8 @@
 
     <!-- Level select -->
     <string name="infinityLabel">Infinity</string>
+    <string name="levelSelectLevelBuilder">Level Builder</string>
+    <string name="levelSelectFeelingLucky">I\'m feeling lucky</string>
     <string name="levelSelectDropdownAbout">About</string>
     <string name="levelSelectDropdownResetAll">Reset all levels</string>
 
@@ -58,6 +68,7 @@
     <string name="gameplayDropdownCopyMoves">Copy Moves to Clipboard</string>
 
     <!-- Infinity -->
+    <!-- Spinner labels -->
     <string name="infinitySpinnerRowModeLabel">Row Mode</string>
     <string name="infinitySpinnerColModeLabel">Col Mode</string>
     <string name="infinitySpinnerNumRowsLabel"># Rows</string>
@@ -65,6 +76,98 @@
     <string name="infinitySpinnerColorSchemeLabel">Color Scheme</string>
     <string name="infinitySpinnerRowDepthLabel">Row Depth</string>
     <string name="infinitySpinnerColDepthLabel">Col Depth</string>
+    <string name="infinitySpinnerNumBlockedRows"># Static Rows</string>
+    <string name="infinitySpinnerNumBlockedCols"># Static Cols</string>
+    <string name="infinityNumBandaged"># Bandaged</string>
+    <string name="infinityNumEnablers"># Enablers</string>
+    <string name="infinityNumArrows"># Arrows</string>
+    <string name="infinityNumBlocks"># Blocks</string>
+    <string name="infinityNumBolts"># Bolts</string>
+    <string name="infinityDensity">Density</string>
+    <!-- Spinner values -->
+    <string name="infinityDensityRare">Rare</string>
+    <string name="infinityDensityCommon">Common</string>
+    <string name="infinityDensityFrequent">Frequent</string>
+    <string name="infinityColorSchemeBicolor">Bicolor</string>
+    <string name="infinityColorSchemeSpeckled">Speckled</string>
+    <string name="infinityColorSchemeColumns">Columns</string>
+    <string name="infinityColorSchemeUnique">Unique</string>
+    <string name="infinityModeWide">Wide</string>
+    <string name="infinityModeCarousel">Carousel</string>
+    <string name="infinityModeGear">Gear</string>
+    <string name="infinityModeDynamic">Dynamic Blocking</string>
+    <string name="infinityModeBandaged">Bandaged</string>
+    <string name="infinityModeLightning">Lightning</string>
+    <string name="infinityModeArrows">Arrows</string>
+    <string name="infinityModeEnabler">Enabler</string>
+    <string name="infinityModeStatic">Static Cells</string>
+    <!-- misc infinity UI -->
     <string name="infinityGenerateLevelButtonLabel">Generate Level</string>
+    <string name="infinityToolbarTitle">Infinity</string>
+    <string name="infinityToolbarRecentLevels">Recent Levels</string>
+
+    <!-- Help text for move effects -->
+    <string name="bandagedRowEffectHelpText">Horizontal moves are bandaged moves</string>
+    <string name="bandagedColEffectHelpText">Vertical moves are bandaged moves</string>
+    <string name="bandagedBothEffectHelpText">Blocks connected by a bond always move together and will cause extra rows/columns to be dragged</string>
+    <string name="basicRowEffectHelpText">Horizontal moves affect a single row</string>
+    <string name="basicColEffectHelpText">Vertical moves affect a single column</string>
+    <string name="basicBothEffectHelpText">Horizontal and vertical moves affect a single row/col</string>
+    <string name="carouselRowEffectHelpText">Horizontal moves are carousel moves</string>
+    <string name="carouselColEffectHelpText">Vertical moves are carousel moves</string>
+    <string name="carouselBothEffectHelpText">Horizontal and vertical moves are carousel moves</string>
+    <string name="gearRowEffectHelpText">Horizontal moves are gear moves</string>
+    <string name="gearColEffectHelpText">Vertical moves are gear moves</string>
+    <string name="gearBothEffectHelpText">Horizontal and vertical moves are gear moves</string>
+    <string name="lightningRowEffectHelpText">Horizontal moves which include a lightning bolt travel twice as far</string>
+    <string name="lightningColEffectHelpText">Vertical moves which include a lightning bolt travel twice as far</string>
+    <string name="lightningBothEffectHelpText">Horizontal and vertical moves which include a lightning bolt travel twice as far</string>
+    <string name="wideRowEffectHelpText">Horizontal moves affect %1$s</string>
+    <string name="wideColEffectHelpText">Vertical moves affect %1$s</string>
+    <string name="wideBothEffectHelpText">Vertical and horizontal moves have depth %1$d</string>
+
+    <!-- Star counts for win dialog and level buttons -->
+    <string name="fourStars">🏆🏆🏆</string>
+    <string name="threeStars">★★★</string>
+    <string name="twoStars">★★☆</string>
+    <string name="oneStar">★☆☆</string>
+    <string name="noStars">☆☆☆</string>
+
+    <!-- Help texts on levels -->
+    <string name="verticalHelptext">Swipe vertically to match the pattern in the top left</string>
+    <string name="horizontalHelptext">Swipe horizontally to rearrange a row</string>
+    <string name="threeDotsHelptext">Use the three dots menu to check stats, reset the level, or copy your solution</string>
+    <string name="introSizeHelptext">Puzzles come in many shapes and colors</string>
+    <string name="MixHorizVertHelptext">Dice that fall off the edge of the board reappear on the other side</string>
+    <string name="EndIntroHelptext">This ends the intro. Feel free to skip around and try all the different game modes :)</string>
+    <string name="ArrowsOverview">In Arrows mode, some dice are limited to moving in certain directions</string>
+    <string name="BandagedOverviewHelptext">In "Bandaged" mode, dice can be joined together</string>
+    <string name="BandagedTransitiveHelptext">Dice that are joined by bonds can never be separated</string>
+    <string name="CarouselOverviewHelptext">C levels use move pairs of rows/columns in a carousel</string>
+    <string name="CarouselDirectionalityHelptext">Horizontal moves join with their row below. Vertical moves join with the column to their right</string>
+    <string name="CarouselPreviewHelptext">Start a swipe but do not release it to see where each die will move</string>
+    <string name="DynamicOverviewHelptext">In "Dynamic Blocking" mode, black dice cannot wrap around the edge of the board</string>
+    <string name="EnablerOverviewHelptext">In "Enabler" mode, moves must contain the gold die</string>
+    <string name="EnablerMultiplicityHelptext">Some levels will have more enabler dice than others</string>
+    <string name="GearOverviewHelptext">In "Gear" mode, the next row/column moves in the opposite direction of your swipe</string>
+    <string name="GearDirectionalityHelptext">The extra move is always to the right for columns, and always below for rows</string>
+    <string name="LightningOverviewHelptext">In "Lightning" mode, dice with lightning bolts make moves travel twice as far</string>
+    <string name="StaticOverviewHelptext">In "Static Cells" mode, some dice cannot move</string>
+    <string name="StaticDepthHelptext">Some Static Cells levels are like Wide mode, where more than one row/col moves at a time</string>
+    <string name="WideOverviewHelptext">In "Wide" mode, you will move several rows/columns at a time</string>
+    <string name="WideVarietyHelptext">The number of rows/columns that move varies from level to level</string>
+    <string name="WideThreeDotsReminderHelptext">If you want to double check the rules, look at the "about level" section of the three dots menu</string>
+    <string name="WideWithinLevelVarianceHelptext">On this level, horizontal moves affect 3 rows but vertical moves only affect 2 columns. These numbers often won\'t match each other.</string>
+    <string name="WidePreviewHelptext">Start a swipe but don\'t release it to see a preview of which dice will move</string>
+    <string name="HybridExplainAC">In AC, dice can only move in the direction of their arrows</string>
+    <string name="HybridExplainBE">In BE, moves are valid if an Enabler die is used in any part of the move</string>
+    <string name="HybridExplainCE">In CE, moves are valid if an Enabler die is used in any part of the move</string>
+    <string name="HybridExplainCG">In CG, row moves are always one kind of move and column moves are the other type</string>
+    <string name="HybridExplainCW">In CW, row moves are always one kind of move and column moves are the other type</string>
+    <string name="HybridExplainDL">In DL, Moves cannot push black dice off the edge of the board</string>
+    <string name="HybridExplainEG">In EG, moves are valid if an Enabler die is used in any part of the move</string>
+    <string name="HybridExplainES">In ES, locked dice block enabler dice</string>
+    <string name="HybridExplainEW">In EW, moves are valid if an Enabler die is used in any part of the move</string>
+    <string name="HybridExplainGW">In GW, row moves are always one kind of move and column moves are the other type</string>
 
 </resources>

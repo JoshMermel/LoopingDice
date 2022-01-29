@@ -1,9 +1,10 @@
 Bandaged (Beginner)
-B1 b_solo_block 4 6 8
-B2 b_introducing_transitive_bonds 2 5 8
-B3 b_intro 2 3 5
-B4 b_make_squares 6 8 12
-B5 b_columns 7 8 12
-B6 b_unwrap 7 8 14
+B1 b_solo_block 4 5 6
+B2 b_introducing_transitive_bonds 2 3 5
+B3 b_intro 2 3 4
+B4 b_make_squares 6 7 10
+B5 b_columns 7 8 10
+B6 b_unwrap 7 8 12
 B7 b_pinwheel 8 10 14
-B8 b_three_block 7 8 13
+B8 b_paperclip 6 7 9
+B9 b_three_block 7 8 12

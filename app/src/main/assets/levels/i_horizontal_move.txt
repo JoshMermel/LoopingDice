@@ -3,5 +3,5 @@
 BASIC|BASIC|NONE
 2,8,14
 8,14,2
-Swipe horizontally to rearrange a row
+horizontal_swipe_helptext
 # R0' (1)

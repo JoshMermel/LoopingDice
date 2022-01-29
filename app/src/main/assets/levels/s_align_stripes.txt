@@ -1,8 +1,0 @@
-4
-4
-WIDE 2|WIDE 2|STATIC
-1,2,3,0,2,3,0,1,3,0,1,2,0,1,2,F 0
-1,1,1,1,2,2,2,2,0,0,0,0,3,3,3,F 0
-
-# R0,R1,C0',R1,C1',C1',C0',R1',R0,C0' (10)
-human solution: Col1 Row0' Row0' Col0 Col0 Row0' Row1 Row1 Col1 Row0 Row0 Col1' Row0 Row0 Col1' Row0 Row0 Col1

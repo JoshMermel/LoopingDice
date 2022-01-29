@@ -5,4 +5,4 @@ GEAR|GEAR|NONE
 0,1,2,3,3,3,3,3,3,3,3,3,0,1,2
 
 # C2,R4',C2',R4',C2 (5)
-human solution: Col2' Row4 Col2 Row4 Col2'
+human solution: Col2' Row4 Col2 Row4 Col2' (5)

@@ -3,5 +3,5 @@
 WIDE 1|WIDE 2|NONE
 3,2,3,2,2,2,3,2,3
 3,3,2,3,3,2,2,2,2
-If you want to double check the rules, look at the "about level" section of the three dots menu.
+wide_three_dots_reminder_helptext
 # R0,R2,C0 (3)

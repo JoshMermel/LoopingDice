@@ -3,5 +3,5 @@
 CAROUSEL|CAROUSEL|NONE
 0,0,1,0,0,0,3,0,0
 3,0,0,0,0,0,0,0,1
-Horizontal moves join with their row below. Vertical moves join with the column to their right.
+carousel_directionality_helptext
 # R2' (1)

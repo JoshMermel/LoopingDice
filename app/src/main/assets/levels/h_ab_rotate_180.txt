@@ -1,0 +1,7 @@
+3
+3
+BANDAGED|BANDAGED|ARROWS
+D R 3,D L 3,0,U R 3,U L 3,H 1,0,V 1,2
+2,V 1,0,H 1,D R 3,D L 3,0,U R 3,U L 3
+
+# C0',R0',C1',R1',C0',R1' (6)

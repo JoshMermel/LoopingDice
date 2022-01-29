@@ -5,3 +5,5 @@ E,E,2,3,8,9,14,15,E,E
 E,E,14,15,8,9,2,3,E,E
 
 # C0,R1,R4,C0',R0,R4,C0',R1,R2',C1',C1',R4',R2',C0',C0' (15)
+human solution: Col0 Row4 Col0' Row3' Col0 Row1' Col0 Row3 Col0 Row1 Row4' Col0 Row4 Col0 Row3' Row4' Col0' Row3 Col0 (19)
+human solution: Col0 Row4 Col0 Col0 Row0 Col0 Col0 Row0' Row4 Col0 Col0 Col1 Row4' Col1 Col1 Row0' Col1 Col1 Row0 Row4 Col1 Col1 (22)

@@ -25,7 +25,7 @@ class AboutActivity : AppCompatActivity() {
             R.id.sixteen_puzzle to R.string.sixteenPuzzleText,
             R.id.gears to R.string.gearCubeText,
             R.id.bandaging to R.string.staticBandagingText,
-            R.id.dynamic_bandaging to R.string.dynamicBandagingText,
+            R.id.dynamic_blocking to R.string.dynamicBlockingText,
             R.id.carousel to R.string.carouselText,
             R.id.enabler to R.string.enablerText,
         ).forEach {
@@ -35,7 +35,7 @@ class AboutActivity : AppCompatActivity() {
         // Magic to make a substring be a link that opens an intent
         val librariesText =
             getString(R.string.openSourceLibrariesText).toSpannable().apply {
-                this[0..10] = object : ClickableSpan() {
+                this[28..49] = object : ClickableSpan() {
                     override fun onClick(view: View) {
                         startActivity(
                             Intent(

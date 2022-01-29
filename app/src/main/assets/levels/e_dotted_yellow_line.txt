@@ -1,0 +1,8 @@
+4
+3
+WIDE 1|WIDE 1|ENABLER
+0,E 0,2,0,E 0,2,0,1,2,0,1,2
+0,E 0,2,0,1,2,0,E 0,2,0,1,2
+
+# R0,C1,C1,R0',C1,R0,C1,R0' (8)
+human solution: Row0' Col1' Row0 Col1 Col1 Row0 Col1' Row0' Col1 Row0' (10)

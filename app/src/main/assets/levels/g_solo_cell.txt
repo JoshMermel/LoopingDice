@@ -3,5 +3,5 @@
 GEAR|GEAR|NONE
 3,3,3,3,3,3,2,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3
 3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,2,3,3,3,3,3,3
-In "Gear" mode, the next row/column moves in the opposite direction of your swipe
+gear_overview_helptext
 # C0',C0',R2',R2' (4)

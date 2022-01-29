@@ -1,0 +1,8 @@
+5
+3
+BANDAGED|BANDAGED|ENABLER
+0,E D,2,0,E U,2,0,E,2,0,E D,2,0,E U,2
+2,E D,0,2,E U,0,2,E,0,2,E D,0,2,E U,0
+
+# R0,R2',C1,C2',C2',R2,R0',C0,R0 (9)
+human solution: Row0' Row2 Col2 Col2 Row0 Row0 Row3' Col0 Col0 Row0 Col1' Col1' Row0 (13)

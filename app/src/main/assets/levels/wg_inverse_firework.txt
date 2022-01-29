@@ -1,8 +1,0 @@
-5
-5
-GEAR|WIDE 1|NONE
-0,2,0,2,0,2,2,2,2,2,0,2,0,2,0,2,2,2,2,2,0,2,0,2,0
-2,2,2,2,2,2,0,0,0,2,2,0,0,0,2,2,0,0,0,2,2,2,2,2,2
-
-# C4,R2,C2',C2',C4,C0,R4',C1,R1,R0' (10)
-human solution: Col2 Col2 Row0' Col3 Row2' Col4 Row0 Row0 Row3' Col3' Col1 Row4' Col2

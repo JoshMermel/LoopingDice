@@ -101,4 +101,14 @@ class LightningMoveTest : TestCase() {
         val hMove = LightningMove(Axis.HORIZONTAL, Direction.BACKWARD, 1, 2, 3)
         assertEquals(hMove.toString(), "LIGHTNING H B 1")
     }
+
+    fun testFromString() {
+        val numRows = 1
+        val numCols = 2
+        val vMove = LightningMove(Axis.VERTICAL, Direction.FORWARD, 0, numRows, numCols)
+        assertEquals(stringToMove(vMove.toString(), numRows, numCols), vMove)
+
+        val hMove = LightningMove(Axis.HORIZONTAL, Direction.BACKWARD, 1, numRows, numCols)
+        assertEquals(stringToMove(hMove.toString(), numRows, numCols), hMove)
+    }
 }
